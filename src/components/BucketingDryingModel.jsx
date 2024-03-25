@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router-dom";
 import { addBucketweighting } from "../redux/actions/transactions/bucketWeighting.action";
 
-
 export default function BucketingDryingModel({ journal, onClose, onSubmit }) {
   const dispatch = useDispatch();
   const journalId = useParams();
@@ -24,7 +23,7 @@ export default function BucketingDryingModel({ journal, onClose, onSubmit }) {
   });
 
   const { weight } = useSelector((state) => state.bucketWeighting);
-  
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name.startsWith("taken_")) {
@@ -40,8 +39,7 @@ export default function BucketingDryingModel({ journal, onClose, onSubmit }) {
       }));
     }
   };
-
- 
+  console.log(editedJournal);
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
@@ -50,19 +48,15 @@ export default function BucketingDryingModel({ journal, onClose, onSubmit }) {
       toast.success("Transaction updated successfully");
       onClose();
       onSubmit(editedJournal);
-
     } catch (error) {
       console.error("Update failed:", error);
       toast.error("Failed to add dry weighting");
     }
   };
 
-  
   return (
     <div className="fixed inset-0 bg-black bg-opacity-5 overflow-y-auto flex items-center justify-center z-50">
       <div className="bg-white  rounded-lg shadow-md ">
-      
-
         <div className="flex justify-end ">
           <button onClick={onClose}>
             <AiTwotoneCloseCircle />
@@ -72,7 +66,7 @@ export default function BucketingDryingModel({ journal, onClose, onSubmit }) {
         <div className=" px-16 space-y-3 mb-4">
           <p className="text-green-500">Wet Parchment Weight.</p>
           <hr className="mb-4 border border-gray-200 " />
-         
+
           <label htmlFor=""> BUCKET A</label>
           <input
             className="rounded-lg   w-80 ml-2"
@@ -102,6 +96,7 @@ export default function BucketingDryingModel({ journal, onClose, onSubmit }) {
               name="taken_a"
               value="after"
               onChange={handleInputChange}
+              // checked
             />
             <label htmlFor="grade_a_weight_taken_after">After Drying</label>
           </div>
@@ -138,6 +133,7 @@ export default function BucketingDryingModel({ journal, onClose, onSubmit }) {
               name="taken_b"
               value="after"
               onChange={handleInputChange}
+              // checked
             />
             <label htmlFor="grade_b_weight_taken_after">After Drying</label>
           </div>
@@ -174,6 +170,7 @@ export default function BucketingDryingModel({ journal, onClose, onSubmit }) {
               name="taken_c"
               value="after"
               onChange={handleInputChange}
+              // checked
             />
             <label htmlFor="grade_c_weight_taken_after">After Drying</label>
           </div>

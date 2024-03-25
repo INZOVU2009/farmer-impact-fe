@@ -572,7 +572,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       </a>
                       <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
                         <ul className={`pl-9 mt-1 ${!open && "hidden"}`}>
-                          <li className="mb-1 last:mb-0">
+                          <li className="mb-3 last:mb-0">
                             <NavLink
                               end
                               style={
@@ -588,7 +588,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               </span>
                             </NavLink>
                           </li>
-                          <li className="mb-1 last:mb-0">
+                          <li className="mb-3 last:mb-0">
                             <NavLink
                               end
                               to="/signup"
@@ -599,7 +599,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               </span>
                             </NavLink>
                           </li>
-                          <li className="mb-1 last:mb-0">
+                          <li className="mb-3 last:mb-0">
                             <NavLink
                               end
                               to="/reset-password"
@@ -610,7 +610,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               </span>
                             </NavLink>
                           </li>
-                          <li className="mb-1 last:mb-0">
+                          <li className="mb-3 last:mb-0">
                             <NavLink
                               end
                               to="/reset-password"
@@ -621,7 +621,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               </span>
                             </NavLink>
                           </li>
-                          <li className="mb-1 last:mb-0">
+                          <li className="mb-3 last:mb-0">
                             <NavLink
                               end
                               to="/reset-password"
