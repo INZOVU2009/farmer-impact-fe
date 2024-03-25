@@ -13,44 +13,38 @@ import FarmerPriceCard from "./FarmerPriceCard";
 const AssignedParchmentTable = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const { parchment, isloading } = useSelector((state) => state.newParchment);
+  const { Certification } = useSelector((state) => state.selectedCertification);
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
-       <div className="p-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
-        <span className="font-large font-bold ml-12 ">
-        Assigned Parchment
-        </span>
+        <div className="p-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
+        <span className="font-large font-bold  ">Assigned Parchment</span>
         <div className="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
           <div className="flex w-full items-center mb-4  sm:mb-0 ">
-            <table className="min-w-full  divide-y divide-gray-200  mt-8 table-fixed dark:divide-gray-600 border border-gray-300 dark:border-gray-600">
+            <table className="min-w-full  divide-y divide-gray-200  mt-2 table-fixed dark:divide-gray-600 border border-gray-300 dark:border-gray-600">
               <thead className=" dark:bg-gray-700">
-                
-              
-            
                 <tr className="border-b">
                   <th
                     scope="col"
-                    className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
+                    className=" p-1 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
                   >
-                    CWS Name	
+                    CWS Name
                   </th>
-                  <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
-                  Nyungwe High Coffee
+                  <td className="p-1 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
+                    Nyungwe High Coffee
                   </td>
-                 
                 </tr>
                 <tr className="border-b">
                   <th
                     scope="col"
-                    className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
+                    className="p-1 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
                   >
-                    CWS ID	
+                    CWS ID
                   </th>
-                  <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
-                  WS053
+                  <td className="p-1 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
+                    WS053
                   </td>
-                 
                 </tr>
               </thead>
             </table>
@@ -60,37 +54,50 @@ const AssignedParchmentTable = () => {
       <div className="flex flex-row left-4 items-center justify-center py-8 gap-3">
         <PerchmentAssignment
           cardTitle="TOTAL PARCHMENT ASSIGNMENT"
-          drying = {7} 
-          dryStorange={7} 
+          drying={7}
+          dryStorange={7}
           transit={6}
-         delivered={50}
+          delivered={50}
           // floaters={50}
         />
         <PerchmentAssignment
           cardTitle="A GRADE PARCHMENT ASSIGNMENTS"
-          drying = {7} 
-          dryStorange={7} 
+          drying={7}
+          dryStorange={7}
           transit={6}
-         delivered={50}
+          delivered={50}
           // floaters={50}
         />
         <PerchmentAssignment
           cardTitle="B GRADE PARCHMENT ASSIGNMENTS"
-          drying = {7} 
-          dryStorange={7} 
+          drying={7}
+          dryStorange={7}
           transit={6}
-         delivered={50}
+          delivered={50}
           // floaters={50}
         />
         <PerchmentAssignment
           cardTitle="C GRADE PARCHMENT ASSIGNMENTS"
-          drying = {7} 
-          dryStorange={7} 
+          drying={7}
+          dryStorange={7}
           transit={6}
-         delivered={50}
+          delivered={50}
           // floaters={50}
         />
       </div>
+
+      <div>
+        <button
+          className="bg-green-500 text-white p-2 rounded-lg mb-4"
+          onClick={() => {
+            navigate("/user_inventory_management/new_parchment_assignement");
+          }}
+        >
+          {" "}
+          New parchment lot
+        </button>
+      </div>
+
       <div className="py-4 ml-0 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
         <div className="items-center  justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
           <div className="flex items-center mb-4 sm:mb-0">
@@ -130,21 +137,22 @@ const AssignedParchmentTable = () => {
                 Search
               </label>
               <div className="relative w-48 ml-3 mt-1 sm:w-64 mr-1 xl:w-96">
-                <span>Search by  Cherry Lot ID ...</span>
+                <span>Search by Cherry Lot ID ...</span>
                 <input
                   type="text"
                   name="email"
                   // onChange={handleSearch}
                   id="products-search"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-[90%] p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-[60%]  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Search for products"
                 />
               </div>
             </form>
-            <div className="flex space-x-1 -ml-8">
-            <div>
+            <div className="flex space-x-1 -ml-36">
+              <div>
                 <span>From</span>
                 <input
+                  value={new Date().toISOString().split("T")[0]}
                   type="date"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-30  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 />
@@ -152,6 +160,7 @@ const AssignedParchmentTable = () => {
               <div>
                 <span>To</span>
                 <input
+                  value={new Date().toISOString().split("T")[0]}
                   type="date"
                   class="bg-gray-50 border border-gray-300 mr-2 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-30  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 />
@@ -167,96 +176,67 @@ const AssignedParchmentTable = () => {
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden shadow">
-            <table className="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
+              <table className="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
                 <thead className="bg-gray-100 dark:bg-gray-700">
                   <tr>
                     <th scope="col" className="p-4">
-                    PARC-LOT.ID	
+                      PARC-LOT.ID
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     STATUS	
+                      STATUS
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                    CERTIFICATION
+                      CERTIFICATION
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     CH-LOT.IDs ASSIGNED
+                      CH-LOT.IDs ASSIGNED
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                    DATE LOT WAS CREATED
+                      DATE LOT WAS CREATED
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     GRADE
+                      GRADE
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     WEIGHT
+                      WEIGHT
                     </th>
-                   
-                   
-                   
-                    
-                    
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                
-                    <tr
-                      
-                      className="hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                      <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                       
-                      </td>
+                  <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white"></td>
 
-                      <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                     
-                      </td>
-                      <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                        
-                      </td>
+                    <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"></td>
+                    <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white"></td>
 
-                      <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                        <a
-                          href=""
-                          className="text-blue-500 hover:text-gray-500"
-                        >
-                          
-                        </a>
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-            
-                      </td>
-                      <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                        
-                      </td>
-                      <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                        
-                      </td>
-                    
-                      
-                      
-                     
-                      
-                    </tr>
-             
+                    <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
+                      <a
+                        href=""
+                        className="text-blue-500 hover:text-gray-500"
+                      ></a>
+                    </td>
+                    <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white"></td>
+                  </tr>
                 </tbody>
               </table>
             </div>

@@ -40,6 +40,7 @@ export default function BucketingDryingModel({ journal, onClose, onSubmit }) {
       }));
     }
   };
+  console.log(editedJournal)
 
  
 
@@ -102,6 +103,7 @@ export default function BucketingDryingModel({ journal, onClose, onSubmit }) {
               name="taken_a"
               value="after"
               onChange={handleInputChange}
+              // checked
             />
             <label htmlFor="grade_a_weight_taken_after">After Drying</label>
           </div>
@@ -138,6 +140,7 @@ export default function BucketingDryingModel({ journal, onClose, onSubmit }) {
               name="taken_b"
               value="after"
               onChange={handleInputChange}
+              // checked
             />
             <label htmlFor="grade_b_weight_taken_after">After Drying</label>
           </div>
@@ -174,6 +177,8 @@ export default function BucketingDryingModel({ journal, onClose, onSubmit }) {
               name="taken_c"
               value="after"
               onChange={handleInputChange}
+              // checked
+
             />
             <label htmlFor="grade_c_weight_taken_after">After Drying</label>
           </div>

@@ -387,7 +387,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   pathname.includes("site_day_lot_details")||
                   pathname.includes("general_harvest")||
                   pathname.includes("site_harvest")
-
                 }
               >
                 {(handleClick, open) => {
@@ -401,6 +400,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                     "general_harvest"
                   );
                   const isSiteHarvestActive = pathname.includes("site_harvest")
+                  
                   return (
                     <React.Fragment>
                       <a
@@ -536,6 +536,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               >
                 {(handleClick, open) => {
                       const isActive = pathname.includes("assigned_parchment");
+                      const isDeliveryProcessingActive = pathname.includes("deliveries_processing");
+                      const isParchmentStockActive = pathname.includes('parchment_stock');
+                      const isParchmentTransportActive = pathname.includes('parchment_transport')|| pathname.includes("new_loading_form")
+                      const isParchmentReceptionActive = pathname.includes('parchment_reception')
                   return (
                     <React.Fragment>
                       <a
@@ -572,7 +576,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       </a>
                       <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
                         <ul className={`pl-9 mt-1 ${!open && "hidden"}`}>
-                          <li className="mb-1 last:mb-0">
+                          <li className="mb-3 last:mb-0">
                             <NavLink
                               end
                               style={
@@ -588,10 +592,15 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               </span>
                             </NavLink>
                           </li>
-                          <li className="mb-1 last:mb-0">
+                          <li className="mb-3 last:mb-0">
                             <NavLink
                               end
-                              to="/signup"
+                              style={
+                                isParchmentStockActive
+                                  ? { color: "#4F46E5" }
+                                  : {}
+                              }
+                              to="/user_inventory_management/parchment_stock"
                               className="block text-black hover:text-slate-400 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -599,10 +608,15 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               </span>
                             </NavLink>
                           </li>
-                          <li className="mb-1 last:mb-0">
+                          <li className="mb-3 last:mb-0">
                             <NavLink
                               end
-                              to="/reset-password"
+                              style={
+                                isDeliveryProcessingActive
+                                  ? { color: "#4F46E5" }
+                                  : {}
+                              }
+                              to="/user_inventory_management/deliveries_processing"
                               className="block text-black hover:text-slate-400 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -610,10 +624,15 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               </span>
                             </NavLink>
                           </li>
-                          <li className="mb-1 last:mb-0">
+                          <li className="mb-3 last:mb-0">
                             <NavLink
                               end
-                              to="/reset-password"
+                              style={
+                                isParchmentTransportActive
+                                  ? { color: "#4F46E5" }
+                                  : {}
+                              }
+                              to="/user_inventory_management/parchment_transport"
                               className="block text-black hover:text-slate-400 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -621,10 +640,15 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               </span>
                             </NavLink>
                           </li>
-                          <li className="mb-1 last:mb-0">
+                          <li className="mb-3 last:mb-0">
                             <NavLink
                               end
-                              to="/reset-password"
+                              style={
+                                isParchmentReceptionActive
+                                  ? { color: "#4F46E5" }
+                                  : {}
+                              }
+                              to="/user_inventory_management/parchment_reception"
                               className="block text-black hover:text-slate-400 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">

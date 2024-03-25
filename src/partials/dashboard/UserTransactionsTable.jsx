@@ -390,7 +390,7 @@ if(loading)
                           href={`user_transactions/staff_lot_details/${transaction.site_day_lot}`}
                           className="text-blue-500 hover:text-gray-500"
                         >
-                          #{transaction.site_day_lot}
+                          {transaction.site_day_lot}
                         </a>
                       </td>
 

@@ -25,6 +25,9 @@ import bucketWeightingSlice from "./slices/transactions/bucketWeightingSlice";
 import dryWeightingSlice from "./slices/transactions/dryWeightingSlice";
 import allGeneralHarvestSlice from "./slices/generalHarvest/allGeneralHarvestSlice";
 import allSeasonSlice from "./slices/season/allSeasonSlice";
+import allDryingsSlice from "./slices/dryings/allDryingsSlice";
+import assignNewParchmetnSlice from "./slices/parchment/assignNewParchmetnSlice";
+import setCertificationSlice from "./slices/parchment/setCertificationSlice";
 const store = configureStore({
   reducer: {
     login,
@@ -53,6 +56,9 @@ const store = configureStore({
     dryWeighting: dryWeightingSlice,
     fetchAllGeneralHarvest: allGeneralHarvestSlice,
     fetchAllSeasons: allSeasonSlice,
+    fetchAllDrying:allDryingsSlice,
+    newParchment:assignNewParchmetnSlice,
+    selectedCertification:setCertificationSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
