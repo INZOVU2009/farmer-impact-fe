@@ -29,19 +29,19 @@ function PerchmentAssignment( { cardTitle,drying,  dryStorange, transit, deliver
         <div>
         <div className='flex flex-row justify-between text-[12px] mt-4 mb-2'>
             
-            <label>{drying}     Drying </label>
+            <label> <strong className="text-green-500">{drying} kg(s)</strong>   Drying </label>
           </div>
           <div className='flex flex-row justify-between text-[12px] mb-2'>
            
-            <label>{dryStorange}     In Dry Storage </label>
+            <label> <strong className="text-green-500">{dryStorange} kg(s) </strong>    In Dry Storage </label>
           </div>
           <div className='flex flex-row justify-between text-[12px] mb-2'>
         
-            <label>{transit}     In Transit</label>
+            <label> <strong className="text-green-500">{transit} kg(s)</strong> In Transit</label>
           </div>
           <div className='flex flex-row justify-between text-[12px] mb-2'>
         
-            <label>{delivered}   In Delivered to Dry Mill </label>
+            <label> <strong className="text-green-500">{delivered} kg(s)</strong> In Delivered to Dry Mill </label>
           </div>
         </div>
         </div>

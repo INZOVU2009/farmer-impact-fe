@@ -7,31 +7,12 @@ import "react-toastify/dist/ReactToastify.css";
 import AssignNewParchmentModel from "../../components/AssignNewParchmentModel";
 import { useDispatch, useSelector } from "react-redux";
 
-const AssignNewParchmentTable = ({
-  filteredTransactions,
-  totalKilograms,
-  getGradeA,
-  // loading,
-  getGradeB,
-  getGradeC,
-  currentPage,
-  handleNextPage,
-  handlePrevPage,
-  itemsPerPage,
-  isModalOpen,
-  handleConfirmAssign,
-  closeModal,
-  cherryLotIdToAssign,
-  openModal,
+const ParchmentReceptionTable = ({
 }) => {
-  const { parchment, isloading } = useSelector((state) => state.newParchment);
-  // if (loading) {
-  //   return <p className=" text-center">..Loading..</p>;
-  // }
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
-      <div className="flex flex-row left-4 items-center justify-center py-8 gap-3"></div>
+      <div className="flex flex-row left-4 items-center justify-center py-3 gap-3"></div>
 
       <div className="flex flex-col">
         <div className="overflow-x-auto">
@@ -40,26 +21,7 @@ const AssignNewParchmentTable = ({
               <table className="min-w-full divide-y divide-gray-200  table-fixed dark:divide-gray-600 ">
                 <thead className="bg-gray-100 dark:bg-gray-700">
                   <tr className="">
-                    <th scope="col" colSpan={2} className="p-4"></th>
-                    <th
-                      scope="col"
-                      colSpan={2}
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      CERTIFIED
-                    </th>
-                    <th
-                      scope="col"
-                      colSpan={2}
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      UNCERTIFIED
-                    </th>
-                    <th
-                      scope="col"
-                      colSpan={4}
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    ></th>
+                  
                     {/* <th
                       scope="col"
                       colSpan={3}
@@ -76,69 +38,81 @@ const AssignNewParchmentTable = ({
                   <tr>
                     <th
                       scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      #
+                      CHERRY-LOT-ID	
                     </th>
                     <th
                       scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      Cherry LOT ID
+                     CH_WEIGHT
                     </th>
                     <th
                       scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      KG
+                     ParchID_A	
                     </th>
                     <th
                       scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      PX
+                     A_WEIGHT
                     </th>
                     <th
                       scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      KG
+                      ParchID_B
                     </th>
                     <th
                       scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      PX
+                     B_WEIGHT	
                     </th>
                     <th
                       scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      GRADE.A
+                    ParchID_C	
                     </th>
                     <th
                       scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      GRADE.B
+                   C_WEIGHT
                     </th>
                     <th
                       scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      GRADE.C
+                     TOT PARCH	
                     </th>
                     <th
                       scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      ACTION
+                      RATIO
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                     STATUS
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                     Created at
+
                     </th>
                   </tr>
                 </thead>
 
-                {!parchment && (
-                  <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                  {/* <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                     {filteredTransactions?.map((dry, index) => (
                       <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                         <td className="w-4 p-4">
@@ -191,8 +165,8 @@ const AssignNewParchmentTable = ({
                         </td>
                       </tr>
                     ))}
-                  </tbody>
-                )}
+                  </tbody> */}
+              
               </table>
             </div>
           </div>
@@ -308,4 +282,4 @@ const AssignNewParchmentTable = ({
   );
 };
 
-export default AssignNewParchmentTable;
+export default ParchmentReceptionTable;

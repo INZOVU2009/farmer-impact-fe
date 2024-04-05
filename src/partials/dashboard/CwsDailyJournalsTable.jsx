@@ -17,6 +17,8 @@ import BucketingDryingModel from "../../components/BucketingDryingModel";
 import { fetchAllBuckets } from "../../redux/actions/transactions/allBuckets.action";
 import { fetchAllDryWeighting } from "../../redux/actions/transactions/dryWeighting.action";
 import FarmerPriceCard from "./FarmerPriceCard";
+
+
 const CwsDailyJournalsTable = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,6 +26,7 @@ const CwsDailyJournalsTable = () => {
   const { transactions, loading } = useSelector(
     (state) => state.fetchAllTransactions
   );
+  const { bucket } = useSelector((state) => state.transactionBucket);
   const [allStation, setAllStation] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState();
@@ -38,8 +41,8 @@ const CwsDailyJournalsTable = () => {
   const [allBuckets, setAllBuckets] = useState([]);
   const [selectedJournal, setSelectedJournal] = useState(null);
   const { weight } = useSelector((state) => state.dryWeighting);
+  const bucketWeightingState = useSelector((state) => state.bucketWeighting);
   const [allDryWeight, setAllDryWeight] = useState([]);
-
   console.log("selee", selectedJournal);
 
   useEffect(() => {
@@ -75,6 +78,17 @@ const CwsDailyJournalsTable = () => {
   console.log("bucccc", allBuckets);
 
   useEffect(() => {
+    if (bucket) {
+      let newBucket = bucket.data;
+      let currentBuckets = allBuckets;
+
+      let updatedBuckets = [...currentBuckets, newBucket];
+
+      setAllBuckets(updatedBuckets);
+    }
+  }, [bucket]);
+
+  useEffect(() => {
     dispatch(fetchAllDryWeighting());
   }, [dispatch]);
 
@@ -83,7 +97,16 @@ const CwsDailyJournalsTable = () => {
       setAllDryWeight(weight.data);
     }
   }, [weight]);
-  console.log("bucccc", allDryWeight);
+
+  useEffect(() => {
+    if (bucketWeightingState.weight) {
+      let newBucketWeight = bucketWeightingState.weight;
+
+      let currentBucketWeighting = [...allDryWeight, newBucketWeight.data];
+      setAllDryWeight(currentBucketWeighting);
+      console.log("hihi", currentBucketWeighting);
+    }
+  }, [bucketWeightingState.weight]);
 
   if (loading) {
     return <p className=" text-center">..Loading..</p>;
@@ -278,12 +301,12 @@ const CwsDailyJournalsTable = () => {
       totalUnTraceableKg: 0,
       totalKgs: 0,
       siteCollector: "",
-      badUnitPrice:''
+      badUnitPrice: "",
     };
 
     allTransactions.forEach((transaction) => {
       totalValues.transactionDate = transaction.transaction_date;
-      totalValues.badUnitPrice=transaction.bad_unit_price
+      totalValues.badUnitPrice = transaction.bad_unit_price;
 
       totalValues.uploadedTime = transaction.uploaded_at;
 
@@ -312,6 +335,9 @@ const CwsDailyJournalsTable = () => {
     setSelectedUser(journal);
     setShowTransactionModel(true);
   };
+
+
+
   const handleAddBucket = () => {
     setSelectedUser(null);
     setShowTransactionModel(true);
@@ -324,6 +350,7 @@ const CwsDailyJournalsTable = () => {
     }
   };
 
+ 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="py-4 ml-0 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
@@ -380,7 +407,7 @@ const CwsDailyJournalsTable = () => {
               <div>
                 <span>From</span>
                 <input
-                 value={new Date().toISOString().split("T")[0]}
+                  value={new Date().toISOString().split("T")[0]}
                   type="date"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 />
@@ -388,7 +415,7 @@ const CwsDailyJournalsTable = () => {
               <div>
                 <span>To</span>
                 <input
-                 value={new Date().toISOString().split("T")[0]}
+                  value={new Date().toISOString().split("T")[0]}
                   type="date"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-30  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 />
@@ -414,13 +441,11 @@ const CwsDailyJournalsTable = () => {
           uncertifiedUntraceable={totalValues.totalUncertified.toLocaleString()}
           floaters={totalValues.totalFloaters.toLocaleString()}
         />
-       <FarmerPriceCard
-          
+        <FarmerPriceCard
           goodCherry={totalValues.averagePrice}
           floaters={totalValues.badUnitPrice}
         />
         <FarmerPriceCard
-          
           goodCherry={totalValues.averagePrice}
           floaters={totalValues.badUnitPrice}
         />
@@ -470,7 +495,6 @@ const CwsDailyJournalsTable = () => {
                   </tr>
 
                   <tr>
-                   
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"

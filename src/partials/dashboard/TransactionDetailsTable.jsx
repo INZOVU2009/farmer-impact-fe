@@ -24,34 +24,35 @@ const TransactionDetailsTable = () => {
   const itemsPerPage = 20;
   const journalId = useParams();
 
-
   const [journals, setJournals] = useState([]);
 
-  const { journal } = useSelector((state) => state.fetchAllTransactionsByJournal);
+  const { journal } = useSelector(
+    (state) => state.fetchAllTransactionsByJournal
+  );
   const { removeTransactionData } = useSelector((state) => state.fetchAllStaff);
-  const [isCommissionFeesAdded, setIsCommissionFeesAdded] = useState(false)
-  const [isCommissionPriceAdded, setIsCommissionPriceAdded] = useState(false)
-  const [isApproveButton, setIsApproveButton] = useState(false)
+  const [isCommissionFeesAdded, setIsCommissionFeesAdded] = useState(false);
+  const [isCommissionPriceAdded, setIsCommissionPriceAdded] = useState(false);
+  const [isApproveButton, setIsApproveButton] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedUser, setSelectedUser] = useState(null);
   const [transactionIdToDelete, setTransactionIdToDelete] = useState(null);
   const [showTransactionModel, setShowTransactionModel] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
   const [allTransactions, setAllTransactions] = useState([]);
-  const { transactions,loading } = useSelector((state) => state.fetchAllTransactions);
+  const { transactions, loading } = useSelector(
+    (state) => state.fetchAllTransactions
+  );
   const { decodedToken } = useSelector((state) => state.fetchToken);
-  const {success} = useSelector((state) => state.approveJournal);
+  const { success } = useSelector((state) => state.approveJournal);
   const [additionalInfo, setAdditionalInfo] = useState({
-    commissionFee:10,
-    transportFee:10,
-    commissionUntraced:10,
-    transportCherry:10,
-    transportFloaters:10,
+    commissionFee: 10,
+    transportFee: 10,
+    commissionUntraced: 10,
+    transportCherry: 10,
+    transportFloaters: 10,
+  });
 
-  })
-
-
-//all transactions
+  //all transactions
   useEffect(() => {
     dispatch(fetchAllTransactions(token));
   }, [dispatch]);
@@ -61,80 +62,76 @@ const TransactionDetailsTable = () => {
       setAllTransactions(transactions.data);
     }
   }, [transactions]);
- 
 
+  // Function to get unique values from an array
+  const getUniqueValues = (arr, key) => {
+    const uniqueValues = [];
+    const uniqueKeys = new Set();
 
-    // Function to get unique values from an array
-    const getUniqueValues = (arr, key) => {
-      const uniqueValues = [];
-      const uniqueKeys = new Set();
-  
-      arr.forEach((item) => {
-        const value = item[key];
-  
-        if (!uniqueKeys.has(value)) {
-          uniqueKeys.add(value);
-          uniqueValues.push(item);
-        }
-      });
-  
-      return uniqueValues;
-    };
-  
-//single journal
-    const filteredJournal = 
-      getUniqueValues(allTransactions,journalId.journalId);
-     
-  
-  const formatter = new Intl.NumberFormat('en-US');
+    arr.forEach((item) => {
+      const value = item[key];
 
-//removing transaction
+      if (!uniqueKeys.has(value)) {
+        uniqueKeys.add(value);
+        uniqueValues.push(item);
+      }
+    });
+
+    return uniqueValues;
+  };
+
+  //single journal
+  const filteredJournal = getUniqueValues(allTransactions, journalId.journalId);
+
+  const formatter = new Intl.NumberFormat("en-US");
+
+  //removing transaction
   const openModal = (transactionId) => {
-    setTransactionIdToDelete(transactionId)
-   
+    setTransactionIdToDelete(transactionId);
+
     setModalOpen(true);
   };
   const closeModal = () => {
-    setTransactionIdToDelete(null)
+    setTransactionIdToDelete(null);
     setModalOpen(false);
   };
-  
+
   const handleConfirmDelete = (transactionId) => {
-    
     if (transactionIdToDelete) {
       dispatch(removeTransaction(token, transactionIdToDelete));
     }
-  
-    if(removeTransactionData){
-      
+
+    if (removeTransactionData) {
     }
-  
+
     console.log(`Deleting transaction with ID: ${transactionId}`);
-    closeModal(); etion
+    closeModal();
+    etion;
   };
   useEffect(() => {
-    
     if (removeTransactionData) {
       dispatch(
-        fetchAllTransactionsByJournal(token, journalId.journalId.replace(":", ""))
+        fetchAllTransactionsByJournal(
+          token,
+          journalId.journalId.replace(":", "")
+        )
       );
     }
-  }, [removeTransactionData,dispatch]); 
+  }, [removeTransactionData, dispatch]);
 
- //
+  //
   useEffect(() => {
     dispatch(
       fetchAllTransactionsByJournal(token, journalId.journalId.replace(":", ""))
     );
-  }, [dispatch,token,journalId]);
+  }, [dispatch, token, journalId]);
 
   useEffect(() => {
     if (journal) {
       setJournals(journal.data);
     }
   }, [journal]);
-  console.log("journalllleeeee",journals)
- 
+  console.log("journalllleeeee", journals);
 
   const calculateTotalKilogramsByJournal = () => {
     const sumByJournal = {};
@@ -156,17 +153,16 @@ const TransactionDetailsTable = () => {
     return sumByJournal;
   };
 
-
   const sumByJournal = calculateTotalKilogramsByJournal();
-
- 
 
   const calculateTotalPrice = () => {
     const totalPriceByTransaction = {};
 
     journals.forEach((transaction) => {
       const transactionId = transaction.id;
-      const totalPrice = transaction.kilograms*transaction.unitprice + transaction.bad_kilograms*transaction.bad_unit_price  || 0;
+      const totalPrice =
+        transaction.kilograms * transaction.unitprice +
+          transaction.bad_kilograms * transaction.bad_unit_price || 0;
 
       if (!totalPriceByTransaction[transactionId]) {
         totalPriceByTransaction[transactionId] = 0;
@@ -198,8 +194,6 @@ const TransactionDetailsTable = () => {
   };
 
   const totalMomoAmountByTransaction = calculateTotalMomoAmount();
-
-
 
   const calculateTotalKilogramsPurchased = (transaction) => {
     const certifiedKG =
@@ -235,7 +229,6 @@ const TransactionDetailsTable = () => {
       (value) => value === paperReceipt
     ).length;
 
-
     return occurrences === 1;
   };
 
@@ -251,13 +244,12 @@ const TransactionDetailsTable = () => {
       totalUnTraceableKg: 0,
       totalKgs: 0,
       siteCollector: "",
-      approved:""
+      approved: "",
     };
 
-   
     journals.forEach((transaction) => {
       totalValues.transactionDate = transaction.transaction_date;
-      totalValues.approved = transaction.approved
+      totalValues.approved = transaction.approved;
 
       totalValues.uploadedTime = transaction.uploaded_at;
 
@@ -270,29 +262,33 @@ const TransactionDetailsTable = () => {
       }
       totalValues.totalFloaters += transaction.bad_kilograms;
       totalValues.averagePrice = transaction.unitprice;
-      totalValues.totalCoffeeValue += transaction.kilograms*transaction.unitprice + transaction.bad_kilograms*transaction.bad_unit_price;
+      totalValues.totalCoffeeValue +=
+        transaction.kilograms * transaction.unitprice +
+        transaction.bad_kilograms * transaction.bad_unit_price;
       totalValues.totalKgs =
-      totalValues.totalCertified +
+        totalValues.totalCertified +
         totalValues.totalUncertified +
         totalValues.totalFloaters;
     });
 
     return totalValues;
   };
-//calculating totals
+  //calculating totals
   const totalValues = calculateTotalValues();
-  const totalCommission = additionalInfo.commissionFee * totalValues.totalKgs
-  const transportFeesCherry = additionalInfo.transportFee * totalValues.totalCertified 
-  const transportFeesFloaters  = additionalInfo.transportFee* totalValues.totalFloaters
-  const totals = totalCommission + transportFeesCherry + transportFeesFloaters
-  
+  const totalCommission = additionalInfo.commissionFee * totalValues.totalKgs;
+  const transportFeesCherry =
+    additionalInfo.transportFee * totalValues.totalCertified;
+  const transportFeesFloaters =
+    additionalInfo.transportFee * totalValues.totalFloaters;
+  const totals = totalCommission + transportFeesCherry + transportFeesFloaters;
 
-const formatNumberWithCommas = (number) => {
-  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-};
+  const formatNumberWithCommas = (number) => {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
 
-const formattedTransportFeesCherry= formatNumberWithCommas(transportFeesCherry)
-console.log("formaaa",formattedTransportFeesCherry)
+  const formattedTransportFeesCherry =
+    formatNumberWithCommas(transportFeesCherry);
+  console.log("formaaa", formattedTransportFeesCherry);
 
   const formatDate = (dateString) => {
     const options = {
@@ -310,9 +306,8 @@ console.log("formaaa",formattedTransportFeesCherry)
     setSelectedUser(transaction);
     setShowTransactionModel(true);
   };
- 
+
   const handleTransactionUpdate = (userId, newPassword) => {
-   
     setSelectedUser(null);
     setShowTransactionModel(true);
   };
@@ -328,58 +323,58 @@ console.log("formaaa",formattedTransportFeesCherry)
   const handleAdditionalInfoSubmit = async (e) => {
     e.preventDefault();
     try {
-       dispatch(addCommission(  additionalInfo));
-      
-      console.log("fjvhdfv",additionalInfo)
-      setIsCommissionPriceAdded(true)
+      dispatch(addCommission(additionalInfo));
+
+      console.log("fjvhdfv", additionalInfo);
+      setIsCommissionPriceAdded(true);
     } catch (error) {
       console.error("Update failed:", error);
     }
   };
 
-//adding commission fees
+  //adding commission fees
   const handleCommissionFeesSubmit = async (e) => {
     e.preventDefault();
     try {
-       dispatch(CommisionFees(token,{
-        commission_fees: totalCommission,
-        floater_transport_fee: transportFeesFloaters,
-        created_at: Date.now(),
-        created_by: decodedToken.user.id,
-        _kf_Supplier: filteredJournal[0]._kf_Supplier,
-        _kf_Station: filteredJournal[0]._kf_Station,
-        day_lot_number: filteredJournal[0].DayLotNumber,
-        UserID: decodedToken.staff.userID,
-        site_cherry_price: filteredJournal[0].unitprice,
-        site_cherry_kgs: totalValues.totalCertified + totalValues.totalUncertified,
-        site_Floater_kgs: totalValues.totalFloaters,
-        site_Floater_price: filteredJournal[0].bad_unit_price,
-        transport_fees: additionalInfo.transportFee,
-        site_total_payment: totals,
-        site_day_lot:filteredJournal[0].site_day_lot,
-        status:0
-      
-      }));
-      setIsCommissionFeesAdded(true)
-      setIsApproveButton(true)
-  
+      dispatch(
+        CommisionFees(token, {
+          commission_fees: totalCommission,
+          floater_transport_fee: transportFeesFloaters,
+          created_at: Date.now(),
+          created_by: decodedToken.user.id,
+          _kf_Supplier: filteredJournal[0]._kf_Supplier,
+          _kf_Station: filteredJournal[0]._kf_Station,
+          day_lot_number: filteredJournal[0].DayLotNumber,
+          UserID: decodedToken.staff.userID,
+          site_cherry_price: filteredJournal[0].unitprice,
+          site_cherry_kgs:
+            totalValues.totalCertified + totalValues.totalUncertified,
+          site_Floater_kgs: totalValues.totalFloaters,
+          site_Floater_price: filteredJournal[0].bad_unit_price,
+          transport_fees: additionalInfo.transportFee,
+          site_total_payment: totals,
+          site_day_lot: filteredJournal[0].site_day_lot,
+          status: 0,
+        })
+      );
+      setIsCommissionFeesAdded(true);
+      setIsApproveButton(true);
     } catch (error) {
       console.error("Update failed:", error);
     }
   };
 
-//approving transaction
+  //approving transaction
   const handleApprove = () => {
     dispatch(approveJoulnal(token, journalId.journalId))
       .then(() => {
-      if(success){
-        navigate('/user-transaction');
-      }
+        if (success) {
+          navigate("/user-transaction");
+        }
       })
       .catch((error) => {
-        console.error('Error approving journal:', error);
+        console.error("Error approving journal:", error);
       });
-      
   };
 
   return (
@@ -683,101 +678,83 @@ console.log("formaaa",formattedTransportFeesCherry)
                           transaction.id
                         ]?.toLocaleString()}
                       </td>
-                   
-                      <td className="p-4 space-x-2 whitespace-nowrap">
-                      {transaction.approved === 0 && (
-                        <>
-                          <button
-                            type="button"
-                            id="updateProductButton"
-                            data-drawer-target="drawer-update-product-default"
-                            data-drawer-show="drawer-update-product-default"
-                            aria-controls="drawer-update-product-default"
-                            data-drawer-placement="right"
-                            className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-green-500 hover:bg-green-400 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                            onClick={() => handleClickAction(transaction)}
-                          >
-                            <MdModeEdit />
-                          </button>
-                          {showTransactionModel && selectedUser && (
-                            <EditTransactionModel
-                              transaction={selectedUser}
-                              onClose={() => setShowTransactionModel(false)}
-                              onSubmit={handleTransactionUpdate}
-                            />
-                          )}
 
-                          <button
-                            type="button"
-                            id="deleteProductButton"
-                            onClick={() => openModal(transaction.id)}
-                            data-drawer-target="drawer-delete-product-default"
-                            data-drawer-show="drawer-delete-product-default"
-                            aria-controls="drawer-delete-product-default"
-                            data-drawer-placement="right"
-                            className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-500 rounded-lg hover:bg-red-300 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900"
-                          >
-                            <RiDeleteBin6Line />
-                          </button>
-                          <RemoveTransactionModel
-                            isOpen={isModalOpen}
-                            onClose={closeModal}
-                            onConfirmDelete={handleConfirmDelete}
-                            transactionId={transactionIdToDelete}
-                          />
-                        </>
-                      )}
-                    </td>
+                      <td className="p-4 space-x-2 whitespace-nowrap">
+                        {transaction.approved === 0 && (
+                          <>
+                            <button
+                              type="button"
+                              id="updateProductButton"
+                              data-drawer-target="drawer-update-product-default"
+                              data-drawer-show="drawer-update-product-default"
+                              aria-controls="drawer-update-product-default"
+                              data-drawer-placement="right"
+                              className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-green-500 hover:bg-green-400 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                              onClick={() => handleClickAction(transaction)}
+                            >
+                              <MdModeEdit />
+                            </button>
+                            {showTransactionModel && selectedUser && (
+                              <EditTransactionModel
+                                transaction={selectedUser}
+                                onClose={() => setShowTransactionModel(false)}
+                                onSubmit={handleTransactionUpdate}
+                              />
+                            )}
+
+                            <button
+                              type="button"
+                              id="deleteProductButton"
+                              onClick={() => openModal(transaction.id)}
+                              data-drawer-target="drawer-delete-product-default"
+                              data-drawer-show="drawer-delete-product-default"
+                              aria-controls="drawer-delete-product-default"
+                              data-drawer-placement="right"
+                              className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-500 rounded-lg hover:bg-red-300 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900"
+                            >
+                              <RiDeleteBin6Line />
+                            </button>
+                            <RemoveTransactionModel
+                              isOpen={isModalOpen}
+                              onClose={closeModal}
+                              onConfirmDelete={handleConfirmDelete}
+                              transactionId={transactionIdToDelete}
+                            />
+                          </>
+                        )}
+                      </td>
                     </tr>
-                    
                   ))}
                   <tr>
-                  <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
                       TOTALS
-                      </td>
-                      <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-
-
+                    </td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
+                      {totalValues.totalCertified.toLocaleString()} Kgs
                     </td>
                     <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-
-
+                      {totalValues.totalUncertified} Kgs
                     </td>
-                    <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
+                      {totalValues.totalFloaters.toLocaleString()} Kgs
+                    </td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
+                      {totalValues.totalKgs.toLocaleString()} Kgs
+                    </td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
+                      {totalValues.totalCoffeeValue.toLocaleString()} RWF
                     </td>
                     <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-
-                      {totalValues.totalCertified.toLocaleString()}</td>
-                      <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-
-                      {totalValues.totalUncertified}</td>
-                      <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-
-
+                      {totalValues.totalCoffeeValue.toLocaleString()} RWF
                     </td>
-                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-
-                        {totalValues.totalFloaters.toLocaleString()}</td>
-                        <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-
-                        </td>
-                        <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-
-                       {totalValues.totalKgs.toLocaleString()}</td>
-                       <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-                         </td>
-                          <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-
-                         {totalValues.totalCoffeeValue.toLocaleString()}</td>
-                         <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-                         {totalValues.totalCoffeeValue.toLocaleString()}
-                         </td>
-                         <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white"> 
-                    </td>
-                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-
-                       </td>
+                    <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
                   </tr>
                 </tbody>
               </table>
@@ -785,7 +762,6 @@ console.log("formaaa",formattedTransportFeesCherry)
           </div>
         </div>
       </div>
-
       <div className="sticky bottom-0 right-0 items-center w-full p-4 bg-white border-t border-gray-200 sm:flex sm:justify-between dark:bg-gray-800 dark:border-gray-700">
         <div className="flex items-center mb-4 sm:mb-0">
           <a
@@ -839,134 +815,130 @@ console.log("formaaa",formattedTransportFeesCherry)
             </span>
           </span>
         </div>
-      </div>      {isCommissionFeesAdded &&(
-
-                  <div className="flex justify-center items-center">
-                  <button
-                    className="bg-green-500 text-white p-2 m-2"
-                    onClick={handleApprove}
-                    disabled={totalValues.approved}
-                  >Approve Transaction</button>
-                </div>
-                )}
+      </div>{" "}
+      {isCommissionFeesAdded && (
+        <div className="flex justify-center items-center">
+          <button
+            className="bg-green-500 text-white p-2 m-2"
+            onClick={handleApprove}
+            disabled={totalValues.approved}
+          >
+            Approve Transaction
+          </button>
+        </div>
+      )}
       <p className="mt-3 font-bold">Additional Info</p>
       <div className="items-center  bg-white justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
-          <div className="flex w-full gap-5 mb-4  sm:mb-0 ">
+        <div className="flex w-full gap-5 mb-4  sm:mb-0 ">
           <table className="min-w-[70%] divide-y divide-gray-200  mt-8 table-fixed dark:divide-gray-600 border border-gray-300 dark:border-gray-600">
-              <thead className=" dark:bg-gray-700">
-                {!isCommissionPriceAdded &&(
-                    <><><tr className="border-b hover:bg-gray-100">
-                  <th
-                    scope="col"
-                    className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
-                  >
-                    Commission Fees
-                  </th>
-                  <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
+            <thead className=" dark:bg-gray-700">
+              {!isCommissionPriceAdded && (
+                <>
+                  <>
+                    <tr className="border-b hover:bg-gray-100">
+                      <th
+                        scope="col"
+                        className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
+                      >
+                        Commission Fees
+                      </th>
+                      <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
+                        <input
+                          type="text"
+                          name="commissionFee"
+                          value={additionalInfo.commissionFee}
+                          placeholder=""
+                          className="rounded-lg   w-80"
+                          onChange={handleAdditionalInfoChange}
+                        />
+                      </td>
+                    </tr>
+                    <tr className="border-b hover:bg-gray-100">
+                      <th
+                        scope="col"
+                        className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
+                      >
+                        Transport Fees
+                      </th>
+                      <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
+                        <input
+                          type="text"
+                          value={additionalInfo.transportFee}
+                          className="rounded-lg w-80"
+                          name="transportFee"
+                          onChange={handleAdditionalInfoChange}
+                        />
+                      </td>
+                    </tr>
+                  </>
 
-                    <input
-                      type="text"
-                      name="commissionFee"
-
-                      value={additionalInfo.commissionFee}
-
-                      placeholder=""
-                      className="rounded-lg   w-80"
-                      onChange={handleAdditionalInfoChange} />
-
-                  </td>
-
-                </tr><tr className="border-b hover:bg-gray-100">
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
-                    >
-                      Transport Fees
-                    </th>
-                    <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
-                      <input type="text"
-                        value={additionalInfo.transportFee}
-                        className="rounded-lg w-80"
-                        name="transportFee"
-                        onChange={handleAdditionalInfoChange} />
-
-                    </td>
-
-                  </tr></>
-                
                   <div className="flex justify-center items-center">
                     <button
                       className="bg-green-500 text-white p-2 m-2"
                       onClick={handleAdditionalInfoSubmit}
-                    >Save Data</button>
-                  </div></> 
-
-                )}
-
-{isCommissionPriceAdded  && !isApproveButton &&(
-                    <><><tr className="border-b hover:bg-gray-100">
-                  <th
-                    scope="col"
-                    className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
-                  >
-                    Commission
-                  </th>
-                  <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
-
-                    <input
-                      type="text"
-                      name="commissionCertified"
-
-                      value={totalCommission.toLocaleString()}
-
-                      placeholder=""
-                      className="rounded-lg   w-80"
-                      // onChange={handleAdditionalInfoChange}
-                       />
-
-                  </td>
-
-                </tr>
-                <tr className="border-b hover:bg-gray-100">
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
                     >
-                      Transport Fee (Cherries)
-                    </th>
-                    <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
-                      <input type="text"
-                        value={transportFeesCherry.toLocaleString()}
-                        className="rounded-lg w-80"
-                        name="transportCherry"
-                        // onChange={handleAdditionalInfoChange}
-                         />
-
-                    </td>
-
-                  </tr>
-                  <tr className="border-b">
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
-                    >
-                      Transport Fee (Floaters)
-                    </th>
-                    <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
-                      <input
-                        type="text"
-                        name="transportFloaters"
-                        value={transportFeesFloaters.toLocaleString()}
-                        className="rounded-lg w-80"
-                        // onChange={handleAdditionalInfoChange}
-                         />
-
-                    </td>
-
-                  </tr>
-
+                      Save Data
+                    </button>
+                  </div>
                 </>
-              
+              )}
+
+              {isCommissionPriceAdded && !isApproveButton && (
+                <>
+                  <>
+                    <tr className="border-b hover:bg-gray-100">
+                      <th
+                        scope="col"
+                        className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
+                      >
+                        Commission
+                      </th>
+                      <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
+                        <input
+                          type="text"
+                          name="commissionCertified"
+                          value={totalCommission.toLocaleString()}
+                          placeholder=""
+                          className="rounded-lg   w-80"
+                          // onChange={handleAdditionalInfoChange}
+                        />
+                      </td>
+                    </tr>
+                    <tr className="border-b hover:bg-gray-100">
+                      <th
+                        scope="col"
+                        className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
+                      >
+                        Transport Fee (Cherries)
+                      </th>
+                      <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
+                        <input
+                          type="text"
+                          value={transportFeesCherry.toLocaleString()}
+                          className="rounded-lg w-80"
+                          name="transportCherry"
+                          // onChange={handleAdditionalInfoChange}
+                        />
+                      </td>
+                    </tr>
+                    <tr className="border-b">
+                      <th
+                        scope="col"
+                        className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
+                      >
+                        Transport Fee (Floaters)
+                      </th>
+                      <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
+                        <input
+                          type="text"
+                          name="transportFloaters"
+                          value={transportFeesFloaters.toLocaleString()}
+                          className="rounded-lg w-80"
+                          // onChange={handleAdditionalInfoChange}
+                        />
+                      </td>
+                    </tr>
+                  </>
 
                   <tr className="border-b hover:bg-gray-100">
                     <th
@@ -979,47 +951,38 @@ console.log("formaaa",formattedTransportFeesCherry)
                       <input
                         type="text"
                         name="commissionCertified"
-
                         value={totals.toLocaleString()}
                         className="rounded-lg  w-80"
                         // onChange={handleAdditionalInfoChange}
-                        />
-
+                      />
                     </td>
-
-                  </tr><div className="flex justify-center items-center">
+                  </tr>
+                  <div className="flex justify-center items-center">
                     <button
                       className="bg-green-500 text-white p-2 m-2"
                       onClick={handleCommissionFeesSubmit}
                       disabled={totalValues.approved}
-                    >Save Data</button>
+                    >
+                      Save Data
+                    </button>
                   </div>
-                  </>
+                </>
+              )}
+            </thead>
+          </table>
 
-                )}
-               
-               
-             
-             
-              </thead>
-         
- </table>
-          
-            <div className=" mt-8 ">
+          <div className=" mt-8 ">
             <input type="file" name="" id="" />
-            <button className=" border border-green-500 hover:bg-green-500 hover:text-white text-green-500 p-1 mt-1">upload Joulnal</button>
-
+            <button className=" border border-green-500 hover:bg-green-500 hover:text-white text-green-500 p-1 mt-1">
+              Upload Journal
+            </button>
           </div>
-          </div>
-        
         </div>
-
+      </div>
       {/* update drawer */}
       <UpdateItemDrawer />
-
       {/* Delete Product Drawer */}
       <DeleteItemDrawer />
-
       {/* Add Product Drawer */}
       <AddItemDrawer />
     </div>

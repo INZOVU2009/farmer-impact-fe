@@ -24,6 +24,11 @@ import CherryLotDetails from "./pages/CherryLotDetails";
 import SiteDayLotDetails from "./pages/SiteDayLotDetails";
 import LotsInAdayLot from "./pages/LotsInAdayLot";
 import AssignNewParchment from "./pages/AssignNewParchmentPage";
+import ParchmentStockPage from "./pages/ParchmentStockPage";
+import DeliveryProcessingPage from "./pages/DeliveryProcessingPage";
+import ParchmentTransportPage from "./pages/ParchmentTransportPage";
+import ParchmentReceptionPage from "./pages/ParchmentReceptionPage";
+import DigitalLoadingFormPage from "./pages/DigitalLoadingFormPage";
 
 function App() {
   const location = useLocation();
@@ -106,6 +111,31 @@ function App() {
           exact
           path="/user_inventory_management/new_parchment_assignement"
           element={<AssignNewParchment />}
+        />
+          <Route
+          exact
+          path="/user_inventory_management/parchment_stock"
+          element={<ParchmentStockPage />}
+        />
+          <Route
+          exact
+          path="/user_inventory_management/deliveries_processing"
+          element={<DeliveryProcessingPage />}
+        />
+         <Route
+          exact
+          path="/user_inventory_management/parchment_transport"
+          element={<ParchmentTransportPage />}
+        />
+         <Route
+          exact
+          path="/user_inventory_management/parchment_reception"
+          element={<ParchmentReceptionPage />}
+        />
+         <Route
+          exact
+          path="/user_inventory_management/new_loading_form"
+          element={<DigitalLoadingFormPage />}
         />
          
       </Routes>

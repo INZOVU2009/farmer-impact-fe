@@ -11,6 +11,8 @@ import { assigParchment } from "../redux/actions/parchnment/assignNewParchment.a
 import AssignNewParchmentModel from "../components/AssignNewParchmentModel";
 import { setCertification, clearCertification } from "../redux/actions/parchnment/setCertification.action";
 import { ToastContainer, toast } from "react-toastify";
+import { assigParchmentGrade } from "../redux/actions/parchnment/assignParchmentGrade.action";
+
 
 function AssignNewParchment() {
   const navigate = useNavigate();
@@ -23,10 +25,19 @@ function AssignNewParchment() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [dryToParch, setDryToParch] = useState(null)
   const [parchmentWeight, setParchmentWeight] = useState()
+  const [assignedParchment , setAssignedParchment] = useState()
+const [certificate, setCertificate] = useState()
   const [selectedGrade, setSelectedGrade] = useState("Grade A");
-  const { parchment, isloading } = useSelector(
+  const { parchment } = useSelector(
     (state) => state.newParchment
   );
+  const { parchmentGrade,isloading } = useSelector(
+    (state) => state.newParchmentGrade
+  );
+  console.log("yuhuu",parchmentGrade)
+  const [newParchmentGrade , setNewParchmentGrade] = useState()
+
+  console.log("parchmentttt", assignedParchment)
 
 
   const [selectedCertification, setSelectedCertification] =
@@ -36,7 +47,7 @@ function AssignNewParchment() {
 
 
 
-  const { transactions, loading } = useSelector(
+  const { transactions } = useSelector(
     (state) => state.fetchAllTransactions
   );
 
@@ -86,8 +97,19 @@ function AssignNewParchment() {
   const handleCertificationChange = (e) => {
     setSelectedCertification(e.target.value);
     dispatch(setCertification(selectedCertification));
-
+   
+    
   };
+  useEffect(() => {
+    if(selectedCertification === "Certified") {
+      setCertificate(1);
+    } else {
+      setCertificate(0);
+    }
+  }, [selectedCertification]);
+  
+ 
+
   const filteredTransaction = searchQuery
     ? getUniqueValues(
         allTransactions?.filter((transaction) =>
@@ -137,29 +159,30 @@ function AssignNewParchment() {
     }
   };
 
-  console.log("hello", filteredByCherryLotID);
+
   const totalKilograms = (daylotnumber) => calculateSumKilograms(daylotnumber);
 
-  const getGradeA = (cherry_lot_id) => {
+   const getGradeA = (cherry_lot_id) => {
     const gradeA = allDryings?.find(
       (dry) => dry.day_lot_number === cherry_lot_id
     );
     return gradeA ? gradeA.GradeA : null;
   };
 
-  const getGradeB = (cherry_lot_id) => {
+   const getGradeB = (cherry_lot_id) => {
     const gradeB = allDryings?.find(
       (dry) => dry.day_lot_number === cherry_lot_id
     );
     return gradeB ? gradeB.GradeB : null;
   };
 
-  const getGradeC = (cherry_lot_id) => {
+   const getGradeC = (cherry_lot_id) => {
     const gradeC = allDryings?.find(
       (dry) => dry.day_lot_number === cherry_lot_id
     );
     return gradeC ? gradeC.GradeC : 0;
   };
+
   const handleItemsPerPageChange = (e) => {
     setItemsPerPage(parseInt(e.target.value, 10));
   };
@@ -211,6 +234,7 @@ function AssignNewParchment() {
 //         });
 // };
 
+
 const handleConfirmAssign = async (cherry_lot_id) => {
   try {
         const data = {
@@ -219,46 +243,100 @@ const handleConfirmAssign = async (cherry_lot_id) => {
     };
       
       const res = await dispatch(assigParchment(data));
-      if (parchment) {
-          console.log("success")
-          // navigate("/user_inventory_management/assigned_parchment");
-      } else {
-          console.log("dddf")
-      }
+      setAssignedParchment(res.data)
+
   } catch (error) {
       // Handle error
       console.error(error);
       console.log("An error occurred while assigning parchment.");
   }
 };
+
 const handleParchmentWeight = (e) =>{
   e.preventDefault();
   setParchmentWeight(e.target.value)?.toLocaleString()
 }
-if(selectedGrade === "Grade A"){
-  const parchmentWeightA = getGradeA(cherryLotToAssign)
-  if(parchmentWeight > parchmentWeightA)
-  {
-    toast.info(`parchment weight weight can not exceed ${parchmentWeightA}`)
-  }
+
+
+// useEffect(()=>{
+//   if(parchment){
+//     if(selectedGrade === 'Grade A'){
+//       const parchmentWeightA = getGradeA(cherryLotToAssign)
+//       const GradeA = parchmentWeight - parchmentWeightA
+//       console.log("I am parchment weight", parchmentWeight)
+//       console.log("I am parchment  A", parchmentWeightA, GradeA)
+//       setNewGradeA(GradeA)
+//     }
+//     else if(selectedGrade === 'Grade B'){
+//       const parchmentWeightB = getGradeB(cherryLotToAssign)
+//       const GradeB = parchmentWeight - parchmentWeightB
+//       console.log("I am parchment weight", parchmentWeight)
+//       console.log("I am parchment  B", parchmentWeightB, GradeB)
+//       setNewGradeB(GradeB)
+//     }
+//     else if(selectedGrade === 'Grade C'){
+//       const parchmentWeightC = getGradeC(cherryLotToAssign)
+//       const GradeC = parchmentWeight - parchmentWeightC
+//       console.log("I am parchment weight", parchmentWeight)
+//       console.log("I am parchment  C", parchmentWeightC, GradeC)
+//       setNewGradeC(GradeC)
+//     }
+//   }
+
+// },[parchment,selectedGrade])
+// console.log("I am ALL DDD", allDryings)
+
+// useEffect(() => {
+//   const updatedDryings = allDryings.map((dry) => {
+//     if (dry.day_lot_number === cherryLotToAssign) {
+//       let updatedDry = { ...dry };
+
+//       if (selectedGrade === 'Grade A') {
+//         updatedDry.GradeA = newGradeA;
+//       } else if (selectedGrade === 'Grade B') {
+//         updatedDry.GradeB = newGradeB;
+//       } else if (selectedGrade === 'Grade C') {
+//         updatedDry.GradeC = newGradeC;
+//       }
+
+//       return updatedDry;
+//     }
+//     return dry;
+//   });
+
+//   setAllDryings(updatedDryings);
+// }, [cherryLotToAssign, selectedGrade, newGradeA, newGradeB, newGradeC]);
+
+const handleProceed= async () => {
+ 
+    // if (assignParchmentGrade) {
+      // setAssignedParchment(parchment.data)
+      const data = {
+        cherry_lot_id : assignedParchment?.cherry_lot_id,
+        parch_grade: assignedParchment?.grade,
+        certificate:certificate,
+        parch_weight:parchmentWeight
+      }
+      dispatch(assigParchmentGrade(data,token)); 
+};
+useEffect(()=>{
+if (parchmentGrade){
+console.log("hello")
 }
-if(selectedGrade === "Grade B")
-{
-  const parchmentWeightB = getGradeB(cherryLotToAssign)
-  if(parchmentWeight > parchmentWeightB)
-  {
-    toast.info(`parchment weight weight can not exceed ${parchmentWeightB}`)
-  }
+else{
+  console.log("hey")
 }
 
-if(selectedGrade === "Grade C")
-{
-  const parchmentWeightC= getGradeC(cherryLotToAssign)
-  if(parchmentWeight > parchmentWeightC)
-  {
-    toast.info(`parchment weight weight can not exceed ${parchmentWeightC}`)
-  }
-}
+},[parchmentGrade])
+console.log("I am paginated", paginatedTransactions)
+
+// const paginatedParchments = paginatedTransactions.filter(
+//   (transaction) => transaction?.cherry_lot_id !== parchmentGrade?.cherry_lot_id
+// );
+
+
+
+
 
 
 
@@ -440,9 +518,10 @@ if(selectedGrade === "Grade C")
                   <button
                     name=""
                     className="rounded-lg w-40 bg-green-500 text-white p-2"
+                    onClick={handleProceed}
                   >
                    
-                    Proceed
+                    {isloading? 'Loading..':'Proceed'}
                   </button>
                 </div>
               </div>
@@ -465,7 +544,7 @@ if(selectedGrade === "Grade C")
               handleNextPage={handleNextPage}
               handlePrevPage={handlePrevPage}
               itemsPerPage={itemsPerPage}
-              loading={loading}
+              // loading={loading}
               isModalOpen={isModalOpen}
               openModal={openModal}
               closeModal={closeModal}

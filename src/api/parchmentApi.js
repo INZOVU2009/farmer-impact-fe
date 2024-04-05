@@ -18,3 +18,38 @@ export const assignNewParchment = (data) => {
         });
     });
   };
+
+
+  export const ParchmentGrade = (data,token) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(
+          `${url}/parchments/parchGrade`,
+          data,
+          {
+            headers: { auth_token: ` ${token}` },
+          }
+        )
+        .then((response) => resolve(response.data))
+        .catch((error) => {
+          if (error.response?.data !== undefined) {
+            reject(error.response.data);
+          }
+          reject(error);
+        });
+    });
+  };
+
+
+//get all assigned parchments
+export const allAssignedParchments= async () => {
+  try {
+    const response = await axios.get(`${url}/parchments/allAssignedParchments`, {});
+    return response.data;
+  } catch (error) {
+    if (error.response.data !== undefined) {
+      throw error.response.data;
+    }
+    throw error;
+  }
+};

@@ -39,7 +39,9 @@ export default function BucketingDryingModel({ journal, onClose, onSubmit }) {
       }));
     }
   };
-  console.log(editedJournal);
+  console.log(editedJournal)
+
+ 
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();

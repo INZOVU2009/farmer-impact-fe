@@ -7,6 +7,7 @@ export const handleToken = () => (dispatch) => {
     if (token) {
         try {
           const decodedToken = jwtDecode(token);
+          console.log("dedd",decodeToken)
           dispatch(fetchToken(token));
           dispatch(decodeToken(decodedToken));
         } catch (error) {
