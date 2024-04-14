@@ -102,6 +102,19 @@ useEffect(() => {
             ? 'Buy Coffee General harvest'
             : currentPage === `user_registration/site_harvest`
             ? 'Buy Coffee General harvest'
+            : currentPage === `user_inventory_management/new_loading_form`
+            ? 'Parchment Transport New Loading Form'
+            : currentPage === `user_inventory_management/parchment_reception`
+            ? 'Coffee Inventory Parchment Reception'
+            : currentPage === `user_inventory_management/parchment_transport`
+            ? 'Coffee Inventory Parchment transport'
+            : currentPage === `user_inventory_management/deliveries_processing`
+            ? 'Deliveries processing Deliveries processing'
+            : currentPage === `user_inventory_management/parchment_stock`
+            ? 'Coffee Inventory Parchment Stock'
+            : currentPage === `user_inventory_management/parchment_stock`
+            ? 'Coffee Inventory Parchment Stock'
+
 
 
             : currentPage === 'user-administration'
