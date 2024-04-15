@@ -53,3 +53,24 @@ export const allAssignedParchments= async () => {
     throw error;
   }
 };
+
+
+
+//adjust parchment
+export const parchmentAdjustment = (data) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(
+        `${url}/parchments/adjust`,
+        data,
+
+      )
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response?.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};
