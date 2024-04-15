@@ -16,7 +16,7 @@ import { addCommission } from "../../redux/actions/transactions/commission.actio
 import "react-toastify/dist/ReactToastify.css";
 import { approveJoulnal } from "../../redux/actions/transactions/approveJournal.action";
 
-const DigitalLoadingFormTable = () => {
+const DigitalLoadingFormTable = ({parchments, stationName, StationID, decodedToken, showInputs, handleSelectChange, selectedParchment, selectedOption, handleSelectedOption, formData, handleFormData}) => {
   
 
   return (
@@ -50,7 +50,7 @@ const DigitalLoadingFormTable = () => {
                     CWS Name	
                   </th>
                   <td className="p-3 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
-                    {/* {journal?.staffData[0].Name} */}
+                  {stationName(decodedToken?.staff._kf_Station)}
                   </td>
                   
                 </tr>
@@ -64,7 +64,7 @@ const DigitalLoadingFormTable = () => {
                     CWS ID	
                   </th>
                   <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                    {/* {totalValues.totalCoffeeValue.toLocaleString()} */}
+                  {StationID(decodedToken?.staff._kf_Station)}
                   </td>
                 </tr>
                
@@ -77,11 +77,11 @@ const DigitalLoadingFormTable = () => {
                     </th>
                     <td className="p-1 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
                       <input type="text"
-                        // value={transportFeesCherry.toLocaleString()}
+                        value={formData.tally_sheet_no}
                         className="rounded-lg w-80"
-                        name="transportCherry"
+                        name="tally_sheet_no"
                         placeholder="Tally sheet no"
-                        // onChange={handleAdditionalInfoChange}
+                        onChange={handleFormData}
                          />
 
                     </td>
@@ -97,10 +97,10 @@ const DigitalLoadingFormTable = () => {
                     <td className="p-1 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
                       <input
                         type="text"
-                        name="transportFloaters"
-                        // value={transportFeesFloaters.toLocaleString()}
+                        name="total_number_of_bags"
+                        value={formData.total_number_of_bags}
                         className="rounded-lg w-80"
-                        // onChange={handleAdditionalInfoChange}
+                        onChange={handleFormData}
                         placeholder="number of bags"
                          />
 
@@ -117,10 +117,10 @@ const DigitalLoadingFormTable = () => {
                     <td
                      className="p-1 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
                       <input type="text"
-                        // value={transportFeesCherry.toLocaleString()}
+                        value={formData.total_weight}
                         className="rounded-lg w-80"
                         name="transportCherry"
-                        // onChange={handleAdditionalInfoChange}
+                        onChange={handleFormData}
                         placeholder="total weight"
                          />
 
@@ -232,154 +232,145 @@ const DigitalLoadingFormTable = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                  
-                    <tr
-                      // key={transaction.id}
-                      className="hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                     
-                      <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                       <select name="" id="" className="rounded-lg">
-                        <option value="">No</option>
-                        <option value="">Yes</option>
-                       </select>
-                      </td>
-                      <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                      24SR188P26205CA	
-                      </td>
-                      <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                      41	
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                        0
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                      24SR188CH1202C
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                       
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                        
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                       
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                        
-                      </td>
-                    
-                    </tr>
-                    <tr
-                      // key={transaction.id}
-                      className="hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                     
-                      <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                       <select name="" id="" className="rounded-lg">
-                        <option value="">No</option>
-                        <option value="">Yes</option>
-                       </select>
-                      </td>
-                      <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                      24SR188P26205CA	
-                      </td>
-                      <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                      41	
-                      </td>
-                      <td class="p-4 text-base   font-medium text-gray -500 whitespace-nowrap dark:text-white">
-                        0
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                      24SR188CH1202C
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                       
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                        
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                       
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                        
-                      </td>
-                    
-                    </tr>
-                
-                </tbody>
+    {parchments?.map((parchment, index) => (
+        <tr
+            // key={transaction.id}
+            className="hover:bg-gray-100 dark:hover:bg-gray-700"
+        >
+            <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
+            {/* <select
+        name="cherry_lot"
+        id=""
+        className="rounded-lg"
+        onChange={handleSelectChange} // Call handleSelectChange on selection change
+      >
+        <option value="No">No</option>
+        <option value="Yes">Yes</option>
+      </select> */}
+        <select
+                    name={`cherry_lot_${index}`} // Use a unique name for each dropdown
+                    className="rounded-lg"
+                    onChange={handleSelectChange} // Call handleSelectChange on selection change
+                    data-parchment-id={parchment.parchment_id} // Attach parchment ID as data attribute
+                  >
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                  </select>
+            </td>
+            <td 
+            className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white"
+            type="text"
+            name="total_number_of_bags"
+            value={formData.parchment_code}
+            onChange={handleFormData}
+            placeholder="number of bags"
+            
+            >
+                {parchment.parchment_id}
+            </td>
+           
+            <td 
+            className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white"
+            type="text"
+            name="total_number_of_bags"
+            value={formData.stock_init}
+            onChange={handleFormData}
+            placeholder="number of bags"
+            
+            
+            >
+                {parchment.parch_weight}
+            </td>
+            <td 
+            className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white"
+            type="text"
+            name="total_number_of_bags"
+            value={formData.stock_bal}
+            onChange={handleFormData}
+            placeholder="number of bags"
+            
+            >
+                {parchment.parch_weight}
+            </td>
+            <td 
+            className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white"
+            type="text"
+            name="total_number_of_bags"
+            value={formData.cherry_lot_id}
+            onChange={handleFormData}
+            placeholder="number of bags"
+            
+            >
+                {parchment.cherry_lot_id}
+            </td>
+            <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
+             
+                    { selectedParchment === parchment.parchment_id &&(
+                     <input
+                     type="text"
+                     name={`number of bags${index}`} // Use a unique name for each input field
+                     className="rounded-lg w-40"
+                     placeholder="number of bags"
+                     value={formData.number_of_bags}
+                   />
+                    )}
+           
+            </td>
+            <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
+               
+            { selectedParchment === parchment.parchment_id  &&(
+                     <input
+                     type="text"
+                     name={`kilograms loaded${index}`} // Use a unique name for each input field
+                     className="rounded-lg w-40"
+                     placeholder="number of bags"
+                     value={formData.kilograms_loaded}
+                   />
+                    )}
+           
+            </td>
+            <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
+
+           {selectedParchment === parchment.parchment_id  && (
+              <select
+              name={`parchment${index}`} // Use a unique name for each dropdown
+              className="rounded-lg"
+              onChange={handleSelectedOption} // Call handleSelectChange on selection change
+            >
+              <option value="no">No</option>
+              <option value="yes">Yes</option>
+            </select>
+           )}
+              
+
+          
+           </td>
+
+           
+            <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
+              
+            {selectedOption === `parchment${index}` && (
+                <input
+                  type="text"
+                  name={`leftParchments${index}`} // Use a unique name for each input field
+                  className="rounded-lg w-40"
+                  placeholder="number of bags"
+                  value={formData.left_parchments}
+                />
+              )}
+               
+            </td>
+        </tr>
+    ))}
+</tbody>
+
               </table>
             </div>
           </div>
         </div>
       </div>
 
-      {/* <div className="sticky bottom-0 right-0 items-center w-full p-4 bg-white border-t border-gray-200 sm:flex sm:justify-between dark:bg-gray-800 dark:border-gray-700">
-        <div className="flex items-center mb-4 sm:mb-0">
-          <a
-            href="#"
-            className="inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
-            onClick={handlePrevPage}
-          >
-            <svg
-              className="w-7 h-7"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
-          </a>
-          <a
-            href="#"
-            className="inline-flex justify-center p-1 mr-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
-            onClick={handleNextPage}
-          >
-            <svg
-              className="w-7 h-7"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
-          </a>
-          <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-            Showing{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {(currentPage - 1) * itemsPerPage + 1}
-            </span>{" "}
-            -{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {Math.min(currentPage * itemsPerPage, journals?.length)}
-            </span>{" "}
-            of{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {journals?.length}
-            </span>
-          </span>
-        </div>
-      </div>      */}
-       {/* {isCommissionFeesAdded &&(
-
-                  <div className="flex justify-center items-center">
-                  <button
-                    className="bg-green-500 text-white p-2 m-2"
-                    onClick={handleApprove}
-                    disabled={totalValues.approved}
-                  >Approve Transaction</button>
-                </div>
-                )} */}
-      
+    
       <div className="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
           <div className="flex w-full items-center mb-4  sm:mb-0 ">
             <table className="min-w-full  divide-y divide-gray-200  mt-6 table-fixed dark:divide-gray-600 border border-gray-300 dark:border-gray-600">
