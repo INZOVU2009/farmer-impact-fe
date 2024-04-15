@@ -31,6 +31,14 @@ import setCertificationSlice from "./slices/parchment/setCertificationSlice";
 import assignParchmentGradeSlice from "./slices/parchment/assignParchmentGradeSlice";
 import fetchAllAssignedParchmentsSlice from './slices/parchment/allAssignedParchmentSlice';
 import adjustParchmentSlice from "./slices/parchment/adjustParchmentSlice";
+import submitDeliveryReportSlice from './slices/parchment/deliveryReportSlice'
+import getAllDeliveryReportsSlice from "./slices/parchment/getAllDeliveryReportsSlice";
+import fetchSingleReportSlice from './slices/parchment/getSingleReportSlice'
+import fetchReportByIdSlice from './slices/parchment/reportByIdSlice'
+import fetchReportLotByIdSlice from './slices/parchment/reportLotByIdSlice'
+import updateDeliveryReportSlice from "./slices/parchment/updateDeliveryReportSlice";
+
+
 const store = configureStore({
   reducer: {
     login,
@@ -65,6 +73,12 @@ const store = configureStore({
     newParchmentGrade:assignParchmentGradeSlice,
     allAssignedParchments:fetchAllAssignedParchmentsSlice,
     adjustParchment:adjustParchmentSlice,
+    deliveryReport:submitDeliveryReportSlice,
+    allDeliveryReports:getAllDeliveryReportsSlice,
+    fetchSingleReport:fetchSingleReportSlice,
+    fetchReportById:fetchReportByIdSlice,
+    fetchReportLotById:fetchReportLotByIdSlice,
+    updateDeliveryReport:updateDeliveryReportSlice,
 
   },
   middleware: (getDefaultMiddleware) =>

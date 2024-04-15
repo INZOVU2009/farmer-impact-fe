@@ -3,11 +3,102 @@ import Sidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
 import WelcomeBanner from "../partials/dashboard/WelcomeBanner";
 import ParchmentReceptionTable from "../partials/dashboard/ParchmentReceptionTable";
-
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllDeliveryReports } from "../redux/actions/parchnment/getAllDeliveryReports.action";
+import {fetchAllUsers} from '../redux/actions/user/Users.action'
+import { fetchAllStaff } from "../redux/actions/staff/getAllStaff.action";
+import { fetchAllStation } from "../redux/actions/station/allStations.action";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function ParchmentReceptionPage() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [allDeliveryReports, setAllDeliveryReports] = useState();
+  const { deliveryReports } = useSelector((state) => state.allDeliveryReports);
+  const [allUsers, setAllUsers] = useState([]);
+  const [allStaff, setAllStaff] = useState([]);
+  const { users } = useSelector((state) => state.users);
+  const { staffs } = useSelector((state) => state.fetchAllStaff);
+  const { stations } = useSelector((state) => state.fetchAllStations);
+  const [allStation, setAllStation] = useState([]);
+  const dispatch = useDispatch();
+  const [reportToEdit, setReportToEdit] = useState()
+  const navigate = useNavigate()
+
+
+  useEffect(() => {
+    dispatch(fetchAllUsers());
+  }, [dispatch]);
+
+
+  useEffect(() => {
+    if (users) {
+      setAllUsers(users.data);
+    }
+  }, [users]);
+ 
+  useEffect(() => {
+    dispatch(fetchAllStaff());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (staffs) {
+      setAllStaff(staffs.data);
+    }
+  }, [staffs]);
+  useEffect(() => {
+    dispatch(fetchAllDeliveryReports());
+  }, [dispatch]);
+
+
+  useEffect(() => {
+    dispatch(fetchAllStation());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (stations) {
+      setAllStation(stations.data);
+    }
+  }, [stations]);
+
+  const getKpUser = (id) => {
+    const user = allUsers?.find(user => user.id === id);
+    return user ? user.__kp_User : null;
+  };
+console.log("user", getKpUser(573))
+  const getKfStation = (kpUser) => {
+    const staff = allStaff?.find(staff => staff._kf_User === kpUser);
+    return staff ? staff._kf_Station : null;
+  };
+
+ 
+
+  const getStationName = (_kf_Station) => {
+    const station = allStation?.find(
+      (station) => station.__kp_Station === _kf_Station
+    );
+    return station ? station.Name : null;
+  };
+
+
+  useEffect(() => {
+    if (deliveryReports) {
+      // Create a copy of the deliveryReports array before sorting
+      const reportsCopy = [...deliveryReports.data];
+      // Sort the copied array in descending order based on entry date
+      const sortedReports = reportsCopy.sort((a, b) =>
+        a.created_at > b.created_at ? -1 : 1
+      );
+      setAllDeliveryReports(sortedReports);
+    }
+  }, [deliveryReports]);
+
+  const handleClick = (report) => {
+    // setReportToEdit(report);
+    console.log("report",report )
+    navigate(`/user_inventory_management/edit_parchment_reception_details/${report.id}`)
+    // console.log("Parchments to deliver", reportToEdit);
+  };
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -129,6 +220,12 @@ function ParchmentReceptionPage() {
             <div className="flex flex-row left-4 items-center justify-center  gap-3"></div>
 
             <ParchmentReceptionTable
+            reports = {allDeliveryReports}
+            user={getKpUser}
+            station={getKfStation}
+            stationName={getStationName}
+            handleReportClick={handleClick}
+
 
             />
           </div>

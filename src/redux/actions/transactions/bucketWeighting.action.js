@@ -5,7 +5,7 @@ import { weightFail, weightPending, weightSuccess } from "../../slices/transacti
 export const addBucketweighting= (data) => async (dispatch) => {
     try {
       dispatch(weightPending());
-    
+    let token = localStorage.getItem("token")
 
       const res = await bucketWeighting(data);
       console.log("res",res)

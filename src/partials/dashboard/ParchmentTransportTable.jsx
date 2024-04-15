@@ -2,12 +2,9 @@ import React, { useState, useEffect } from "react";
 import UpdateItemDrawer from "./UpdateItemDrawer";
 import DeleteItemDrawer from "./DeleteItemDrawer";
 import AddItemDrawer from "./AddItemDrawer";
-import { MdAdd } from "react-icons/md";
 import "react-toastify/dist/ReactToastify.css";
-import AssignNewParchmentModel from "../../components/AssignNewParchmentModel";
-import { useDispatch, useSelector } from "react-redux";
-
-const ParchmentTransportTable = ({
+import { GrDeliver } from "react-icons/gr";
+const ParchmentTransportTable = ({reports
 }) => {
 
   return (
@@ -40,132 +37,117 @@ const ParchmentTransportTable = ({
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      CHERRY-LOT-ID	
+                      STATUS
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     CH_WEIGHT
+                    DELIVERY.ID	
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     ParchID_A	
+                     TALLY SHEET	
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     A_WEIGHT
+                    TRUCK.PLATE	
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      ParchID_B
+                      LOADING.DATE	
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     B_WEIGHT	
+                     EXPECTED.DELIVERY.DATE	
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                    ParchID_C	
+                   GRADE
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                   C_WEIGHT
+                  TOTAL.WEIGHT.KG	
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     TOT PARCH	
+                     #OF.BAGS	
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      RATIO
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                     STATUS
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                     Created at
+                     Action
 
                     </th>
+                   
+                   
                   </tr>
                 </thead>
 
-                  {/* <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                    {filteredTransactions?.map((dry, index) => (
+                  <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                    {reports?.map((report, index) => (
                       <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <td className="w-4 p-4">
-                          {(currentPage - 1) * itemsPerPage + index + 1}
+                       
+                       <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+
+                        {report.status}
                         </td>
                         <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                          {dry.cherry_lot_id}
+
+                        {report.deliveryid}
+                        </td>
+                        <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+                          {report.tally_sheet_no}
                         </td>
 
                         <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          {dry.certified === 1
-                            ? totalKilograms(dry.cherry_lot_id).toLocaleString()
-                            : ""}
+                        {report.truck_plate}
+
                         </td>
                         <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          {dry.certified === 1 ? dry.unitprice : ""}
+                        {report.loading_date}
                         </td>
                         <td className="p-4 space-x-2 whitespace-nowrap">
-                          {dry.certified === 1
-                            ? ""
-                            : totalKilograms(
-                                dry.cherry_lot_id
-                              ).toLocaleString()}
+                        {report.expected_delivery_date}
+                      
                         </td>
                         <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                          {dry.certified === 1 ? "" : dry.unitprice}
+                        {report.grade}
                         </td>
                         <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          {getGradeA(dry.cherry_lot_id)}
+                       
+                        {report.weight.toLocaleString()}
+
                         </td>
                         <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          {getGradeB(dry.cherry_lot_id)}
+                        {report.bags}
                         </td>
                         <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          {getGradeC(dry.cherry_lot_id)}
+                        <GrDeliver className="w-[100%] text-green-500" />
+
                         </td>
 
-                        <td>
-                          <MdAdd
-                            className="text-white   rounded-full w-[30%] h-[30%]  ml-5 bg-green-500 "
-                            onClick={() => openModal(dry.cherry_lot_id, dry)}
-                          />
-
-                          <AssignNewParchmentModel
-                            isOpen={isModalOpen}
-                            onClose={closeModal} // Pass the closeModal function as onClose
-                            confirmAssign={handleConfirmAssign}
-                            cherryLotId={cherryLotIdToAssign}
-                          />
-                        </td>
+                        
+                       
+                      
                       </tr>
                     ))}
-                  </tbody> */}
+                  </tbody>
               
               </table>
             </div>

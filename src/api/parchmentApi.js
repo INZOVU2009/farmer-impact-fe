@@ -74,3 +74,109 @@ export const parchmentAdjustment = (data) => {
       });
   });
 };
+
+
+//Digital lading foarm 
+
+
+export const deliverParchment = (data,token) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(
+        `${url}/parchmentTransport/deliver`,
+        data,
+        {
+          headers: { auth_token: ` ${token}` },
+        }
+      )
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response?.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};
+
+//get all delivery reports
+export const deliveryReports= async () => {
+  try {
+    const response = await axios.get(`${url}/parchmentTransport/reports`, {});
+    return response.data;
+  } catch (error) {
+    if (error.response.data !== undefined) {
+      throw error.response.data;
+    }
+    throw error;
+  }
+};
+
+export const singleReport = () => {
+
+  return new Promise((resolve, reject) => {
+    axios
+      .get(
+        `${url}/parchmentTransport/reportLots?`
+      )
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response?.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};
+
+
+export const deriveryReportById = (id) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`${url}/parchmentTransport/report_by_id/${id}`)
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};
+
+
+export const deriveryReportLotById = (id) => {
+  console.log("i am id ", id )
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`${url}/parchmentTransport/lot_by_id/${id}`)
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};
+
+//  update delivery report 
+
+export const updateDeliveryReport = (data,id,token) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(
+        `${url}/parchmentTransport/update/${id}`,data,
+        {
+          headers: { auth_token: ` ${token}` },
+        }
+        )
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response?.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+}

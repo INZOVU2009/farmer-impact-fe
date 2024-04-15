@@ -2,13 +2,16 @@ import React, { useState, useEffect } from "react";
 import UpdateItemDrawer from "./UpdateItemDrawer";
 import DeleteItemDrawer from "./DeleteItemDrawer";
 import AddItemDrawer from "./AddItemDrawer";
-import { MdAdd } from "react-icons/md";
+import { FaPenClip } from "react-icons/fa6";
+import { SlPrinter } from "react-icons/sl";
+import { NavLink, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-import AssignNewParchmentModel from "../../components/AssignNewParchmentModel";
-import { useDispatch, useSelector } from "react-redux";
 
-const ParchmentReceptionTable = ({
+
+          
+const ParchmentReceptionTable = ({  reports, user,station,stationName, handleReportClick
 }) => {
+
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
@@ -40,132 +43,121 @@ const ParchmentReceptionTable = ({
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      CHERRY-LOT-ID	
+                    CWS
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     CH_WEIGHT
+                    STATUS
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     ParchID_A	
+                    LOADING FORM ID	
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     A_WEIGHT
+                     TALLY SHEET	
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      ParchID_B
+                     TRUCK PLATE	
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     B_WEIGHT	
+                    LOADING DATE	
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                    ParchID_C	
+                  EXPECTED DELIVERY DATE	
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                   C_WEIGHT
+                   GRADE
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     TOT PARCH	
+                    TOTAL WEIGHT KG	
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      RATIO
+                      # OF BAGS	
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     STATUS
+                     ACTION
                     </th>
-                    <th
-                      scope="col"
-                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                     Created at
-
-                    </th>
+                   
                   </tr>
                 </thead>
 
-                  {/* <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                    {filteredTransactions?.map((dry, index) => (
+                  <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                    {reports?.map((report, index) => (
                       <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                         <td className="w-4 p-4">
-                          {(currentPage - 1) * itemsPerPage + index + 1}
+                         {stationName(station(user(report.created_by)))}
                         </td>
                         <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                          {dry.cherry_lot_id}
+                          {report.status}
                         </td>
 
                         <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          {dry.certified === 1
-                            ? totalKilograms(dry.cherry_lot_id).toLocaleString()
-                            : ""}
+                        <a
+                          href={`/user_inventory_management/parchment_transport_details/${report.id}`}
+                          className="text-blue-500 hover:text-gray-500"
+                        >
+                          {report.deliveryid}
+                        </a>
                         </td>
                         <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          {dry.certified === 1 ? dry.unitprice : ""}
+                         {report.tally_sheet_no}
                         </td>
                         <td className="p-4 space-x-2 whitespace-nowrap">
-                          {dry.certified === 1
-                            ? ""
-                            : totalKilograms(
-                                dry.cherry_lot_id
-                              ).toLocaleString()}
+                         {report.truck_plate}
                         </td>
                         <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                          {dry.certified === 1 ? "" : dry.unitprice}
+                         {report.loading_date}
                         </td>
                         <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          {getGradeA(dry.cherry_lot_id)}
+                         {report.expected_delivery_date}
                         </td>
                         <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          {getGradeB(dry.cherry_lot_id)}
+                          {report.grade}
                         </td>
                         <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          {getGradeC(dry.cherry_lot_id)}
+                         {report.weight.toLocaleString()}
+                        </td>
+                        <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          {report.bags}
                         </td>
 
                         <td>
-                          <MdAdd
-                            className="text-white   rounded-full w-[30%] h-[30%]  ml-5 bg-green-500 "
-                            onClick={() => openModal(dry.cherry_lot_id, dry)}
-                          />
-
-                          <AssignNewParchmentModel
-                            isOpen={isModalOpen}
-                            onClose={closeModal} // Pass the closeModal function as onClose
-                            confirmAssign={handleConfirmAssign}
-                            cherryLotId={cherryLotIdToAssign}
-                          />
+                         {report.received === 1 ? <SlPrinter  className="w-[100%] text-xl text-blue-600"/>:
+                         <FaPenClip
+                          className="w-[100%]  text-xl text-green-400" 
+                          onClick={()=>{handleReportClick(report)}}/>}
                         </td>
                       </tr>
                     ))}
-                  </tbody> */}
+                  </tbody>
               
               </table>
             </div>
