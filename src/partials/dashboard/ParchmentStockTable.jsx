@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import AssignNewParchmentModel from "../../components/AssignNewParchmentModel";
 import { useDispatch, useSelector } from "react-redux";
 
-const ParchmentStockTable = ({
+const ParchmentStockTable = ({ cherryWeight, parchWeightA,parchWeightB,parchWeightC,parchWeight, transactions,cherryRatio,formatDate
 }) => {
 
   return (
@@ -112,60 +112,53 @@ const ParchmentStockTable = ({
                   </tr>
                 </thead>
 
-                  {/* <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                    {filteredTransactions?.map((dry, index) => (
+                  <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                    {transactions?.map((transaction, index) => (
                       <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <td className="w-4 p-4">
-                          {(currentPage - 1) * itemsPerPage + index + 1}
-                        </td>
+                       
                         <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                          {dry.cherry_lot_id}
+                          {transaction.cherry_lot_id}
                         </td>
 
                         <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          {dry.certified === 1
-                            ? totalKilograms(dry.cherry_lot_id).toLocaleString()
-                            : ""}
+                        {cherryWeight[transaction.cherry_lot_id]?.toLocaleString()}
                         </td>
                         <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          {dry.certified === 1 ? dry.unitprice : ""}
+                          {transaction.parchID_A}
+                        </td>
+                        <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          {parchWeightA[transaction.cherry_lot_id].toLocaleString()}
+                        </td>
+                        <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          {transaction.parchID_B}
+                        </td>
+                        <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          {parchWeightB[transaction.cherry_lot_id].toLocaleString()}
+                        </td>
+                        <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          {transaction.parchID_C}
+                        </td>
+                        <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          {parchWeightC[transaction.cherry_lot_id].toLocaleString()}
                         </td>
                         <td className="p-4 space-x-2 whitespace-nowrap">
-                          {dry.certified === 1
-                            ? ""
-                            : totalKilograms(
-                                dry.cherry_lot_id
-                              ).toLocaleString()}
+                         {parchWeight[transaction.cherry_lot_id].toLocaleString()}
                         </td>
                         <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                          {dry.certified === 1 ? "" : dry.unitprice}
+                          {cherryRatio[transaction.cherry_lot_id]}
                         </td>
                         <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          {getGradeA(dry.cherry_lot_id)}
+                          {transaction.status}
                         </td>
                         <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          {getGradeB(dry.cherry_lot_id)}
+                          {formatDate(transaction.created_at)}
                         </td>
-                        <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          {getGradeC(dry.cherry_lot_id)}
-                        </td>
+                        
 
-                        <td>
-                          <MdAdd
-                            className="text-white   rounded-full w-[30%] h-[30%]  ml-5 bg-green-500 "
-                            onClick={() => openModal(dry.cherry_lot_id, dry)}
-                          />
-
-                          <AssignNewParchmentModel
-                            isOpen={isModalOpen}
-                            onClose={closeModal} // Pass the closeModal function as onClose
-                            confirmAssign={handleConfirmAssign}
-                            cherryLotId={cherryLotIdToAssign}
-                          />
-                        </td>
+                       
                       </tr>
                     ))}
-                  </tbody> */}
+                  </tbody>
               
               </table>
             </div>

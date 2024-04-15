@@ -215,7 +215,7 @@ export default function EditTransactionModel({
             className="bg-green-400 w-48 h-10  flex items-center justify-center rounded-lg"
             onClick={handleEditSubmit}
           >
-            Edit User Account
+            Edit Transaction
           </button>
         </div>
 

@@ -29,7 +29,8 @@ import allDryingsSlice from "./slices/dryings/allDryingsSlice";
 import assignNewParchmetnSlice from "./slices/parchment/assignNewParchmetnSlice";
 import setCertificationSlice from "./slices/parchment/setCertificationSlice";
 import assignParchmentGradeSlice from "./slices/parchment/assignParchmentGradeSlice";
-import fetchAllAssignedParchmentsSlice from './slices/parchment/allAssignedParchmentSlice'
+import fetchAllAssignedParchmentsSlice from './slices/parchment/allAssignedParchmentSlice';
+import adjustParchmentSlice from "./slices/parchment/adjustParchmentSlice";
 const store = configureStore({
   reducer: {
     login,
@@ -63,6 +64,7 @@ const store = configureStore({
     selectedCertification:setCertificationSlice,
     newParchmentGrade:assignParchmentGradeSlice,
     allAssignedParchments:fetchAllAssignedParchmentsSlice,
+    adjustParchment:adjustParchmentSlice,
 
   },
   middleware: (getDefaultMiddleware) =>
