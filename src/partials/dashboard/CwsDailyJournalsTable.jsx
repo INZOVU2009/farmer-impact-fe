@@ -17,8 +17,8 @@ import BucketingDryingModel from "../../components/BucketingDryingModel";
 import { fetchAllBuckets } from "../../redux/actions/transactions/allBuckets.action";
 import { fetchAllDryWeighting } from "../../redux/actions/transactions/dryWeighting.action";
 import FarmerPriceCard from "./FarmerPriceCard";
-
-
+import UpdateBucketModel from "../../components/UpdateBucketModel";
+import UpdateBucketWeightModel from "../../components/UpdateBucketWeightModel";
 const CwsDailyJournalsTable = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,14 +36,18 @@ const CwsDailyJournalsTable = () => {
   const token = localStorage.getItem("token");
   const [itemsPerPage, setItemsPerPage] = useState(20);
   const [showTransactionModel, setShowTransactionModel] = useState(false);
+  const [showUpdateBucketModel, setShowUpdateBucketModel] = useState(false);
+  const [showUpdateBucketWeightModel, setShowUpdateBucketWeightModel] = useState(false);
   const [showDryingModel, setShowDryingModel] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedBucket, setSelectedBucket] = useState(null);
+  const [selectedBucketWeight, setSelectedBucketWeight] = useState(null);
   const [allBuckets, setAllBuckets] = useState([]);
   const [selectedJournal, setSelectedJournal] = useState(null);
   const { weight } = useSelector((state) => state.dryWeighting);
   const bucketWeightingState = useSelector((state) => state.bucketWeighting);
   const [allDryWeight, setAllDryWeight] = useState([]);
-  console.log("selee", selectedJournal);
+ const {updatedBucket} = useSelector((state)=> state.updateTransactionBucket)
 
   useEffect(() => {
     dispatch(fetchAllTransactions(token));
@@ -107,6 +111,13 @@ const CwsDailyJournalsTable = () => {
       console.log("hihi", currentBucketWeighting);
     }
   }, [bucketWeightingState.weight]);
+
+  // useEffect(() => {
+  //   if (updatedBucket) {
+  //     dispatch(fetchAllTransactions(token));
+  //   }
+  // }, [updatedBucket]);
+
 
   if (loading) {
     return <p className=" text-center">..Loading..</p>;
@@ -335,6 +346,24 @@ const CwsDailyJournalsTable = () => {
     setSelectedUser(journal);
     setShowTransactionModel(true);
   };
+  const handleupdateAction = (journal) => {
+    const wantedBucket = allBuckets.filter((bucket)=> bucket.day_lot_number === journal?.cherry_lot_id)
+    
+    if(wantedBucket)
+    setSelectedBucket(wantedBucket);
+    setShowUpdateBucketModel(true);
+  };
+
+
+  const handleupdateBucketWeightAction = (journal) => {
+    console.log("I wanted bucket weight,", journal)
+    const wantedBucketWeight = allDryWeight.filter((bucketWeight)=> bucketWeight.day_lot_number === journal?.cherry_lot_id)
+    
+    if(wantedBucketWeight)
+    setSelectedBucketWeight(wantedBucketWeight);
+    setShowUpdateBucketWeightModel(true);
+    console.log("wanted bucket", wantedBucketWeight)
+  };
 
 
 
@@ -342,6 +371,16 @@ const CwsDailyJournalsTable = () => {
     setSelectedUser(null);
     setShowTransactionModel(true);
   };
+  const handleUpdateBucket = () => {
+    setSelectedBucket(null);
+    setShowUpdateBucketModel(true);
+  };
+
+  const handleUpdateBucketWeight = () => {
+    setSelectedBucketWeight(null);
+    setShowUpdateBucketWeightModel(true);
+  };
+
 
   const handleJournalClickAction = (journal) => {
     if (buckets) {
@@ -636,9 +675,13 @@ const CwsDailyJournalsTable = () => {
                         {journal.certified === 1 ? "" : journal.unitprice}
                       </td>
                       <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
+                       
                         {bucketByCherryLot(journal.cherry_lot_id).length !==
                         0 ? (
-                          bucketByCherryLot(journal.cherry_lot_id)[0]?.bucketA
+                          <input
+                           type="text" className="w-[100%]" value={bucketByCherryLot(journal.cherry_lot_id)[0]?.bucketA} 
+                           onClick={ () => handleupdateAction(journal)}
+                           />
                         ) : (
                           <MdAdd
                             className="text-white rounded-full bg-green-500 w-[50%] h-[50%]"
@@ -653,10 +696,22 @@ const CwsDailyJournalsTable = () => {
                           onSubmit={handleAddBucket}
                         />
                       )}
+                       {showUpdateBucketModel && selectedBucket &&(
+                         <UpdateBucketModel
+                         bucket={selectedBucket}
+                         onClose={() => setShowUpdateBucketModel(false)}
+                         onSubmit={handleUpdateBucket}
+                       />
+                      )}
                       <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
+                        
+                       
                         {bucketByCherryLot(journal.cherry_lot_id).length !==
                         0 ? (
-                          bucketByCherryLot(journal.cherry_lot_id)[0]?.bucketB
+                          <input type="text" 
+                          className="w-[100%]"
+                          onClick={ () => handleupdateAction(journal)}
+                          value={bucketByCherryLot(journal.cherry_lot_id)[0]?.bucketB} />
                         ) : (
                           <MdAdd
                             className="text-white rounded-full bg-green-500 w-[50%] h-[50%]"
@@ -671,10 +726,23 @@ const CwsDailyJournalsTable = () => {
                           onSubmit={handleAddBucket}
                         />
                       )}
+                       {showUpdateBucketModel && selectedBucket &&(
+                         <UpdateBucketModel
+                         bucket={selectedBucket}
+                         onClose={() => setShowUpdateBucketModel(false)}
+                         onSubmit={handleUpdateBucket}
+                       />
+                      )}
                       <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
+                        
                         {bucketByCherryLot(journal.cherry_lot_id).length !==
                         0 ? (
-                          bucketByCherryLot(journal.cherry_lot_id)[0]?.bucketC
+                          <input
+                          type="text"
+                          onClick={ () => handleupdateAction(journal)}
+                          value={bucketByCherryLot(journal.cherry_lot_id)[0]?.bucketC}
+                          className="w-[100%]"
+                           />
                         ) : (
                           <MdAdd
                             className="text-white rounded-full bg-green-500 w-[50%] h-[50%]"
@@ -688,14 +756,27 @@ const CwsDailyJournalsTable = () => {
                           onClose={() => setShowTransactionModel(false)}
                           onSubmit={handleAddBucket}
                         />
+                      )}
+                      {showUpdateBucketModel && selectedBucket &&(
+                         <UpdateBucketModel
+                         bucket={selectedBucket}
+                         onClose={() => setShowUpdateBucketModel(false)}
+                         onSubmit={handleUpdateBucket}
+                       />
                       )}
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                       
                         {dryWeightByCherryLot(journal.cherry_lot_id).length !==
                         0 ? (
-                          Math.round(
-                            dryWeightByCherryLot(journal.cherry_lot_id)[0]
-                              .FinalGradeA
-                          )
+                          <input 
+                        type="text"
+                        className="w-[125%]"
+                        onClick={ () => handleupdateBucketWeightAction(journal)}
+                        value={ Math.round(
+                          dryWeightByCherryLot(journal.cherry_lot_id)[0]
+                            .FinalGradeA
+                        )}
+                        />
                         ) : (
                           <MdAdd
                             className="text-white rounded-full bg-green-500 w-[50%] h-[50%]"
@@ -709,16 +790,26 @@ const CwsDailyJournalsTable = () => {
                           onClose={() => setShowDryingModel(false)}
                           onSubmit={handleAddBucket}
                         />
+                      )}
+                        {showUpdateBucketWeightModel && selectedBucketWeight &&(
+                         <UpdateBucketWeightModel
+                         bucket={selectedBucketWeight}
+                         onClose={() => setShowUpdateBucketWeightModel(false)}
+                         onSubmit={handleUpdateBucketWeight}
+                       />
                       )}
 
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {dryWeightByCherryLot(journal.cherry_lot_id).length !==
-                        0 ? (
-                          Math.round(
-                            dryWeightByCherryLot(journal.cherry_lot_id)[0]
-                              .FinalGradeB
-                          )
-                        ) : (
+                        0 ?  <input 
+                        type="text"
+                        className="w-[125%]"
+                        onClick={ () => handleupdateBucketWeightAction(journal)}
+                        value={ Math.round(
+                          dryWeightByCherryLot(journal.cherry_lot_id)[0]
+                            .FinalGradeB
+                        )}
+                        />: (
                           <MdAdd
                             className="text-white rounded-full bg-green-500 w-[50%] h-[50%]"
                             onClick={() => handleJournalClickAction(journal)}
@@ -732,15 +823,25 @@ const CwsDailyJournalsTable = () => {
                           onSubmit={handleAddBucket}
                         />
                       )}
+                       {showUpdateBucketWeightModel && selectedBucketWeight &&(
+                         <UpdateBucketWeightModel
+                         bucket={selectedBucketWeight}
+                         onClose={() => setShowUpdateBucketWeightModel(false)}
+                         onSubmit={handleUpdateBucketWeight}
+                       />
+                      )}
 
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {dryWeightByCherryLot(journal.cherry_lot_id).length !==
-                        0 ? (
-                          Math.round(
-                            dryWeightByCherryLot(journal.cherry_lot_id)[0]
-                              .FinalGradeC
-                          )
-                        ) : (
+                        0 ?  <input 
+                        type="text"
+                        className="w-[125%]"
+                        onClick={ () => handleupdateBucketWeightAction(journal)}
+                        value={ Math.round(
+                          dryWeightByCherryLot(journal.cherry_lot_id)[0]
+                            .FinalGradeC
+                        )}
+                        />: (
                           <MdAdd
                             className="text-white rounded-full bg-green-500 w-[50%] h-[50%]"
                             onClick={() => handleJournalClickAction(journal)}
@@ -753,6 +854,13 @@ const CwsDailyJournalsTable = () => {
                           onClose={() => setShowDryingModel(false)}
                           onSubmit={handleAddBucket}
                         />
+                      )}
+                       {showUpdateBucketWeightModel && selectedBucketWeight &&(
+                         <UpdateBucketWeightModel
+                         bucket={selectedBucketWeight}
+                         onClose={() => setShowUpdateBucketWeightModel(false)}
+                         onSubmit={handleUpdateBucketWeight}
+                       />
                       )}
 
                       <td className="p-4 space-x-2 whitespace-nowrap">

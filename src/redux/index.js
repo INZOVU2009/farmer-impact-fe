@@ -31,6 +31,8 @@ import setCertificationSlice from "./slices/parchment/setCertificationSlice";
 import assignParchmentGradeSlice from "./slices/parchment/assignParchmentGradeSlice";
 import fetchAllAssignedParchmentsSlice from './slices/parchment/allAssignedParchmentSlice';
 import adjustParchmentSlice from "./slices/parchment/adjustParchmentSlice";
+import updateTransactionBucketSlice from "./slices/transactions/updateTransactionBucketSlice";
+import updateTransactionBucketWeightSlice from "./slices/transactions/updateTransactionBucketWeightSlice";
 const store = configureStore({
   reducer: {
     login,
@@ -65,6 +67,8 @@ const store = configureStore({
     newParchmentGrade:assignParchmentGradeSlice,
     allAssignedParchments:fetchAllAssignedParchmentsSlice,
     adjustParchment:adjustParchmentSlice,
+    updateTransactionBucket:updateTransactionBucketSlice,
+    updateTransactionBucketWeight:updateTransactionBucketWeightSlice,
 
   },
   middleware: (getDefaultMiddleware) =>

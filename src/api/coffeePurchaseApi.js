@@ -235,3 +235,42 @@ export const bucketWeighting = (data) => {
       });
   });
 };
+
+//update transaction bucket
+
+export const updateTransactionBucket = (data) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(
+        `${url}/coffeePurchase/updateBucket`,
+        data,
+      )
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response?.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};
+
+//update transaction bucket weight 
+export const updateTransactionBucketWeight = (data) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(
+        `${url}/coffeePurchase/updateWeight`,
+        data,
+      )
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response?.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};
+
+
