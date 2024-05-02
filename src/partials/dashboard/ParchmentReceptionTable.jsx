@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 
           
-const ParchmentReceptionTable = ({  reports, user,station,stationName, handleReportClick
+const ParchmentReceptionTable = ({  reports, user,station,stationName, handleReportClick, handlePrintClick
 }) => {
 
 
@@ -150,7 +150,11 @@ const ParchmentReceptionTable = ({  reports, user,station,stationName, handleRep
                         </td>
 
                         <td>
-                         {report.received === 1 ? <SlPrinter  className="w-[100%] text-xl text-blue-600"/>:
+                         {report.received === 1 ?
+                          <SlPrinter  
+                          className="w-[100%] text-xl text-blue-600"
+                          onClick={()=>{handlePrintClick(report)}}
+                          />:
                          <FaPenClip
                           className="w-[100%]  text-xl text-green-400" 
                           onClick={()=>{handleReportClick(report)}}/>}

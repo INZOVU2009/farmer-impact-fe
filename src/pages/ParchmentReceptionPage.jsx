@@ -99,6 +99,13 @@ console.log("user", getKpUser(573))
     navigate(`/user_inventory_management/edit_parchment_reception_details/${report.id}`)
     // console.log("Parchments to deliver", reportToEdit);
   };
+
+  const handlePrintClick = (report) => {
+    // setReportToEdit(report);
+    console.log("report",report )
+    navigate(`/user_inventory_management/print_parchment_reception_details/${report.id}`)
+    // console.log("Parchments to deliver", reportToEdit);
+  };
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -225,6 +232,7 @@ console.log("user", getKpUser(573))
             station={getKfStation}
             stationName={getStationName}
             handleReportClick={handleClick}
+            handlePrintClick={handlePrintClick}
 
 
             />

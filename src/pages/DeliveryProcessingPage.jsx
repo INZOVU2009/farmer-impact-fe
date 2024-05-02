@@ -4,16 +4,8 @@ import Header from "../partials/Header";
 import WelcomeBanner from "../partials/dashboard/WelcomeBanner";
 import DeliveryProcessingTable from "../partials/dashboard/DeliveryProcessingTable";
 
-
 function DeliveryProcessingPage() {
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-
-
-  
-
-
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -37,35 +29,28 @@ function DeliveryProcessingPage() {
 
             {/* <div className="grid grid-cols-12 gap-6"> */}
             <div className=" font-extrabold text-2xl">
-          <h1>Deliveries processing</h1>
-              
+              <h1>Deliveries processing</h1>
             </div>
-        
 
-      <div>
-        <button
-          className="bg-green-500 text-white p-2 rounded-lg mb-4 mt-3"
-          onClick={() => {
-            navigate("/user_inventory_management/new_parchment_assignement");
-          }}
-        >
-          {" "}
-          Add Delivery ID
-        </button>
-      </div>
-       
-            
-         
-
-          
+            <div>
+              <button
+                className="bg-green-500 text-white p-2 rounded-lg mb-4 mt-3"
+                onClick={() => {
+                  navigate(
+                    "/user_inventory_management/new_parchment_assignement"
+                  );
+                }}
+              >
+                {" "}
+                Add Delivery ID
+              </button>
+            </div>
 
             <div className="flex flex-row left-4 items-center justify-center  gap-3"></div>
 
-            <DeliveryProcessingTable
-
-            />
+            <DeliveryProcessingTable />
           </div>
-          
+
           {/* </div> */}
         </main>
       </div>

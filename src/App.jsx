@@ -31,6 +31,7 @@ import ParchmentReceptionPage from "./pages/ParchmentReceptionPage";
 import DigitalLoadingFormPage from "./pages/DigitalLoadingFormPage";
 import ReceivingDeliveryFormPage from "./pages/ReceivingDeliveryFormPage";
 import ParchmentTransportDetailsPage from "./pages/ParchmentTransportDetailsPage";
+import ParchmentReceptionDetailsPage from "./pages/ParchmentReceptionDetailsPage";
 
 function App() {
   const location = useLocation();
@@ -149,7 +150,13 @@ function App() {
           path="user_inventory_management/parchment_transport_details/:reportId"
           element={<ParchmentTransportDetailsPage />}
         />
+         <Route
+         exact
+         path="user_inventory_management/print_parchment_reception_details/:reportId"
+         element={<ParchmentReceptionDetailsPage/>}
          
+         />
+      
       </Routes>
     </>
   );
