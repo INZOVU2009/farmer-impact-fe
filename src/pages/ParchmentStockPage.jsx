@@ -5,6 +5,7 @@ import WelcomeBanner from "../partials/dashboard/WelcomeBanner";
 import ParchmentStockTable from "../partials/dashboard/ParchmentStockTable";
 import { fetchAllAssignedParchments } from "../redux/actions/parchnment/allAssignedParchment.action";
 import { fetchAllTransactions } from "../redux/actions/transactions/allTransactions.action";
+// import { fetchAllTransactions } from "../redux/actions/transactions/allTransactions.action";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllStation } from "../redux/actions/station/allStations.action";
 import { handleToken } from "../redux/actions/auth/fetchToken.action";

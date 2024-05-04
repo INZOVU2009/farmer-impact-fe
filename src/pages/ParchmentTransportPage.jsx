@@ -4,18 +4,62 @@ import Header from "../partials/Header";
 import WelcomeBanner from "../partials/dashboard/WelcomeBanner";
 import ParchmentTransportTable from "../partials/dashboard/ParchmentTransportTable";
 import { useNavigate } from "react-router-dom";
-
+import { fetchAllAssignedParchments } from "../redux/actions/parchnment/allAssignedParchment.action";
+import { fetchAllStation } from "../redux/actions/station/allStations.action";
+import { handleToken } from "../redux/actions/auth/fetchToken.action";
+import { fetchAllTransactions } from "../redux/actions/transactions/allTransactions.action";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllDeliveryReports } from "../redux/actions/parchnment/getAllDeliveryReports.action";
 
 function ParchmentTransportPage() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate()
+  const [allDeliveryReports, setAllDeliveryReports] = useState();
+  const [allTransactions, setAllTransactions] = useState([]);
+  const { decodedToken } = useSelector((state) => state.fetchToken);
+  const [filteredTransactions, setFilteredTransactions] = useState([]);
+  const token = localStorage.getItem("token");
+  const { transactions, loading } = useSelector(
+    (state) => state.fetchAllTransactions
+  );
+  const dispatch = useDispatch();
+  const { deliveryReports } = useSelector((state) => state.allDeliveryReports);
 
 
+
+  useEffect(() => {
+    dispatch(fetchAllDeliveryReports());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (deliveryReports) {
+      // Create a copy of the deliveryReports array before sorting
+      const reportsCopy = [...deliveryReports.data];
+      // Sort the copied array in descending order based on entry date
+      const sortedReports = reportsCopy.sort((a, b) =>
+        a.created_at > b.created_at ? -1 : 1
+      );
+      setAllDeliveryReports(sortedReports);
+    }
+  }, [deliveryReports]);
+
+
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      // hour: "numeric",
+    };
+
+    return new Intl.DateTimeFormat("en-US", options).format(
+      new Date(dateString)
+    );
+  };
+ 
 
   
-
-
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -149,6 +193,8 @@ function ParchmentTransportPage() {
             <div className="flex flex-row left-4 items-center justify-center  gap-3"></div>
 
             <ParchmentTransportTable
+            reports = {allDeliveryReports}
+           
 
             />
           </div>
