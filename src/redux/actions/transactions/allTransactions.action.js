@@ -10,7 +10,7 @@ export const fetchAllTransactions = (token) => async (dispatch) => {
       const res = await allTransactions(token);
       
       dispatch(transactionsSuccess(res));
-      toast.success(res.message);
+      // toast.success(res.message);
       return res;
     } catch (error) {
       if (error) {

@@ -1,18 +1,9 @@
 import React, { useState, useEffect } from "react";
-import UpdateItemDrawer from "./UpdateItemDrawer";
-import DeleteItemDrawer from "./DeleteItemDrawer";
-import AddItemDrawer from "./AddItemDrawer";
-import { MdAdd } from "react-icons/md";
 import "react-toastify/dist/ReactToastify.css";
-import AssignNewParchmentModel from "../../components/AssignNewParchmentModel";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { BsSend } from "react-icons/bs";
-import { CiViewList } from "react-icons/ci";
 
-const DeliveryProcessingTable = ({ parchments, handleStart, hasProcessingStarted, contributionStatus,startDate, status
-}) => {
- const navigate = useNavigate()
+
+const ProcessedContributionTable = ({ processedContributions, getStationName, getUserName}) => {
+
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="flex flex-row left-4 items-center justify-center py-3 gap-3"></div>
@@ -43,78 +34,160 @@ const DeliveryProcessingTable = ({ parchments, handleStart, hasProcessingStarted
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     CreatedTime	
+                     ID
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     DeliveryID
+                     CERTIFICATION
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     Action
+                     FARMER NAME 
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     StartedProcessing
+                   FARMER ID
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      EndingProcessing
+                      FLOATERS
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                      PARCHMENT WEIGHT
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                     RATIO
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                    STATION
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                    AMOUNT PAID
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                    UNIT PRICE
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                     CONTRIBUTION SENT AT
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                     CONTRIBUTION SENT BY
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                     TRANSACTION WEIGHT
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                     LOADED WEIGHT
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                     PROCESSING STARTED AT 
                     </th>
                   </tr>
                 </thead>
 
                   <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                    {parchments?.map((parchment,index)=>(
+                    {processedContributions?.map((contribution,index)=>(
   <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                       
   <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
- {parchment.created_at}
+ {contribution.id}
   </td>
 
  
   <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-  {parchment.deliveryid}
+  {contribution.certification}
   </td>
 
   
-
-
-<td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                      {status(parchment.deliveryid?.split("-").pop())=== 0 ? (
-                                <>
-                                <div className="flex gap-4">
-                                  <button className=" p-2 rounded-lg  bg-green-500 text-2xl"><BsSend /></button>
-                                  <button
-                                   className="p-2 rounded-lg text-2xl bg-green-500 "
-                                   onClick={()=>{navigate(`/user_inventory_management/delivery_processing/${parchment.id}`)}}>
-                                    <CiViewList /></button>
-                                </div>
-                          
-                          
-                              </>
-                              ) : (
-                                <button
-      className="bg-orange-950 p-2 rounded-lg text-white"
-      onClick={() => handleStart(parchment)}
-    >
-      Start processing
-    </button>
-                              )}
-                                                    </td>
   <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-  {startDate(parchment.deliveryid?.split("-").pop())?.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}
+{contribution.farmer_name}
+</td>
+
+  <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+{contribution.farmer_id}
   </td>
   <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-  0000-00-00 00:00:00	
+  {contribution.floaters}
+
+
+  </td><td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+  {contribution.parch_weight}
+
+
+  </td><td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+  {contribution.parch_ratio}
+
+
+  </td><td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+  {getStationName(contribution.station)}
+
+
+  </td><td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+  {contribution.amount_paid.toLocaleString()}
+
+
+  </td><td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+  {contribution.unit_price}
+
+
+  </td><td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+  {contribution.contribution_sent_at}
+
+
+  </td><td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+  {getUserName(contribution.contribution_created_by)}
+
+
+  </td>
+  <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+  {contribution.transaction_weight}
+
+
+  </td><td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+  {contribution.weight_loaded}
+
+
+  </td><td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+  {contribution.started_at.toLocaleString()}
+
 
   </td>
 </tr>
@@ -228,16 +301,9 @@ const DeliveryProcessingTable = ({ parchments, handleStart, hasProcessingStarted
         </div>
       </div> */}
 
-      {/* update drawer */}
-      <UpdateItemDrawer />
-
-      {/* Delete Product Drawer */}
-      <DeleteItemDrawer />
-
-      {/* Add Product Drawer */}
-      <AddItemDrawer />
+      
     </div>
   );
 };
 
-export default DeliveryProcessingTable;
+export default ProcessedContributionTable;
