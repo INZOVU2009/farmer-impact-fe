@@ -6,10 +6,13 @@ import { MdAdd } from "react-icons/md";
 import "react-toastify/dist/ReactToastify.css";
 import AssignNewParchmentModel from "../../components/AssignNewParchmentModel";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { BsSend } from "react-icons/bs";
+import { CiViewList } from "react-icons/ci";
 
-const DeliveryProcessingTable = ({
+const DeliveryProcessingTable = ({ parchments, handleStart, hasProcessingStarted, contributionStatus,startDate, status
 }) => {
-
+ const navigate = useNavigate()
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="flex flex-row left-4 items-center justify-center py-3 gap-3"></div>
@@ -52,7 +55,7 @@ const DeliveryProcessingTable = ({
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     Status	
+                     Action
                     </th>
                     <th
                       scope="col"
@@ -70,51 +73,54 @@ const DeliveryProcessingTable = ({
                 </thead>
 
                   <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                    {parchments?.map((parchment,index)=>(
+  <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
+                      
+  <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+ {parchment.created_at}
+  </td>
+
+ 
+  <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+  {parchment.deliveryid}
+  </td>
+
+  
+
+
+<td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+                      {status(parchment.deliveryid?.split("-").pop())=== 0 ? (
+                                <>
+                                <div className="flex gap-4">
+                                  <button className=" p-2 rounded-lg  bg-green-500 text-2xl"><BsSend /></button>
+                                  <button
+                                   className="p-2 rounded-lg text-2xl bg-green-500 "
+                                   onClick={()=>{navigate(`/user_inventory_management/delivery_processing/${parchment.id}`)}}>
+                                    <CiViewList /></button>
+                                </div>
+                          
+                          
+                              </>
+                              ) : (
+                                <button
+      className="bg-orange-950 p-2 rounded-lg text-white"
+      onClick={() => handleStart(parchment)}
+    >
+      Start processing
+    </button>
+                              )}
+                                                    </td>
+  <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+  {startDate(parchment.deliveryid?.split("-").pop())?.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}
+  </td>
+  <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+  0000-00-00 00:00:00	
+
+  </td>
+</tr>
+                    ))}
                     
-                      <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
-                      
-                        <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                        November 28 2023 06:50PM	
-                        </td>
-
-                       
-                        <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                        LF-23-SR055-2071	
-                        </td>
-                      
-                        <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                          <button className="bg-green-500 p-2 rounded-lg text-white">completed</button>
-                        </td>
-                        <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                        November 28 2023 06:51PM	
-                        </td>
-                        <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                        November 28 2023 06:51PM
-
-                        </td>
-                      </tr>
-                      <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
-                      
-                      <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                      November 28 2023 06:50PM	
-                      </td>
-
-                     
-                      <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                      LF-23-SR055-2071	
-                      </td>
                     
-                      <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                        <button className="bg-red-500 p-2 rounded-lg text-white">completed</button>
-                      </td>
-                      <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                      November 28 2023 06:51PM	
-                      </td>
-                      <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                      November 28 2023 06:51PM
-
-                      </td>
-                    </tr>
                       
                    
                   </tbody>

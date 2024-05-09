@@ -37,8 +37,10 @@ import fetchSingleReportSlice from './slices/parchment/getSingleReportSlice'
 import fetchReportByIdSlice from './slices/parchment/reportByIdSlice'
 import fetchReportLotByIdSlice from './slices/parchment/reportLotByIdSlice'
 import updateDeliveryReportSlice from "./slices/parchment/updateDeliveryReportSlice";
-
-
+import getLoadedWeightByReportIdSlice from './slices/deliveryProcessing/getLoadedWeightByReportIdSlice'
+import processingContributionSlice from "./slices/deliveryProcessing/processingContributionSlice";
+import getProcessedContributionsSlice from "./slices/deliveryProcessing/getProcessedContributionsSlice";
+import fetchProcessedContributionByIdSlice from "./slices/deliveryProcessing/fetchProcessedContributionByIdSlice";
 const store = configureStore({
   reducer: {
     login,
@@ -79,7 +81,10 @@ const store = configureStore({
     fetchReportById:fetchReportByIdSlice,
     fetchReportLotById:fetchReportLotByIdSlice,
     updateDeliveryReport:updateDeliveryReportSlice,
-
+    fetchloadedWeightById:getLoadedWeightByReportIdSlice,
+    processContribution:processingContributionSlice,
+    processedContributions:getProcessedContributionsSlice,
+    processedContributionById:fetchProcessedContributionByIdSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
