@@ -41,6 +41,7 @@ import getLoadedWeightByReportIdSlice from './slices/deliveryProcessing/getLoade
 import processingContributionSlice from "./slices/deliveryProcessing/processingContributionSlice";
 import getProcessedContributionsSlice from "./slices/deliveryProcessing/getProcessedContributionsSlice";
 import fetchProcessedContributionByIdSlice from "./slices/deliveryProcessing/fetchProcessedContributionByIdSlice";
+import untraceableCoffeeSlice from "./slices/untraceableCoffee/untraceableCoffeeSlice";
 const store = configureStore({
   reducer: {
     login,
@@ -85,6 +86,7 @@ const store = configureStore({
     processContribution:processingContributionSlice,
     processedContributions:getProcessedContributionsSlice,
     processedContributionById:fetchProcessedContributionByIdSlice,
+    addUntraceableCoffee: untraceableCoffeeSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
