@@ -29,15 +29,15 @@ import allDryingsSlice from "./slices/dryings/allDryingsSlice";
 import assignNewParchmetnSlice from "./slices/parchment/assignNewParchmetnSlice";
 import setCertificationSlice from "./slices/parchment/setCertificationSlice";
 import assignParchmentGradeSlice from "./slices/parchment/assignParchmentGradeSlice";
-import fetchAllAssignedParchmentsSlice from './slices/parchment/allAssignedParchmentSlice';
+import fetchAllAssignedParchmentsSlice from "./slices/parchment/allAssignedParchmentSlice";
 import adjustParchmentSlice from "./slices/parchment/adjustParchmentSlice";
-import submitDeliveryReportSlice from './slices/parchment/deliveryReportSlice'
+import submitDeliveryReportSlice from "./slices/parchment/deliveryReportSlice";
 import getAllDeliveryReportsSlice from "./slices/parchment/getAllDeliveryReportsSlice";
-import fetchSingleReportSlice from './slices/parchment/getSingleReportSlice'
-import fetchReportByIdSlice from './slices/parchment/reportByIdSlice'
-import fetchReportLotByIdSlice from './slices/parchment/reportLotByIdSlice'
+import fetchSingleReportSlice from "./slices/parchment/getSingleReportSlice";
+import fetchReportByIdSlice from "./slices/parchment/reportByIdSlice";
+import fetchReportLotByIdSlice from "./slices/parchment/reportLotByIdSlice";
 import updateDeliveryReportSlice from "./slices/parchment/updateDeliveryReportSlice";
-
+import untraceableCoffeeSlice from "./slices/untraceableCoffee/untraceableCoffeeSlice";
 
 const store = configureStore({
   reducer: {
@@ -67,19 +67,19 @@ const store = configureStore({
     dryWeighting: dryWeightingSlice,
     fetchAllGeneralHarvest: allGeneralHarvestSlice,
     fetchAllSeasons: allSeasonSlice,
-    fetchAllDrying:allDryingsSlice,
-    newParchment:assignNewParchmetnSlice,
-    selectedCertification:setCertificationSlice,
-    newParchmentGrade:assignParchmentGradeSlice,
-    allAssignedParchments:fetchAllAssignedParchmentsSlice,
-    adjustParchment:adjustParchmentSlice,
-    deliveryReport:submitDeliveryReportSlice,
-    allDeliveryReports:getAllDeliveryReportsSlice,
-    fetchSingleReport:fetchSingleReportSlice,
-    fetchReportById:fetchReportByIdSlice,
-    fetchReportLotById:fetchReportLotByIdSlice,
-    updateDeliveryReport:updateDeliveryReportSlice,
-
+    fetchAllDrying: allDryingsSlice,
+    newParchment: assignNewParchmetnSlice,
+    selectedCertification: setCertificationSlice,
+    newParchmentGrade: assignParchmentGradeSlice,
+    allAssignedParchments: fetchAllAssignedParchmentsSlice,
+    adjustParchment: adjustParchmentSlice,
+    deliveryReport: submitDeliveryReportSlice,
+    allDeliveryReports: getAllDeliveryReportsSlice,
+    fetchSingleReport: fetchSingleReportSlice,
+    fetchReportById: fetchReportByIdSlice,
+    fetchReportLotById: fetchReportLotByIdSlice,
+    updateDeliveryReport: updateDeliveryReportSlice,
+    addUntraceableCoffee: untraceableCoffeeSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
