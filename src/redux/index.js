@@ -42,6 +42,7 @@ import processingContributionSlice from "./slices/deliveryProcessing/processingC
 import getProcessedContributionsSlice from "./slices/deliveryProcessing/getProcessedContributionsSlice";
 import fetchProcessedContributionByIdSlice from "./slices/deliveryProcessing/fetchProcessedContributionByIdSlice";
 import untraceableCoffeeSlice from "./slices/untraceableCoffee/untraceableCoffeeSlice";
+import saveCherryToSubmitSlice from "./slices/submitCherry/saveCherryToSubmitSlice";
 const store = configureStore({
   reducer: {
     login,
@@ -87,6 +88,7 @@ const store = configureStore({
     processedContributions:getProcessedContributionsSlice,
     processedContributionById:fetchProcessedContributionByIdSlice,
     addUntraceableCoffee: untraceableCoffeeSlice,
+    saveCherryToSubmit:saveCherryToSubmitSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
