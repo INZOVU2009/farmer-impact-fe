@@ -114,9 +114,14 @@ useEffect(() => {
             ? 'Coffee Inventory Parchment Stock'
             : currentPage === `user_inventory_management/parchment_stock`
             ? 'Coffee Inventory Parchment Stock'
-
-
-
+            : currentPage === `user_inspection/full_inspections`
+            ? 'Full Inspections Recent Reports'
+            : currentPage === `user_inspection/simple_inspections`
+            ? 'Simple Inspections Recent Reports'
+            : currentPage === `user_inspection/user_wet_mill_audit`
+            ? 'Wet Mill Audit recent audits'
+            
+            
             : currentPage === 'user-administration'
             ? 'Manage application Users'
             : 'Welcome to Farmer Impact System'}

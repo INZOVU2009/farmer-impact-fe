@@ -33,6 +33,10 @@ import ReceivingDeliveryFormPage from "./pages/ReceivingDeliveryFormPage";
 import ParchmentTransportDetailsPage from "./pages/ParchmentTransportDetailsPage";
 import ParchmentReceptionDetailsPage from "./pages/ParchmentReceptionDetailsPage";
 import ProcessedContribution from "./pages/ProcessedContribution";
+import UserInspectionsPage from "./pages/UserInspectionsPage";
+import SimpleUserInspectionsPage from "./pages/SimpleUserInspectionsPage";
+import WetMillAuditsPage from "./pages/WetMillAuditsPage";
+import FarmerDetailsPage from "./pages/FarmerDetailsPage";
 
 function App() {
   const location = useLocation();
@@ -160,6 +164,30 @@ function App() {
          exact
          path="user_inventory_management/print_parchment_reception_details/:reportId"
          element={<ParchmentReceptionDetailsPage/>}
+         
+         />  
+         <Route
+         exact
+         path="user_inspection/full_inspections"
+         element={<UserInspectionsPage/>}
+        
+         />
+          <Route
+         exact
+         path="user_inspection/simple_inspections"
+         element={<SimpleUserInspectionsPage/>}
+         
+         />
+          <Route
+         exact
+         path="user_inspection/user_wet_mill_audit"
+         element={<WetMillAuditsPage/>}
+         
+         />
+           <Route
+         exact
+         path="user_registration/farmer_details/overview/:farmerid"
+         element={<FarmerDetailsPage/>}
          
          />
       
