@@ -37,6 +37,7 @@ import UserInspectionsPage from "./pages/UserInspectionsPage";
 import SimpleUserInspectionsPage from "./pages/SimpleUserInspectionsPage";
 import WetMillAuditsPage from "./pages/WetMillAuditsPage";
 import FarmerDetailsPage from "./pages/FarmerDetailsPage";
+import TrainingsPage from "./pages/TrainingsPage";
 
 function App() {
   const location = useLocation();
@@ -188,6 +189,12 @@ function App() {
          exact
          path="user_registration/farmer_details/overview/:farmerid"
          element={<FarmerDetailsPage/>}
+         
+         />
+           <Route
+         exact
+         path="user_trainings/user_translator"
+         element={<TrainingsPage/>}
          
          />
       

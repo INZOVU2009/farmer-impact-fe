@@ -329,8 +329,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             </ul>
             <ul className="mt-3">
               {/* Authentication */}
-              <SidebarLinkGroup>
+              <SidebarLinkGroup
+                             activecondition={
+                              pathname.includes("user_trainings")}
+              >
                 {(handleClick, open) => {
+                  const isTrainingsActive = pathname.includes("user_translator")
                   return (
                     <React.Fragment>
                       <a
@@ -392,7 +396,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
-                              to="/reset-password"
+                              to="/user_trainings/user_translator"
+                              style={
+                                isTrainingsActive
+                                  ? { color: "#4F46E5" }
+                                  : {}
+                              }
                               className="block text-black hover:text-slate-400 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
