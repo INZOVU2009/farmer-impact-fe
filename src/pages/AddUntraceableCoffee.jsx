@@ -3,17 +3,17 @@ import Sidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
 import WelcomeBanner from "../partials/dashboard/WelcomeBanner";
 import { addUntraceableCoffee } from "../redux/actions/untraceableCoffee/addUntraceableCoffee.action";
-import { useDispatch } from "react-redux";
-
-function AddUntraceableCoffee({onSubmit}) {
+import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+function AddUntraceableCoffee({ onSubmit }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
-
+  const { isloading } = useSelector((state) => state.addUntraceableCoffee);
   const [formData, setFormData] = useState({
-    kilograms: 0,
-    unitprice: 0,
-    cash_paid: 0,
+    kilograms: "",
+    unitprice: "",
+    cash_paid: "",
   });
 
   const handleInputChange = (e) => {
@@ -21,7 +21,6 @@ function AddUntraceableCoffee({onSubmit}) {
     setFormData((prevTransaction) => ({
       ...prevTransaction,
       [name]: value,
-      
     }));
   };
 
@@ -30,6 +29,11 @@ function AddUntraceableCoffee({onSubmit}) {
     try {
       dispatch(addUntraceableCoffee(formData, token));
       onSubmit(formData);
+      setFormData({
+        kilograms: "",
+        unitprice: "",
+        cash_paid: "",
+      });
     } catch (error) {
       console.error("Adding untraceable coffee failed", error);
     }
@@ -53,24 +57,26 @@ function AddUntraceableCoffee({onSubmit}) {
               </div>
               <div className="p-4">
                 <form action="" className=" space-y-4">
- 
                   <input
-                    type="text"
+                    type="number"
                     className="w-full rounded-md"
                     name="kilograms"
+                    placeholder="Enter kilograms"
                     value={formData.kilograms}
                     onChange={handleInputChange}
                   />
                   <input
-                    type="text"
+                    type="number"
                     className="w-full rounded-md"
                     name="unitprice"
+                    placeholder="Enter unit price"
                     value={formData.unitprice}
                     onChange={handleInputChange}
                   />
                   <input
-                    type="text"
+                    type="number"
                     className="w-full rounded-md"
+                    placeholder="Enter the amount paid "
                     name="cash_paid"
                     value={formData.cash_paid}
                     onChange={handleInputChange}
@@ -80,7 +86,7 @@ function AddUntraceableCoffee({onSubmit}) {
                       className=" bg-green-500 text-white rounded-md w-48 p-2"
                       onClick={handleAddSubmit}
                     >
-                      Save Coffee
+                      {isloading ? "loading..." : "Save Coffee"}
                     </button>
                   </div>
                 </form>
@@ -89,6 +95,7 @@ function AddUntraceableCoffee({onSubmit}) {
           </div>
         </main>
       </div>
+      <ToastContainer />
     </div>
   );
 }
