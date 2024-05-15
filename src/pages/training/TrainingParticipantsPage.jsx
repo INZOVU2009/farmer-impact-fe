@@ -1,44 +1,51 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "../partials/Sidebar";
-import Header from "../partials/Header";
-import WelcomeBanner from "../partials/dashboard/WelcomeBanner";
-import UserInspectionsTable from "../partials/dashboard/UserInspectionsTable";
-import { fetchAllInspections } from "../redux/actions/inspections/fetchInspections.action";
-import { fetchAllStation } from "../redux/actions/station/allStations.action";
-import { fetchAllFarmers } from "../redux/actions/farmers/fetchAllFarmers.action";
-import { fetchAllGroups } from "../redux/actions/groups/fetchAllGroups.action";
-import { fetchAllHouseHolds } from "../redux/actions/households/fetchAllHousehold.action";
+import Sidebar from "../../partials/Sidebar";
+import Header from "../../partials/Header";
+import WelcomeBanner from "../../partials/dashboard/WelcomeBanner";
+import TrainingParticipantsTable from "../../partials/dashboard/training/TrainingsParticipantTable";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllTrainings } from "../redux/actions/trainings/fetchAllTrainings.action";
-function UserInspectionsPage() {
+import { fetchAllTrainings } from "../../redux/actions/trainings/fetchAllTrainings.action";
+import { fetchAllTrainingsAttendance } from "../../redux/actions/trainingAttendnces/trainingsAttendence";
+import { fetchAllGroups } from "../../redux/actions/groups/fetchAllGroups.action";
+import { fetchAllFarmers } from "../../redux/actions/farmers/fetchAllFarmers.action";
+import { fetchAllStation } from "../../redux/actions/station/allStations.action";
+import { fetchAllHouseHolds } from "../../redux/actions/households/fetchAllHousehold.action";
+
+function TrainingParticipantsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [allInspections, setAllInspections] = useState(null);
   const [allFarmers, setAllFarmers] = useState(null);
   const [allGroups, setAllGroups] = useState(null);
   const [allHouseholds, setAllHouseholds] = useState(null);
   const [allStation, setAllStation] = useState([]);
-  const [allTrainings, setAllTrainings] = useState([])
+  const [allTrainings, setAllTrainings] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(100);
+
   const [searchQuery, setSearchQuery] = useState();
-  const { inspections } = useSelector((state) => state.fetchAllInspections);
+  const [allAttendances, setAllAttendances] = useState([]);
+
   const { farmers } = useSelector((state) => state.fetchAllFarmers);
   const { groups } = useSelector((state) => state.fetchAllGroups);
   const { households } = useSelector((state) => state.fetchAllHouseHolds);
   const { stations } = useSelector((state) => state.fetchAllStations);
   const { trainings } = useSelector((state) => state.fetchAllTrainings);
-  const itemsPerPage = 20;
+  const { attendences } = useSelector((state) => state.fetchAllAttendences);
+
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchAllInspections());
-  }, [dispatch]);
 
   useEffect(() => {
-    if (inspections) {
-      setAllInspections(inspections.data);
+    dispatch(fetchAllTrainingsAttendance(currentPage, itemsPerPage));
+  }, [dispatch, currentPage, itemsPerPage]);
+
+  useEffect(() => {
+    if (attendences) {
+      setAllAttendances(attendences.data.attendance);
     }
-  }, [inspections]);
+  }, [attendences]);
+
+  console.log("hehe", allAttendances);
 
   useEffect(() => {
     dispatch(fetchAllFarmers());
@@ -90,35 +97,33 @@ function UserInspectionsPage() {
     }
   }, [trainings]);
 
-
   const getStationName = (_kf_Station) => {
     const station = allStation?.find(
       (station) => station.__kp_Station === _kf_Station
     );
     return station ? station.Name : null;
   };
-
-  const getFarmerName = (_kf_Station) => {
+  const getFarmerName = (_kf_Farmer) => {
     const farmer = allFarmers?.find(
-      (farmer) => farmer._kf_Station === _kf_Station
+      (farmer) => farmer.__Kp_Farmer === _kf_Farmer
     );
     return farmer ? farmer.Name : null;
   };
 
-  const getFarmerId = (_kf_Station) => {
+  const getFarmerId = (_kf_Farmer) => {
     const farmer = allFarmers?.find(
-      (farmer) => farmer._kf_Station === _kf_Station
+      (farmer) => farmer.__Kp_Farmer === _kf_Farmer
     );
     return farmer ? farmer.farmerid : null;
   };
-  const getFarmerPhone = (_kf_Station) => {
+  const getFarmerPhone = (_kf_Farmer) => {
     const farmer = allFarmers?.find(
-      (farmer) => farmer._kf_Station === _kf_Station
+      (farmer) => farmer.__Kp_Farmer === _kf_Farmer
     );
     return farmer ? farmer.phone : 0;
   };
-  const getGroupID = (_kf_Station) => {
-    const group = allGroups?.find((group) => group._kf_Station === _kf_Station);
+  const getGroupID = (_kf_Group) => {
+    const group = allGroups?.find((group) => group.__Kp_Group === _kf_Group);
     return group ? group.ID_GROUP : null;
   };
   const getHouseholdId = (_kf_Station) => {
@@ -134,29 +139,25 @@ function UserInspectionsPage() {
     return course ? course.Name : null;
   };
 
-  const handleSearch = (e) => {
-    const searchItem = e.target.value;
-    setSearchQuery(searchItem);
-  };
-  console.log("hehe", searchQuery)
-  const getUniqueValues = (arr, key) => {
-    const uniqueValues = [];
-    const uniqueKeys = new Set();
-
-    arr?.forEach((item) => {
-      const value = item[key];
-
-      if (!uniqueKeys.has(value)) {
-        uniqueKeys.add(value);
-        uniqueValues.push(item);
-      }
-    });
-
-    return uniqueValues;
+  const getCourseId = (_kf_Course) => {
+    const course = allTrainings?.find(
+      (course) => course.__Kp_Course === _kf_Course
+    );
+    return course ? course.ID_COURSE : null;
   };
 
-  let filteredStation = getUniqueValues(allStation, "Name");
-  let filteredInspections = getUniqueValues(allInspections, "Score_n");
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const totalPages = allAttendances
+    ? Math.ceil(allAttendances.totalItems / itemsPerPage)
+    : 1;
+
   const handleDownload = () => {
     const table = document.querySelector(".table-fixed");
     const rows = table.querySelectorAll("tr");
@@ -188,6 +189,19 @@ function UserInspectionsPage() {
     link.click();
     document.body.removeChild(link);
   };
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredAttendances = allAttendances?.filter((attendance) => {
+    const farmerName = getFarmerName(attendance._kf_Farmer);
+    const courseName = getCourseName(attendance._kf_Course);
+    return (
+      farmerName?.toLowerCase().includes(searchQuery?.toLowerCase()) ||
+      courseName?.toLowerCase().includes(searchQuery?.toLowerCase()) || allAttendances
+    );
+  });
+
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -203,20 +217,25 @@ function UserInspectionsPage() {
             <div className="sm:flex sm:justify-between sm:items-center mb-8"></div>
 
             <div className="grid grid-cols-12 gap-6">
-              <UserInspectionsTable
-                inspections={allInspections}
+              <TrainingParticipantsTable
+                attendances={filteredAttendances}
+                handleNextPage={handleNextPage}
+                handlePrevPage={handlePrevPage}
+                itemsPerPage={itemsPerPage}
+                currentPage={currentPage}
+                totalItems={attendences?.data?.totalItems}
                 stationName={getStationName}
                 farmerName={getFarmerName}
                 farmerId={getFarmerId}
                 groupId={getGroupID}
-                farmerPhone={getFarmerPhone}
-                householdID={getHouseholdId}
-                filteredstation={filteredStation}
-                filteredInspections={filteredInspections}
-                handleDownload={handleDownload}
                 courseName={getCourseName}
-                // item={searchItem}
-                handleSearch={handleSearch}
+                CourseID={getCourseId}
+                handleDownload={handleDownload}
+                searchQuery={searchQuery}
+                handleSearch={handleSearchChange}
+                filteredTrainings = {allTrainings}
+                filteredGroups={allGroups}
+                filteredStations={allStation}
               />
             </div>
             <ToastContainer />
@@ -226,4 +245,4 @@ function UserInspectionsPage() {
     </div>
   );
 }
-export default UserInspectionsPage;
+export default TrainingParticipantsPage;

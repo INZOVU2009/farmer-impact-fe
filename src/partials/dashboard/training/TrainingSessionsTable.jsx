@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from "react";
-import UpdateItemDrawer from "./UpdateItemDrawer";
-import DeleteItemDrawer from "./DeleteItemDrawer";
-import AddItemDrawer from "./AddItemDrawer";
-import "react-toastify/dist/ReactToastify.css";
-import { MdOutlineDelete } from "react-icons/md";
-import { MdOutlineEdit } from "react-icons/md";
-import { FaQuestion } from "react-icons/fa";
-const TrainingsTable = ({ trainings
 
-}) => {
+import "react-toastify/dist/ReactToastify.css";
+
+const TrainingSessionsTable = ({}) => {
   const formatDate = (dateString) => {
     const options = {
       year: "numeric",
@@ -43,7 +37,58 @@ const TrainingsTable = ({ trainings
                 />
               </div>
             </form>
+            {/* <div className="flex items-center sm:justify-end"> */}
+            <div className="flex space-x-4 mt-1 -ml-32">
+              <div>
+                <p>Station</p>
 
+                <select
+                  name=""
+                  className="rounded-lg w-40"
+                  //   value={selectedStation}
+                  //   onChange={handleStationChange}
+                >
+                  <option value="all">All</option>
+
+                  {/* {filteredstation?.map((station) => (
+                    <option key={station.__kp_Station} value={station.Name}>
+                      {station.Name}
+                    </option>
+                  ))} */}
+                </select>
+              </div>
+
+              <div>
+                <p>Observation mode</p>
+                <select
+                  name=""
+                  //   value={selectedSeason}
+                  //   onChange={handleSeasonChange}
+                  className="rounded-lg w-40"
+                >
+                  <option value="all">All</option>
+                  {/* {filteredInspections?.map((Inspection) => (
+                    <option key={Inspection.id} value={Inspection.Score_n}>
+                      {Inspection.Score_n}
+                    </option>
+                  ))} */}
+                </select>
+              </div>
+              <div>
+                <p>Inspection Date</p>
+                <input type="Date" className="rounded-lg w-40" />
+              </div>
+            </div>
+            {/* </div> */}
+
+            <div className="ml-4">
+              <button
+                className="bg-green-500 text-white p-1.5 rounded-md mt-6"
+                // onClick={handleDownload}
+              >
+                Download Report
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -59,74 +104,81 @@ const TrainingsTable = ({ trainings
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                    No
+                      NO
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     	Time
+                      Course Name
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      Code
+                      Number of participants
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     English
-
+                      Attendance Sheets
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                   Kinyarwanda
+                      Group Name
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     Action
+                      HOUSEHOLD.ID
                     </th>
-                  
-                   
-
-                   
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                      By
+                    </th>
                   </tr>
                 </thead>
 
-                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                  {trainings?.map((training, index) => (
+                {/* <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                  {filteredInspectionsByStation?.map((inspection, index) => (
                     <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                       <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
                         {index + 1}
                       </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                       {formatDate(training.created_at)}
-                      </td>
 
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {training.Name}
+                        {stationName(inspection._kf_Station)}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                   {training.Name_rw}
+                        {groupId(inspection._kf_Station)}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {training.Name_fr}
-                       
+                        <a
+                          href={`/user_registration/farmer_details/overview/${farmerId(
+                            inspection._kf_Station
+                          )}`}
+                          className="text-blue-500 hover:text-gray-500"
+                        >
+                          {farmerName(inspection._kf_Station)}
+                        </a>
                       </td>
-                     
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        
+                        {farmerId(inspection._kf_Station)}
                       </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {householdID(inspection._kf_Station)}
+                      </td>
+                      
                      
                     </tr>
                   ))}
-                </tbody>
+                </tbody> */}
               </table>
             </div>
           </div>
@@ -229,17 +281,8 @@ const TrainingsTable = ({ trainings
           </a>
         </div>
       </div> */}
-
-      {/* update drawer */}
-      <UpdateItemDrawer />
-
-      {/* Delete Product Drawer */}
-      <DeleteItemDrawer />
-
-      {/* Add Product Drawer */}
-      <AddItemDrawer />
     </div>
   );
 };
 
-export default TrainingsTable;
+export default TrainingSessionsTable;

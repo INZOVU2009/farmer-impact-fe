@@ -30,17 +30,21 @@ const SimpleUserInspectionsTable = ({
   };
 
   const [selectedStation, setSelectedStation] = useState("all");
+  const [selectedMode, setSelectedMode] = useState("all");
 
   const handleStationChange = (event) => {
     setSelectedStation(event.target.value);
   };
+  const handleModeChange = (event) => {
+    setSelectedMode(event.target.value);
+  };
 console.log("statio", selectedStation)
   const filteredInspectionsByStation =
-    selectedStation === "all"
+    selectedStation === "all" || selectedMode === "all"
       ? inspections
       : inspections.filter(
           (inspection) =>
-            stationName(inspection._kf_Station) === selectedStation
+            stationName(inspection._kf_Station) === selectedStation || inspection.Score_n === selectedMode
         );
 
   return (
@@ -90,8 +94,8 @@ console.log("statio", selectedStation)
                 <p>Observation mode</p>
                 <select
                   name=""
-                  //   value={selectedSeason}
-                  //   onChange={handleSeasonChange}
+                    value={selectedMode}
+                    onChange={handleModeChange}
                   className="rounded-lg w-40"
                 >
                   <option value="all">All</option>
@@ -224,9 +228,13 @@ console.log("statio", selectedStation)
                         {groupId(inspection._kf_Station)}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {" "}
+                      <a
+                        href={`/user_registration/farmer_details/overview/${farmerId(inspection._kf_Station)}`}
+                        className="text-blue-500 hover:text-gray-500"
+                      >
                         {farmerName(inspection._kf_Station)}
-                      </td>
+                      </a>
+                    </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {farmerId(inspection._kf_Station)}
                       </td>
