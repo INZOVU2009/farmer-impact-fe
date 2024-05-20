@@ -29,19 +29,27 @@ import allDryingsSlice from "./slices/dryings/allDryingsSlice";
 import assignNewParchmetnSlice from "./slices/parchment/assignNewParchmetnSlice";
 import setCertificationSlice from "./slices/parchment/setCertificationSlice";
 import assignParchmentGradeSlice from "./slices/parchment/assignParchmentGradeSlice";
-import fetchAllAssignedParchmentsSlice from './slices/parchment/allAssignedParchmentSlice';
+import fetchAllAssignedParchmentsSlice from "./slices/parchment/allAssignedParchmentSlice";
 import adjustParchmentSlice from "./slices/parchment/adjustParchmentSlice";
-import submitDeliveryReportSlice from './slices/parchment/deliveryReportSlice'
+import submitDeliveryReportSlice from "./slices/parchment/deliveryReportSlice";
 import getAllDeliveryReportsSlice from "./slices/parchment/getAllDeliveryReportsSlice";
-import fetchSingleReportSlice from './slices/parchment/getSingleReportSlice'
-import fetchReportByIdSlice from './slices/parchment/reportByIdSlice'
-import fetchReportLotByIdSlice from './slices/parchment/reportLotByIdSlice'
+import fetchSingleReportSlice from "./slices/parchment/getSingleReportSlice";
+import fetchReportByIdSlice from "./slices/parchment/reportByIdSlice";
+import fetchReportLotByIdSlice from "./slices/parchment/reportLotByIdSlice";
 import updateDeliveryReportSlice from "./slices/parchment/updateDeliveryReportSlice";
-import getLoadedWeightByReportIdSlice from './slices/deliveryProcessing/getLoadedWeightByReportIdSlice'
+import getLoadedWeightByReportIdSlice from "./slices/deliveryProcessing/getLoadedWeightByReportIdSlice";
 import processingContributionSlice from "./slices/deliveryProcessing/processingContributionSlice";
 import getProcessedContributionsSlice from "./slices/deliveryProcessing/getProcessedContributionsSlice";
 import fetchProcessedContributionByIdSlice from "./slices/deliveryProcessing/fetchProcessedContributionByIdSlice";
 import untraceableCoffeeSlice from "./slices/untraceableCoffee/untraceableCoffeeSlice";
+import saveCherryToSubmitSlice from "./slices/submitCherry/saveCherryToSubmitSlice";
+import fetchInspectionsSlice from "./slices/inspections/fetchInspectionsSlice";
+import fetchAllFarmersSlice from "./slices/farmers/fetchAllFarmersSlice";
+import fetchAllGroupsSlice from "./slices/groups/fetchAllGroupsSlice";
+import fetchAllHouseholdsSlice from "./slices/households/fetchAllHouseholdsSlice";
+import fetchAllTrainingsSlice from "./slices/trainings/fetchAllTrainingsSlice";
+import fetchAllAttendencesSlice from "./slices/trainingAttendance/fetchAllAttendencesSlice";
+import fetchAllAttendanceSheetSlice from "./slices/trainingAttendance/fetchAllAttendanceSheetSlice";
 const store = configureStore({
   reducer: {
     login,
@@ -70,23 +78,31 @@ const store = configureStore({
     dryWeighting: dryWeightingSlice,
     fetchAllGeneralHarvest: allGeneralHarvestSlice,
     fetchAllSeasons: allSeasonSlice,
-    fetchAllDrying:allDryingsSlice,
-    newParchment:assignNewParchmetnSlice,
-    selectedCertification:setCertificationSlice,
-    newParchmentGrade:assignParchmentGradeSlice,
-    allAssignedParchments:fetchAllAssignedParchmentsSlice,
-    adjustParchment:adjustParchmentSlice,
-    deliveryReport:submitDeliveryReportSlice,
-    allDeliveryReports:getAllDeliveryReportsSlice,
-    fetchSingleReport:fetchSingleReportSlice,
-    fetchReportById:fetchReportByIdSlice,
-    fetchReportLotById:fetchReportLotByIdSlice,
-    updateDeliveryReport:updateDeliveryReportSlice,
-    fetchloadedWeightById:getLoadedWeightByReportIdSlice,
-    processContribution:processingContributionSlice,
-    processedContributions:getProcessedContributionsSlice,
-    processedContributionById:fetchProcessedContributionByIdSlice,
+    fetchAllDrying: allDryingsSlice,
+    newParchment: assignNewParchmetnSlice,
+    selectedCertification: setCertificationSlice,
+    newParchmentGrade: assignParchmentGradeSlice,
+    allAssignedParchments: fetchAllAssignedParchmentsSlice,
+    adjustParchment: adjustParchmentSlice,
+    deliveryReport: submitDeliveryReportSlice,
+    allDeliveryReports: getAllDeliveryReportsSlice,
+    fetchSingleReport: fetchSingleReportSlice,
+    fetchReportById: fetchReportByIdSlice,
+    fetchReportLotById: fetchReportLotByIdSlice,
+    updateDeliveryReport: updateDeliveryReportSlice,
+    fetchloadedWeightById: getLoadedWeightByReportIdSlice,
+    processContribution: processingContributionSlice,
+    processedContributions: getProcessedContributionsSlice,
+    processedContributionById: fetchProcessedContributionByIdSlice,
     addUntraceableCoffee: untraceableCoffeeSlice,
+    saveCherryToSubmit: saveCherryToSubmitSlice,
+    fetchAllInspections: fetchInspectionsSlice,
+    fetchAllFarmers: fetchAllFarmersSlice,
+    fetchAllGroups: fetchAllGroupsSlice,
+    fetchAllHouseHolds: fetchAllHouseholdsSlice,
+    fetchAllTrainings: fetchAllTrainingsSlice,
+    fetchAllAttendences: fetchAllAttendencesSlice,
+    fetchAllAttendenceSheet: fetchAllAttendanceSheetSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -45,21 +45,6 @@ const SiteHarvestTable = () => {
     }
   }, [dispatch, generalHarvest]);
 
-  // useEffect(() => {
-  //   if (generalHarvest ) {
-  //     setTransactionData(generalHarvest.transactions);
-  //     setFarmerData(generalHarvest.farmer);
-  //     setGroupData(generalHarvest.group);
-  //     setHouseHoldData(generalHarvest.houseHold);
-  //     setSeason(generalHarvest.seasons)
-  //   }
-  // }, [generalHarvest])
-
-  // console.log("transactionData", transactionData)
-  // console.log("householddata", houseHoldData)
-  // console.log("farmerdata", farmerData)
-  // console.log("group", groupData)
-
   const handleStationChange = (e) => {
     setSelectedStation(e.target.value);
   };
@@ -71,7 +56,7 @@ const SiteHarvestTable = () => {
         station: selectedStation,
       };
       dispatch(fetchGeneralHarvests(data));
-      console.log("dataaaa",data)
+      console.log("dataaaa", data);
     }
   }, [selectedStation]);
 
@@ -98,11 +83,6 @@ const SiteHarvestTable = () => {
       setSeason(generalHarvest.seasons);
     }
   }, [generalHarvest]);
-
-  // console.log("transactionData", transactionData);
-  // console.log("householddata", houseHoldData);
-  // console.log("farmerdata", farmerData);
-  // console.log("group", groupData);
 
   useEffect(() => {
     dispatch(fetchAllStation());
@@ -378,9 +358,12 @@ const SiteHarvestTable = () => {
                   onChange={handleStationChange}
                   className="rounded-lg w-40"
                 >
-                 <option value="all">All</option>
+                  <option value="all">All</option>
                   {filteredStation.map((station) => (
-                      <option key={station.__kp_Station} value={station.__kp_Station}>
+                    <option
+                      key={station.__kp_Station}
+                      value={station.__kp_Station}
+                    >
                       {station.Name}
                     </option>
                   ))}
@@ -397,7 +380,7 @@ const SiteHarvestTable = () => {
                 >
                   <option value="all">All</option>
                   {filteredSeasons.map((season) => (
-                     <option key={season.__kp_Season} value={season.__kp_Season}>
+                    <option key={season.__kp_Season} value={season.__kp_Season}>
                       {season.Label}
                     </option>
                   ))}

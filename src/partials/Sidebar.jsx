@@ -228,8 +228,14 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             </ul>
             <ul className="mt-3">
               {/* Authentication */}
-              <SidebarLinkGroup>
+              <SidebarLinkGroup
+               activecondition={
+                pathname.includes("user_inspection")}
+              >
                 {(handleClick, open) => {
+                  const isInspectionActive = pathname.includes('full_inspections')
+                  const isSimpleActice = pathname.includes('simple_inspections')
+                  const isWetmillauditActive = pathname.includes('user_wet_mill_audit')
                   return (
                     <React.Fragment>
                       <a
@@ -269,18 +275,44 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
-                              to="/signin"
+                              to="/user_inspection/full_inspections"
+                              style={
+                                isInspectionActive
+                                  ? { color: "#4F46E5" }
+                                  : {}
+                              }
                               className="block text-black hover:text-slate-400 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Farmer Inspections
+                                Full Inspections
                               </span>
                             </NavLink>
                           </li>
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
-                              to="/signup"
+                              to="/user_inspection/simple_inspections"
+                              style={
+                                isSimpleActice
+                                  ? { color: "#4F46E5" }
+                                  : {}
+                              }
+                              className="block text-black hover:text-slate-400 transition duration-150 truncate"
+                            >
+                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                Simple Inspections
+                              </span>
+                            </NavLink>
+                          </li>
+                          <li className="mb-1 last:mb-0">
+                            <NavLink
+                              end
+                              to="/user_inspection/user_wet_mill_audit"
+                              style={
+                                isWetmillauditActive
+                                  ? { color: "#4F46E5" }
+                                  : {}
+                              }
                               className="block text-black hover:text-slate-400 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -297,8 +329,14 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             </ul>
             <ul className="mt-3">
               {/* Authentication */}
-              <SidebarLinkGroup>
+              <SidebarLinkGroup
+                             activecondition={
+                              pathname.includes("user_trainings")}
+              >
                 {(handleClick, open) => {
+                  const isTrainingsActive = pathname.includes("user_translator")
+                  const isSessionsActive = pathname.includes("sessions")
+                  const isParticipantsActive = pathname.includes("recent_participants")
                   return (
                     <React.Fragment>
                       <a
@@ -338,7 +376,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
-                              to="/signin"
+                              to="/user_trainings/sessions"
+                              style={
+                                isSessionsActive
+                                  ? { color: "#4F46E5" }
+                                  : {}
+                              }
                               className="block text-black hover:text-slate-400 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -349,7 +392,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
-                              to="/signup"
+                              to="/user_trainings/recent_participants"
+                              style={
+                                isParticipantsActive
+                                  ? { color: "#4F46E5" }
+                                  : {}
+                              }
                               className="block text-black hover:text-slate-400 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -360,7 +408,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
-                              to="/reset-password"
+                              to="/user_trainings/user_translator"
+                              style={
+                                isTrainingsActive
+                                  ? { color: "#4F46E5" }
+                                  : {}
+                              }
                               className="block text-black hover:text-slate-400 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">

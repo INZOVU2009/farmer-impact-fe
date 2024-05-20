@@ -40,21 +40,6 @@ const GeneralHarvestTable = () => {
     }
   }, [dispatch, generalHarvest]);
 
-  // useEffect(() => {
-  //   if (generalHarvest ) {
-  //     setTransactionData(generalHarvest.transactions);
-  //     setFarmerData(generalHarvest.farmer);
-  //     setGroupData(generalHarvest.group);
-  //     setHouseHoldData(generalHarvest.houseHold);
-  //     setSeason(generalHarvest.seasons)
-  //   }
-  // }, [generalHarvest])
-
-  // console.log("transactionData", transactionData)
-  // console.log("householddata", houseHoldData)
-  // console.log("farmerdata", farmerData)
-  // console.log("group", groupData)
-
   const handleStationChange = (e) => {
     setSelectedStation(e.target.value);
   };
@@ -94,10 +79,7 @@ const GeneralHarvestTable = () => {
     }
   }, [generalHarvest]);
 
-  console.log("transactionData", transactionData);
-  // console.log("householddata", houseHoldData);
-  console.log("farmerdata", farmerData);
-  // console.log("group", groupData);
+
 
   useEffect(() => {
     dispatch(fetchAllStation());

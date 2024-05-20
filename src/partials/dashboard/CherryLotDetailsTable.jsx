@@ -8,7 +8,7 @@ import { fetchAllStaff } from "../../redux/actions/staff/getAllStaff.action";
 import { fetchAllStation } from "../../redux/actions/station/allStations.action";
 import "react-toastify/dist/ReactToastify.css";
 import { fetchAllJournalsByCherryLotId } from "../../redux/actions/transactions/journalsByCherryLotId.action";
-
+import { saveCherry } from "../../redux/actions/submitCherry/saveCherryToSubmit.action";
 const CherryLotDetailsTable = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -158,24 +158,20 @@ const CherryLotDetailsTable = () => {
   const calculateTotalKilogramsByJournal = () => {
     const sumByJournal = {};
 
-    // Iterate through transactions
     allJournals?.forEach((transaction) => {
       const journal = transaction.site_day_lot;
       const kilograms = transaction.kilograms || 0;
 
-      // Check if the JOURNAL# exists in the sumMap
       if (!sumByJournal[journal]) {
         sumByJournal[journal] = 0;
       }
 
-      // Add kilograms to the sumMap
       sumByJournal[journal] += kilograms;
     });
 
     return sumByJournal;
   };
 
-  // Call the calculateTotalKilogramsByJournal function to get the sum
   const sumByJournal = calculateTotalKilogramsByJournal();
 
   const calculateTotalPrice = () => {
@@ -196,7 +192,6 @@ const CherryLotDetailsTable = () => {
   };
 
   const totalPriceByJournal = calculateTotalPrice();
-  console.log(totalPriceByJournal);
 
   const sumFloatersKG = () => {
     const sum = {};
@@ -245,57 +240,47 @@ const CherryLotDetailsTable = () => {
     (transaction) => transaction.transaction_date
   );
 
-
   const getFarmerUnderJournal = (journal) => {
-    const farmers = new Set(); // Using a Set to automatically maintain uniqueness
-    
+    const farmers = new Set();
+
     allJournals.forEach((transaction) => {
       if (transaction.site_day_lot === journal.site_day_lot) {
         const farmerName = transaction.farmername;
         if (farmerName) {
-          farmers.add(farmerName); // Add farmer name to the set
+          farmers.add(farmerName);
         }
       }
     });
-    
-    return Array.from(farmers); // Convert set to array and return
+
+    return Array.from(farmers);
   };
-  
-  // Example usage:
+
   filteredJournals.forEach((journal) => {
     const farmersUnderJournal = getFarmerUnderJournal(journal);
-    console.log(`Farmers under journal ${journal.site_day_lot}:`, farmersUnderJournal);
   });
-  
 
   let totalFarmers = 0;
 
-filteredJournals.forEach((journal) => {
-  const farmersUnderJournal = getFarmerUnderJournal(journal);
-  totalFarmers += farmersUnderJournal.length;
-});
-
-console.log("Total farmers contributed:", totalFarmers);
-
+  filteredJournals.forEach((journal) => {
+    const farmersUnderJournal = getFarmerUnderJournal(journal);
+    totalFarmers += farmersUnderJournal.length;
+  });
 
   const getTransactionsUnderJournal = (journal) => {
     return allJournals.filter((transaction) => {
       return transaction.site_day_lot === journal.site_day_lot;
     });
   };
-  
-  // Example usage:
+
   filteredJournals.forEach((journal) => {
     const transactionsUnderJournal = getTransactionsUnderJournal(journal);
-    console.log(`Transactions under journal ${journal.site_day_lot}:`, transactionsUnderJournal);
   });
-  
+
   const handleClickAction = (transaction) => {
     setSelectedUser(transaction);
     setShowTransactionModel(true);
   };
 
-  //approving transaction
   const handleApprove = () => {
     dispatch(approveJoulnal(token, journalId.journalId))
       .then(() => {
@@ -308,6 +293,13 @@ console.log("Total farmers contributed:", totalFarmers);
       });
   };
 
+  const handleSave = () => {
+    const data = {
+      Weight_Period_Reading_n: totalValues.cherry,
+      Weight_Period_Floaters: totalValues.totalFloaters,
+    };
+    dispatch(saveCherry(cherryLotId?.cherryLotId, data));
+  };
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="p-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
@@ -540,7 +532,9 @@ console.log("Total farmers contributed:", totalFarmers);
                         {journal.site_day_lot}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                        {calculateTotalKilogramsPurchased(journal).totalKgs.toLocaleString()}
+                        {calculateTotalKilogramsPurchased(
+                          journal
+                        ).totalKgs.toLocaleString()}
                       </td>
                       <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
                         {getFarmerUnderJournal(journal).length}
@@ -554,15 +548,18 @@ console.log("Total farmers contributed:", totalFarmers);
                         ].toLocaleString()}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                   
                         {journal.approved === 1 ? (
-                          <button 
-                          onClick={()=> navigate(`/user-transactions/site_day_lot_details/${journal.site_day_lot}`)}
-                          className="bg-green-500 text-white w-24 h-8 rounded-md">
+                          <button
+                            onClick={() =>
+                              navigate(
+                                `/user-transactions/site_day_lot_details/${journal.site_day_lot}`
+                              )
+                            }
+                            className="bg-green-500 text-white w-24 h-8 rounded-md"
+                          >
                             Approved
                           </button>
-                         
-                          ) : (
+                        ) : (
                           <button
                             className="bg-orange-300 text-white w-24 h-8 rounded-md"
                             onClick={() =>
@@ -665,7 +662,10 @@ console.log("Total farmers contributed:", totalFarmers);
       </div>
 
       <div className="flex items-center justify-center">
-        <button className="bg-green-500 p-4 mt-5 rounded-lg text-white ">
+        <button
+          className="bg-green-500 p-4 mt-5 rounded-lg text-white "
+          onClick={handleSave}
+        >
           Save and submit to RTC{" "}
         </button>
       </div>
