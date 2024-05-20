@@ -125,7 +125,9 @@ useEffect(() => {
             
             
             : currentPage === 'user-administration'
-            ? 'Manage application Users' 
+            ? 'Manage application Users'
+            : currentPage === `user_registration`
+            ? 'Recent Registered Farmers'
             : 'Welcome to Farmer Impact System'}
             
         </p>
