@@ -40,6 +40,7 @@ import FarmerDetailsPage from "./pages/FarmerDetailsPage";
 import TrainingsPage from "./pages/training/TrainingCoursesPage";
 import TrainingSessionsPage from "./pages/training/TrainingSessionsPage";
 import TrainingParticipantsPage from "./pages/training/TrainingParticipantsPage";
+import RecentFarmers from "./pages/RecentFarmers";
 
 function App() {
   const location = useLocation();
@@ -55,6 +56,8 @@ function App() {
     <>
       <Routes>
         <Route exact path="/dashboard" element={<Dashboard />} />
+
+        <Route exact path="/user_registration" element={<RecentFarmers/>} />
 
         <Route
           exact
