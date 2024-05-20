@@ -5,20 +5,29 @@ import { useSelector, useDispatch } from "react-redux";
 function RecentFarmers() {
   const dispatch = useDispatch();
   const [recentFarmers, setRecentFarmers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
   const { AllFieldFarmers, loading } = useSelector(
     (state) => state.Field_Farmer
   );
 
   useEffect(() => {
-    dispatch(fetchFieldFarmers());
+    dispatch(fetchFieldFarmers(currentPage, itemsPerPage));
   }, [dispatch]);
 
   useEffect(() => {
     if (AllFieldFarmers) {
-      setRecentFarmers(AllFieldFarmers?.data);
+      setRecentFarmers(AllFieldFarmers?.data?.farmerData);
     }
   }, [AllFieldFarmers]);
-console.log("farmers", recentFarmers)
+  console.log("farmers", recentFarmers);
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
   // Render a message while loading
   if (loading) {
     return <div>Loading...</div>;
@@ -146,55 +155,52 @@ console.log("farmers", recentFarmers)
                     >
                       Plot
                     </th>
-                   
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                {recentFarmers?.map((farmer,index)=>(
-                     <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
-                     <td className="w-4 p-4">{index+1}</td>
-                     <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                       <div className="text-base font-semibold text-gray-900 dark:text-white">
-                         <a href="">Bwenda </a>
-                       </div>
-                     </td>
-                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {farmer.Group_ID}
-                     </td>
-                     <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                      {farmer.farmer_name}
-                     </td>
-                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                     {farmer.Gender}
-                     </td>
-                     <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                     {farmer.Year_Birth}
-                     </td>
-                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                     {farmer.phone}
-                     </td>
-                     <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                     {farmer.National_ID}
-                     </td>
-                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                     {farmer.village}
-                     </td>
-                     <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                     {farmer.cell}
-                     </td>
-                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                     {farmer.sector}
-                     </td>
-                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                     {farmer.Trees}
-                     </td>
-                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                     {farmer.number_of_plots}
-                     </td>
-                  
-                   </tr>
-                    ))}
-                 
+                  {recentFarmers?.map((farmer, index) => (
+                    <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <td className="w-4 p-4">{index + 1}</td>
+                      <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+                        <div className="text-base font-semibold text-gray-900 dark:text-white">
+                          <a href="">Bwenda </a>
+                        </div>
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {farmer.Group_ID}
+                      </td>
+                      <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
+                        {farmer.farmer_name}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {farmer.Gender}
+                      </td>
+                      <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
+                        {farmer.Year_Birth}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {farmer.phone}
+                      </td>
+                      <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
+                        {farmer.National_ID}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {farmer.village}
+                      </td>
+                      <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
+                        {farmer.cell}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {farmer.sector}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {farmer.Trees}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {farmer.number_of_plots}
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -206,6 +212,7 @@ console.log("farmers", recentFarmers)
         <div className="flex items-center mb-4 sm:mb-0">
           <a
             href="#"
+            onClick={handlePrevPage}
             className="inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
           >
             <svg
@@ -223,6 +230,7 @@ console.log("farmers", recentFarmers)
           </a>
           <a
             href="#"
+            onClick={handleNextPage}
             className="inline-flex justify-center p-1 mr-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
           >
             <svg
@@ -241,17 +249,25 @@ console.log("farmers", recentFarmers)
           <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
             Showing{" "}
             <span className="font-semibold text-gray-900 dark:text-white">
-              1-20
+              {(currentPage - 1) * itemsPerPage + 1}
+            </span>{" "}
+            -{" "}
+            <span className="font-semibold text-gray-900 dark:text-white">
+              {Math.min(
+                currentPage * itemsPerPage,
+                AllFieldFarmers?.data?.totalItems
+              )}
             </span>{" "}
             of{" "}
             <span className="font-semibold text-gray-900 dark:text-white">
-              2290
+              {AllFieldFarmers?.data?.totalItems}
             </span>
           </span>
         </div>
         <div className="flex items-center space-x-3">
           <a
             href="#"
+            onClick={handlePrevPage}
             className="inline-flex items-center justify-center flex-1 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-black hover:bg-black "
           >
             <svg
@@ -270,6 +286,7 @@ console.log("farmers", recentFarmers)
           </a>
           <a
             href="#"
+            onClick={handleNextPage}
             className="inline-flex items-center justify-center flex-1 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-black hover:bg-black "
           >
             Next
