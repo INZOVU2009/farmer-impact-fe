@@ -50,6 +50,7 @@ import fetchAllHouseholdsSlice from "./slices/households/fetchAllHouseholdsSlice
 import fetchAllTrainingsSlice from "./slices/trainings/fetchAllTrainingsSlice";
 import fetchAllAttendencesSlice from "./slices/trainingAttendance/fetchAllAttendencesSlice";
 import fetchAllAttendanceSheetSlice from "./slices/trainingAttendance/fetchAllAttendanceSheetSlice";
+import all_field_farmerSlice from './slices/farmers/all_field_farmerSlice'
 const store = configureStore({
   reducer: {
     login,
@@ -103,6 +104,7 @@ const store = configureStore({
     fetchAllTrainings: fetchAllTrainingsSlice,
     fetchAllAttendences: fetchAllAttendencesSlice,
     fetchAllAttendenceSheet: fetchAllAttendanceSheetSlice,
+    Field_Farmer:all_field_farmerSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
