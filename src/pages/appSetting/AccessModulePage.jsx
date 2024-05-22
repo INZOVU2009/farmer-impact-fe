@@ -1,13 +1,11 @@
-import React, { useState } from "react";
-import Sidebar from "../partials/Sidebar";
-import Header from "../partials/Header";
-import WelcomeBanner from "../partials/dashboard/WelcomeBanner";
-import TransactionDetailsTable from "../partials/dashboard/TransactionDetailsTable";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-function TransactionDetails() {
+import React, { useEffect, useState } from "react";
+import Sidebar from "../../partials/Sidebar";
+import Header from "../../partials/Header";
+import WelcomeBanner from "../../partials/dashboard/WelcomeBanner";
+import AccessModuleTable from "../../partials/dashboard/appSettings/ModuleAccess";
+function AccessModulePage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+ 
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -26,16 +24,18 @@ function TransactionDetails() {
             {/* Dashboard actions */}
             <div className="sm:flex sm:justify-between sm:items-center mb-8">
               {/* Right: Actions */}
+              
             </div>
 
             <div className="grid grid-cols-12 gap-6">
-              <TransactionDetailsTable />
+             
+
+              <AccessModuleTable />
             </div>
-            <ToastContainer />
           </div>
         </main>
       </div>
     </div>
   );
 }
-export default TransactionDetails;
+export default AccessModulePage;
