@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { fetchFieldFarmers } from "../../redux/actions/farmers/all_field_farmer.action";
 import { useSelector, useDispatch } from "react-redux";
-import { approveFieldFarmer } from "../../redux/actions/farmers/approveFarmer.action";
-function RecentFarmers() {
+
+function ApprovedFarmers() {
   const dispatch = useDispatch();
   const [recentFarmers, setRecentFarmers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -10,7 +10,6 @@ function RecentFarmers() {
   const { AllFieldFarmers, loading } = useSelector(
     (state) => state.Field_Farmer
   );
-  const { approve } = useSelector((state) => state.approveFarmer);
 
   useEffect(() => {
     dispatch(fetchFieldFarmers(currentPage, itemsPerPage));
@@ -19,7 +18,7 @@ function RecentFarmers() {
   useEffect(() => {
     if (AllFieldFarmers) {
       const filteredFarmers = AllFieldFarmers?.data?.farmerData.filter(
-        (farmer) => farmer.status === "new"
+        (farmer) => farmer.status === "approved"
       );
       setRecentFarmers(filteredFarmers);
     }
@@ -33,15 +32,7 @@ function RecentFarmers() {
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
-
-  const handleApprove = (id) => {
-    dispatch(approveFieldFarmer(id)).then(() => {
-      setRecentFarmers((prevFarmers) =>
-        prevFarmers.filter((farmer) => farmer.id !== id)
-      );
-    });
-  };
-
+  // Render a message while loading
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -71,17 +62,6 @@ function RecentFarmers() {
               </div>
             </form>
           </div>
-          <button
-            id="createProductButton"
-            className="btn bg-black hover:bg-black text-white"
-            type="button"
-            data-drawer-target="drawer-create-product-default"
-            data-drawer-show="drawer-create-product-default"
-            aria-controls="drawer-create-product-default"
-            data-drawer-placement="right"
-          >
-            Add new farmer
-          </button>
         </div>
       </div>
 
@@ -167,12 +147,6 @@ function RecentFarmers() {
                     >
                       Plot
                     </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      Action
-                    </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
@@ -216,15 +190,6 @@ function RecentFarmers() {
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {farmer.number_of_plots}
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        <button
-                          type="button"
-                          className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                          onClick={() => handleApprove(farmer.id)}
-                        >
-                          Approve
-                        </button>
                       </td>
                     </tr>
                   ))}
@@ -282,12 +247,12 @@ function RecentFarmers() {
             <span className="font-semibold text-gray-900 dark:text-white">
               {Math.min(
                 currentPage * itemsPerPage,
-                recentFarmers?.length
+             recentFarmers?.length
               )}
             </span>{" "}
             of{" "}
             <span className="font-semibold text-gray-900 dark:text-white">
-              {recentFarmers?.length}
+              { recentFarmers?.length}
             </span>
           </span>
         </div>
@@ -336,4 +301,4 @@ function RecentFarmers() {
   );
 }
 
-export default RecentFarmers;
+export default ApprovedFarmers;

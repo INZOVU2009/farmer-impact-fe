@@ -4,15 +4,19 @@ import DeleteItemDrawer from "./DeleteItemDrawer";
 import AddItemDrawer from "./AddItemDrawer";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {fetchAllUsers} from '../../redux/actions/user/Users.action'
+import { fetchAllUsers } from "../../redux/actions/user/Users.action";
 import { fetchAllStaff } from "../../redux/actions/staff/getAllStaff.action";
 import { RiKey2Line } from "react-icons/ri";
-import { HiMiniComputerDesktop } from "react-icons/hi2";
-import { IoIosPhonePortrait } from "react-icons/io";
+import { FaToggleOff } from "react-icons/fa6";
 import SetCredentialsModel from "../../components/SetCredentialsModel";
+import { RiComputerFill } from "react-icons/ri";
+import { FaMobileRetro } from "react-icons/fa6";
+import { FaUpload } from "react-icons/fa";
 import { ToastContainer } from "react-toastify";
+import { fetchAllUserAccess } from "../../redux/actions/userAccess/fetchAllUserAccess.action";
+import { createUserAccess } from "../../redux/actions/userAccess/addUserAccess.action";
+import { activateUserAccess } from "../../redux/actions/userAccess/activateUser.action";
 import "react-toastify/dist/ReactToastify.css";
-
 
 const UsersTable = () => {
   const navigate = useNavigate();
@@ -25,21 +29,24 @@ const UsersTable = () => {
   const [showPasswordModel, setShowPasswordModel] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [allUserAccess, setAllUserAccess] = useState([]);
   const { users, loading } = useSelector((state) => state.users);
   const { staffs } = useSelector((state) => state.fetchAllStaff);
+  const { allAccess } = useSelector((state) => state.allUserAccess);
+  const { activate } = useSelector((state) => state.activateUser);
+  const { access } = useSelector((state) => state.userAccess);
 
   const itemsPerPage = 20;
   useEffect(() => {
     dispatch(fetchAllUsers());
   }, [dispatch]);
 
-
   useEffect(() => {
     if (users) {
       setAllUsers(users.data);
     }
   }, [users]);
- 
+
   useEffect(() => {
     dispatch(fetchAllStaff());
   }, [dispatch]);
@@ -49,7 +56,6 @@ const UsersTable = () => {
       setAllStaff(staffs.data);
     }
   }, [staffs]);
-
 
   const handleSearch = (e) => {
     const searchItem = e.target.value;
@@ -64,9 +70,9 @@ const UsersTable = () => {
         )
       )
     : allStaff;
-  
+
   const totalPages = Math.ceil(filteredStaff?.length / itemsPerPage);
-  console.log("pages", totalPages);
+  console.log("pages", filteredStaff);
   // Paginate the user data
   const paginatedStaffs = filteredStaff?.slice(
     (currentPage - 1) * itemsPerPage,
@@ -82,20 +88,25 @@ const UsersTable = () => {
   };
 
   const getUserEmailById = (_kf_User) => {
-    const user = allUsers?.find(user => user.__kp_User === _kf_User);
+    const user = allUsers?.find((user) => user.__kp_User === _kf_User);
     return user ? user.Email : null;
   };
 
   const getUserNameById = (_kf_User) => {
-    const user = allUsers?.find(user => user.__kp_User === _kf_User);
+    const user = allUsers?.find((user) => user.__kp_User === _kf_User);
     return user ? user.Name_User : null;
   };
+  const getUserStatus = (userID) => {
+    const user = allUserAccess?.find((user) => user.staff_ID === userID);
+    return user ? user.state : null;
+  };
+  console.log("hbdshjb", getUserStatus("S179"));
 
   const handleClickAction = (user) => {
     setSelectedUser(user);
     setShowPasswordModel(true);
   };
-  console.log("seleeeee",selectedUser)
+  // console.log("seleeeee",selectedUser)
 
   const handlePasswordUpdate = (userId, newPassword) => {
     setPassword("");
@@ -115,6 +126,36 @@ const UsersTable = () => {
       new Date(dateString)
     );
   };
+
+  useEffect(() => {
+    dispatch(fetchAllUserAccess());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (allAccess) {
+      setAllUserAccess(allAccess.data);
+    }
+  }, [allAccess]);
+
+  console.log("all access", allUserAccess);
+  const handleUserAdd = (id) => {
+    dispatch(createUserAccess(id));
+  };
+  useEffect(() => {
+    if (access) {
+      dispatch(fetchAllUserAccess());
+    }
+  }, [access, dispatch]);
+
+  const handleActivateUser = (id) => {
+    console.log("huh", id);
+    dispatch(activateUserAccess(id));
+  };
+  useEffect(() => {
+    if (activate) {
+      dispatch(fetchAllUserAccess());
+    }
+  }, [dispatch, activate]);
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
@@ -212,77 +253,80 @@ const UsersTable = () => {
                         {formatDate(staff.created_at)}
                       </td>
                       <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-900 truncate xl:max-w-xs dark:text-gray-400">
-                      {staff.Name}
-                      
+                        {staff.Name}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {/* {staff.Email} */}
                         {getUserEmailById(staff._kf_User)}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {getUserNameById(staff._kf_User)}
+                        {getUserNameById(staff._kf_User)}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {staff.Phone && staff.Phone.substring(0, 12)}
- 
+                        {staff.Phone && staff.Phone.substring(0, 12)}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {staff.Role}
                       </td>
 
                       <td className="p-4 space-x-2 whitespace-nowrap">
-                        <button
-                          type="button"
-                          id="updateProductButton"
-                          data-drawer-target="drawer-update-product-default"
-                          data-drawer-show="drawer-update-product-default"
-                          aria-controls="drawer-update-product-default"
-                          data-drawer-placement="right"
-                          className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-green-300 hover:bg-green-400 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                          onClick={() => handleClickAction(staff)}
-                        >
-                          <RiKey2Line />
-                        </button>
-                        {showPasswordModel && selectedUser && (
-                          <SetCredentialsModel
-                            user={selectedUser}
-                            onClose={() => setShowPasswordModel(false)}
-                            onSubmit={handlePasswordUpdate}
+                        {allUserAccess.some(
+                          (userAccess) => userAccess.staff_ID === staff.userID
+                        ) ? (
+                          getUserStatus(staff?.userID) !== "Inactive" ? (
+                            <div className="flex space-x-2">
+                              <FaMobileRetro
+                                onClick={() =>
+                                  navigate(
+                                    `/user-administaration/access-controll/mobile-access/${staff.id}`
+                                  )
+                                }
+                                className="text-2xl text-black"
+                              />
+
+                              <RiKey2Line
+                                onClick={() => handleClickAction(staff)}
+                                className="text-2xl text-red-500"
+                              />
+
+                              {showPasswordModel && selectedUser && (
+                                <SetCredentialsModel
+                                  user={selectedUser}
+                                  onClose={() => setShowPasswordModel(false)}
+                                  onSubmit={handlePasswordUpdate}
+                                />
+                              )}
+
+                              <RiComputerFill
+                                onClick={() =>
+                                  navigate(
+                                    `/user-administaration/access-controll/module-access/${staff.id}`
+                                  )
+                                }
+                                className="text-2xl text-black"
+                              />
+                            </div>
+                          ) : (
+                            <FaToggleOff
+                              onClick={() => {
+                                handleActivateUser(staff.userID);
+                              }}
+                              className=" text-2xl text-red-500 w-[50%]"
+                            />
+                          )
+                        ) : (
+                          <FaUpload
+                            onClick={() => handleUserAdd(staff.id)}
+                            className="text-blue-500 w-[50%] text-xl"
                           />
                         )}
-
-                        <button
-                          type="button"
-                          id="deleteProductButton"
-                          onClick={() => navigate(`/user-administaration/access-controll/module-access/${staff.id}`)}
-                          data-drawer-target="drawer-delete-product-default"
-                          data-drawer-show="drawer-delete-product-default"
-                          aria-controls="drawer-delete-product-default"
-                          data-drawer-placement="right"
-                          className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-300 rounded-lg hover:bg-blue-400 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900"
-                        >
-                          <HiMiniComputerDesktop />
-                        </button>
-                        <button
-                          type="button"
-                          id="deleteProductButton"
-                          onClick={() => navigate(`/user-administaration/access-controll/mobile-access/${staff.id}`)}
-                          data-drawer-target="drawer-delete-product-default"
-                          data-drawer-show="drawer-delete-product-default"
-                          aria-controls="drawer-delete-product-default"
-                          data-drawer-placement="right"
-                          className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-300 rounded-lg hover:bg-gray-400 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900"
-                        >
-                          <IoIosPhonePortrait />
-                        </button>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            <ToastContainer/>
-
+            <ToastContainer />
           </div>
         </div>
       </div>

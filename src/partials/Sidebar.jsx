@@ -154,7 +154,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 }
               >
                 {(handleClick, open) => {
-                  const isRecentFarmerActive = pathname.includes("user_registration")
+                  const isRecentFarmerActive = pathname.includes("recent_farmers")
+                  const isApprovedFarmers = pathname.includes("approved_farmers")
                   return (
                     <React.Fragment>
                       <a
@@ -192,7 +193,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
-                              to="/user_registration"
+                              to="/user_registration/recent_farmers"
                               style={
                                 isRecentFarmerActive ? { color: "#4F46E5" } : {}
                               }
@@ -206,11 +207,14 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
-                              to="/user_registration/updated_farmers"
+                              to="/user_registration/approved_farmers"
+                              style={
+                                isApprovedFarmers ? { color: "#4F46E5" } : {}
+                              }
                               className="block text-black hover:text-slate-400 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Updated Farmers
+                                Approved Farmers
                               </span>
                             </NavLink>
                           </li>
