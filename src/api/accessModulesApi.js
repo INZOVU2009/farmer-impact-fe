@@ -45,3 +45,17 @@ export const updateModule = (data,id) => {
       });
   });
 };
+export const createModule = (data) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`${url}/accessControl/create?`, data)
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response?.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};
+
