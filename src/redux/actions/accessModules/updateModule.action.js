@@ -11,7 +11,6 @@ export const updateModuleName = (data, id) => async (dispatch) => {
   try {
     dispatch(updatePending());
     const res = await updateModule(data, id);
-    console.log("huhu", res)
     dispatch(updateSuccess(res));
     toast.success(res.message);
     return res;

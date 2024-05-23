@@ -56,6 +56,7 @@ import addUserAccessSlice from "./slices/userAccess/addUserAccessSlice";
 import fetchAllUserAccessSllice from "./slices/userAccess/fetchAllUserAccessSlice";
 import activateUserSlice from "./slices/userAccess/activateUserSlice";
 import updateModule from "./slices/accessModules/updateModuleSlice";
+import createNewModuleSlice from "./slices/accessModules/createNewModuleSlice";
 
 const store = configureStore({
   reducer: {
@@ -115,7 +116,8 @@ const store = configureStore({
     userAccess: addUserAccessSlice,
     allUserAccess: fetchAllUserAccessSllice,
     activateUser: activateUserSlice,
-    updateModule:updateModule,
+    updateModule: updateModule,
+    createModule: createNewModuleSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

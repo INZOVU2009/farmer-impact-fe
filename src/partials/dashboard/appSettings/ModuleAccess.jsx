@@ -4,8 +4,9 @@ import { getModules } from "../../../redux/actions/accessModules/getAllModules.a
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { CiEdit } from "react-icons/ci";
+import { createNewModule } from "../../../redux/actions/accessModules/createNewModule.action";
 import EditAccessModel from "../../../components/EditAccessModuleModel";
-const AccessModuleTable = () => {
+const AccessModuleTable = ({ onSubmit }) => {
   const userId = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -17,6 +18,8 @@ const AccessModuleTable = () => {
   const { user, loading } = useSelector((state) => state.fetchSingleUser);
   const { modules } = useSelector((state) => state.fetchAllModules);
   const { update } = useSelector((state) => state.updateModule);
+  const { create } = useSelector((state) => state.createModule);
+
   useEffect(() => {
     dispatch(getModules());
   }, [dispatch]);
@@ -42,10 +45,77 @@ const AccessModuleTable = () => {
       dispatch(getModules);
     }
   }, [update, dispatch]);
+
+  const [formData, setFormData] = useState({
+    module_name: "",
+    platform: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevModule) => ({
+      ...prevModule,
+      [name]: value,
+    }));
+  };
+
+  const handleAddSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(createNewModule(formData));
+      onSubmit(formData);
+      setFormData({
+        module_name: "",
+        platform: "",
+      });
+    } catch (error) {
+      console.error("Adding new module failed", error);
+    }
+  };
+  useEffect(() => {
+    if (create) {
+      dispatch(getModules);
+    }
+  }, [create, dispatch]);
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="flex flex-col">
         <div className="overflow-x-auto">
+          {/* <div className="flex items-center justify-center h-[60%] "> */}
+          <div className="w-[45%] flex flex-col ml-48 mb-4 border-2 rounded-md ">
+            <div className="p-5 border-b-3 w-full">
+              <p className=" text-green-500">Add Untraceable Coffee</p>
+            </div>
+            <div className="p-2">
+              <form action="" className=" space-y-2">
+                <input
+                  type="text"
+                  className="w-full rounded-md"
+                  name="module_name"
+                  placeholder="Enter module name"
+                  value={formData.module_name}
+                  onChange={handleInputChange}
+                />
+                <input
+                  type="text"
+                  className="w-full rounded-md"
+                  placeholder="Enter Platform"
+                  name="platform"
+                  value={formData.platform}
+                  onChange={handleInputChange}
+                />
+                <div className=" flex justify-center">
+                  <button
+                    className=" bg-green-500 text-white rounded-md w-48 p-2"
+                    onClick={handleAddSubmit}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          {/* </div> */}
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden shadow">
               <table className="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
