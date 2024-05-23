@@ -111,7 +111,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               {/* Authentication */}
               <SidebarLinkGroup
                 activecondition={
-                  pathname === "/" || pathname.includes("dashboard") || pathname.includes("user_supply_inventory_details")
+                  pathname === "/" ||
+                  pathname.includes("dashboard") ||
+                  pathname.includes("user_supply_inventory_details")
                 }
               >
                 {(handleClick, open) => {
@@ -149,19 +151,20 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             <ul className="mt-3">
               {/* Authentication */}
               <SidebarLinkGroup
-                activecondition={
-                  pathname.includes("user_registration")
-                }
+                activecondition={pathname.includes("user_registration")}
               >
                 {(handleClick, open) => {
-                  const isRecentFarmerActive = pathname.includes("recent_farmers")
-                  const isApprovedFarmers = pathname.includes("approved_farmers")
+                  const isRecentFarmerActive =
+                    pathname.includes("recent_farmers");
+                  const isApprovedFarmers =
+                    pathname.includes("approved_farmers");
                   return (
                     <React.Fragment>
                       <a
                         href="#0"
-                        className={`block text-slate-200 truncate transition duration-150 ${open ? "hover:text-slate-200" : "hover:text-white"
-                          }`}
+                        className={`block text-slate-200 truncate transition duration-150 ${
+                          open ? "hover:text-slate-200" : "hover:text-white"
+                        }`}
                         onClick={(e) => {
                           e.preventDefault();
                           sidebarExpanded
@@ -179,8 +182,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           {/* Icon */}
                           <div className="flex shrink-0 ml-2">
                             <svg
-                              className={`w-3 h-3 shrink-0 ml-1 fill-current text-black ${open && "rotate-180"
-                                }`}
+                              className={`w-3 h-3 shrink-0 ml-1 fill-current text-black ${
+                                open && "rotate-180"
+                              }`}
                               viewBox="0 0 12 12"
                             >
                               <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
@@ -239,13 +243,16 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             <ul className="mt-3">
               {/* Authentication */}
               <SidebarLinkGroup
-               activecondition={
-                pathname.includes("user_inspection")}
+                activecondition={pathname.includes("user_inspection")}
               >
                 {(handleClick, open) => {
-                  const isInspectionActive = pathname.includes('full_inspections')
-                  const isSimpleActice = pathname.includes('simple_inspections')
-                  const isWetmillauditActive = pathname.includes('user_wet_mill_audit')
+                  const isInspectionActive =
+                    pathname.includes("full_inspections");
+                  const isSimpleActice =
+                    pathname.includes("simple_inspections");
+                  const isWetmillauditActive = pathname.includes(
+                    "user_wet_mill_audit"
+                  );
                   return (
                     <React.Fragment>
                       <a
@@ -287,9 +294,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               end
                               to="/user_inspection/full_inspections"
                               style={
-                                isInspectionActive
-                                  ? { color: "#4F46E5" }
-                                  : {}
+                                isInspectionActive ? { color: "#4F46E5" } : {}
                               }
                               className="block text-black hover:text-slate-400 transition duration-150 truncate"
                             >
@@ -302,11 +307,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               end
                               to="/user_inspection/simple_inspections"
-                              style={
-                                isSimpleActice
-                                  ? { color: "#4F46E5" }
-                                  : {}
-                              }
+                              style={isSimpleActice ? { color: "#4F46E5" } : {}}
                               className="block text-black hover:text-slate-400 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -319,9 +320,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               end
                               to="/user_inspection/user_wet_mill_audit"
                               style={
-                                isWetmillauditActive
-                                  ? { color: "#4F46E5" }
-                                  : {}
+                                isWetmillauditActive ? { color: "#4F46E5" } : {}
                               }
                               className="block text-black hover:text-slate-400 transition duration-150 truncate"
                             >
@@ -340,13 +339,15 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             <ul className="mt-3">
               {/* Authentication */}
               <SidebarLinkGroup
-                             activecondition={
-                              pathname.includes("user_trainings")}
+                activecondition={pathname.includes("user_trainings")}
               >
                 {(handleClick, open) => {
-                  const isTrainingsActive = pathname.includes("user_translator")
-                  const isSessionsActive = pathname.includes("sessions")
-                  const isParticipantsActive = pathname.includes("recent_participants")
+                  const isTrainingsActive =
+                    pathname.includes("user_translator");
+                  const isSessionsActive = pathname.includes("sessions");
+                  const isParticipantsActive = pathname.includes(
+                    "recent_participants"
+                  );
                   return (
                     <React.Fragment>
                       <a
@@ -388,9 +389,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               end
                               to="/user_trainings/sessions"
                               style={
-                                isSessionsActive
-                                  ? { color: "#4F46E5" }
-                                  : {}
+                                isSessionsActive ? { color: "#4F46E5" } : {}
                               }
                               className="block text-black hover:text-slate-400 transition duration-150 truncate"
                             >
@@ -404,9 +403,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               end
                               to="/user_trainings/recent_participants"
                               style={
-                                isParticipantsActive
-                                  ? { color: "#4F46E5" }
-                                  : {}
+                                isParticipantsActive ? { color: "#4F46E5" } : {}
                               }
                               className="block text-black hover:text-slate-400 transition duration-150 truncate"
                             >
@@ -420,9 +417,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               end
                               to="/user_trainings/user_translator"
                               style={
-                                isTrainingsActive
-                                  ? { color: "#4F46E5" }
-                                  : {}
+                                isTrainingsActive ? { color: "#4F46E5" } : {}
                               }
                               className="block text-black hover:text-slate-400 transition duration-150 truncate"
                             >
@@ -443,27 +438,30 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               <SidebarLinkGroup
                 activecondition={
                   pathname.includes("user_transactions") ||
-                  pathname.includes("cws-daily-journals")||
-                  pathname.includes("add_untraceable_coffee")||
-                  pathname.includes("lots_in_a_day_lot")||
-                  pathname.includes("cherry_lot_details")||
-                  pathname.includes("site_day_lot_details")||
-                  pathname.includes("general_harvest")||
+                  pathname.includes("cws-daily-journals") ||
+                  pathname.includes("add_untraceable_coffee") ||
+                  pathname.includes("lots_in_a_day_lot") ||
+                  pathname.includes("cherry_lot_details") ||
+                  pathname.includes("site_day_lot_details") ||
+                  pathname.includes("general_harvest") ||
                   pathname.includes("site_harvest")
                 }
               >
                 {(handleClick, open) => {
                   const isSCDailyJournalsActive =
                     pathname.includes("user_transactions");
-                  const isCwsDailyJournalsActive = pathname.includes("user-transactions/cws-daily-journals") || pathname.includes("lots_in_a_day_lot")||pathname.includes("cherry_lot_details")||pathname.includes("site_day_lot_details");
+                  const isCwsDailyJournalsActive =
+                    pathname.includes("user-transactions/cws-daily-journals") ||
+                    pathname.includes("lots_in_a_day_lot") ||
+                    pathname.includes("cherry_lot_details") ||
+                    pathname.includes("site_day_lot_details");
                   const isAddUntraceableCoffeeActive = pathname.includes(
                     "user_transaction/add_untraceable_coffee"
                   );
-                  const isGeneralHarvestActive = pathname.includes(
-                    "general_harvest"
-                  );
-                  const isSiteHarvestActive = pathname.includes("site_harvest")
-                  
+                  const isGeneralHarvestActive =
+                    pathname.includes("general_harvest");
+                  const isSiteHarvestActive = pathname.includes("site_harvest");
+
                   return (
                     <React.Fragment>
                       <a
@@ -500,7 +498,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       </a>
                       <div className="lg:hidden lg:sidebar-expanded:block 2xl:block ">
                         <ul className={`pl-9 mt-2 ${!open && "hidden"}`}>
-                        <li className="mb-3 last:mb-0">
+                          <li className="mb-3 last:mb-0">
                             <NavLink
                               end
                               style={
@@ -516,7 +514,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               </span>
                             </NavLink>
                           </li>
-                         
 
                           <li className="mb-3 last:mb-0">
                             <NavLink
@@ -568,11 +565,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           </li>
                           <li className="mb-3 last:mb-0">
                             <NavLink
-                              end 
+                              end
                               style={
-                                isSiteHarvestActive
-                                  ? { color: "#4F46E5" }
-                                  : {}
+                                isSiteHarvestActive ? { color: "#4F46E5" } : {}
                               }
                               to="/user_registration/site_harvest"
                               className="block text-black hover:text-slate-400 transition duration-150 truncate"
@@ -592,17 +587,21 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             <ul className="mt-3">
               {/* Authentication */}
               <SidebarLinkGroup
-                activecondition={
-                  pathname.includes("user_inventory_management") 
-                  
-                }
+                activecondition={pathname.includes("user_inventory_management")}
               >
                 {(handleClick, open) => {
-                      const isActive = pathname.includes("assigned_parchment");
-                      const isDeliveryProcessingActive = pathname.includes("deliveries_processing");
-                      const isParchmentStockActive = pathname.includes('parchment_stock');
-                      const isParchmentTransportActive = pathname.includes('parchment_transport')|| pathname.includes("new_loading_form")
-                      const isParchmentReceptionActive = pathname.includes('parchment_reception')
+                  const isActive = pathname.includes("assigned_parchment");
+                  const isDeliveryProcessingActive = pathname.includes(
+                    "deliveries_processing"
+                  );
+                  const isParchmentStockActive =
+                    pathname.includes("parchment_stock");
+                  const isParchmentTransportActive =
+                    pathname.includes("parchment_transport") ||
+                    pathname.includes("new_loading_form");
+                  const isParchmentReceptionActive = pathname.includes(
+                    "parchment_reception"
+                  );
                   return (
                     <React.Fragment>
                       <a
@@ -642,11 +641,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <li className="mb-3 last:mb-0">
                             <NavLink
                               end
-                              style={
-                                isActive
-                                  ? { color: "#4F46E5" }
-                                  : {}
-                              }
+                              style={isActive ? { color: "#4F46E5" } : {}}
                               to="/user_inventory_management/assigned_parchment"
                               className="block text-black hover:text-slate-400 transition duration-150 truncate"
                             >
@@ -888,8 +883,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             </ul>
             <ul className="mt-3">
               {/* Authentication */}
-              <SidebarLinkGroup>
+              <SidebarLinkGroup
+                activecondition={pathname.includes("app_setting")}
+              >
                 {(handleClick, open) => {
+                  const isAccessModulesActive =
+                    pathname.includes("access_modules");
                   return (
                     <React.Fragment>
                       <a
@@ -945,6 +944,22 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Inspection Questions
+                              </span>
+                            </NavLink>
+                          </li>
+                          <li className="mb-1 last:mb-0">
+                            <NavLink
+                              end
+                              to="/app_setting/access_modules"
+                              style={
+                                isAccessModulesActive
+                                  ? { color: "#4F46E5" }
+                                  : {}
+                              }
+                              className="block ttext-black hover:text-slate-400 transition duration-150 truncate"
+                            >
+                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                Access Modules
                               </span>
                             </NavLink>
                           </li>

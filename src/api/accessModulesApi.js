@@ -31,3 +31,17 @@ export const addPermissions = (data) => {
       });
   });
 };
+
+export const updateModule = (data,id) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(`${url}/accessControl/update?id=${id}`, data)
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response?.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};

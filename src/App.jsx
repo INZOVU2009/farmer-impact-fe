@@ -4,7 +4,6 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import AccessControlMobile from "./pages/AccessControlMobile";
 import { useParams } from "react-router-dom";
 import "./css/style.css";
-
 import "./charts/ChartjsConfig";
 
 // Import pages
@@ -42,6 +41,8 @@ import TrainingSessionsPage from "./pages/training/TrainingSessionsPage";
 import TrainingParticipantsPage from "./pages/training/TrainingParticipantsPage";
 import RecentFarmers from "./pages/RecentFarmers";
 import ApprovedFarmers from "./pages/ApprovedFarmersPage";
+import AccessModulePage from "./pages/appSetting/AccessModulePage";
+
 
 function App() {
   const location = useLocation();
@@ -213,6 +214,12 @@ function App() {
          exact
          path="user_trainings/recent_participants"
          element={<TrainingParticipantsPage/>}
+         
+         />
+          <Route
+         exact
+         path="app_setting/access_modules"
+         element={<AccessModulePage/>}
          
          />
            <Route exact path="/user_registration/approved_farmers" element={<ApprovedFarmers/>} />
