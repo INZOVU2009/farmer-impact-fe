@@ -25,12 +25,9 @@ function UserTransactions() {
             {/* Dashboard actions */}
             <div className="sm:flex sm:justify-between sm:items-center mb-8">
               {/* Right: Actions */}
-              
             </div>
 
             <div className="grid grid-cols-12 gap-6">
-             
-
               <UserTransactionsTable />
             </div>
           </div>

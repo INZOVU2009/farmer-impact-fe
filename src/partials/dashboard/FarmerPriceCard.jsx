@@ -1,13 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import LineChart from "../../charts/LineChart01";
-import Icon from "../../images/icon-02.svg";
-import EditMenu from "../../components/DropdownEditMenu";
 
-// Import utilities
-import { tailwindConfig, hexToRGB } from "../../utils/Utils";
-
-function FarmerPriceCard({ goodCherry,floaters}) {
+function FarmerPriceCard({ goodCherry, floaters }) {
   return (
     <div className="flex flex-col col-span-full h-full  sm:col-span-6 xl:col-span-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
       <div className="px-5 pt-5">
@@ -19,14 +12,13 @@ function FarmerPriceCard({ goodCherry,floaters}) {
 
           <div className="">
             <div className="flex flex-row justify-between text-[12px] mt-4 mb-2">
-            <label className="">Good Cherry : </label>
-            <label>{goodCherry} FRW</label>
+              <label className="">Good Cherry : </label>
+              <label>{goodCherry} FRW</label>
             </div>
             <div className="flex flex-row justify-between text-[12px] mt-4 mb-2">
-            <label className="">Floaters: </label>
-            <label>{floaters} FRW</label>
+              <label className="">Floaters: </label>
+              <label>{floaters} FRW</label>
             </div>
-           
           </div>
         </div>
       </div>

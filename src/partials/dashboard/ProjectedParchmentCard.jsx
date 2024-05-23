@@ -4,7 +4,6 @@ import LineChart from '../../charts/LineChart01';
 import Icon from '../../images/icon-03.svg';
 import EditMenu from '../../components/DropdownEditMenu';
 
-// Import utilities
 import { tailwindConfig, hexToRGB } from '../../utils/Utils';
 
 function ProjectedParchmentCard({totalCherryPurchases, certified, traceableUncertified, uncertifiedUntraceable, floaters}) {

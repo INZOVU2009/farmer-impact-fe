@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from "react";
-import UpdateItemDrawer from "./UpdateItemDrawer";
-import DeleteItemDrawer from "./DeleteItemDrawer";
-import AddItemDrawer from "./AddItemDrawer";
 import "react-toastify/dist/ReactToastify.css";
 
 const SimpleUserInspectionsTable = ({
@@ -10,8 +7,6 @@ const SimpleUserInspectionsTable = ({
   farmerName,
   farmerId,
   groupId,
-  farmerPhone,
-  householdID,
   filteredstation,
   filteredInspections,
   handleDownload,
@@ -38,13 +33,14 @@ const SimpleUserInspectionsTable = ({
   const handleModeChange = (event) => {
     setSelectedMode(event.target.value);
   };
-console.log("statio", selectedStation)
+  console.log("statio", selectedStation);
   const filteredInspectionsByStation =
     selectedStation === "all" || selectedMode === "all"
       ? inspections
       : inspections.filter(
           (inspection) =>
-            stationName(inspection._kf_Station) === selectedStation || inspection.Score_n === selectedMode
+            stationName(inspection._kf_Station) === selectedStation ||
+            inspection.Score_n === selectedMode
         );
 
   return (
@@ -78,7 +74,6 @@ console.log("statio", selectedStation)
                   className="rounded-lg w-40"
                   value={selectedStation}
                   onChange={handleStationChange}
-        
                 >
                   <option value="all">All</option>
 
@@ -94,8 +89,8 @@ console.log("statio", selectedStation)
                 <p>Observation mode</p>
                 <select
                   name=""
-                    value={selectedMode}
-                    onChange={handleModeChange}
+                  value={selectedMode}
+                  onChange={handleModeChange}
                   className="rounded-lg w-40"
                 >
                   <option value="all">All</option>
@@ -162,24 +157,7 @@ console.log("statio", selectedStation)
                     >
                       FARMER.ID
                     </th>
-                    {/* <th
-                      scope="col"
-                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      HOUSEHOLD.ID
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      MOBILE
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      COURSE
-                    </th> */}
+
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
@@ -228,23 +206,19 @@ console.log("statio", selectedStation)
                         {groupId(inspection._kf_Station)}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      <a
-                        href={`/user_registration/farmer_details/overview/${farmerId(inspection._kf_Station)}`}
-                        className="text-blue-500 hover:text-gray-500"
-                      >
-                        {farmerName(inspection._kf_Station)}
-                      </a>
-                    </td>
+                        <a
+                          href={`/user_registration/farmer_details/overview/${farmerId(
+                            inspection._kf_Station
+                          )}`}
+                          className="text-blue-500 hover:text-gray-500"
+                        >
+                          {farmerName(inspection._kf_Station)}
+                        </a>
+                      </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {farmerId(inspection._kf_Station)}
                       </td>
-                      {/* <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {householdID(inspection._kf_Station)}
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {farmerPhone(inspection._kf_Station)}
-                      </td>
-                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"></td>*/}
+
                       <td className="p-4 space-x-2 whitespace-nowrap">
                         {inspection.Score_n}
                       </td>
@@ -366,15 +340,6 @@ console.log("statio", selectedStation)
           </a>
         </div>
       </div> */}
-
-      {/* update drawer */}
-      <UpdateItemDrawer />
-
-      {/* Delete Product Drawer */}
-      <DeleteItemDrawer />
-
-      {/* Add Product Drawer */}
-      <AddItemDrawer />
     </div>
   );
 };

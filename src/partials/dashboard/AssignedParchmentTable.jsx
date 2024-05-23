@@ -4,15 +4,13 @@ import DeleteItemDrawer from "./DeleteItemDrawer";
 import AddItemDrawer from "./AddItemDrawer";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import PerchmentAssignment from "../../components/PerchmentAssignment";
 import { fetchAllAssignedParchments } from "../../redux/actions/parchnment/allAssignedParchment.action";
 import { fetchAllStation } from "../../redux/actions/station/allStations.action";
 import { handleToken } from "../../redux/actions/auth/fetchToken.action";
 import { fetchAllTransactions } from "../../redux/actions/transactions/allTransactions.action";
-
-// import { jwtDecode } from "jwt-decode";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AssignedParchmentTable = () => {
   const navigate = useNavigate();
@@ -28,8 +26,6 @@ const AssignedParchmentTable = () => {
   const { transactions, loading } = useSelector(
     (state) => state.fetchAllTransactions
   );
-
-  // const { Certification } = useSelector((state) => state.selectedCertification);
 
   useEffect(() => {
     dispatch(fetchAllAssignedParchments());
@@ -51,7 +47,6 @@ const AssignedParchmentTable = () => {
       year: "numeric",
       month: "long",
       day: "numeric",
-      // hour: "numeric",
     };
 
     return new Intl.DateTimeFormat("en-US", options).format(

@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from "react";
-import UpdateItemDrawer from "./UpdateItemDrawer";
-import DeleteItemDrawer from "./DeleteItemDrawer";
-import AddItemDrawer from "./AddItemDrawer";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllTransactionsByJournal } from "../../redux/actions/transactions/transactionsByJournal.action";
-import { removeTransaction } from "../../redux/actions/transactions/removeTransaction.action";
-import { MdModeEdit } from "react-icons/md";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { fetchAllTransactions } from "../../redux/actions/transactions/allTransactions.action";
 
+import { fetchAllTransactions } from "../../redux/actions/transactions/allTransactions.action";
 
 const SiteDayLotDeatilsTable = () => {
   const navigate = useNavigate();
@@ -19,20 +13,22 @@ const SiteDayLotDeatilsTable = () => {
   const itemsPerPage = 20;
   const journalId = useParams();
 
-
   const [journals, setJournals] = useState([]);
 
-  const { journal } = useSelector((state) => state.fetchAllTransactionsByJournal);
-  const [isApproveButton, setIsApproveButton] = useState(false)
+  const { journal } = useSelector(
+    (state) => state.fetchAllTransactionsByJournal
+  );
+  const [isApproveButton, setIsApproveButton] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedUser, setSelectedUser] = useState(null);
   const [allTransactions, setAllTransactions] = useState([]);
-  const { transactions,loading } = useSelector((state) => state.fetchAllTransactions);
+  const { transactions, loading } = useSelector(
+    (state) => state.fetchAllTransactions
+  );
   const { decodedToken } = useSelector((state) => state.fetchToken);
-  const {success} = useSelector((state) => state.approveJournal);
+  const { success } = useSelector((state) => state.approveJournal);
 
-
-//all transactions
+  //all transactions
   useEffect(() => {
     dispatch(fetchAllTransactions(token));
   }, [dispatch]);
@@ -42,48 +38,41 @@ const SiteDayLotDeatilsTable = () => {
       setAllTransactions(transactions.data);
     }
   }, [transactions]);
- 
 
+  // Function to get unique values from an array
+  const getUniqueValues = (arr, key) => {
+    const uniqueValues = [];
+    const uniqueKeys = new Set();
 
-    // Function to get unique values from an array
-    const getUniqueValues = (arr, key) => {
-      const uniqueValues = [];
-      const uniqueKeys = new Set();
-  
-      arr.forEach((item) => {
-        const value = item[key];
-  
-        if (!uniqueKeys.has(value)) {
-          uniqueKeys.add(value);
-          uniqueValues.push(item);
-        }
-      });
-  
-      return uniqueValues;
-    };
-  
-//single journal
-    const filteredJournal = 
-      getUniqueValues(allTransactions,journalId.journalId);
-     
-  
-  const formatter = new Intl.NumberFormat('en-US');
+    arr.forEach((item) => {
+      const value = item[key];
 
-//removing transaction
- //
+      if (!uniqueKeys.has(value)) {
+        uniqueKeys.add(value);
+        uniqueValues.push(item);
+      }
+    });
+
+    return uniqueValues;
+  };
+
+  //single journal
+  const filteredJournal = getUniqueValues(allTransactions, journalId.journalId);
+
+  const formatter = new Intl.NumberFormat("en-US");
+
+  //removing transaction
+  //
   useEffect(() => {
-    dispatch(
-      fetchAllTransactionsByJournal(token, journalId.journalId)
-    );
-  }, [dispatch,token,journalId]);
+    dispatch(fetchAllTransactionsByJournal(token, journalId.journalId));
+  }, [dispatch, token, journalId]);
 
   useEffect(() => {
     if (journal) {
       setJournals(journal.data);
     }
   }, [journal]);
-  console.log("journalllleeeee",journals)
- 
+  console.log("journalllleeeee", journals);
 
   const calculateTotalKilogramsByJournal = () => {
     const sumByJournal = {};
@@ -105,17 +94,16 @@ const SiteDayLotDeatilsTable = () => {
     return sumByJournal;
   };
 
-
   const sumByJournal = calculateTotalKilogramsByJournal();
-
- 
 
   const calculateTotalPrice = () => {
     const totalPriceByTransaction = {};
 
     journals.forEach((transaction) => {
       const transactionId = transaction.id;
-      const totalPrice = transaction.kilograms*transaction.unitprice + transaction.bad_kilograms*transaction.bad_unit_price  || 0;
+      const totalPrice =
+        transaction.kilograms * transaction.unitprice +
+          transaction.bad_kilograms * transaction.bad_unit_price || 0;
 
       if (!totalPriceByTransaction[transactionId]) {
         totalPriceByTransaction[transactionId] = 0;
@@ -148,8 +136,6 @@ const SiteDayLotDeatilsTable = () => {
 
   const totalMomoAmountByTransaction = calculateTotalMomoAmount();
 
-
-
   const calculateTotalKilogramsPurchased = (transaction) => {
     const certifiedKG =
       transaction.certified === 1 ? transaction.kilograms || 0 : 0;
@@ -180,31 +166,37 @@ const SiteDayLotDeatilsTable = () => {
       return transaction.certified === 1;
     });
   };
-  const certifiedTransactionsUnderJournal = getCertifiedTransactionsUnderJournal(journal);
-  console.log(`certified Transactions under journal:`, certifiedTransactionsUnderJournal);
+  const certifiedTransactionsUnderJournal =
+    getCertifiedTransactionsUnderJournal(journal);
+  console.log(
+    `certified Transactions under journal:`,
+    certifiedTransactionsUnderJournal
+  );
 
-
-  
   const getUnCertifiedTransactionsUnderJournal = (journal) => {
     return journals.filter((transaction) => {
       return transaction.certified === 0;
     });
   };
 
-  const unCertifiedTransactionsUnderJournal = getUnCertifiedTransactionsUnderJournal(journal);
-  console.log(`uncertified Transactions under journal:`, unCertifiedTransactionsUnderJournal);
-  
-  
-  const paginatedcertifiedTransactions = certifiedTransactionsUnderJournal?.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+  const unCertifiedTransactionsUnderJournal =
+    getUnCertifiedTransactionsUnderJournal(journal);
+  console.log(
+    `uncertified Transactions under journal:`,
+    unCertifiedTransactionsUnderJournal
   );
 
-  
-  const paginatedUnCertifiedTransactions = unCertifiedTransactionsUnderJournal?.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const paginatedcertifiedTransactions =
+    certifiedTransactionsUnderJournal?.slice(
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage
+    );
+
+  const paginatedUnCertifiedTransactions =
+    unCertifiedTransactionsUnderJournal?.slice(
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage
+    );
 
   const allPaperReceipts = journals.map(
     (transaction) => transaction.paper_receipt
@@ -214,7 +206,6 @@ const SiteDayLotDeatilsTable = () => {
     const occurrences = allPaperReceipts.filter(
       (value) => value === paperReceipt
     ).length;
-
 
     return occurrences === 1;
   };
@@ -232,7 +223,6 @@ const SiteDayLotDeatilsTable = () => {
       siteCollector: "",
     };
 
-   
     journals.forEach((transaction) => {
       totalValues.transactionDate = transaction.transaction_date;
 
@@ -247,94 +237,89 @@ const SiteDayLotDeatilsTable = () => {
       }
       totalValues.totalFloaters += transaction.bad_kilograms;
       totalValues.averagePrice = transaction.unitprice;
-      totalValues.totalCoffeeValue += transaction.kilograms*transaction.unitprice + transaction.bad_kilograms*transaction.bad_unit_price;
+      totalValues.totalCoffeeValue +=
+        transaction.kilograms * transaction.unitprice +
+        transaction.bad_kilograms * transaction.bad_unit_price;
       totalValues.totalKgs =
-      totalValues.totalCertified +
+        totalValues.totalCertified +
         totalValues.totalUncertified +
         totalValues.totalFloaters;
     });
 
     return totalValues;
   };
-//calculating totals
+  //calculating totals
   const totalValues = calculateTotalValues();
-  console.log("totolValus",totalValues)
-const calculateTotalCertifiedValues = () => {
-  const totalCertifiedValues = {
-    totalFloaters: 0,
-    averagePrice: 0,
-    totalCertified: 0,
-    totalCoffeeValue: 0,
-    totalUnTraceableKg: 0,
-    totalKgs: 0,
-    siteCollector: "",
-    totalUncertified:0
+  console.log("totolValus", totalValues);
+  const calculateTotalCertifiedValues = () => {
+    const totalCertifiedValues = {
+      totalFloaters: 0,
+      averagePrice: 0,
+      totalCertified: 0,
+      totalCoffeeValue: 0,
+      totalUnTraceableKg: 0,
+      totalKgs: 0,
+      siteCollector: "",
+      totalUncertified: 0,
+    };
+
+    certifiedTransactionsUnderJournal.forEach((transaction) => {
+      totalCertifiedValues.transactionDate = transaction.transaction_date;
+
+      totalCertifiedValues.uploadedTime = transaction.uploaded_at;
+
+      if (transaction.certified === 1) {
+        totalCertifiedValues.totalCertified += transaction.kilograms;
+        totalCertifiedValues.totalFloaters += transaction.bad_kilograms;
+        totalCertifiedValues.averagePrice = transaction.unitprice;
+        totalCertifiedValues.totalCoffeeValue +=
+          transaction.kilograms * transaction.unitprice;
+        totalCertifiedValues.totalKgs = totalCertifiedValues.totalCertified;
+      }
+    });
+
+    return totalCertifiedValues;
   };
+  //calculating totals
+  const totalCertifiedValues = calculateTotalCertifiedValues();
+  console.log("certified,", totalCertifiedValues);
 
- 
-  certifiedTransactionsUnderJournal.forEach((transaction) => {
-    totalCertifiedValues.transactionDate = transaction.transaction_date;
+  const calculateTotalUncertifiedValues = () => {
+    const totalUncertifiedValues = {
+      uploadedTime: 0,
+      transactionDate: "",
+      totalFloaters: 0,
+      averagePrice: 0,
+      totalCertified: 0,
+      totalUncertified: 0,
+      totalCoffeeValue: 0,
+      totalUnTraceableKg: 0,
+      totalKgs: 0,
+      siteCollector: "",
+    };
 
-    totalCertifiedValues.uploadedTime = transaction.uploaded_at;
+    unCertifiedTransactionsUnderJournal.forEach((transaction) => {
+      totalUncertifiedValues.transactionDate = transaction.transaction_date;
 
-    if(transaction.certified===1)
-    {
-      totalCertifiedValues.totalCertified += transaction.kilograms;
-      totalCertifiedValues.totalFloaters += transaction.bad_kilograms;
-      totalCertifiedValues.averagePrice = transaction.unitprice;
-      totalCertifiedValues.totalCoffeeValue += transaction.kilograms*transaction.unitprice ;
-      totalCertifiedValues.totalKgs =
-      totalCertifiedValues.totalCertified 
-    }
-    
-  });
-
-  return totalCertifiedValues;
-};
-//calculating totals
-const totalCertifiedValues = calculateTotalCertifiedValues();
-console.log("certified,", totalCertifiedValues)
-
-
-
-const calculateTotalUncertifiedValues = () => {
-  const totalUncertifiedValues = {
-    uploadedTime: 0,
-    transactionDate: "",
-    totalFloaters: 0,
-    averagePrice: 0,
-    totalCertified: 0,
-    totalUncertified: 0,
-    totalCoffeeValue: 0,
-    totalUnTraceableKg: 0,
-    totalKgs: 0,
-    siteCollector: "",
-  };
-
- 
-  unCertifiedTransactionsUnderJournal.forEach((transaction) => {
-    totalUncertifiedValues.transactionDate = transaction.transaction_date;
-
-    totalUncertifiedValues.uploadedTime = transaction.uploaded_at;
-
+      totalUncertifiedValues.uploadedTime = transaction.uploaded_at;
 
       totalUncertifiedValues.totalUncertified += transaction.kilograms;
-    if(transaction.certified === 0) {
-      
-    }
-    totalUncertifiedValues.totalFloaters += transaction.bad_kilograms;
-    totalUncertifiedValues.averagePrice = transaction.unitprice;
-    totalUncertifiedValues.totalCoffeeValue = totalUncertifiedValues.totalUncertified*transaction.unitprice;
-    totalUncertifiedValues.totalKgs =
-      totalUncertifiedValues.totalUncertified +
-      totalUncertifiedValues.totalFloaters;
-  });
+      if (transaction.certified === 0) {
+      }
+      totalUncertifiedValues.totalFloaters += transaction.bad_kilograms;
+      totalUncertifiedValues.averagePrice = transaction.unitprice;
+      totalUncertifiedValues.totalCoffeeValue =
+        totalUncertifiedValues.totalUncertified * transaction.unitprice;
+      totalUncertifiedValues.totalKgs =
+        totalUncertifiedValues.totalUncertified +
+        totalUncertifiedValues.totalFloaters;
+    });
 
-  return totalUncertifiedValues;
-};
-//calculating totals
-const totalUncertifiedValues = calculateTotalUncertifiedValues();
-console.log("uncertified,", totalUncertifiedValues)
+    return totalUncertifiedValues;
+  };
+  //calculating totals
+  const totalUncertifiedValues = calculateTotalUncertifiedValues();
+  console.log("uncertified,", totalUncertifiedValues);
 
   const formatDate = (dateString) => {
     const options = {
@@ -348,8 +333,6 @@ console.log("uncertified,", totalUncertifiedValues)
       new Date(dateString)
     );
   };
-  
- 
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
@@ -486,14 +469,14 @@ console.log("uncertified,", totalUncertifiedValues)
           </div>
         </div>
       </div>
-      <p className="mt-3 font-bold">Certified   Coffee</p>
+      <p className="mt-3 font-bold">Certified Coffee</p>
       <div className="flex flex-col">
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden shadow">
               <table className="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
                 <thead className="bg-gray-100 dark:bg-gray-700">
-                <tr>
+                  <tr>
                     <th scope="col" className="p-4">
                       #
                     </th>
@@ -501,19 +484,19 @@ console.log("uncertified,", totalUncertifiedValues)
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     BUY.DATE	
+                      BUY.DATE
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      FTR	
+                      FTR
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     NAME
+                      NAME
                     </th>
                     <th
                       scope="col"
@@ -525,25 +508,25 @@ console.log("uncertified,", totalUncertifiedValues)
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                  QTY
+                      QTY
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     AMT
+                      AMT
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     AV.PX	
+                      AV.PX
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-             TX.TYPE	
+                      TX.TYPE
                     </th>
                     <th
                       scope="col"
@@ -555,10 +538,8 @@ console.log("uncertified,", totalUncertifiedValues)
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     CERT
+                      CERT
                     </th>
-                   
-                  
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
@@ -568,11 +549,11 @@ console.log("uncertified,", totalUncertifiedValues)
                       className="hover:bg-gray-100 dark:hover:bg-gray-700"
                     >
                       <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                      {(currentPage - 1) * itemsPerPage + index + 1}
+                        {(currentPage - 1) * itemsPerPage + index + 1}
                       </td>
 
                       <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                      {formatDate(transaction.uploaded_at)}
+                        {formatDate(transaction.uploaded_at)}
                       </td>
                       <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
                         {transaction.lotnumber}
@@ -582,10 +563,10 @@ console.log("uncertified,", totalUncertifiedValues)
                         {transaction.farmername}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                        {transaction.farmerid }
+                        {transaction.farmerid}
                       </td>
                       <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                        { transaction.kilograms}
+                        {transaction.kilograms}
                       </td>
                       <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
                         {transaction.cash_paid.toLocaleString()}
@@ -611,48 +592,23 @@ console.log("uncertified,", totalUncertifiedValues)
                         {transaction.certification}
                       </td>
                     </tr>
-                    
                   ))}
                   <tr>
-                  <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-                      
-                      </td>
-                      <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-
-
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
+                      {totalCertifiedValues.totalCertified.toLocaleString()} kgs
                     </td>
                     <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-
-
+                      {totalCertifiedValues.totalCoffeeValue.toLocaleString()}
                     </td>
-                    <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-
-                    </td>
-                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-
-                      </td>
-                      <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-                        {totalCertifiedValues.totalCertified.toLocaleString()} kgs
-                      </td>
-                      <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-                       {totalCertifiedValues.totalCoffeeValue.toLocaleString()}
-
-                    </td>
-                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-
-                     </td>
-                        <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-
-                        </td>
-                        <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-
-                      </td>
-                       <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-                         </td>
-                         
-                        
-                      
-                    
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
                   </tr>
                 </tbody>
               </table>
@@ -706,7 +662,10 @@ console.log("uncertified,", totalUncertifiedValues)
             </span>{" "}
             -{" "}
             <span className="font-semibold text-gray-900 dark:text-white">
-              {Math.min(currentPage * itemsPerPage, certifiedTransactionsUnderJournal?.length)}
+              {Math.min(
+                currentPage * itemsPerPage,
+                certifiedTransactionsUnderJournal?.length
+              )}
             </span>{" "}
             of{" "}
             <span className="font-semibold text-gray-900 dark:text-white">
@@ -714,8 +673,8 @@ console.log("uncertified,", totalUncertifiedValues)
             </span>
           </span>
         </div>
-      </div>     
-      <p className="mt-3 font-bold">Uncertified   Coffee</p>
+      </div>
+      <p className="mt-3 font-bold">Uncertified Coffee</p>
       <div className="flex flex-col">
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
@@ -730,19 +689,19 @@ console.log("uncertified,", totalUncertifiedValues)
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     BUY.DATE	
+                      BUY.DATE
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      FTR	
+                      FTR
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     NAME
+                      NAME
                     </th>
                     <th
                       scope="col"
@@ -754,25 +713,25 @@ console.log("uncertified,", totalUncertifiedValues)
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                  QTY
+                      QTY
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     AMT
+                      AMT
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     AV.PX	
+                      AV.PX
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-             TX.TYPE	
+                      TX.TYPE
                     </th>
                     <th
                       scope="col"
@@ -784,101 +743,83 @@ console.log("uncertified,", totalUncertifiedValues)
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     CERT
+                      CERT
                     </th>
-                   
-                  
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                  {unCertifiedTransactionsUnderJournal?.map((transaction, index) => (
-                    <tr
-                    key={transaction.id}
-                    className="hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                    {(currentPage - 1) * itemsPerPage + index + 1}
-                    </td>
+                  {unCertifiedTransactionsUnderJournal?.map(
+                    (transaction, index) => (
+                      <tr
+                        key={transaction.id}
+                        className="hover:bg-gray-100 dark:hover:bg-gray-700"
+                      >
+                        <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
+                          {(currentPage - 1) * itemsPerPage + index + 1}
+                        </td>
 
-                    <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                    {formatDate(transaction.uploaded_at)}
+                        <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+                          {formatDate(transaction.uploaded_at)}
+                        </td>
+                        <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
+                          {transaction.lotnumber}
+                        </td>
 
-                    </td>
-                    <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                      {transaction.lotnumber}
-                    </td>
+                        <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
+                          {transaction.farmername}
+                        </td>
+                        <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
+                          {transaction.farmerid}
+                        </td>
+                        <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
+                          {transaction.bad_kilograms}
+                        </td>
+                        <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
+                          {transaction.cash_paid.toLocaleString()}
+                        </td>
 
-                    <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                      {transaction.farmername}
-                    </td>
-                    <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                     {transaction.farmerid}
-                    </td>
-                    <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                    {transaction.bad_kilograms}
-                    </td>
-                    <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                      {transaction.cash_paid.toLocaleString()}
-                    </td>
-                   
-                    <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                      {transaction.unitprice}
-                    </td>
-                    <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                      {transaction.transaction_type}
-                    </td>
-                    <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                      {isUniquePaperSlip(transaction.paper_receipt) ? (
-                        <button className="w-8 h-8 rounded-full bg-green-500 text-white  flex items-center justify-center">
-                          i
-                        </button>
-                      ) : (
-                        <button className="w-8 h-8 rounded-full bg-red-500 text-white  flex items-center justify-center">
-                          i
-                        </button>
-                      )}
-                    </td>
-                    <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                    {transaction.certification}
-                    </td>
-                   
-                  
-                  </tr>
-                    
-                  ))}
+                        <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
+                          {transaction.unitprice}
+                        </td>
+                        <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
+                          {transaction.transaction_type}
+                        </td>
+                        <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
+                          {isUniquePaperSlip(transaction.paper_receipt) ? (
+                            <button className="w-8 h-8 rounded-full bg-green-500 text-white  flex items-center justify-center">
+                              i
+                            </button>
+                          ) : (
+                            <button className="w-8 h-8 rounded-full bg-red-500 text-white  flex items-center justify-center">
+                              i
+                            </button>
+                          )}
+                        </td>
+                        <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
+                          {transaction.certification}
+                        </td>
+                      </tr>
+                    )
+                  )}
                   <tr>
-                  <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
                       TOTALS
-                      </td>
-                      <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-
-
-                    </td>
-                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-
-
-                    </td>
-                    <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-
-                    </td>
-                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-
-                      </td>
-                      <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-                      {totalUncertifiedValues.totalUncertified.toLocaleString()} kgs
-
-                     </td>
-                      <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-                      {totalUncertifiedValues.totalCoffeeValue.toLocaleString()}
-                     
                     </td>
                     <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
-                        <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-                        </td>
-                        <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
-                       <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
-                         </td>
-                         
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
+                      {totalUncertifiedValues.totalUncertified.toLocaleString()}{" "}
+                      kgs
+                    </td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white">
+                      {totalUncertifiedValues.totalCoffeeValue.toLocaleString()}
+                    </td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
+                    <td className="p-4 text-base font-bold   whitespace-nowrap dark:text-white"></td>
                   </tr>
                 </tbody>
               </table>
@@ -940,15 +881,6 @@ console.log("uncertified,", totalUncertifiedValues)
           </span>
         </div>
       </div>  */}
-
-      {/* update drawer */}
-      <UpdateItemDrawer />
-
-      {/* Delete Product Drawer */}
-      <DeleteItemDrawer />
-
-      {/* Add Product Drawer */}
-      <AddItemDrawer />
     </div>
   );
 };

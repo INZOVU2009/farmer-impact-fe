@@ -4,20 +4,11 @@ import { addTransactionBucket } from "../redux/actions/transactions/transactionB
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
-// import { fetchAllTransactionsByJournal } from "../redux/actions/transactions/transactionsByJournal.action";
 import "react-toastify/dist/ReactToastify.css";
-import { useParams } from "react-router-dom";
 
 const token = localStorage.getItem("token");
-
-export default function BucketingModel({
-  journal,
-
-  onClose,
-  onSubmit,
-}) {
+export default function BucketingModel({ journal, onClose, onSubmit }) {
   const dispatch = useDispatch();
-  const journalId = useParams();
   const [editedJournal, setEditedJournal] = useState({
     bucket_a: "",
     bucket_b: "",
@@ -25,8 +16,6 @@ export default function BucketingModel({
     day_lot: journal.cherry_lot_id,
     certified: journal.certified,
   });
-  console.log("journall", editedJournal);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditedJournal((prevJournal) => ({
@@ -35,8 +24,6 @@ export default function BucketingModel({
     }));
   };
 
-  // console.log("journal",journal)
-
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -44,9 +31,6 @@ export default function BucketingModel({
       toast.success("Transaction updated successfully");
       onClose();
       onSubmit(editedJournal);
-
-      // Fetch transactions after successful update
-      // dispatch(fetchAllTransactionsByJournal(token, journalId.journalId.replace(":", "")));
     } catch (error) {
       console.error("Update failed:", error);
       toast.error("Failed to update transaction");
@@ -56,8 +40,6 @@ export default function BucketingModel({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-5 overflow-y-auto flex items-center justify-center z-50">
       <div className="bg-white  rounded-lg shadow-md ">
-        {/* Modal */}
-
         <div className="flex justify-end ">
           <button onClick={onClose}>
             <AiTwotoneCloseCircle />
@@ -95,8 +77,6 @@ export default function BucketingModel({
             name="bucket_c"
           />
           <ToastContainer />
-
-          {/* Button to submit password */}
           <button
             className="bg-green-400 w-48 h-10  flex items-center justify-center rounded-lg"
             onClick={handleEditSubmit}

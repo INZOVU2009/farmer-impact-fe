@@ -12,6 +12,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllTrainings } from "../redux/actions/trainings/fetchAllTrainings.action";
+
 function UserInspectionsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [allInspections, setAllInspections] = useState(null);
@@ -19,7 +20,7 @@ function UserInspectionsPage() {
   const [allGroups, setAllGroups] = useState(null);
   const [allHouseholds, setAllHouseholds] = useState(null);
   const [allStation, setAllStation] = useState([]);
-  const [allTrainings, setAllTrainings] = useState([])
+  const [allTrainings, setAllTrainings] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState();
   const { inspections } = useSelector((state) => state.fetchAllInspections);
@@ -29,6 +30,7 @@ function UserInspectionsPage() {
   const { stations } = useSelector((state) => state.fetchAllStations);
   const { trainings } = useSelector((state) => state.fetchAllTrainings);
   const itemsPerPage = 20;
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchAllInspections());
@@ -90,7 +92,6 @@ function UserInspectionsPage() {
     }
   }, [trainings]);
 
-
   const getStationName = (_kf_Station) => {
     const station = allStation?.find(
       (station) => station.__kp_Station === _kf_Station
@@ -138,7 +139,7 @@ function UserInspectionsPage() {
     const searchItem = e.target.value;
     setSearchQuery(searchItem);
   };
-  console.log("hehe", searchQuery)
+  console.log("hehe", searchQuery);
   const getUniqueValues = (arr, key) => {
     const uniqueValues = [];
     const uniqueKeys = new Set();

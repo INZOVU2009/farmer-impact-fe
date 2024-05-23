@@ -1,22 +1,10 @@
 import React, { useState, useEffect } from "react";
-import UpdateItemDrawer from "./UpdateItemDrawer";
-import DeleteItemDrawer from "./DeleteItemDrawer";
-import AddItemDrawer from "./AddItemDrawer";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import EditTransactionModel from "../../components/EditTransactionModel";
-import RemoveTransactionModel from "../../components/RemoveTransactionModel";
-import { fetchAllTransactionsByJournal } from "../../redux/actions/transactions/transactionsByJournal.action";
-import { removeTransaction } from "../../redux/actions/transactions/removeTransaction.action";
-import { MdModeEdit } from "react-icons/md";
-import { RiDeleteBin6Line } from "react-icons/ri";
 import { fetchAllTransactions } from "../../redux/actions/transactions/allTransactions.action";
-import { CommisionFees } from "../../redux/actions/transactions/addCommissinFees";
-import { addCommission } from "../../redux/actions/transactions/commission.action";
 import "react-toastify/dist/ReactToastify.css";
-import * as XLSX from "xlsx";
-import { saveAs } from "file-saver";
 import { fetchAllTransactionsByCherryLot } from "../../redux/actions/transactions/transactionsByCherryLot.action ";
+
 const LotsInAdaylotTable = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -31,21 +19,14 @@ const LotsInAdaylotTable = () => {
   const { journal } = useSelector(
     (state) => state.fetchAllTransactionsByCherryLot
   );
-  const { removeTransactionData } = useSelector((state) => state.fetchAllStaff);
-  const [isCommissionFeesAdded, setIsCommissionFeesAdded] = useState(false);
-  const [isCommissionPriceAdded, setIsCommissionPriceAdded] = useState(false);
-  const [isApproveButton, setIsApproveButton] = useState(false);
+ 
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [transactionIdToDelete, setTransactionIdToDelete] = useState(null);
-  const [showTransactionModel, setShowTransactionModel] = useState(false);
-  const [isModalOpen, setModalOpen] = useState(false);
+
   const [allTransactions, setAllTransactions] = useState([]);
   const { transactions, loading } = useSelector(
     (state) => state.fetchAllTransactions
   );
-  const { decodedToken } = useSelector((state) => state.fetchToken);
-  const { success } = useSelector((state) => state.approveJournal);
+
   const [additionalInfo, setAdditionalInfo] = useState({
     commissionFee: 10,
     transportFee: 10,
@@ -585,15 +566,6 @@ const LotsInAdaylotTable = () => {
           DOWNLOAD REPORT
         </button>
       </div>
-
-      {/* update drawer */}
-      <UpdateItemDrawer />
-
-      {/* Delete Product Drawer */}
-      <DeleteItemDrawer />
-
-      {/* Add Product Drawer */}
-      <AddItemDrawer />
     </div>
   );
 };

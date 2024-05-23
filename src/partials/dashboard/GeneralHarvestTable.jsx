@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
-import UpdateItemDrawer from "./UpdateItemDrawer";
-import DeleteItemDrawer from "./DeleteItemDrawer";
-import AddItemDrawer from "./AddItemDrawer";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { fetchGeneralHarvests } from "../../redux/actions/generalHarvest/allGeneralHarvest.action";
 import { fetchAllStation } from "../../redux/actions/station/allStations.action";
 import { fetchAllSeasons } from "../../redux/actions/seasons/allSeasons.action";
+import "react-toastify/dist/ReactToastify.css";
+
 const GeneralHarvestTable = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -51,7 +48,7 @@ const GeneralHarvestTable = () => {
         station: selectedStation,
       };
       dispatch(fetchGeneralHarvests(data));
-      console.log("stataaa",data)
+      console.log("stataaa", data);
     }
   }, [selectedStation]);
 
@@ -78,8 +75,6 @@ const GeneralHarvestTable = () => {
       setSeason(generalHarvest.seasons);
     }
   }, [generalHarvest]);
-
-
 
   useEffect(() => {
     dispatch(fetchAllStation());
@@ -230,38 +225,25 @@ const GeneralHarvestTable = () => {
   };
   const calculateTotalKilogramsByFarmer = () => {
     const sumByFarmer = {};
-  
+
     // Iterate through transactions
     transactionData?.forEach((transaction) => {
       let farmerId = transaction.farmerid;
       const farmerName = transaction.farmername;
       const kilograms = transaction.kilograms || 0;
 
-      // Check if farmerId is empty, then find the farmerId based on name
-      // if (!farmerId) {
-      //   const matchingFarmer = farmerData?.find((farmer) =>
-      //     farmer.Name.toLowerCase() === farmerName.toLowerCase()
-          
-      //   );
-      //   if (matchingFarmer) {
-      //     farmerId = matchingFarmer.farmerid;
-      //   }
-      //   // console.log("fff",farmerId)
-
-      // }
-  
       // Check if the farmerId exists in the sumMap
       if (!sumByFarmer[farmerId]) {
         sumByFarmer[farmerId] = 0;
       }
-  
+
       // Add kilograms to the sumMap
       sumByFarmer[farmerId] += kilograms;
     });
-  
+
     return sumByFarmer;
   };
-const sumByFarmer = calculateTotalKilogramsByFarmer()  
+  const sumByFarmer = calculateTotalKilogramsByFarmer();
 
   const totalFloaters = () => {
     const floatersByFarmer = {};
@@ -328,7 +310,7 @@ const sumByFarmer = calculateTotalKilogramsByFarmer()
             </form>
             {/* <div className="flex items-center sm:justify-end"> */}
             <div className="flex space-x-4 mt-1 -ml-32">
-            <div>
+              <div>
                 <p>Station</p>
                 <select
                   name=""
@@ -338,11 +320,14 @@ const sumByFarmer = calculateTotalKilogramsByFarmer()
                 >
                   {/* <option value="all">All</option> */}
                   <option value="all">All</option>
-                    {filteredStation.map((station) => (
-                      <option key={station.__kp_Station} value={station.__kp_Station}>
-                        {station.Name}
-                      </option>
-                    ))}
+                  {filteredStation.map((station) => (
+                    <option
+                      key={station.__kp_Station}
+                      value={station.__kp_Station}
+                    >
+                      {station.Name}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div>
@@ -355,11 +340,11 @@ const sumByFarmer = calculateTotalKilogramsByFarmer()
                 >
                   {/* <option value="all">All</option> */}
                   <option value="all">All</option>
-                    {filteredSeasons.map((season) => (
-                      <option key={season.__kp_Season} value={season.__kp_Season}>
-                        {season.Label}
-                      </option>
-                    ))}
+                  {filteredSeasons.map((season) => (
+                    <option key={season.__kp_Season} value={season.__kp_Season}>
+                      {season.Label}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -537,15 +522,6 @@ const sumByFarmer = calculateTotalKilogramsByFarmer()
           </span>
         </div>
       </div>
-
-      {/* update drawer */}
-      <UpdateItemDrawer />
-
-      {/* Delete Product Drawer */}
-      <DeleteItemDrawer />
-
-      {/* Add Product Drawer */}
-      <AddItemDrawer />
     </div>
   );
 };

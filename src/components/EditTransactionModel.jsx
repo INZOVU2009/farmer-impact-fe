@@ -8,14 +8,12 @@ import { fetchAllTransactionsByJournal } from "../redux/actions/transactions/tra
 import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router-dom";
 
-
-const token = localStorage.getItem("token")
+const token = localStorage.getItem("token");
 export default function EditTransactionModel({
   transaction,
   onClose,
   onSubmit,
 }) {
-
   const dispatch = useDispatch();
   const journalId = useParams();
   const [editedTransaction, setEditedTransaction] = useState({
@@ -27,17 +25,16 @@ export default function EditTransactionModel({
     unitprice: transaction.unitprice,
     bad_kilograms: transaction.bad_kilograms,
     bad_unit_price: transaction.bad_unit_price,
-    kilograms:transaction.kilograms,
+    kilograms: transaction.kilograms,
     certificationType:
       transaction.certification === "CP"
         ? "Cafe Practice"
         : transaction.certification === "RN"
-          ? "Rain Forest"
-          : transaction.certification === "NC"
-            ? "Non Certified"
-            : "",
+        ? "Rain Forest"
+        : transaction.certification === "NC"
+        ? "Non Certified"
+        : "",
   });
-
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -47,43 +44,36 @@ export default function EditTransactionModel({
     }));
   };
 
-
- 
-
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-       dispatch(updateTransaction(token, transaction.id, editedTransaction));
+      dispatch(updateTransaction(token, transaction.id, editedTransaction));
       toast.success("Transaction updated successfully");
       onClose();
       onSubmit(editedTransaction);
-  
-      // Fetch transactions after successful update
-      dispatch(fetchAllTransactionsByJournal(token, journalId.journalId.replace(":", "")));
-  
+      dispatch(
+        fetchAllTransactionsByJournal(
+          token,
+          journalId.journalId.replace(":", "")
+        )
+      );
     } catch (error) {
       console.error("Update failed:", error);
       toast.error("Failed to update transaction");
     }
   };
-  
-
-
-
 
   const calculateTotalPrice = () => {
     let totalPriceByTransaction;
-
-
-    // const transactionId = transaction.id;
-    const totalPrice = transaction.kilograms*transaction.unitprice + transaction.bad_kilograms*transaction.bad_unit_price || 0;
+    const totalPrice =
+      transaction.kilograms * transaction.unitprice +
+        transaction.bad_kilograms * transaction.bad_unit_price || 0;
 
     if (!totalPriceByTransaction) {
       totalPriceByTransaction = 0;
     }
 
-    totalPriceByTransaction= totalPrice;
-
+    totalPriceByTransaction = totalPrice;
 
     return totalPriceByTransaction;
   };
@@ -93,16 +83,13 @@ export default function EditTransactionModel({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-5 overflow-y-auto flex items-center justify-center z-50">
       <div className="bg-white  rounded-lg shadow-md mt-auto">
-
-        {/* Modal */}
-
         <div className="flex justify-end ">
           <button onClick={onClose}>
             <AiTwotoneCloseCircle />
           </button>
         </div>
 
-        <div className=" px-16 space-y-3 mb-4" >
+        <div className=" px-16 space-y-3 mb-4">
           <p className="text-green-500">Edit Transaction</p>
           <hr className="mb-4 border border-gray-200 " />
           <p>Lot Number</p>
@@ -131,7 +118,6 @@ export default function EditTransactionModel({
             onChange={handleInputChange}
           />
 
-
           <p>kilograms</p>
 
           <input
@@ -139,7 +125,6 @@ export default function EditTransactionModel({
             name="kilograms"
             value={editedTransaction.kilograms}
             onChange={handleInputChange}
-
             placeholder=""
             className="rounded-lg   w-80"
           />
@@ -152,17 +137,14 @@ export default function EditTransactionModel({
             name="unitprice"
             value={editedTransaction.unitprice}
             onChange={handleInputChange}
-          
           />
 
           <p>Total Price</p>
 
           <input
             className="rounded-lg w-80"
-
             type="text"
             value={totalPriceByTransaction.toLocaleString()}
-          // readOnly
           />
 
           <p>Floaters</p>
@@ -171,13 +153,10 @@ export default function EditTransactionModel({
             type="text"
             name="bad_kilograms"
             value={editedTransaction.bad_kilograms}
-
             onChange={handleInputChange}
-
             placeholder=""
             className="rounded-lg w-80"
           />
-
 
           <p>Price Per Floater</p>
 
@@ -185,9 +164,7 @@ export default function EditTransactionModel({
             type="text"
             name="bad_unit_price"
             value={editedTransaction.bad_unit_price}
-
             onChange={handleInputChange}
-
             placeholder=""
             className="rounded-lg w-80"
           />
@@ -204,13 +181,8 @@ export default function EditTransactionModel({
             <option value="NC">Non Certified</option>
           </select>
 
-
-
-
-
           <ToastContainer />
 
-          {/* Button to submit password */}
           <button
             className="bg-green-400 w-48 h-10  flex items-center justify-center rounded-lg"
             onClick={handleEditSubmit}
@@ -218,9 +190,7 @@ export default function EditTransactionModel({
             Edit Transaction
           </button>
         </div>
-
       </div>
     </div>
-
   );
 }

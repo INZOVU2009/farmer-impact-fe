@@ -7,62 +7,61 @@ import { fetchProcessedContribution } from "../redux/actions/deliveryProcessing/
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchAllStation } from "../redux/actions/station/allStations.action";
-import {fetchAllUsers} from '../redux/actions/user/Users.action'
+import { fetchAllUsers } from "../redux/actions/user/Users.action";
 
 function ProcessedContribution() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
- const [processedContribution, setProcessedContribution] = useState([])
- const {contribution} = useSelector((state)=>state.processedContributionById)
- const { stations } = useSelector((state) => state.fetchAllStations);
- const [allStation, setAllStation] = useState([]);
- const [allUsers, setAllUsers] = useState([]);
- const { users } = useSelector((state) => state.users);
- const dispatch = useDispatch()
- const id = useParams()
-
- useEffect(()=>{
-  dispatch(fetchProcessedContribution(id.id))
- },[dispatch])
-
- useEffect(()=>{
-  if(contribution){
-    setProcessedContribution(contribution.data)
-  }
- },contribution)
-
- useEffect(() => {
-   dispatch(fetchAllStation())
-}, [dispatch]);
- useEffect(() => {
-  if (stations) {
-    setAllStation(stations.data);
-  }
-}, [stations]);
-
-useEffect(() => {
-  dispatch(fetchAllUsers());
-}, [dispatch]);
-
-
-useEffect(() => {
-  if (users) {
-    setAllUsers(users.data);
-  }
-}, [users]);
-
-const getStationName = (_kf_Station) => {
-  const station = allStation?.find(
-    (station) => station.__kp_Station === _kf_Station
+  const [processedContribution, setProcessedContribution] = useState([]);
+  const { contribution } = useSelector(
+    (state) => state.processedContributionById
   );
-  return station ? station.Name : null;
-};
+  const { stations } = useSelector((state) => state.fetchAllStations);
+  const [allStation, setAllStation] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
+  const { users } = useSelector((state) => state.users);
+  const dispatch = useDispatch();
+  const id = useParams();
 
-const getUserNameById = (id) => {
-  const user = allUsers?.find(
-    (user) => user.id == id
-  );
-  return user ? user.Name_Full : null;
-};
+  useEffect(() => {
+    dispatch(fetchProcessedContribution(id.id));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (contribution) {
+      setProcessedContribution(contribution.data);
+    }
+  }, contribution);
+
+  useEffect(() => {
+    dispatch(fetchAllStation());
+  }, [dispatch]);
+  useEffect(() => {
+    if (stations) {
+      setAllStation(stations.data);
+    }
+  }, [stations]);
+
+  useEffect(() => {
+    dispatch(fetchAllUsers());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (users) {
+      setAllUsers(users.data);
+    }
+  }, [users]);
+
+  const getStationName = (_kf_Station) => {
+    const station = allStation?.find(
+      (station) => station.__kp_Station === _kf_Station
+    );
+    return station ? station.Name : null;
+  };
+
+  const getUserNameById = (id) => {
+    const user = allUsers?.find((user) => user.id == id);
+    return user ? user.Name_Full : null;
+  };
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -88,13 +87,12 @@ const getUserNameById = (id) => {
               <h1>Processed Delivery Details</h1>
             </div>
 
-
             <div className="flex flex-row left-4 items-center justify-center  gap-3"></div>
 
             <ProcessedContributionTable
-            processedContributions={processedContribution}
-            getStationName={getStationName}
-            getUserName={getUserNameById}
+              processedContributions={processedContribution}
+              getStationName={getStationName}
+              getUserName={getUserNameById}
             />
           </div>
 

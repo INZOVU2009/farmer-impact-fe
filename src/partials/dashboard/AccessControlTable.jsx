@@ -1,40 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { PiUsersFourDuotone } from "react-icons/pi";
 import { IoIosPhonePortrait } from "react-icons/io";
 import { GrSystem } from "react-icons/gr";
+import { useDispatch, useSelector } from "react-redux";
 import { getSingleUserById } from "../../redux/actions/user/singleUser.action";
 import { getModules } from "../../redux/actions/accessModules/getAllModules.action";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import { assignPermission } from "../../redux/actions/accessModules/addPermissions.action";
 
 const AccessControlTable = () => {
-  const userId = useParams();
+  const { userId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [fetchedUser, setFetchedUser] = useState();
   const [retrievedModules, setRetrievedModules] = useState();
   const { user, loading } = useSelector((state) => state.fetchSingleUser);
   const { modules } = useSelector((state) => state.fetchAllModules);
-  // const { permissions } = useSelector((state) => state.addPermissions);
-const [permissions, setPermissions] =useState({})
- 
-
+  const [permissions, setPermissions] = useState({});
+  const [selectAll, setSelectAll] = useState(false);
   useEffect(() => {
-    dispatch(getSingleUserById(userId.userId));
-  }, [dispatch]);
+    dispatch(getSingleUserById(userId));
+  }, [dispatch, userId]);
 
   useEffect(() => {
     if (user) {
-      console.log("User data:", user);
       setFetchedUser(user?.data);
     }
   }, [user]);
-  
-  console.log("userrrr",fetchedUser?.Name_Full)
-
-  
 
   useEffect(() => {
     dispatch(getModules());
@@ -42,57 +34,46 @@ const [permissions, setPermissions] =useState({})
 
   useEffect(() => {
     if (modules) {
-      const platforms = modules.data.map((module) => module.platform);
-    
       setRetrievedModules(modules.data);
-     
     }
   }, [modules]);
 
-
-  const handlePermissionChange = (module, type, checked) => {
-    console.log("Module ID:", module.id);
-    console.log("Type:", type);
-    console.log("Checked:", checked);
-  
-    const updatedPermissions = { ...permissions };
-  
-    if (!updatedPermissions[module.id]) {
+  const handlePermissionChange = (module, permissionType, value) => {
+    setPermissions((prevPermissions) => ({
+      ...prevPermissions,
+      [module.id]: {
+        ...prevPermissions[module.id],
+        [permissionType]: value,
+      },
+    }));
+  };
+  const handleSelectAllChange = (value) => {
+    setSelectAll(value);
+    const updatedPermissions = {};
+    retrievedModules?.forEach((module) => {
       updatedPermissions[module.id] = {
-        view: false,
-        add: false,
-        delete: false,
-        edit: false,
+        view: value,
+        add: value,
+        delete: value,
+        edit: value,
       };
-    }
-  
-    updatedPermissions[module.id][type] = checked;
+    });
     setPermissions(updatedPermissions);
   };
 
   const handleSavePermissions = () => {
-    const permissionsData = {
-      userid: parseInt(userId.userId), // Convert to integer
-      ...Object.entries(permissions).reduce((acc, [moduleId, modulePermissions]) => {
-        return {
-          ...acc,
-          [`moduleid`]: parseInt(moduleId), // Convert to integer
-          [`view_record`]: modulePermissions.view_record,
-          [`add_record`]: modulePermissions.add_record,
-          [`delete_record`]: modulePermissions.delete_record,
-          [`edit_record`]: modulePermissions.edit_record,
-        };
-      }, {}),
-      platform: "dashboard", // Replace with the actual platform value
-    };
+    const permissionList = Object.keys(permissions).map((moduleId) => ({
+      userid: parseInt(userId, 10), // Ensure userId is an integer
+      moduleid: parseInt(moduleId, 10),
+      view_record: permissions[moduleId].view ? 1 : 0,
+      add_record: permissions[moduleId].add ? 1 : 0,
+      delete_record: permissions[moduleId].delete ? 1 : 0,
+      edit_record: permissions[moduleId].edit ? 1 : 0,
+      platform: "dashboard",
+    }));
 
-    dispatch(assignPermission(permissionsData));
+    dispatch(assignPermission(permissionList));
   };
-
-
- 
-
- 
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
@@ -100,7 +81,7 @@ const [permissions, setPermissions] =useState({})
         <p className="mb-6 ml-20">
           Dashboard access control for <b>{fetchedUser?.Name_Full}</b>
         </p>
-        <div className="   items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
+        <div className="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
           <div className="flex items-center ml-20 mb-4 sm:mb-0 gap-24">
             <ul className="flex items-center gap-10">
               <li className="flex items-center gap-2">
@@ -119,7 +100,7 @@ const [permissions, setPermissions] =useState({})
                 <IoIosPhonePortrait />
                 <NavLink
                   end
-                  to="/user-administaration/access-controll/mobile-access/:userId"
+                  to={`/user-administaration/access-controll/mobile-access/${userId}`}
                   className="block text-slate-500 hover:text-slate-400 transition duration-150 truncate"
                 >
                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -131,7 +112,7 @@ const [permissions, setPermissions] =useState({})
                 <GrSystem />
                 <NavLink
                   end
-                  to="/user-administaration/access-controll/module-access/:userId"
+                  to={`/user-administaration/access-controll/module-access/${userId}`}
                   className="block text-slate-500 hover:text-slate-400 transition duration-150 truncate"
                 >
                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -157,6 +138,10 @@ const [permissions, setPermissions] =useState({})
                           aria-describedby="checkbox-1"
                           type="checkbox"
                           className="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+                          checked={selectAll}
+                          onChange={(e) =>
+                            handleSelectAllChange(e.target.checked)
+                          }
                         />
                         <label htmlFor="checkbox-all" className="sr-only">
                           checkbox
@@ -194,8 +179,8 @@ const [permissions, setPermissions] =useState({})
                     ?.filter(
                       (module) =>
                         module.platform === "dashboard" && module.module_name
-                    ) // Filter modules with "dashboard" platform and have module_name
-                    .map((module, index) => (
+                    )
+                    .map((module) => (
                       <tr
                         key={module.id}
                         className="hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -204,47 +189,66 @@ const [permissions, setPermissions] =useState({})
                           {module.module_name}
                         </td>
                         <td className="p-4">
-                    <input
-                      type="checkbox"
-                      checked={permissions[module.id]?.view || false}
-                      onChange={(e) =>
-                        handlePermissionChange(module, "view", e.target.checked)
-                      }
-                    />
-                  </td>
-                  <td className="p-4">
-                    <input
-                      type="checkbox"
-                      checked={permissions[module.id]?.add || false}
-                      onChange={(e) =>
-                        handlePermissionChange(module, "add", e.target.checked)
-                      }
-                    />
-                  </td>
-                  <td className="p-4">
-                    <input
-                      type="checkbox"
-                      checked={permissions[module.id]?.delete || false}
-                      onChange={(e) =>
-                        handlePermissionChange(module, "delete", e.target.checked)
-                      }
-                    />
-                  </td>
-                  <td className="p-4">
-                    <input
-                      type="checkbox"
-                      checked={permissions[module.id]?.edit || false}
-                      onChange={(e) =>
-                        handlePermissionChange(module, "edit", e.target.checked)
-                      }
-                    />
-                  </td>
-                </tr>
+                          <input
+                            type="checkbox"
+                            checked={permissions[module.id]?.view || false}
+                            onChange={(e) =>
+                              handlePermissionChange(
+                                module,
+                                "view",
+                                e.target.checked
+                              )
+                            }
+                          />
+                        </td>
+                        <td className="p-4">
+                          <input
+                            type="checkbox"
+                            checked={permissions[module.id]?.add || false}
+                            onChange={(e) =>
+                              handlePermissionChange(
+                                module,
+                                "add",
+                                e.target.checked
+                              )
+                            }
+                          />
+                        </td>
+                        <td className="p-4">
+                          <input
+                            type="checkbox"
+                            checked={permissions[module.id]?.delete || false}
+                            onChange={(e) =>
+                              handlePermissionChange(
+                                module,
+                                "delete",
+                                e.target.checked
+                              )
+                            }
+                          />
+                        </td>
+                        <td className="p-4">
+                          <input
+                            type="checkbox"
+                            checked={permissions[module.id]?.edit || false}
+                            onChange={(e) =>
+                              handlePermissionChange(
+                                module,
+                                "edit",
+                                e.target.checked
+                              )
+                            }
+                          />
+                        </td>
+                      </tr>
                     ))}
                 </tbody>
-                <button className="bg-green-400 mt-4 w-48 h-10 flex items-center justify-center rounded-lg" onClick={handleSavePermissions}>
-        Save Access Control
-      </button>
+                <button
+                  className="bg-green-400 mt-4 w-48 h-10 flex items-center justify-center rounded-lg"
+                  onClick={handleSavePermissions}
+                >
+                  Save Access Control
+                </button>
               </table>
             </div>
           </div>
@@ -255,4 +259,3 @@ const [permissions, setPermissions] =useState({})
 };
 
 export default AccessControlTable;
-

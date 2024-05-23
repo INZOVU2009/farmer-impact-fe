@@ -8,6 +8,7 @@ import { PiUsersFourDuotone } from "react-icons/pi";
 import { IoIosPhonePortrait } from "react-icons/io";
 import { GrSystem } from "react-icons/gr";
 import { assignPermission } from "../../redux/actions/accessModules/addPermissions.action";
+
 const AccessControlMobileTable = () => {
   const userId = useParams();
   const navigate = useNavigate();
@@ -16,10 +17,7 @@ const AccessControlMobileTable = () => {
   const { user, loading } = useSelector((state) => state.fetchSingleUser);
   const { modules } = useSelector((state) => state.fetchAllModules);
   const [retrievedModules, setRetrievedModules] = useState();
-  const [permissions, setPermissions] =useState({})
-  const [selectAll, setSelectAll] = useState(false);
-  const [selectedPermissions, setSelectedPermissions] = useState({});
-
+  const [selectedModules, setSelectedModules] = useState([]);
   useEffect(() => {
     dispatch(getSingleUserById(userId.userId));
   }, [dispatch]);
@@ -35,40 +33,32 @@ const AccessControlMobileTable = () => {
 
   useEffect(() => {
     if (modules) {
-      const platforms = modules.data.map((module) => module.platform);
-      
       setRetrievedModules(modules.data);
-      
     }
-  }, [user]);
+  }, [modules]);
 
-  const handleSelectAllChange = (e) => {
-    const checked = e.target.checked;
-    setSelectAll(checked);
-    const updatedPermissions = {};
-
-    modules
-      ?.filter((module) => module.platform === "mobile" && module.module_name)
-      .forEach((module) => {
-        updatedPermissions[module.id] = {
-          view: checked ? 1 : 0,
-          add: checked ? 1 : 0,
-          delete: checked ? 1 : 0,
-          edit: checked ? 1 : 0,
-        };
-      });
-
-    setSelectedPermissions(updatedPermissions);
+  const handleModuleCheckboxChange = (moduleId, checked) => {
+    setSelectedModules((prevSelectedModules) => {
+      if (checked) {
+        return [...prevSelectedModules, moduleId];
+      } else {
+        return prevSelectedModules.filter((id) => id !== moduleId);
+      }
+    });
   };
 
   const handleSavePermissions = () => {
-    const permissionsData = {
-      userid: parseInt(userId.userId),
-      ...selectedPermissions,
-      platform: "mobile", // Replace with the actual platform value
-    };
+    const permissionList = selectedModules.map((moduleId) => ({
+      userid: parseInt(userId.userId, 10),
+      moduleid: parseInt(moduleId, 10),
+      view_record: 1,
+      add_record: 1,
+      delete_record: 1,
+      edit_record: 1,
+      platform: "mobile",
+    }));
 
-    dispatch(assignPermission(permissionsData));
+    dispatch(assignPermission(permissionList));
   };
 
   return (
@@ -130,19 +120,21 @@ const AccessControlMobileTable = () => {
                     ?.filter(
                       (module) =>
                         module.platform === "mobile" && module.module_name
-                    ) // Filter modules with "dashboard" platform and have module_name
+                    )
                     .map((module, index) => (
-                      <tr
-                        // key={user.id}
-                        className="hover:bg-gray-100 dark:hover:bg-gray-700"
-                      >
+                      <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                         <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                           <div className="flex items-center">
-                          <input
-        type="checkbox"
-        checked={selectAll}
-        onChange={handleSelectAllChange}
-      />
+                            <input
+                              type="checkbox"
+                              checked={selectedModules.includes(module.id)}
+                              onChange={(e) =>
+                                handleModuleCheckboxChange(
+                                  module.id,
+                                  e.target.checked
+                                )
+                              }
+                            />
                             <label htmlFor="checkbox-all" className="sr-only">
                               checkbox
                             </label>
