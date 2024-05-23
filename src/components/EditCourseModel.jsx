@@ -82,8 +82,6 @@ export default function EditCourseModel({ course, onClose, onSubmit }) {
             onChange={handleInputChange}
           />
 
-         
-
           <ToastContainer />
 
           {/* Button to submit password */}
@@ -91,7 +89,7 @@ export default function EditCourseModel({ course, onClose, onSubmit }) {
             className="bg-green-400 w-48 h-10  flex items-center justify-center rounded-lg"
             // onClick={handleEditSubmit}
           >
-           Edit Course Name
+            Edit Course Name
           </button>
         </div>
       </div>

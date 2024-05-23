@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
-import UpdateItemDrawer from "./UpdateItemDrawer";
-import DeleteItemDrawer from "./DeleteItemDrawer";
-import AddItemDrawer from "./AddItemDrawer";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllStaff } from "../../redux/actions/staff/getAllStaff.action";
 import { fetchAllStation } from "../../redux/actions/station/allStations.action";
-import "react-toastify/dist/ReactToastify.css";
 import { fetchAllJournalsByCherryLotId } from "../../redux/actions/transactions/journalsByCherryLotId.action";
 import { saveCherry } from "../../redux/actions/submitCherry/saveCherryToSubmit.action";
+import "react-toastify/dist/ReactToastify.css";
+
 const CherryLotDetailsTable = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -670,14 +668,6 @@ const CherryLotDetailsTable = () => {
         </button>
       </div>
 
-      {/* update drawer */}
-      <UpdateItemDrawer />
-
-      {/* Delete Product Drawer */}
-      <DeleteItemDrawer />
-
-      {/* Add Product Drawer */}
-      <AddItemDrawer />
     </div>
   );
 };

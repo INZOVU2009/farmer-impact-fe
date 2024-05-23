@@ -8,28 +8,25 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function EditAccessModel({ module, onClose, onSubmit }) {
   const [editedModule, setEditedModule] = useState({
-module_name:""
+    module_name: "",
   });
-console.log("module", module)
+  console.log("module", module);
 
-const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-      setEditedModule((prevModule) => ({
-        ...prevModule,
-        [name]: value,
-      }));
- 
+    setEditedModule((prevModule) => ({
+      ...prevModule,
+      [name]: value,
+    }));
   };
-  console.log(editedModule)
-
- 
+  console.log(editedModule);
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      dispatch(updateModuleName(editedModule,module?.id));
+      dispatch(updateModuleName(editedModule, module?.id));
       toast.success("module updated successfully");
       onClose();
       onSubmit(editedModule);
@@ -41,10 +38,8 @@ const dispatch = useDispatch()
 
   return (
     <div className="fixed inset-0  flex items-center justify-center   z-50">
-      {/* Background overlay */}
       <div className="fixed inset-0 bg-black opacity-5"></div>
 
-      {/* Modal */}
       <div className="bg-white rounded-lg text-left overflow-hidden shadow-l transform transition-all sm:max-w-lg sm:w-full relative z-10">
         <div className="flex justify-end p-4">
           <button onClick={onClose}>

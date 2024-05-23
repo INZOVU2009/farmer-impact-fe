@@ -9,21 +9,17 @@ import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router-dom";
 import { adjustParchment } from "../redux/actions/parchnment/adjustParchment.action";
 
-const token = localStorage.getItem("token")
 export default function ParchmentAdjustmentModel({
   // transaction,
   onClose,
   onSubmit,
 }) {
-
   const dispatch = useDispatch();
-  const journalId = useParams();
   const [parchmentToAdjust, setParchmentToAdjust] = useState({
-    cherrylotid:"",
+    cherrylotid: "",
     grade: "",
     kilogram: "",
   });
-
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -32,34 +28,26 @@ export default function ParchmentAdjustmentModel({
       [name]: value,
     }));
   };
-  const {isloading } = useSelector(
-    (state) => state.adjustParchment
-  );
+  const { isloading } = useSelector((state) => state.adjustParchment);
 
-console.log("I am parchment", parchmentToAdjust)
- 
+  console.log("I am parchment", parchmentToAdjust);
 
   const handleAdjustSubmit = async (e) => {
     e.preventDefault();
     try {
-       dispatch(adjustParchment(parchmentToAdjust));
-      // toast.success("Parchment adjusted successfully");
+      dispatch(adjustParchment(parchmentToAdjust));
+
       onClose();
       onSubmit(parchmentToAdjust);
-  
-      // Fetch transactions after successful update
-      // dispatch(fetchAllTransactionsByJournal(token, journalId.journalId.replace(":", "")));
-  
     } catch (error) {
       console.error("Adjust failed:", error);
       toast.error("Failed to adjust parchment");
     }
   };
- 
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-5 overflow-y-auto flex items-center justify-center z-50">
       <div className="bg-white  rounded-lg shadow-md ">
-
         {/* Modal */}
 
         <div className="flex justify-end ">
@@ -68,7 +56,7 @@ console.log("I am parchment", parchmentToAdjust)
           </button>
         </div>
 
-        <div className=" px-16 space-y-3 mb-4" >
+        <div className=" px-16 space-y-3 mb-4">
           <p className="text-green-500">ADJUST PARCHMENT</p>
           <hr className="mb-4 border border-gray-200 " />
           <p>ENTER CHERRY LOT ID</p>
@@ -83,7 +71,6 @@ console.log("I am parchment", parchmentToAdjust)
             // readOnly
           />
 
-      
           <p>SELECT GRADE</p>
           <select
             name="grade"
@@ -97,7 +84,6 @@ console.log("I am parchment", parchmentToAdjust)
             <option value="Grade C">Grade C</option>
           </select>
 
-         
           <p>KILOGRAMS (-/+)</p>
           <input
             type="text"
@@ -114,12 +100,10 @@ console.log("I am parchment", parchmentToAdjust)
             className="bg-green-400 w-48 h-10  flex items-center justify-center rounded-lg"
             onClick={handleAdjustSubmit}
           >
-           {isloading? "...Loading":"Adjust"}
+            {isloading ? "...Loading" : "Adjust"}
           </button>
         </div>
-
       </div>
     </div>
-
   );
 }

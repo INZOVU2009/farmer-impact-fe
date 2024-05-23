@@ -3,14 +3,11 @@ import { AiTwotoneCloseCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
-
 import "react-toastify/dist/ReactToastify.css";
-import { useParams } from "react-router-dom";
 import { addBucketweighting } from "../redux/actions/transactions/bucketWeighting.action";
 
 export default function BucketingDryingModel({ journal, onClose, onSubmit }) {
   const dispatch = useDispatch();
-  const journalId = useParams();
   const [editedJournal, setEditedJournal] = useState({
     taken_c: "",
     grade_c: "",
@@ -21,8 +18,6 @@ export default function BucketingDryingModel({ journal, onClose, onSubmit }) {
     day_lot: journal.cherry_lot_id,
     certified: journal.certified,
   });
-
-  const { weight } = useSelector((state) => state.bucketWeighting);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -39,7 +34,6 @@ export default function BucketingDryingModel({ journal, onClose, onSubmit }) {
       }));
     }
   };
-  console.log(editedJournal);
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
@@ -96,7 +90,6 @@ export default function BucketingDryingModel({ journal, onClose, onSubmit }) {
               name="taken_a"
               value="after"
               onChange={handleInputChange}
-              // checked
             />
             <label htmlFor="grade_a_weight_taken_after">After Drying</label>
           </div>
@@ -133,7 +126,6 @@ export default function BucketingDryingModel({ journal, onClose, onSubmit }) {
               name="taken_b"
               value="after"
               onChange={handleInputChange}
-              // checked
             />
             <label htmlFor="grade_b_weight_taken_after">After Drying</label>
           </div>
@@ -170,7 +162,6 @@ export default function BucketingDryingModel({ journal, onClose, onSubmit }) {
               name="taken_c"
               value="after"
               onChange={handleInputChange}
-              // checked
             />
             <label htmlFor="grade_c_weight_taken_after">After Drying</label>
           </div>

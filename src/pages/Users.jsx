@@ -5,7 +5,7 @@ import WelcomeBanner from "../partials/dashboard/WelcomeBanner";
 import UsersTable from "../partials/dashboard/UsersTable";
 function Users() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
- 
+
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -24,12 +24,9 @@ function Users() {
             {/* Dashboard actions */}
             <div className="sm:flex sm:justify-between sm:items-center mb-8">
               {/* Right: Actions */}
-              
             </div>
 
             <div className="grid grid-cols-12 gap-6">
-             
-
               <UsersTable />
             </div>
           </div>

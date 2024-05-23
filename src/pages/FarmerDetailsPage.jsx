@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { fetchAllFarmers } from "../redux/actions/farmers/fetchAllFarmers.action";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAllHouseHolds } from "../redux/actions/households/fetchAllHousehold.action";
+
 function FarmerDetailsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [allFarmers, setAllFarmers] = useState(null);

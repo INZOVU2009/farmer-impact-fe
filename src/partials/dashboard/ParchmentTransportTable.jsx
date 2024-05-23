@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from "react";
-import UpdateItemDrawer from "./UpdateItemDrawer";
-import DeleteItemDrawer from "./DeleteItemDrawer";
-import AddItemDrawer from "./AddItemDrawer";
 import "react-toastify/dist/ReactToastify.css";
 import { GrDeliver } from "react-icons/gr";
 const ParchmentTransportTable = ({reports
@@ -19,17 +16,6 @@ const ParchmentTransportTable = ({reports
                 <thead className="bg-gray-100 dark:bg-gray-700">
                   <tr className="">
                   
-                    {/* <th
-                      scope="col"
-                      colSpan={3}
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      Skin Drying Grade Weighing
-                    </th> */}
-                    {/* <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    ></th> */}
                   </tr>
 
                   <tr>
@@ -251,15 +237,6 @@ const ParchmentTransportTable = ({reports
           </a>
         </div>
       </div> */}
-
-      {/* update drawer */}
-      <UpdateItemDrawer />
-
-      {/* Delete Product Drawer */}
-      <DeleteItemDrawer />
-
-      {/* Add Product Drawer */}
-      <AddItemDrawer />
     </div>
   );
 };

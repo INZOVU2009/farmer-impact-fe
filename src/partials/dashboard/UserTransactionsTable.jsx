@@ -15,13 +15,15 @@ const UserTransactionsTable = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [allTransactions, setAllTransactions] = useState([]);
-  const { transactions,loading } = useSelector((state) => state.fetchAllTransactions);
+  const { transactions, loading } = useSelector(
+    (state) => state.fetchAllTransactions
+  );
   const [allStaff, setAllStaff] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState();
-  const {approveData} = useSelector((state) => state.approveJournal);
+  const { approveData } = useSelector((state) => state.approveJournal);
   const { staffs } = useSelector((state) => state.fetchAllStaff);
-  const [selectedJournal, setSelectedJournal] = useState(null)
+  const [selectedJournal, setSelectedJournal] = useState(null);
   const token = localStorage.getItem("token");
   const itemsPerPage = 20;
 
@@ -45,11 +47,10 @@ const UserTransactionsTable = () => {
       setAllStaff(staffs.data);
     }
   }, [staffs]);
-  
-if(loading)
-{
-  return <p className=" text-center">..Loading..</p>
-}
+
+  if (loading) {
+    return <p className=" text-center">..Loading..</p>;
+  }
 
   const handleSearch = (e) => {
     const searchItem = e.target.value;
@@ -73,7 +74,6 @@ if(loading)
     return uniqueValues;
   };
 
-
   const filteredTransaction = searchQuery
     ? getUniqueValues(
         allTransactions?.filter((transaction) =>
@@ -86,7 +86,7 @@ if(loading)
         "site_day_lot"
       )
     : getUniqueValues(allTransactions, "site_day_lot");
-    console.log("transactions",filteredTransaction.length)
+  console.log("transactions", filteredTransaction.length);
 
   const getUserScIdById = (_kf_Staff) => {
     const staff = allStaff?.find((staff) => staff.__kp_Staff === _kf_Staff);
@@ -121,47 +121,36 @@ if(loading)
   // Call the calculateTotalKilogramsByJournal function to get the sum
   const sumByJournal = calculateTotalKilogramsByJournal();
 
-
-
   const calculateTotalPrice = () => {
     const totalPriceByJournal = {};
 
-   
     allTransactions.forEach((transaction) => {
       const journal = transaction.site_day_lot;
       const cash = transaction.cash_paid || 0;
 
-     
       if (!totalPriceByJournal[journal]) {
         totalPriceByJournal[journal] = 0;
       }
 
-    
       totalPriceByJournal[journal] += cash;
     });
 
     return totalPriceByJournal;
   };
 
-  
   const totalPriceByJournal = calculateTotalPrice();
-
-
 
   const sumFloatersKG = () => {
     const sum = {};
 
-    
     allTransactions.forEach((transaction) => {
       const journal = transaction.site_day_lot;
       const kilograms = transaction.bad_kilograms;
 
-      
       if (!sum[journal]) {
         sum[journal] = 0;
       }
 
-      
       sum[journal] += kilograms;
     });
 
@@ -203,13 +192,10 @@ if(loading)
     (transaction) => transaction.paper_receipt
   );
 
-
   const isUniquePaperSlip = (paperReceipt) => {
     const occurrences = allPaperReceipts.filter(
       (value) => value === paperReceipt
     ).length;
-
-   
 
     return occurrences === 1;
   };
@@ -221,18 +207,9 @@ if(loading)
         // Additional logic after approval if needed
       })
       .catch((error) => {
-        console.error('Error approving journal:', error);
+        console.error("Error approving journal:", error);
       });
-      
-    
-    
-    
-    
   };
-
-
-
-  
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
@@ -246,14 +223,13 @@ if(loading)
               <div className="relative w-48 mt-1 sm:w-64 xl:w-96">
                 <span>Site collector's name</span>
                 <input
-  type="text"
-  name="email"
-  id="products-search"
-  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-  placeholder="Search by site collector's name"
-  onChange={handleSearch}
-/>
-
+                  type="text"
+                  name="email"
+                  id="products-search"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  placeholder="Search by site collector's name"
+                  onChange={handleSearch}
+                />
               </div>
               <label htmlFor="date-from" className="sr-only">
                 From
@@ -433,17 +409,23 @@ if(loading)
                         ].toLocaleString()}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                      {transaction.approved === 1 ? (
-                                <button className="bg-green-500 text-white w-24 h-8 rounded-md">Approved</button>
-                              ) : (
-                                <button
-                                  className="bg-orange-300 text-white w-24 h-8 rounded-md"
-                                  onClick={() => navigate(`/user_transactions/staff_lot_details/${transaction.site_day_lot}`)}
-                                >
-                                  Pending...
-                                </button>
-                              )}
-                                                    </td>
+                        {transaction.approved === 1 ? (
+                          <button className="bg-green-500 text-white w-24 h-8 rounded-md">
+                            Approved
+                          </button>
+                        ) : (
+                          <button
+                            className="bg-orange-300 text-white w-24 h-8 rounded-md"
+                            onClick={() =>
+                              navigate(
+                                `/user_transactions/staff_lot_details/${transaction.site_day_lot}`
+                              )
+                            }
+                          >
+                            Pending...
+                          </button>
+                        )}
+                      </td>
                       <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
                         {transaction.parchment_lot_id}
                       </td>
@@ -457,7 +439,7 @@ if(loading)
       </div>
 
       <div className="sticky bottom-0 right-0 items-center w-full p-4 bg-white border-t border-gray-200 sm:flex sm:justify-between dark:bg-gray-800 dark:border-gray-700">
-      <div className="flex items-center mb-4 sm:mb-0">
+        <div className="flex items-center mb-4 sm:mb-0">
           <a
             href="#"
             className="inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
@@ -501,7 +483,10 @@ if(loading)
             </span>{" "}
             -{" "}
             <span className="font-semibold text-gray-900 dark:text-white">
-              {Math.min(currentPage * itemsPerPage, filteredTransaction?.length)}
+              {Math.min(
+                currentPage * itemsPerPage,
+                filteredTransaction?.length
+              )}
             </span>{" "}
             of{" "}
             <span className="font-semibold text-gray-900 dark:text-white">

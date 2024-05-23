@@ -25,9 +25,6 @@ const AssignNewParchmentTable = ({
   openModal,
 }) => {
   const { parchment, isloading } = useSelector((state) => state.newParchment);
-  // if (loading) {
-  //   return <p className=" text-center">..Loading..</p>;
-  // }
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">

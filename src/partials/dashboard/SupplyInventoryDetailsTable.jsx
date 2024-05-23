@@ -1,7 +1,4 @@
 import React from "react";
-import UpdateItemDrawer from "./UpdateItemDrawer";
-import DeleteItemDrawer from "./DeleteItemDrawer";
-import AddItemDrawer from "./AddItemDrawer";
 
 const SupplyInventoryDetailsTable = () => {
   return (
@@ -93,17 +90,6 @@ const SupplyInventoryDetailsTable = () => {
               </div>
             </div>
           </div>
-          {/* <button
-            id="createProductButton"
-            className="text-white bg-blue-600 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
-            type="button"
-            data-drawer-target="drawer-create-product-default"
-            data-drawer-show="drawer-create-product-default"
-            aria-controls="drawer-create-product-default"
-            data-drawer-placement="right"
-          >
-            Add new product
-          </button> */}
         </div>
       </div>
       <div className="flex flex-col">
@@ -130,43 +116,43 @@ const SupplyInventoryDetailsTable = () => {
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     Supplier
+                      Supplier
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     Last purchase report received	
+                      Last purchase report received
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     Last CWS audit	
+                      Last CWS audit
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                    Last finance report	
+                      Last finance report
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                    All Red Flags cleared	
+                      All Red Flags cleared
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                     Total Cherry purchases YTD
+                      Total Cherry purchases YTD
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                 Current price paid to farmers: Good Cherry
+                      Current price paid to farmers: Good Cherry
                     </th>
                     <th
                       scope="col"
@@ -178,61 +164,17 @@ const SupplyInventoryDetailsTable = () => {
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      Parchment in transport	
+                      Parchment in transport
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
                       Parchment in Dry storage
-
                     </th>
-                   
-                    
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                  {/* <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <td className="w-4 p-4">
-                      <div className="flex items-center">
-                        <input
-                          id="checkbox-{{ .id }}"
-                          aria-describedby="checkbox-1"
-                          type="checkbox"
-                          className="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
-                        />
-                        <label for="checkbox-{{ .id }}" class="sr-only">
-                          checkbox
-                        </label>
-                      </div>
-                    </td>
-                    <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                      <div className="text-base font-semibold text-gray-900 dark:text-white">
-                        <a href="">Bwenda Mountain Coffee(TRAPRO Ltd)</a>
-                      </div>
-                      
-                    </td>
-                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    10/07/2023
-                    </td>
-                    <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                     -
-                    </td>
-                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                     -
-                    </td>
-                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                     <button>No</button>
-                    </td>
-                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    274,108
-                    </td>
-                    <td className="p-4 space-x-2 whitespace-nowrap">
-                    
-                      	750
-                    </td>
-                  </tr> */}
-                </tbody>
+                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700"></tbody>
               </table>
             </div>
           </div>
@@ -325,15 +267,6 @@ const SupplyInventoryDetailsTable = () => {
           </a>
         </div>
       </div>
-
-      {/* update drawer */}
-      <UpdateItemDrawer />
-
-      {/* Delete Product Drawer */}
-      <DeleteItemDrawer />
-
-      {/* Add Product Drawer */}
-      <AddItemDrawer />
     </div>
   );
 };

@@ -10,7 +10,6 @@ import AvgPriceCard from "../partials/dashboard/AvgPriceCard";
 import ApprovedPriceCard from "../partials/dashboard/ApprovedPriceCard";
 import FarmerPriceCard from "../partials/dashboard/FarmerPriceCard";
 
-
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -42,21 +41,15 @@ function Dashboard() {
               </div>
             </div>
 
-            {/* Cards */}
             <div className="grid grid-cols-12 gap-6">
-              {/* Line chart (Acme Plus) */}
               <DashboardCard01 />
-              {/* Line chart (Acme Advanced) */}
+
               <CherryPurchasedCard />
-              {/* Line chart (Acme Professional) */}
+
               <ProjectedParchmentCard />
               <AvgPriceCard />
               <ApprovedPriceCard />
               <FarmerPriceCard />
-           
-
-              {/* Doughnut chart (Top Countries) */}
-              {/* <DashboardCard06 /> */}
             </div>
           </div>
         </main>

@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
-import UpdateItemDrawer from "./UpdateItemDrawer";
-import DeleteItemDrawer from "./DeleteItemDrawer";
-import AddItemDrawer from "./AddItemDrawer";
 import CherryPurchasedCard from "./CherryPurchasedCard";
-import DashboardCard03 from "./ProjectedParchmentCard";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { fetchAllTransactions } from "../../redux/actions/transactions/allTransactions.action";
 import { MdAdd } from "react-icons/md";
 import { FaPeopleGroup } from "react-icons/fa6";
@@ -17,7 +11,8 @@ import BucketingDryingModel from "../../components/BucketingDryingModel";
 import { fetchAllBuckets } from "../../redux/actions/transactions/allBuckets.action";
 import { fetchAllDryWeighting } from "../../redux/actions/transactions/dryWeighting.action";
 import FarmerPriceCard from "./FarmerPriceCard";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CwsDailyJournalsTable = () => {
   const navigate = useNavigate();
@@ -43,7 +38,6 @@ const CwsDailyJournalsTable = () => {
   const { weight } = useSelector((state) => state.dryWeighting);
   const bucketWeightingState = useSelector((state) => state.bucketWeighting);
   const [allDryWeight, setAllDryWeight] = useState([]);
-  console.log("selee", selectedJournal);
 
   useEffect(() => {
     dispatch(fetchAllTransactions(token));
@@ -54,7 +48,6 @@ const CwsDailyJournalsTable = () => {
       setAllTransactions(transactions.data);
     }
   }, [transactions]);
-  console.log("transactions", allTransactions);
 
   useEffect(() => {
     dispatch(fetchAllStation());
@@ -75,7 +68,6 @@ const CwsDailyJournalsTable = () => {
       setAllBuckets(buckets.data);
     }
   }, [buckets]);
-  console.log("bucccc", allBuckets);
 
   useEffect(() => {
     if (bucket) {
@@ -104,7 +96,6 @@ const CwsDailyJournalsTable = () => {
 
       let currentBucketWeighting = [...allDryWeight, newBucketWeight.data];
       setAllDryWeight(currentBucketWeighting);
-      console.log("hihi", currentBucketWeighting);
     }
   }, [bucketWeightingState.weight]);
 
@@ -151,12 +142,6 @@ const CwsDailyJournalsTable = () => {
           (selectedStatus === "open" && transaction.approved !== 1) ||
           (selectedStatus === "closed" && transaction.approved === 1)
       );
-  console.log("filtered", filteredTransaction);
-
-  const getUserScIdById = (_kf_Staff) => {
-    const staff = allStaff?.find((staff) => staff.__kp_Staff === _kf_Staff);
-    return staff ? staff.userID : null;
-  };
 
   const getStationName = (_kf_Station) => {
     const station = allStation?.find(
@@ -280,7 +265,6 @@ const CwsDailyJournalsTable = () => {
   };
 
   const journals = dryWeightByCherryLot("23SR054CH0604C");
-  console.log("by cherrrrryyyyy", journals);
   const isUniquePaperSlip = (paperReceipt) => {
     const occurrences = allPaperReceipts.filter(
       (value) => value === paperReceipt
@@ -336,8 +320,6 @@ const CwsDailyJournalsTable = () => {
     setShowTransactionModel(true);
   };
 
-
-
   const handleAddBucket = () => {
     setSelectedUser(null);
     setShowTransactionModel(true);
@@ -350,7 +332,6 @@ const CwsDailyJournalsTable = () => {
     }
   };
 
- 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="py-4 ml-0 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
@@ -871,15 +852,6 @@ const CwsDailyJournalsTable = () => {
           </a>
         </div>
       </div>
-
-      {/* update drawer */}
-      <UpdateItemDrawer />
-
-      {/* Delete Product Drawer */}
-      <DeleteItemDrawer />
-
-      {/* Add Product Drawer */}
-      <AddItemDrawer />
     </div>
   );
 };

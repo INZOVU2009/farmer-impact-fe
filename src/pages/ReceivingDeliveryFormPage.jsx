@@ -372,9 +372,6 @@ function ReceivingDeliveryFormPage() {
                   </div>
                 </div>
                 <div className="flex justify-center mt-3 items-center mb-6">
-                  {/* {isloading ? (
-        <Spinner className="h-8 w-8 text-green-500" />
-      ) : ( */}
                   <button
                     className="bg-green-500 text-white py-3 px-7 rounded-lg"
                     onClick={handleDeliveryUpdatesSubmit}
