@@ -1,29 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { fetchFieldFarmers } from "../../redux/actions/farmers/all_field_farmer.action";
 import { useSelector, useDispatch } from "react-redux";
-import { approveFieldFarmer } from "../../redux/actions/farmers/approveFarmer.action";
-function RecentFarmers() {
+import { fetchAllHouseholdTrees } from "../../../redux/actions/householdTrees/fetchAllHouseholdTrees.action";
+
+function HouseholdTreesTable() {
   const dispatch = useDispatch();
-  const [recentFarmers, setRecentFarmers] = useState([]);
+
   const [currentPage, setCurrentPage] = useState(1);
+  const [allHouseholdTrees, setAllHouseholdTrees] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [itemsPerPage] = useState(10);
-  const { AllFieldFarmers, loading } = useSelector(
-    (state) => state.Field_Farmer
+  const { householdTrees } = useSelector(
+    (state) => state.fetchAllHouseholdTrees
   );
-  const { approve } = useSelector((state) => state.approveFarmer);
 
   useEffect(() => {
-    dispatch(fetchFieldFarmers(currentPage, itemsPerPage));
-  }, [dispatch]);
+    dispatch(fetchAllHouseholdTrees(currentPage, itemsPerPage));
+  }, [dispatch, currentPage, itemsPerPage]);
 
   useEffect(() => {
-    if (AllFieldFarmers) {
-      const filteredFarmers = AllFieldFarmers?.data?.farmerData.filter(
-        (farmer) => farmer.status === "new"
-      );
-      setRecentFarmers(filteredFarmers);
+    if (householdTrees) {
+      setAllHouseholdTrees(householdTrees?.data?.household || []);
     }
-  }, [AllFieldFarmers]);
+  }, [householdTrees]);
+  console.log("yuhu", allHouseholdTrees);
+
+  // Extract unique years from the data
+  const getUniqueYears = (trees) => {
+    if (!trees || trees.length === 0) return [];
+    const years = trees.map((tree) => tree.planted_year);
+    return [...new Set(years)];
+  };
+
+  const uniqueYears = getUniqueYears(allHouseholdTrees);
 
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
@@ -33,22 +41,17 @@ function RecentFarmers() {
     setCurrentPage((prevPage) => prevPage + 1);
   };
 
-  const handleApprove = (id) => {
-    dispatch(approveFieldFarmer(id)).then(() => {
-      setRecentFarmers((prevFarmers) =>
-        prevFarmers.filter((farmer) => farmer.id !== id)
-      );
-    });
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  // Render a message if there are no field farmers
-  if (!AllFieldFarmers || AllFieldFarmers.length === 0) {
-    return <div>No field farmers available</div>;
-  }
+  const filteredHouseholdTrees = allHouseholdTrees.filter((tree) =>
+    Object.values(tree).some(
+      (value) =>
+        value?.toString()?.toLowerCase()?.indexOf(searchTerm?.toLowerCase()) !==
+        -1
+    )
+  );
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
@@ -62,10 +65,12 @@ function RecentFarmers() {
               <div className="relative w-48 mt-1 sm:w-64 xl:w-96">
                 <input
                   type="text"
-                  name="email"
+                  name="search"
                   id="products-search"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Search for farmers"
+                  value={searchTerm}
+                  onChange={handleSearchChange}
                 />
               </div>
             </form>
@@ -90,6 +95,19 @@ function RecentFarmers() {
             <div className="overflow-hidden shadow">
               <table className="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
                 <thead className="bg-gray-100 dark:bg-gray-700">
+                  <tr>
+                    <th scope="col" colSpan={5} className="p-4"></th>
+                    {uniqueYears.map((year) => (
+                      <th
+                        key={year}
+                        scope="col"
+                        colSpan={2}
+                        className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                      >
+                        {year}
+                      </th>
+                    ))}
+                  </tr>
                   <tr>
                     <th scope="col" className="p-4">
                       No
@@ -116,115 +134,57 @@ function RecentFarmers() {
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      Gender
+                      Farmer ID
                     </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      Year Birth
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      Phone
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      National ID
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      Village
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      Cell
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      Sector
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      Trees
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      Plot
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      Action
-                    </th>
+                    {uniqueYears.map((year) => (
+                      <React.Fragment key={year}>
+                        <th
+                          scope="col"
+                          className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                        >
+                          Received
+                        </th>
+                        <th
+                          scope="col"
+                          className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                        >
+                          Survived
+                        </th>
+                      </React.Fragment>
+                    ))}
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                  {recentFarmers?.map((farmer, index) => (
+                  {filteredHouseholdTrees?.map((tree, index) => (
                     <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                       <td className="w-4 p-4">{index + 1}</td>
-                      <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                        <div className="text-base font-semibold text-gray-900 dark:text-white">
-                          <a href="">Bwenda </a>
-                        </div>
-                      </td>
+
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {farmer.Group_ID}
+                        {tree.CW_Name}
                       </td>
                       <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                        {farmer.farmer_name}
+                        {tree.Group_ID}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {farmer.Gender}
+                        {tree.farmer_name}
                       </td>
                       <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                        {farmer.Year_Birth}
+                        {tree.farmer_ID}
                       </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {farmer.phone}
-                      </td>
-                      <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                        {farmer.National_ID}
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {farmer.village}
-                      </td>
-                      <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                        {farmer.cell}
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {farmer.sector}
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {farmer.Trees}
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {farmer.number_of_plots}
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        <button
-                          type="button"
-                          className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                          onClick={() => handleApprove(farmer.id)}
-                        >
-                          Approve
-                        </button>
-                      </td>
+                      {uniqueYears.map((year) => (
+                        <React.Fragment key={year}>
+                          <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {tree.planted_year === year
+                              ? tree.received_seedling
+                              : "-"}
+                          </td>
+                          <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {tree.planted_year === year
+                              ? tree.survived_seedling
+                              : "-"}
+                          </td>
+                        </React.Fragment>
+                      ))}
                     </tr>
                   ))}
                 </tbody>
@@ -279,11 +239,11 @@ function RecentFarmers() {
             </span>{" "}
             -{" "}
             <span className="font-semibold text-gray-900 dark:text-white">
-              {Math.min(currentPage * itemsPerPage, recentFarmers?.length)}
+              {Math.min(currentPage * itemsPerPage, allHouseholdTrees?.length)}
             </span>{" "}
             of{" "}
             <span className="font-semibold text-gray-900 dark:text-white">
-              {recentFarmers?.length}
+              {allHouseholdTrees?.length}
             </span>
           </span>
         </div>
@@ -332,4 +292,4 @@ function RecentFarmers() {
   );
 }
 
-export default RecentFarmers;
+export default HouseholdTreesTable;
