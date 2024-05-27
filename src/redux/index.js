@@ -57,6 +57,7 @@ import fetchAllUserAccessSllice from "./slices/userAccess/fetchAllUserAccessSlic
 import activateUserSlice from "./slices/userAccess/activateUserSlice";
 import updateModule from "./slices/accessModules/updateModuleSlice";
 import createNewModuleSlice from "./slices/accessModules/createNewModuleSlice";
+import getAllHouseholdTreesSlice from "./slices/householdTrees/getAllHouseholdTreesSlice";
 
 const store = configureStore({
   reducer: {
@@ -118,6 +119,7 @@ const store = configureStore({
     activateUser: activateUserSlice,
     updateModule: updateModule,
     createModule: createNewModuleSlice,
+    fetchAllHouseholdTrees: getAllHouseholdTreesSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

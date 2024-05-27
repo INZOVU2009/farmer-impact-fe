@@ -42,7 +42,7 @@ import TrainingParticipantsPage from "./pages/training/TrainingParticipantsPage"
 import RecentFarmers from "./pages/RecentFarmers";
 import ApprovedFarmers from "./pages/ApprovedFarmersPage";
 import AccessModulePage from "./pages/appSetting/AccessModulePage";
-
+import HouseholdTreesPage from "./pages/household/HouseHoldTreesPage";
 
 function App() {
   const location = useLocation();
@@ -58,9 +58,11 @@ function App() {
     <>
       <Routes>
         <Route exact path="/dashboard" element={<Dashboard />} />
-
-        <Route exact path="/user_registration/recent_farmers" element={<RecentFarmers/>} />
-
+        <Route
+          exact
+          path="/user_registration/recent_farmers"
+          element={<RecentFarmers />}
+        />
         <Route
           exact
           path="/user_supply_inventory_details"
@@ -93,32 +95,33 @@ function App() {
           exact
           path="/user-transactions/cherry_lot_details/:cherryLotId"
           element={<CherryLotDetails />}
-        /> <Route
-        exact
-        path="/user-transactions/site_day_lot_details/:journalId"
-        element={<SiteDayLotDetails />}
-      />
-      <Route
-        exact
-        path="/user-transactions/lots_in_a_day_lot/:cherryLotId"
-        element={<LotsInAdayLot />}
-      />
+        />{" "}
+        <Route
+          exact
+          path="/user-transactions/site_day_lot_details/:journalId"
+          element={<SiteDayLotDetails />}
+        />
+        <Route
+          exact
+          path="/user-transactions/lots_in_a_day_lot/:cherryLotId"
+          element={<LotsInAdayLot />}
+        />
         <Route
           exact
           path="/user_transaction/add_untraceable_coffee"
           element={<AddUntraceableCoffee />}
         />
-          <Route
+        <Route
           exact
           path="/user_inventory_management/assigned_parchment"
           element={<AssignedParchment />}
         />
-         <Route
+        <Route
           exact
           path="/user_registration/general_harvest"
           element={<GeneralHarvestPage />}
         />
-         <Route
+        <Route
           exact
           path="/user_registration/site_harvest"
           element={<SiteHarvestPage />}
@@ -128,102 +131,101 @@ function App() {
           path="/user_inventory_management/new_parchment_assignement"
           element={<AssignNewParchment />}
         />
-          <Route
+        <Route
           exact
           path="/user_inventory_management/parchment_stock"
           element={<ParchmentStockPage />}
         />
-          <Route
+        <Route
           exact
           path="/user_inventory_management/deliveries_processing"
           element={<DeliveryProcessingPage />}
         />
-         <Route
+        <Route
           exact
           path="/user_inventory_management/parchment_transport"
           element={<ParchmentTransportPage />}
         />
-         <Route
+        <Route
           exact
           path="/user_inventory_management/parchment_reception"
           element={<ParchmentReceptionPage />}
         />
-         <Route
+        <Route
           exact
           path="/user_inventory_management/new_loading_form"
           element={<DigitalLoadingFormPage />}
         />
-         <Route
+        <Route
           exact
           path="/user_inventory_management/edit_parchment_reception_details/:reportId"
           element={<ReceivingDeliveryFormPage />}
         />
-          <Route
+        <Route
           exact
           path="user_inventory_management/parchment_transport_details/:reportId"
           element={<ParchmentTransportDetailsPage />}
         />
-         <Route
+        <Route
           exact
           path="user_inventory_management/delivery_processing/:id"
           element={<ProcessedContribution />}
         />
-         <Route
-         exact
-         path="user_inventory_management/print_parchment_reception_details/:reportId"
-         element={<ParchmentReceptionDetailsPage/>}
-         
-         />  
-         <Route
-         exact
-         path="user_inspection/full_inspections"
-         element={<UserInspectionsPage/>}
-        
-         />
-          <Route
-         exact
-         path="user_inspection/simple_inspections"
-         element={<SimpleUserInspectionsPage/>}
-         
-         />
-          <Route
-         exact
-         path="user_inspection/user_wet_mill_audit"
-         element={<WetMillAuditsPage/>}
-         
-         />
-           <Route
-         exact
-         path="user_registration/farmer_details/overview/:farmerid"
-         element={<FarmerDetailsPage/>}
-         
-         />
-           <Route
-         exact
-         path="user_trainings/user_translator"
-         element={<TrainingsPage/>}
-         
-         />
-          <Route
-         exact
-         path="user_trainings/sessions"
-         element={<TrainingSessionsPage/>}
-         
-         />
-           <Route
-         exact
-         path="user_trainings/recent_participants"
-         element={<TrainingParticipantsPage/>}
-         
-         />
-          <Route
-         exact
-         path="app_setting/access_modules"
-         element={<AccessModulePage/>}
-         
-         />
-           <Route exact path="/user_registration/approved_farmers" element={<ApprovedFarmers/>} />
-      
+        <Route
+          exact
+          path="user_inventory_management/print_parchment_reception_details/:reportId"
+          element={<ParchmentReceptionDetailsPage />}
+        />
+        <Route
+          exact
+          path="user_inspection/full_inspections"
+          element={<UserInspectionsPage />}
+        />
+        <Route
+          exact
+          path="user_inspection/simple_inspections"
+          element={<SimpleUserInspectionsPage />}
+        />
+        <Route
+          exact
+          path="user_inspection/user_wet_mill_audit"
+          element={<WetMillAuditsPage />}
+        />
+        <Route
+          exact
+          path="user_registration/farmer_details/overview/:farmerid"
+          element={<FarmerDetailsPage />}
+        />
+        <Route
+          exact
+          path="user_trainings/user_translator"
+          element={<TrainingsPage />}
+        />
+        <Route
+          exact
+          path="user_trainings/sessions"
+          element={<TrainingSessionsPage />}
+        />
+        <Route
+          exact
+          path="user_trainings/recent_participants"
+          element={<TrainingParticipantsPage />}
+        />
+        <Route
+          exact
+          path="app_setting/access_modules"
+          element={<AccessModulePage />}
+        />
+        <Route
+          exact
+          path="/user_registration/approved_farmers"
+          element={<ApprovedFarmers />}
+        />
+        <Route
+          exact
+          path="household/household_trees"
+          element={<HouseholdTreesPage />}
+        />
       </Routes>
     </>
   );
