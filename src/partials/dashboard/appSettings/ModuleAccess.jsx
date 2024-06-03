@@ -84,7 +84,7 @@ const AccessModuleTable = ({ onSubmit }) => {
           {/* <div className="flex items-center justify-center h-[60%] "> */}
           <div className="w-[45%] flex flex-col ml-48 mb-4 border-2 rounded-md ">
             <div className="p-5 border-b-3 w-full">
-              <p className=" text-green-500">Add Untraceable Coffee</p>
+              <p className=" text-green-500">Add new access control</p>
             </div>
             <div className="p-2">
               <form action="" className=" space-y-2">
