@@ -25,20 +25,6 @@ export default function EditCourseModel({ course, onClose, onSubmit }) {
     }));
   };
 
-  //   const handleEditSubmit = async (e) => {
-  //     e.preventDefault();
-  //     try {
-  //        dispatch(updateCourse(token, transaction.id, editedTransaction));
-  //       toast.success("course updated successfully");
-  //       onClose();
-  //       onSubmit(editedCourse);
-
-  //     } catch (error) {
-  //       console.error("Update failed:", error);
-  //       toast.error("Failed to update course");
-  //     }
-  //   };
-
   return (
     <div className="fixed inset-0 bg-black bg-opacity-5 overflow-y-auto flex items-center justify-center z-50">
       <div className="bg-white  rounded-lg shadow-md mt-auto mb-16">
@@ -84,11 +70,7 @@ export default function EditCourseModel({ course, onClose, onSubmit }) {
 
           <ToastContainer />
 
-          {/* Button to submit password */}
-          <button
-            className="bg-green-400 w-48 h-10  flex items-center justify-center rounded-lg"
-            // onClick={handleEditSubmit}
-          >
+          <button className="bg-green-400 w-48 h-10  flex items-center justify-center rounded-lg">
             Edit Course Name
           </button>
         </div>

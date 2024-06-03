@@ -161,12 +161,7 @@ function ParchmentReceptionPage() {
                   <div className="flex items-center sm:justify-end">
                     <div className="ml-3">
                       <p>Record</p>
-                      <select
-                        name=""
-                        //  value={itemsPerPage}
-                        //  onChange={handleItemsPerPageChange}
-                        className="rounded-lg w-40"
-                      >
+                      <select name="" className="rounded-lg w-40">
                         <option value="20">20</option>
                         <option value="40">40</option>
                         <option value="60">60</option>
@@ -182,10 +177,9 @@ function ParchmentReceptionPage() {
                       <input
                         type="text"
                         name="email"
-                        //  onChange={handleSearch}
                         id="products-search"
                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-[90%] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                        placeholder="Sarch for transaction"
+                        placeholder="Sarch f"
                       />
                     </div>
                   </form>
@@ -222,8 +216,6 @@ function ParchmentReceptionPage() {
               handlePrintClick={handlePrintClick}
             />
           </div>
-
-          {/* </div> */}
         </main>
       </div>
     </div>

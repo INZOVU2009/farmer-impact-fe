@@ -81,7 +81,6 @@ const AccessModuleTable = ({ onSubmit }) => {
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="flex flex-col">
         <div className="overflow-x-auto">
-          {/* <div className="flex items-center justify-center h-[60%] "> */}
           <div className="w-[45%] flex flex-col ml-48 mb-4 border-2 rounded-md ">
             <div className="p-5 border-b-3 w-full">
               <p className=" text-green-500">Add new access control</p>
@@ -115,7 +114,7 @@ const AccessModuleTable = ({ onSubmit }) => {
               </form>
             </div>
           </div>
-          {/* </div> */}
+
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden shadow">
               <table className="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">

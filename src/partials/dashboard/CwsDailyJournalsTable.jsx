@@ -228,8 +228,7 @@ const CwsDailyJournalsTable = () => {
     setItemsPerPage(parseInt(e.target.value, 10));
   };
   const totalPages = Math.ceil(filteredTransaction?.length / itemsPerPage);
-  console.log("pages", totalPages);
-  // Paginate the user data
+
   const paginatedTransactions = filteredTransaction?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -250,14 +249,12 @@ const CwsDailyJournalsTable = () => {
     setSelectedStatus(e.target.value);
   };
   const bucketByCherryLot = (cherrylotid) => {
-    // Filter transactions based on the provided date
     const buckets = allBuckets.filter(
       (bucket) => bucket.day_lot_number === cherrylotid
     );
     return buckets;
   };
   const dryWeightByCherryLot = (cherrylotid) => {
-    // Filter transactions based on the provided date
     const weights = allDryWeight.filter(
       (dryweight) => dryweight.day_lot_number === cherrylotid
     );

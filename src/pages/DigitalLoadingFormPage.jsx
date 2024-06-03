@@ -60,7 +60,7 @@ function DigitalLoadingFormPage() {
   });
 
   const finaleWeightLeft = parchWeight - formData.weight;
-  console.log("I am form data", formData);
+
   useEffect(() => {
     dispatch(fetchAllAssignedParchments());
   }, [dispatch]);
@@ -70,7 +70,7 @@ function DigitalLoadingFormPage() {
       setAssignedParchments(allParchments.data);
     }
   }, [allParchments]);
-  console.log("I am assigned", assignedParchments);
+
   useEffect(() => {
     dispatch(fetchAllStation());
   }, [dispatch]);
@@ -120,7 +120,6 @@ function DigitalLoadingFormPage() {
         bags_of_parchment_left: "0", // Set to '0' if 'no' is selected
       }));
       setSelectedOption(value);
-      console.log("ssvvvvs", selectedOption, formData);
     } else {
       setFormData((prevData) => ({
         ...prevData,
@@ -128,7 +127,6 @@ function DigitalLoadingFormPage() {
       }));
       setSelectedOption(value); // Update state based on selection other than 'no'
     }
-    console.log("sss", selectedOption, formData);
   };
 
   const handleFormDataChange = (e) => {
@@ -158,13 +156,13 @@ function DigitalLoadingFormPage() {
     const deliveredParchment = allDeliveryReports?.filter(
       (report) => report.parch_lot_ID === parchment.parchment_id
     );
-    console.log("delivery reports", deliveredParchment);
+
     if (deliveredParchment?.length > 0) {
       // Sort delivery reports by date in descending order to get the latest report
       const latestReport = deliveredParchment.sort(
         (a, b) => new Date(b.created_at) - new Date(a.created_at)
       )[0];
-      console.log("latesttttt", latestReport);
+
       return latestReport?.final_weight_left;
     } else {
       // If not delivered, return the original parchment weight

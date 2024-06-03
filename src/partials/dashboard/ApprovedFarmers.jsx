@@ -32,12 +32,11 @@ function ApprovedFarmers() {
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
-  // Render a message while loading
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  // Render a message if there are no field farmers
   if (!AllFieldFarmers || AllFieldFarmers.length === 0) {
     return <div>No field farmers available</div>;
   }

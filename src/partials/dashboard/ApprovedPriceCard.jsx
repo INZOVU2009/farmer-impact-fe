@@ -53,7 +53,6 @@ function ApprovedPriceCard() {
           </div>
         </div>
       </div>
-      {/* Chart built with Chart.js 3 */}
     </div>
   );
 }

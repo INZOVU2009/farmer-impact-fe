@@ -19,7 +19,7 @@ const LotsInAdaylotTable = () => {
   const { journal } = useSelector(
     (state) => state.fetchAllTransactionsByCherryLot
   );
- 
+
   const [currentPage, setCurrentPage] = useState(1);
 
   const [allTransactions, setAllTransactions] = useState([]);
@@ -85,7 +85,6 @@ const LotsInAdaylotTable = () => {
       setJournals(journal.data);
     }
   }, [journal]);
-  console.log("journalllleeeee", journals);
 
   const calculateTotalKilogramsByJournal = () => {
     const sumByJournal = {};
@@ -240,7 +239,6 @@ const LotsInAdaylotTable = () => {
 
   const formattedTransportFeesCherry =
     formatNumberWithCommas(transportFeesCherry);
-  console.log("formaaa", formattedTransportFeesCherry);
 
   const formatDate = (dateString) => {
     const options = {
@@ -451,7 +449,6 @@ const LotsInAdaylotTable = () => {
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-
                       EDITED.
                     </th>
                   </tr>

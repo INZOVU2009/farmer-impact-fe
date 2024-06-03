@@ -248,18 +248,15 @@ const GeneralHarvestTable = () => {
   const totalFloaters = () => {
     const floatersByFarmer = {};
 
-    // Iterate through transactions
     transactionData?.forEach((transaction) => {
       const farmerId = transaction.farmerid;
       const farmerName = transaction.farmername;
       const floaters = transaction.bad_kilograms || 0;
 
-      // Check if the JOURNAL# exists in the sumMap
       if (!floatersByFarmer[farmerId]) {
         floatersByFarmer[farmerId] = 0;
       }
 
-      // Add kilograms to the sumMap
       floatersByFarmer[farmerId] += floaters;
     });
 
@@ -308,7 +305,7 @@ const GeneralHarvestTable = () => {
                 />
               </div>
             </form>
-            {/* <div className="flex items-center sm:justify-end"> */}
+
             <div className="flex space-x-4 mt-1 -ml-32">
               <div>
                 <p>Station</p>
@@ -318,7 +315,6 @@ const GeneralHarvestTable = () => {
                   onChange={handleStationChange}
                   className="rounded-lg w-40"
                 >
-                  {/* <option value="all">All</option> */}
                   <option value="all">All</option>
                   {filteredStation.map((station) => (
                     <option
@@ -338,7 +334,6 @@ const GeneralHarvestTable = () => {
                   onChange={handleSeasonChange}
                   className="rounded-lg w-40"
                 >
-                  {/* <option value="all">All</option> */}
                   <option value="all">All</option>
                   {filteredSeasons.map((season) => (
                     <option key={season.__kp_Season} value={season.__kp_Season}>
@@ -348,7 +343,6 @@ const GeneralHarvestTable = () => {
                 </select>
               </div>
             </div>
-            {/* </div> */}
 
             <div className="ml-4">
               <button

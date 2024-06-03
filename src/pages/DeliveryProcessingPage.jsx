@@ -150,7 +150,7 @@ function DeliveryProcessingPage() {
         const processingResponse = await dispatch(
           processContribution(validLoadedWeights)
         );
-        console.log("processing", validLoadedWeights, processingResponse.data);
+
         setIsProcessingStarted(true);
       } else {
         toast.error("No valid transactions found for loaded weights.");

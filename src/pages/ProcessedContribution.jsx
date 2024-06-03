@@ -82,7 +82,6 @@ function ProcessedContribution() {
               {/* Right: Actions */}
             </div>
 
-            {/* <div className="grid grid-cols-12 gap-6"> */}
             <div className=" font-extrabold text-2xl">
               <h1>Processed Delivery Details</h1>
             </div>
@@ -95,8 +94,6 @@ function ProcessedContribution() {
               getUserName={getUserNameById}
             />
           </div>
-
-          {/* </div> */}
         </main>
       </div>
     </div>

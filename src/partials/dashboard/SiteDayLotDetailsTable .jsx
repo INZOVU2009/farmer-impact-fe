@@ -72,7 +72,6 @@ const SiteDayLotDeatilsTable = () => {
       setJournals(journal.data);
     }
   }, [journal]);
-  console.log("journalllleeeee", journals);
 
   const calculateTotalKilogramsByJournal = () => {
     const sumByJournal = {};
@@ -168,10 +167,6 @@ const SiteDayLotDeatilsTable = () => {
   };
   const certifiedTransactionsUnderJournal =
     getCertifiedTransactionsUnderJournal(journal);
-  console.log(
-    `certified Transactions under journal:`,
-    certifiedTransactionsUnderJournal
-  );
 
   const getUnCertifiedTransactionsUnderJournal = (journal) => {
     return journals.filter((transaction) => {
@@ -181,10 +176,6 @@ const SiteDayLotDeatilsTable = () => {
 
   const unCertifiedTransactionsUnderJournal =
     getUnCertifiedTransactionsUnderJournal(journal);
-  console.log(
-    `uncertified Transactions under journal:`,
-    unCertifiedTransactionsUnderJournal
-  );
 
   const paginatedcertifiedTransactions =
     certifiedTransactionsUnderJournal?.slice(
@@ -250,7 +241,6 @@ const SiteDayLotDeatilsTable = () => {
   };
   //calculating totals
   const totalValues = calculateTotalValues();
-  console.log("totolValus", totalValues);
   const calculateTotalCertifiedValues = () => {
     const totalCertifiedValues = {
       totalFloaters: 0,
@@ -282,7 +272,6 @@ const SiteDayLotDeatilsTable = () => {
   };
   //calculating totals
   const totalCertifiedValues = calculateTotalCertifiedValues();
-  console.log("certified,", totalCertifiedValues);
 
   const calculateTotalUncertifiedValues = () => {
     const totalUncertifiedValues = {
@@ -319,7 +308,6 @@ const SiteDayLotDeatilsTable = () => {
   };
   //calculating totals
   const totalUncertifiedValues = calculateTotalUncertifiedValues();
-  console.log("uncertified,", totalUncertifiedValues);
 
   const formatDate = (dateString) => {
     const options = {
@@ -827,60 +815,6 @@ const SiteDayLotDeatilsTable = () => {
           </div>
         </div>
       </div>
-      {/* <div className="sticky bottom-0 right-0 items-center w-full p-4 bg-white border-t border-gray-200 sm:flex sm:justify-between dark:bg-gray-800 dark:border-gray-700">
-        <div className="flex items-center mb-4 sm:mb-0">
-          <a
-            href="#"
-            className="inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
-            onClick={handlePrevPage}
-          >
-            <svg
-              className="w-7 h-7"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
-          </a>
-          <a
-            href="#"
-            className="inline-flex justify-center p-1 mr-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
-            onClick={handleNextPage}
-          >
-            <svg
-              className="w-7 h-7"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
-          </a>
-          <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-            Showing{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {(currentPage - 1) * itemsPerPage + 1}
-            </span>{" "}
-            -{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {Math.min(currentPage * itemsPerPage, unCertifiedTransactionsUnderJournal?.length)}
-            </span>{" "}
-            of{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {unCertifiedTransactionsUnderJournal?.length}
-            </span>
-          </span>
-        </div>
-      </div>  */}
     </div>
   );
 };

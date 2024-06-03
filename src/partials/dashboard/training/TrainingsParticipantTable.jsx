@@ -19,7 +19,7 @@ const TrainingParticipantsTable = ({
   handleSearch,
   filteredTrainings,
   filteredGroups,
-  filteredStations
+  filteredStations,
 }) => {
   const formatDate = (dateString) => {
     const options = {
@@ -76,17 +76,12 @@ const TrainingParticipantsTable = ({
                 />
               </div>
             </form>
-            {/* <div className="flex items-center sm:justify-end"> */}
+
             <div className="flex space-x-4 mt-1 -ml-32">
               <div>
                 <p>Station</p>
 
-                <select
-                  name=""
-                  className="rounded-lg w-40"
-                  //   value={selectedStation}
-                  //   onChange={handleStationChange}
-                >
+                <select name="" className="rounded-lg w-40">
                   <option value="all">All</option>
 
                   {filteredStations?.map((station) => (
@@ -131,7 +126,6 @@ const TrainingParticipantsTable = ({
                 </select>
               </div>
             </div>
-            {/* </div> */}
 
             <div className="ml-4">
               <button

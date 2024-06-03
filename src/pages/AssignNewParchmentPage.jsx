@@ -205,9 +205,7 @@ function AssignNewParchment() {
       const res = await dispatch(assigParchment(data));
       setAssignedParchment(res.data);
     } catch (error) {
-      // Handle error
       console.error(error);
-      console.log("An error occurred while assigning parchment.");
     }
   };
 

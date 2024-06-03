@@ -151,7 +151,6 @@ function ReceivingDeliveryFormPage() {
                         name="receiving_form_id"
                         value={formData.receiving_form_id}
                         onChange={handleFormDataChange}
-                        // placeholder="Enter the name of the loader"
                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                       />
                     </td>
@@ -179,7 +178,6 @@ function ReceivingDeliveryFormPage() {
                         name="bag_type"
                         value={formData.bag_type}
                         onChange={handleFormDataChange}
-                        // placeholder="Enter the name of the loader"
                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                       />
                     </td>
@@ -207,7 +205,6 @@ function ReceivingDeliveryFormPage() {
                         name="total_bags_received"
                         value={formData.total_bags_received}
                         onChange={handleFormDataChange}
-                        // placeholder="Enter the name of the loader"
                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                       />
                     </td>
@@ -235,7 +232,6 @@ function ReceivingDeliveryFormPage() {
                         name="weight_parch_received"
                         value={formData.weight_parch_received}
                         onChange={handleFormDataChange}
-                        // placeholder="Enter the name of the loader"
                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                       />
                     </td>
@@ -283,7 +279,6 @@ function ReceivingDeliveryFormPage() {
                         name="moisture"
                         value={formData.moisture}
                         onChange={handleFormDataChange}
-                        // placeholder="Enter the name of the loader"
                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                       />
                     </td>
