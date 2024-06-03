@@ -8,7 +8,6 @@ const ParchmentTransportDetailsTable = ({
   StationID,
   decodedToken,
 }) => {
-  console.log("I am reports", reportLotById);
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className=" mb-8  dark:bg-slate-800 ">

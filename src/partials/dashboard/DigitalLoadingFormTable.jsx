@@ -212,17 +212,14 @@ const DigitalLoadingFormTable = ({
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                   {parchments?.map((parchment, index) => (
-                    <tr
-                      // key={transaction.id}
-                      className="hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
+                    <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                       <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
                         <select
-                          name={`cherry_lot_${index}`} // Use a unique name for each dropdown
+                          name={`cherry_lot_${index}`}
                           className="rounded-lg"
                           onClick={() => handleClick(parchment)}
-                          onChange={handleSelectChange} // Call handleSelectChange on selection change
-                          data-parchment-id={parchment.parchment_id} // Attach parchment ID as data attribute
+                          onChange={handleSelectChange}
+                          data-parchment-id={parchment.parchment_id}
                         >
                           <option value="No">No</option>
                           <option value="Yes">Yes</option>
@@ -243,8 +240,6 @@ const DigitalLoadingFormTable = ({
                         className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white"
                         type="text"
                         name="total_number_of_bags"
-                        // value={formData.stock_init}
-                        // onChange={handleFormData}
                         placeholder="number of bags"
                       >
                         {parchment.parch_weight}
@@ -253,8 +248,6 @@ const DigitalLoadingFormTable = ({
                         className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white"
                         type="text"
                         name="total_number_of_bags"
-                        // value={formData.stock_bal}
-                        // onChange={handleFormData}
                         placeholder="number of bags"
                       >
                         {stockbal(parchment)}
@@ -263,8 +256,6 @@ const DigitalLoadingFormTable = ({
                         className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white"
                         type="text"
                         name="cherry_lot_id"
-                        // value={formData.cherry_lot_id}
-                        // onChange={handleFormData}
                         placeholder="number of bags"
                       >
                         {parchment.cherry_lot_id}
@@ -273,7 +264,7 @@ const DigitalLoadingFormTable = ({
                         {selectedParchment === parchment.parchment_id && (
                           <input
                             type="text"
-                            name={`bags`} // Use a unique name for each input field
+                            name={`bags`}
                             className="rounded-lg w-40"
                             placeholder="number of bags"
                             value={formData.bags}
@@ -284,7 +275,7 @@ const DigitalLoadingFormTable = ({
                         {selectedParchment === parchment.parchment_id && (
                           <input
                             type="text"
-                            name={`weight`} // Use a unique name for each input field
+                            name={`weight`}
                             className="rounded-lg w-40"
                             placeholder="Enter weight loaded"
                             value={formData.weight}
@@ -295,9 +286,9 @@ const DigitalLoadingFormTable = ({
                       <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
                         {selectedParchment === parchment.parchment_id && (
                           <select
-                            name={`parchment${index}`} // Use a unique name for each dropdown
+                            name={`parchment${index}`}
                             className="rounded-lg"
-                            onChange={handleSelectedOption} // Call handleSelectChange on selection change
+                            onChange={handleSelectedOption}
                             value={selectedOption}
                           >
                             <option value="no">No</option>
@@ -311,7 +302,7 @@ const DigitalLoadingFormTable = ({
                           selectedOption && (
                             <input
                               type="text"
-                              name={`bags_of_parchment_left`} // Use a unique name for each input field
+                              name={`bags_of_parchment_left`}
                               className="rounded-lg w-40"
                               placeholder="Enter bags of parchments left"
                               onChange={handleFormData}

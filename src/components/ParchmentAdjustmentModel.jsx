@@ -9,11 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router-dom";
 import { adjustParchment } from "../redux/actions/parchnment/adjustParchment.action";
 
-export default function ParchmentAdjustmentModel({
-  // transaction,
-  onClose,
-  onSubmit,
-}) {
+export default function ParchmentAdjustmentModel({ onClose, onSubmit }) {
   const dispatch = useDispatch();
   const [parchmentToAdjust, setParchmentToAdjust] = useState({
     cherrylotid: "",
@@ -67,8 +63,6 @@ export default function ParchmentAdjustmentModel({
             value={parchmentToAdjust.cherrylotid}
             onChange={handleInputChange}
             name="cherrylotid"
-
-            // readOnly
           />
 
           <p>SELECT GRADE</p>

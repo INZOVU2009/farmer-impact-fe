@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from "react";
-import UpdateItemDrawer from "./UpdateItemDrawer";
-import DeleteItemDrawer from "./DeleteItemDrawer";
-import AddItemDrawer from "./AddItemDrawer";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import EditTransactionModel from "../../components/EditTransactionModel";
@@ -103,8 +100,6 @@ const TransactionDetailsTable = () => {
 
     if (removeTransactionData) {
     }
-
-    console.log(`Deleting transaction with ID: ${transactionId}`);
     closeModal();
     etion;
   };
@@ -131,7 +126,6 @@ const TransactionDetailsTable = () => {
       setJournals(journal.data);
     }
   }, [journal]);
-  console.log("journalllleeeee", journals);
 
   const calculateTotalKilogramsByJournal = () => {
     const sumByJournal = {};
@@ -288,7 +282,6 @@ const TransactionDetailsTable = () => {
 
   const formattedTransportFeesCherry =
     formatNumberWithCommas(transportFeesCherry);
-  console.log("formaaa", formattedTransportFeesCherry);
 
   const formatDate = (dateString) => {
     const options = {
@@ -325,11 +318,8 @@ const TransactionDetailsTable = () => {
     try {
       dispatch(addCommission(additionalInfo));
 
-      console.log("fjvhdfv", additionalInfo);
       setIsCommissionPriceAdded(true);
-    } catch (error) {
-      console.error("Update failed:", error);
-    }
+    } catch (error) {}
   };
 
   //adding commission fees
@@ -359,9 +349,7 @@ const TransactionDetailsTable = () => {
       );
       setIsCommissionFeesAdded(true);
       setIsApproveButton(true);
-    } catch (error) {
-      console.error("Update failed:", error);
-    }
+    } catch (error) {}
   };
 
   //approving transaction
@@ -900,7 +888,6 @@ const TransactionDetailsTable = () => {
                           value={totalCommission.toLocaleString()}
                           placeholder=""
                           className="rounded-lg   w-80"
-                          // onChange={handleAdditionalInfoChange}
                         />
                       </td>
                     </tr>
@@ -917,7 +904,6 @@ const TransactionDetailsTable = () => {
                           value={transportFeesCherry.toLocaleString()}
                           className="rounded-lg w-80"
                           name="transportCherry"
-                          // onChange={handleAdditionalInfoChange}
                         />
                       </td>
                     </tr>
@@ -953,7 +939,6 @@ const TransactionDetailsTable = () => {
                         name="commissionCertified"
                         value={totals.toLocaleString()}
                         className="rounded-lg  w-80"
-                        // onChange={handleAdditionalInfoChange}
                       />
                     </td>
                   </tr>
@@ -979,12 +964,6 @@ const TransactionDetailsTable = () => {
           </div>
         </div>
       </div>
-      {/* update drawer */}
-      <UpdateItemDrawer />
-      {/* Delete Product Drawer */}
-      <DeleteItemDrawer />
-      {/* Add Product Drawer */}
-      <AddItemDrawer />
     </div>
   );
 };

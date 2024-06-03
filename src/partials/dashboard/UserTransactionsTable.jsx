@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from "react";
-import UpdateItemDrawer from "./UpdateItemDrawer";
-import DeleteItemDrawer from "./DeleteItemDrawer";
-import AddItemDrawer from "./AddItemDrawer";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { fetchAllTransactions } from "../../redux/actions/transactions/allTransactions.action";
 import { fetchAllStaff } from "../../redux/actions/staff/getAllStaff.action";
-import { approveFail } from "../../redux/slices/transactions/approveJournalSlice";
 import { approveJoulnal } from "../../redux/actions/transactions/approveJournal.action";
 
 const UserTransactionsTable = () => {
@@ -36,7 +31,6 @@ const UserTransactionsTable = () => {
       setAllTransactions(transactions.data);
     }
   }, [transactions]);
-  console.log("transactions", allTransactions);
 
   useEffect(() => {
     dispatch(fetchAllStaff());
@@ -86,7 +80,6 @@ const UserTransactionsTable = () => {
         "site_day_lot"
       )
     : getUniqueValues(allTransactions, "site_day_lot");
-  console.log("transactions", filteredTransaction.length);
 
   const getUserScIdById = (_kf_Staff) => {
     const staff = allStaff?.find((staff) => staff.__kp_Staff === _kf_Staff);
@@ -173,8 +166,7 @@ const UserTransactionsTable = () => {
   };
 
   const totalPages = Math.ceil(filteredTransaction?.length / itemsPerPage);
-  console.log("pages", totalPages);
-  // Paginate the user data
+
   const paginatedTransactions = filteredTransaction?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -204,7 +196,6 @@ const UserTransactionsTable = () => {
     dispatch(approveJoulnal(token, journalId))
       .then(() => {
         dispatch(fetchAllTransactions(token));
-        // Additional logic after approval if needed
       })
       .catch((error) => {
         console.error("Error approving journal:", error);
@@ -495,15 +486,6 @@ const UserTransactionsTable = () => {
           </span>
         </div>
       </div>
-
-      {/* update drawer */}
-      <UpdateItemDrawer />
-
-      {/* Delete Product Drawer */}
-      <DeleteItemDrawer />
-
-      {/* Add Product Drawer */}
-      <AddItemDrawer />
     </div>
   );
 };

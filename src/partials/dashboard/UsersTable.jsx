@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import UpdateItemDrawer from "./UpdateItemDrawer";
-import DeleteItemDrawer from "./DeleteItemDrawer";
-import AddItemDrawer from "./AddItemDrawer";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllUsers } from "../../redux/actions/user/Users.action";
@@ -72,7 +69,7 @@ const UsersTable = () => {
     : allStaff;
 
   const totalPages = Math.ceil(filteredStaff?.length / itemsPerPage);
-  console.log("pages", filteredStaff);
+
   // Paginate the user data
   const paginatedStaffs = filteredStaff?.slice(
     (currentPage - 1) * itemsPerPage,
@@ -100,13 +97,11 @@ const UsersTable = () => {
     const user = allUserAccess?.find((user) => user.staff_ID === userID);
     return user ? user.state : null;
   };
-  console.log("hbdshjb", getUserStatus("S179"));
 
   const handleClickAction = (user) => {
     setSelectedUser(user);
     setShowPasswordModel(true);
   };
-  // console.log("seleeeee",selectedUser)
 
   const handlePasswordUpdate = (userId, newPassword) => {
     setPassword("");
@@ -137,7 +132,6 @@ const UsersTable = () => {
     }
   }, [allAccess]);
 
-  console.log("all access", allUserAccess);
   const handleUserAdd = (id) => {
     dispatch(createUserAccess(id));
   };
@@ -148,7 +142,6 @@ const UsersTable = () => {
   }, [access, dispatch]);
 
   const handleActivateUser = (id) => {
-    console.log("huh", id);
     dispatch(activateUserAccess(id));
   };
   useEffect(() => {
@@ -385,14 +378,6 @@ const UsersTable = () => {
           </span>
         </div>
       </div>
-      {/* update drawer */}
-      <UpdateItemDrawer />
-
-      {/* Delete Product Drawer */}
-      <DeleteItemDrawer />
-
-      {/* Add Product Drawer */}
-      <AddItemDrawer />
     </div>
   );
 };

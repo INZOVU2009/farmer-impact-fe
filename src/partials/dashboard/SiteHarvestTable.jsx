@@ -53,7 +53,6 @@ const SiteHarvestTable = () => {
         station: selectedStation,
       };
       dispatch(fetchGeneralHarvests(data));
-      console.log("dataaaa", data);
     }
   }, [selectedStation]);
 
@@ -345,7 +344,7 @@ const SiteHarvestTable = () => {
                 />
               </div>
             </form>
-            {/* <div className="flex items-center sm:justify-end"> */}
+
             <div className="flex space-x-4 mt-1 -ml-32">
               <div>
                 <p>Station</p>
@@ -384,7 +383,6 @@ const SiteHarvestTable = () => {
                 </select>
               </div>
             </div>
-            {/* </div> */}
 
             <div className="ml-4">
               <button

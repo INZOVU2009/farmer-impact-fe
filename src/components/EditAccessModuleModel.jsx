@@ -10,7 +10,7 @@ export default function EditAccessModel({ module, onClose, onSubmit }) {
   const [editedModule, setEditedModule] = useState({
     module_name: "",
   });
-  console.log("module", module);
+
 
   const dispatch = useDispatch();
   const handleInputChange = (e) => {
@@ -21,7 +21,7 @@ export default function EditAccessModel({ module, onClose, onSubmit }) {
       [name]: value,
     }));
   };
-  console.log(editedModule);
+
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();

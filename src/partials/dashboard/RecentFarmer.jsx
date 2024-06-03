@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { fetchFieldFarmers } from "../../redux/actions/farmers/all_field_farmer.action";
 import { useSelector, useDispatch } from "react-redux";
 import { approveFieldFarmer } from "../../redux/actions/farmers/approveFarmer.action";
+
 function RecentFarmers() {
   const dispatch = useDispatch();
   const [recentFarmers, setRecentFarmers] = useState([]);
@@ -45,7 +46,6 @@ function RecentFarmers() {
     return <div>Loading...</div>;
   }
 
-  // Render a message if there are no field farmers
   if (!AllFieldFarmers || AllFieldFarmers.length === 0) {
     return <div>No field farmers available</div>;
   }

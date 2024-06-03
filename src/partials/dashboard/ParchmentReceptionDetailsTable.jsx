@@ -8,7 +8,6 @@ const ParchmentReceptionDetailsTable = ({
   StationID,
   decodedToken,
 }) => {
-  console.log("I am reports", reportLotById);
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className=" mb-8  dark:bg-slate-800 ">
@@ -238,10 +237,7 @@ const ParchmentReceptionDetailsTable = ({
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                   {reportLotById?.map((parchment, index) => (
-                    <tr
-                      // key={transaction.id}
-                      className="hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
+                    <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                       <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
                         {index + 1}
                       </td>

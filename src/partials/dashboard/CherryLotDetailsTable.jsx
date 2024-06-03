@@ -26,7 +26,7 @@ const CherryLotDetailsTable = () => {
   const [allStaff, setAllStaff] = useState([]);
   const { staffs } = useSelector((state) => state.fetchAllStaff);
   const { stations } = useSelector((state) => state.fetchAllStations);
-  //all transactions
+
   useEffect(() => {
     dispatch(fetchAllJournalsByCherryLotId(token, cherryLotId.cherryLotId));
   }, [dispatch]);
@@ -55,7 +55,7 @@ const CherryLotDetailsTable = () => {
       setAllStation(stations.data);
     }
   }, [stations]);
-  // Function to get unique values from an array
+
   const getUniqueValues = (arr, key) => {
     const uniqueValues = [];
     const uniqueKeys = new Set();
@@ -73,7 +73,6 @@ const CherryLotDetailsTable = () => {
   };
 
   const filteredJournals = getUniqueValues(allJournals, "site_day_lot");
-  console.log("filtereddd", filteredJournals);
 
   const formatter = new Intl.NumberFormat("en-US");
 
@@ -136,7 +135,7 @@ const CherryLotDetailsTable = () => {
 
     return totalValues;
   };
-  //calculating totals
+
   const totalValues = calculateTotalValues();
   const totalPages = Math.ceil(journals?.length / itemsPerPage);
 
@@ -412,9 +411,7 @@ const CherryLotDetailsTable = () => {
                   >
                     Avg Transport Fee per Kg Cherry
                   </th>
-                  <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
-                    {/* {totalValues.averagePrice} */}
-                  </td>
+                  <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r"></td>
                 </tr>
                 <tr className="border-b">
                   <th
@@ -423,9 +420,7 @@ const CherryLotDetailsTable = () => {
                   >
                     Avg Transport Fee per Kg Floater
                   </th>
-                  <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
-                    {/* {totalValues.averagePrice} */}
-                  </td>
+                  <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r"></td>
                 </tr>
                 <tr className="border-b">
                   <th
@@ -434,9 +429,7 @@ const CherryLotDetailsTable = () => {
                   >
                     Avg Commission Fee per Kg Cherry
                   </th>
-                  <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
-                    {/* {totalValues.averagePrice} */}
-                  </td>
+                  <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r"></td>
                 </tr>
               </thead>
             </table>
@@ -667,7 +660,6 @@ const CherryLotDetailsTable = () => {
           Save and submit to RTC{" "}
         </button>
       </div>
-
     </div>
   );
 };
