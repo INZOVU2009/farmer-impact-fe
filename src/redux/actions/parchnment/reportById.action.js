@@ -9,7 +9,7 @@ import { deriveryReportById } from "../../../api/parchmentApi";
         const res = await deriveryReportById(id);
         console.log("res", res);
         dispatch(fetchSuccess(res));
-        toast.success(res.message);
+        // toast.success(res.message);
         return res;
       } catch (error) {
         if (error) {

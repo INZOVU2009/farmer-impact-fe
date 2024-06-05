@@ -97,8 +97,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
     assignedModuleIds.includes(module.id)
   );
 
-  console.log("hehe", retrievedModules);
-
   return (
     <div>
       {/* Sidebar backdrop (mobile only) */}
