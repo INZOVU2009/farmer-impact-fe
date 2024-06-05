@@ -37,10 +37,11 @@ function DigitalLoadingFormPage() {
   const [stockbal, setStockbal] = useState(0);
   const [selectedParchments, setSelectedParchments] = useState([]);
   const { singleReport } = useSelector((state) => state.fetchSingleReport);
-
-  const parchmentid = parchmentToDeliver?.parchment_id;
+  const [parchments, setParchments] = useState([]);
+  const parchmentid = selectedParchments[0];
 
   const wantedGrade = parchmentid?.charAt(parchmentid?.length - 1);
+  console.log("hellll", wantedGrade);
 
   const parchWeight = parchmentToDeliver?.parch_weight;
   const [formData, setFormData] = useState({
@@ -105,10 +106,19 @@ function DigitalLoadingFormPage() {
   };
 
   const handleSelectChange = (e) => {
-    const selectedValue = e.target.value;
-    setSelectedParchment(
-      selectedValue === "Yes" ? e.target.dataset.parchmentId : null
-    ); // Update state based on selection
+    const selectedParchmentId = e.target?.dataset.parchmentId;
+    const isChecked = e.target?.value === "Yes";
+
+    setSelectedParchments((prevSelected) => {
+      if (isChecked) {
+        if (!prevSelected.includes(selectedParchmentId)) {
+          return [...prevSelected, selectedParchmentId];
+        }
+      } else {
+        return prevSelected.filter((id) => id !== selectedParchmentId);
+      }
+      return prevSelected;
+    });
   };
 
   const handleSelectedOption = (e) => {
@@ -117,15 +127,15 @@ function DigitalLoadingFormPage() {
     if (value === "no") {
       setFormData((prevData) => ({
         ...prevData,
-        bags_of_parchment_left: "0", // Set to '0' if 'no' is selected
+        bagsofparchmentleft: "0",
       }));
       setSelectedOption(value);
     } else {
       setFormData((prevData) => ({
         ...prevData,
-        bags_of_parchment_left: "", // Allow typing by setting to an empty string
+        bagsofparchmentleft: "",
       }));
-      setSelectedOption(value); // Update state based on selection other than 'no'
+      setSelectedOption(value);
     }
   };
 
@@ -135,8 +145,8 @@ function DigitalLoadingFormPage() {
       ...prevData,
       grade: wantedGrade,
       parch_lot_ID: parchmentid,
-      // final_weight_left:finaleWeightLeft,
-      final_bags_of_parchment_left: formData.bags_of_parchment_left,
+      final_weight_left: finaleWeightLeft,
+      final_bags_of_parchment_left: formData.bags,
 
       [name]: value,
     }));
@@ -151,10 +161,10 @@ function DigitalLoadingFormPage() {
     }
   }, [singleReport]);
 
-  const getWeightLeft = (parchment) => {
+  const getWeightLeft = (parchment_id, parch_weight) => {
     // Check if the parchment is in the delivered reports
     const deliveredParchment = allDeliveryReports?.filter(
-      (report) => report.parch_lot_ID === parchment.parchment_id
+      (report) => report.parch_lot_ID === parchment_id
     );
 
     if (deliveredParchment?.length > 0) {
@@ -166,15 +176,63 @@ function DigitalLoadingFormPage() {
       return latestReport?.final_weight_left;
     } else {
       // If not delivered, return the original parchment weight
-      return parchment.parch_weight;
+      return parch_weight;
     }
   };
 
   const handleDeliverySubmit = async (e) => {
     e.preventDefault();
-    dispatch(submitDeliveryReport(formData, token));
+
+    // Create an array to hold the reportsLots data
+    const reportsLots = selectedParchments
+      .map((parchmentId) => {
+        // Find the corresponding parchment object based on the parchmentId
+        const parchment = parchments.find((p) => p.id === parchmentId);
+        if (!parchment) return null; // Handle case where parchment is not found
+
+        // Calculate final weight left
+        const finaleWeightLeft =
+          getWeightLeft(parchment.id) - formData[`weight_${parchmentId}`];
+
+        // Calculate grade based on parchment ID
+        const grade = parchmentId?.charAt(parchmentId?.length - 1);
+
+        return {
+          parch_lot_ID: parchmentId,
+          weight: formData[`weight_${parchmentId}`],
+          bags_loaded: formData[`bags_${parchmentId}`],
+          bags_of_parchment_left:
+            formData[`bags_of_parchment_left${parchmentId}`],
+          final_bags_of_parchment_left:
+            formData[`bags_of_parchment_left${parchmentId}`],
+          final_weight_left: finaleWeightLeft,
+          grade: grade,
+        };
+      })
+      .filter((item) => item !== null); // Remove null entries from the array
+
+    // Create the final form data object
+    const deliveryFormData = {
+      tally_sheet_no: formData.tally_sheet_no,
+      truck_plate: formData.truck_plate,
+      grade: formData.grade,
+      weight: formData.weight,
+      bags: formData.bags,
+      loaded_by: formData.loaded_by,
+      inspected_by: formData.inspected_by,
+      accountant_by: formData.accountant_by,
+      driver_name: formData.driver_name,
+      driver_licence_or_national_id: formData.driver_licence_or_national_id,
+      reportsLots: reportsLots,
+    };
+    console.log("delivery", deliveryFormData);
+    // Dispatch the action to submit the delivery report with the formatted data
+    dispatch(submitDeliveryReport(deliveryFormData, token));
+
+    // Clear the form data after submission
     setFormData({});
   };
+
   useEffect(() => {
     if (delivery) {
       let newDelivery = delivery.data;
@@ -202,8 +260,22 @@ function DigitalLoadingFormPage() {
   }, [delivery]);
 
   const handleClick = (parchment) => {
-    setParchmentToDeliver(parchment);
+    const newParchment = {
+      id: parchment.parchment_id,
+      weight: parchment.parch_weight,
+    };
+
+    // Check if the parchment already exists in the array
+    const isAlreadyAdded = parchments.some((p) => p.id === newParchment.id);
+
+    if (!isAlreadyAdded) {
+      // Add the new parchment only if it's not already added
+      setParchments((prevParchments) => [...prevParchments, newParchment]);
+    }
+
+    console.log("I am parchhccc", parchments); // Check the updated array
   };
+
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -230,9 +302,8 @@ function DigitalLoadingFormPage() {
                 stationName={getStationName}
                 StationID={getStationID}
                 decodedToken={decodedToken}
-                // showInputs={showInputs}
                 handleSelectChange={handleSelectChange}
-                selectedParchment={selectedParchment}
+                selectedParchment={selectedParchments}
                 selectedOption={selectedOption}
                 handleSelectedOption={handleSelectedOption}
                 formData={formData}

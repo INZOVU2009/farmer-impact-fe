@@ -18,6 +18,24 @@ const DigitalLoadingFormTable = ({
   Spinner,
   isloading,
 }) => {
+  console.log("yuhu", selectedParchment);
+  const calculateTotalWeight = () => {
+    let totalWeight = 0;
+    selectedParchment.forEach((parchmentId) => {
+      totalWeight += parseFloat(formData[`weight_${parchmentId}`]) || 0;
+      console.log("total", formData[`weight_${parchmentId}`])
+    });
+   
+    return totalWeight;
+  };
+
+  const calculateTotalBags = () => {
+    let totalBags = 0;
+    selectedParchment.forEach((parchmentId) => {
+      totalBags += parseFloat(formData[`bags_${parchmentId}`]) || 0;
+    });
+    return totalBags;
+  };
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className=" mb-8  dark:bg-slate-800 ">
@@ -88,14 +106,15 @@ const DigitalLoadingFormTable = ({
                     NUMBER.OF.BAGS
                   </th>
                   <td className="p-1 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
-                    <input
-                      type="text"
-                      name="bags"
-                      value={formData.bags}
-                      className="rounded-lg w-80"
-                      onChange={handleFormData}
-                      placeholder="number of bags"
-                    />
+                  <input
+                    type="text"
+                    className="rounded-lg w-80"
+                    name="bags"
+                    value={formData.bags}
+                    onChange={handleFormData}
+                    placeholder="Enter total bags   "
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  />
                   </td>
                 </tr>
                 <tr className="border-b hover:bg-gray-100">
@@ -106,14 +125,15 @@ const DigitalLoadingFormTable = ({
                     TOTAL.WEIGHT
                   </th>
                   <td className="p-1 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
-                    <input
-                      type="text"
-                      value={formData.weight}
-                      className="rounded-lg w-80"
-                      name="weight"
-                      onChange={handleFormData}
-                      placeholder="total weight"
-                    />
+                  <input
+                    type="text"
+                    className="rounded-lg w-80"
+                    name="weight"
+                    value={formData.weight}
+                    onChange={handleFormData}
+                    placeholder="Enter total weight loaded  "
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  />
                   </td>
                 </tr>
                 <tr className="border-b ">
@@ -139,7 +159,7 @@ const DigitalLoadingFormTable = ({
                   </th>
                   <td className=" p-1 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
                     <input
-                      className="rounded-lg w-80"
+                     className="rounded-lg w-80"
                       value={new Date().toISOString().split("T")[0]}
                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     />
@@ -196,12 +216,7 @@ const DigitalLoadingFormTable = ({
                     >
                       KILOGRAMS.LOADED
                     </th>
-                    <th
-                      scope="col"
-                      className=" p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      ANY.PARCHMENT.LEFT
-                    </th>
+                  
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
@@ -250,7 +265,7 @@ const DigitalLoadingFormTable = ({
                         name="total_number_of_bags"
                         placeholder="number of bags"
                       >
-                        {stockbal(parchment)}
+                        {stockbal(parchment.parchment_id,parchment.parch_weight)}
                       </td>
                       <td
                         className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white"
@@ -261,52 +276,40 @@ const DigitalLoadingFormTable = ({
                         {parchment.cherry_lot_id}
                       </td>
                       <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                        {selectedParchment === parchment.parchment_id && (
+                        {selectedParchment.includes(parchment.parchment_id) && (
                           <input
                             type="text"
-                            name={`bags`}
+                            name={`bags_${parchment.parchment_id}`} // Example: bags_123
                             className="rounded-lg w-40"
                             placeholder="number of bags"
-                            value={formData.bags}
+                            value={formData[`bags_${parchment.parchment_id}`]} // Example: formData.bags_123
+                            onChange={handleFormData}
                           />
                         )}
                       </td>
                       <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                        {selectedParchment === parchment.parchment_id && (
-                          <input
-                            type="text"
-                            name={`weight`}
-                            className="rounded-lg w-40"
-                            placeholder="Enter weight loaded"
-                            value={formData.weight}
-                          />
+                        {selectedParchment.includes(parchment.parchment_id) && (
+                         <input
+                         type="text"
+                         name={`weight_${parchment.parchment_id}`} 
+                         className="rounded-lg w-40"
+                         placeholder="Enter weight loaded"
+                         value={formData[`weight_${parchment.parchment_id}`]} 
+                         onChange={handleFormData}
+                       />
                         )}
                       </td>
 
                       <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                        {selectedParchment === parchment.parchment_id && (
-                          <select
-                            name={`parchment${index}`}
-                            className="rounded-lg"
-                            onChange={handleSelectedOption}
-                            value={selectedOption}
-                          >
-                            <option value="no">No</option>
-                            <option value="yes">Yes</option>
-                          </select>
-                        )}
-                      </td>
-
-                      <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                        {selectedParchment === parchment.parchment_id &&
+                        {selectedParchment.includes(parchment.parchment_id) &&
                           selectedOption && (
                             <input
                               type="text"
-                              name={`bags_of_parchment_left`}
+                              name={`bags_of_parchment_left${parchment.parchment_id}`}
                               className="rounded-lg w-40"
                               placeholder="Enter bags of parchments left"
                               onChange={handleFormData}
-                              value={formData.bags_of_parchment_left}
+                              value={formData[`bags_of_parchment_left${parchment.parchment_id}`]} 
                             />
                           )}
                       </td>

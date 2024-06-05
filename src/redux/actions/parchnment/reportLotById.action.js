@@ -10,7 +10,7 @@ import { reportLotFail, reportLotPending, reportLotSuccess } from "../../slices/
         console.log("I am iddd", id)
         console.log("res", res);
         dispatch(reportLotSuccess(res));
-        toast.success(res.message);
+        // toast.success(res.message);
         return res;
       } catch (error) {
         if (error) {
