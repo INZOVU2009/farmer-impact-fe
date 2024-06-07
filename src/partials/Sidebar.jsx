@@ -195,6 +195,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       pathname.includes("recent_farmers");
                     const isApprovedFarmers =
                       pathname.includes("approved_farmers");
+                      const isSyncedFarmersActive =
+                      pathname.includes("synced_farmers");
                     return (
                       <React.Fragment>
                         <a
@@ -280,6 +282,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               <li className="mb-1 last:mb-0">
                                 <NavLink
                                   end
+                                  style={
+                                    isSyncedFarmersActive
+                                      ? { color: "#4F46E5" }
+                                      : {}
+                                  }
                                   to="/user_registration/synced_farmers"
                                   className="block text-black hover:text-slate-400 transition duration-150 truncate"
                                 >
