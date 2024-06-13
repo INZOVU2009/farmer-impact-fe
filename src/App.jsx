@@ -44,6 +44,7 @@ import ApprovedFarmers from "./pages/ApprovedFarmersPage";
 import AccessModulePage from "./pages/appSetting/AccessModulePage";
 import HouseholdTreesPage from "./pages/household/HouseHoldTreesPage";
 import SyncedFarmersPage from "./pages/SyncedFarmersPage";
+import TransalationsPage from "./pages/appSetting/TranslationsPage";
 
 function App() {
   const location = useLocation();
@@ -231,6 +232,11 @@ function App() {
         exact
         path="/user_registration/synced_farmers"
         element={<SyncedFarmersPage/>}
+        />
+          <Route
+        exact
+        path="/app_setting/user_translator"
+        element={<TransalationsPage/>}
         />
       </Routes>
     </>

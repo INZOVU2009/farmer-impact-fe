@@ -74,17 +74,6 @@ function HouseholdTreesTable() {
               </div>
             </form>
           </div>
-          {/* <button
-            id="createProductButton"
-            className="btn bg-black hover:bg-black text-white"
-            type="button"
-            data-drawer-target="drawer-create-product-default"
-            data-drawer-show="drawer-create-product-default"
-            aria-controls="drawer-create-product-default"
-            data-drawer-placement="right"
-          >
-            Add new farmer
-          </button> */}
         </div>
       </div>
 
@@ -156,7 +145,10 @@ function HouseholdTreesTable() {
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                   {filteredHouseholdTrees?.map((tree, index) => (
                     <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <td className="w-4 p-4">{index + 1}</td>
+                      <td className="w-4 p-4">
+                        {" "}
+                        {(currentPage - 1) * itemsPerPage + index + 1}
+                      </td>
 
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {tree.CW_Name}
