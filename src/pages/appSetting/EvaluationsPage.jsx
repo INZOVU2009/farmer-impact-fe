@@ -1,54 +1,46 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../../partials/Sidebar";
 import Header from "../../partials/Header";
-import TranslationsTable from "../../partials/dashboard/appSettings/TranslationsTable";
 import WelcomeBanner from "../../partials/dashboard/WelcomeBanner";
-import { fetchAllTranslations } from "../../redux/actions/translations/fetchAllTranslations.action";
-import { useDispatch,useSelector } from "react-redux";
-import DeleteTranslationModel from "../../components/DeleteTranslationModel";
-import { deleteTranslation } from "../../redux/actions/translations/deleteTranslation.action";
-function TransalationsPage() {
+import { useDispatch, useSelector } from "react-redux";
+import EvaluationsTable from "../../partials/dashboard/appSettings/EvaluationsTable";
+import { fetchAllEvaluations } from "../../redux/actions/evaluations/fetchAllEvaluations.action";
+function EvaluationsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [allTranslations, setAllTranslations] = useState();
+  const [allEvaluations, setAllEvaluations] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(50);
   const [searchTerm, setSearchTerm] = useState("");
+  const dispatch = useDispatch();
 
-let id;
-  const { translations, loading } = useSelector(
-    (state) => state.fetchAllTranslations
+  const { evaluations, loading } = useSelector(
+    (state) => state.fetchAllEvaluations
   );
-  const dispatch = useDispatch()
+
 
   useEffect(() => {
-    dispatch(fetchAllTranslations(currentPage, itemsPerPage));
+    dispatch(fetchAllEvaluations(currentPage, itemsPerPage));
   }, [dispatch,currentPage,itemsPerPage]);
 
   useEffect(() => {
-    if (translations) {
-      setAllTranslations(translations.data?.translations);
+    if (evaluations) {
+      setAllEvaluations(evaluations.data?.evaluations);
     }
-  }, [translations]);
+  }, [evaluations]);
+console.log("hehefffffffd", allEvaluations)
 
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
+    setCurrentPage((prevPage) => prevPage + 1,evaluations.data?.totalPages);
   };
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
-  const filteredTranslations = allTranslations?.filter((translation) =>
-  Object.values(translation).some(
-    (value) =>
-      value?.toString()?.toLowerCase()?.indexOf(searchTerm?.toLowerCase()) !==
-      -1
-  )
-);
 
-
+  
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -66,16 +58,13 @@ let id;
             <div className="sm:flex sm:justify-between sm:items-center mb-8">
               {/* Right: Actions */}
             </div>
-            <TranslationsTable
-            translations={filteredTranslations}
-            handleNextPage={handleNextPage}
-            handlePrevPage={handlePrevPage}
-            handleSearchChange={handleSearchChange}
+            <EvaluationsTable 
+            allEvaluations={allEvaluations}
             currentPage={currentPage}
             itemsPerPage={itemsPerPage}
-            searchTerm={searchTerm}
-            allTranslations={translations?.data?.totalItems}
-         
+            handleNextPage={handleNextPage}
+            handlePrevPage={handlePrevPage}
+            totalItems={evaluations?.data?.totalItems}
             />
             <div className="grid grid-cols-12 gap-6"></div>
           </div>
@@ -85,4 +74,4 @@ let id;
   );
 }
 
-export default TransalationsPage;
+export default EvaluationsPage;

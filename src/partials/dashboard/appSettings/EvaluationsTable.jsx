@@ -1,85 +1,34 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { MdEdit } from "react-icons/md";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import DeleteTranslationModel from "../../../components/DeleteTranslationModel";
-import { deleteTranslation } from "../../../redux/actions/translations/deleteTranslation.action";
-import { updateTranslation } from "../../../redux/actions/translations/updateTranslation.action";
-import AddTranslationModal from "../../../components/AddTranslationModal";
-import EditTranslationModel from "../../../components/EditTranslationModel.jsX";
-import { addNewPhraseTranslation } from "../../../redux/actions/translations/addNewPhrase.action";
-function TranslationsTable({
-  translations,
-  handleNextPage,
-  handlePrevPage,
-  handleSearchChange,
+import React from "react";
+
+function EvaluationsTable({
+  allEvaluations,
   currentPage,
   itemsPerPage,
-  searchTerm,
-  allTranslations,
+  handleNextPage,
+  handlePrevPage,
+  totalItems,
 }) {
-  const [translationToDelete, setTranslationToDelete] = useState(null);
-  const [showEditTranslationModel, setShowEditTranslationModel] =
-    useState(false);
-
-  const { removedTranslation } = useSelector(
-    (state) => state.deleteTranslation
-  );
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [selectedTranslation, setSelectedTranslation] = useState(null);
-  const [isAddModalOpen, setAddModalOpen] = useState(false);
-const token = localStorage.getItem("token")
-  const dispatch = useDispatch();
-
-  //removing translation
-  const openModal = (translationId) => {
-    setTranslationToDelete(translationId);
-    setModalOpen(true);
-  };
-  const closeModal = () => {
-    setTranslationToDelete(null);
-    setModalOpen(false);
-  };
-  const handleConfirmDelete = () => {
-    dispatch(deleteTranslation(translationToDelete));
-    if (removedTranslation) {
-    }
-    closeModal();
-  };
-
-  const handleClickAction = (translation) => {
-    setSelectedTranslation(translation);
-    setShowEditTranslationModel(true);
-  };
-
-  const handleTranslationUpdate = (translationId, editedTranslation) => {
-    setSelectedTranslation(null);
-    setShowEditTranslationModel(true);
-  };
   const formatDate = (dateString) => {
     const options = {
       year: "numeric",
       month: "long",
       day: "numeric",
-      // hour: "numeric",
+      hour: "numeric",
     };
 
     return new Intl.DateTimeFormat("en-US", options).format(
       new Date(dateString)
     );
   };
-  const handleAddNewPhrase = (newPhrase) => {
-    dispatch(addNewPhraseTranslation(token,newPhrase)); // Dispatch the action to add the new phrase
-    setAddModalOpen(false);
-  };
+
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="p-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
-      <button
+        <button
           id="createProductButton"
           className="btn bg-green-500 hover:bg-green-500 text-white mb-3"
           type="button"
-          onClick={() => setAddModalOpen(true)}
+          //   onClick={() => setAddModalOpen(true)}
         >
           + New Phrase
         </button>
@@ -94,10 +43,10 @@ const token = localStorage.getItem("token")
                   type="text"
                   name="email"
                   id="products-search"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Search for phrase"
-                  value={searchTerm}
-                  onChange={handleSearchChange}
+                  //   value={searchTerm}
+                  //   onChange={handleSearchChange}
                 />
               </div>
             </form>
@@ -119,87 +68,75 @@ const token = localStorage.getItem("token")
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      TIME
+                      Created time
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      CODE
+                      English
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      ENGLISH
+                      Kinyarwanda
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                      Mode
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                      Priority
                     </th>
 
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      FRENCH
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      KINYARWANDA{" "}
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      ACTION
+                      Action
                     </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                  {translations?.map((translation, index) => (
-                    <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {(currentPage - 1) * itemsPerPage + index + 1}
+                  {allEvaluations?.map((evaluation, index) => (
+                    <tr
+                      className="hover:bg-gray-100 dark:hover:bg-gray-700"
+                      key={evaluation.id}
+                    >
+                      <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      {(currentPage - 1) * itemsPerPage + index + 1}
                       </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {formatDate(translation.created_at)}
+                      <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {formatDate(evaluation.updated_at)}
                       </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {translation.code}
+                      <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {evaluation.Eng_phrase}
                       </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {translation.phrase}
+                      <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {evaluation.Kiny_phrase}
                       </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {translation.phrasefr}
+                      <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {evaluation.evaluation_mode}
                       </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {translation.phraserw}
+                      <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {evaluation.priority}
                       </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        <div className=" flex flex-row gap-1">
-                          <MdEdit
-                            className=" text-green-500 border-2 border-green-500 rounded-full  text-3xl  p-1 cursor-pointer  hover:bg-green-500 hover:text-white"
-                            onClick={() => handleClickAction(translation)}
-                          />
-                          {showEditTranslationModel && selectedTranslation && (
-                            <EditTranslationModel
-                              translation={selectedTranslation}
-                              onClose={() => setShowEditTranslationModel(false)}
-                              onSubmit={handleTranslationUpdate}
-                            />
-                          )}
-
-                          <RiDeleteBin6Line
-                            className="text-red-500 border-2 border-red-500 rounded-full text-3xl p-1 cursor-pointer hover:bg-red-500 hover:text-white"
-                            onClick={() => openModal(translation.id)}
-                          />
-                          <DeleteTranslationModel
-                            isOpen={isModalOpen}
-                            onClose={closeModal}
-                            onConfirmDelete={handleConfirmDelete}
-                            translationId={translationToDelete}
-                          />
-                        </div>
+                      <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      <a
+                          href={`/app_setting/inspection_questions/${evaluation.id}`}
+                          className="text-blue-500 hover:text-gray-500"
+                        >
+                           <button className=" bg-green-500 text-white p-1 rounded-md  w-20">
+                          Option
+                        </button>
+                        </a>
+                      
                       </td>
                     </tr>
                   ))}
@@ -255,11 +192,11 @@ const token = localStorage.getItem("token")
             </span>{" "}
             -{" "}
             <span className="font-semibold text-gray-900 dark:text-white">
-              {Math.min(currentPage * itemsPerPage, allTranslations)}
+              {Math.min(currentPage * itemsPerPage, totalItems)}
             </span>{" "}
             of{" "}
             <span className="font-semibold text-gray-900 dark:text-white">
-              {allTranslations}
+              {totalItems}
             </span>
           </span>
         </div>
@@ -304,15 +241,8 @@ const token = localStorage.getItem("token")
           </a>
         </div>
       </div>
-
-      <AddTranslationModal
-        isOpen={isAddModalOpen}
-        onClose={() => setAddModalOpen(false)}
-        onSubmit={handleAddNewPhrase}
-      />
-
     </div>
   );
 }
 
-export default TranslationsTable;
+export default EvaluationsTable;

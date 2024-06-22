@@ -45,6 +45,8 @@ import AccessModulePage from "./pages/appSetting/AccessModulePage";
 import HouseholdTreesPage from "./pages/household/HouseHoldTreesPage";
 import SyncedFarmersPage from "./pages/SyncedFarmersPage";
 import TransalationsPage from "./pages/appSetting/TranslationsPage";
+import EvaluationsPage from "./pages/appSetting/EvaluationsPage";
+import InspectionAnswersPage from "./pages/appSetting/InspectionAnswersPage";
 
 function App() {
   const location = useLocation();
@@ -233,10 +235,20 @@ function App() {
         path="/user_registration/synced_farmers"
         element={<SyncedFarmersPage/>}
         />
-          <Route
+        <Route
         exact
         path="/app_setting/user_translator"
         element={<TransalationsPage/>}
+        />
+        <Route
+        exact
+        path="/app_setting/inspection_questions"
+        element={<EvaluationsPage/>}
+        />
+         <Route
+        exact
+        path="/app_setting/inspection_questions/:id"
+        element={<InspectionAnswersPage/>}
         />
       </Routes>
     </>
