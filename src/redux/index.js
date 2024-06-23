@@ -65,6 +65,9 @@ import updateTranslationSlice from "./slices/translations/updateTranslationSlice
 import addNewPhraseSlice from "./slices/translations/addNewPhraseSlice";
 import fetchAllEvaluatiosSlice from "./slices/evaluations/fetchAllEvaluatiosSlice";
 import getSingleInspectionAnswerSlice from "./slices/inspectionAnswers/getSingleInspectionAnswerSlice";
+import addNewInspectionAnswerSlice from "./slices/inspectionAnswers/addNewInspectionAnswerSlice";
+import deleteInspectionAnswerSlice from "./slices/inspectionAnswers/deleteInspectionAnswerSlice";
+import updateInspectionAnswerSlice from "./slices/inspectionAnswers/updateInspectionAnswerSlice";
 const store = configureStore({
   reducer: {
     login,
@@ -133,6 +136,9 @@ const store = configureStore({
     addNewPhrase: addNewPhraseSlice,
     fetchAllEvaluations: fetchAllEvaluatiosSlice,
     getSingleInspectionAnswer: getSingleInspectionAnswerSlice,
+    addNewInspectionAnswer: addNewInspectionAnswerSlice,
+    deleteInspectionAnswer: deleteInspectionAnswerSlice,
+    updateInspectionAnswer: updateInspectionAnswerSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

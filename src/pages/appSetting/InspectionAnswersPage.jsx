@@ -8,41 +8,49 @@ import { fetchSingleInspectionAnswer } from "../../redux/actions/inspectionAnswe
 import { useParams } from "react-router-dom";
 function InspectionAnswersPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [answers, setAnswers] = useState();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(50);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [answers, setAnswers] = useState([]);
+
   const dispatch = useDispatch();
-const id = useParams().id
-console.log("id",id)
+  const id = useParams().id;
+
   const { answer, loading } = useSelector(
     (state) => state.getSingleInspectionAnswer
   );
+  const { deletedAnswer } = useSelector(
+    (state) => state.deleteInspectionAnswer
+  );
+
+  const { newAnswer } = useSelector((state) => state.addNewInspectionAnswer);
 
   useEffect(() => {
     dispatch(fetchSingleInspectionAnswer(id));
-  }, [dispatch,id]);
+  }, [dispatch, id]);
 
   useEffect(() => {
     if (answer) {
       setAnswers(answer.data);
     }
   }, [answer]);
-console.log("hehefffffffd", answer?.question)
 
+  useEffect(() => {
+    if (newAnswer) {
+      let addedAnswer = newAnswer.data;
+      let currentAnswers = answers;
 
-  const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
+      let updatedAnswers = [addedAnswer, ...currentAnswers];
 
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1,evaluations.data?.totalPages);
-  };
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
+      setAnswers(updatedAnswers);
+    }
+  }, [newAnswer]);
 
-  
+  useEffect(() => {
+    if (deletedAnswer) {
+      const deletedAnswerId = deletedAnswer?.data?.id;
+      setAnswers((prevAnswers) =>
+        prevAnswers.filter((answer) => answer.id !== deletedAnswerId)
+      );
+    }
+  }, [deletedAnswer]);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -59,14 +67,9 @@ console.log("hehefffffffd", answer?.question)
             {/* Dashboard actions */}
             <div className="sm:flex sm:justify-between sm:items-center mb-8">
               {/* Right: Actions */}
-            <p className=" font-bold">Question : {answer?.question} </p> 
-
+              <p className=" font-bold">Question : {answer?.question} </p>
             </div>
-           <InspectionAnswersTable
-           answers = {answers}
-       
-        
-           />
+            <InspectionAnswersTable answers={answers} />
             <div className="grid grid-cols-12 gap-6"></div>
           </div>
         </main>

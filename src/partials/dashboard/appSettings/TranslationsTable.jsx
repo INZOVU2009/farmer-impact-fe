@@ -28,7 +28,7 @@ function TranslationsTable({
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedTranslation, setSelectedTranslation] = useState(null);
   const [isAddModalOpen, setAddModalOpen] = useState(false);
-const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token");
   const dispatch = useDispatch();
 
   //removing translation
@@ -57,25 +57,33 @@ const token = localStorage.getItem("token")
     setShowEditTranslationModel(true);
   };
   const formatDate = (dateString) => {
+    if (!dateString) {
+      return "0000 0000 0000 0000";
+    }
+
+    const date = new Date(dateString);
+    if (isNaN(date)) {
+      return "Invalid date";
+    }
+
     const options = {
       year: "numeric",
       month: "long",
       day: "numeric",
-      // hour: "numeric",
+      hour: "numeric",
     };
 
-    return new Intl.DateTimeFormat("en-US", options).format(
-      new Date(dateString)
-    );
+    return new Intl.DateTimeFormat("en-US", options).format(date);
   };
+
   const handleAddNewPhrase = (newPhrase) => {
-    dispatch(addNewPhraseTranslation(token,newPhrase)); // Dispatch the action to add the new phrase
+    dispatch(addNewPhraseTranslation(token, newPhrase)); // Dispatch the action to add the new phrase
     setAddModalOpen(false);
   };
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="p-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
-      <button
+        <button
           id="createProductButton"
           className="btn bg-green-500 hover:bg-green-500 text-white mb-3"
           type="button"
@@ -310,7 +318,6 @@ const token = localStorage.getItem("token")
         onClose={() => setAddModalOpen(false)}
         onSubmit={handleAddNewPhrase}
       />
-
     </div>
   );
 }

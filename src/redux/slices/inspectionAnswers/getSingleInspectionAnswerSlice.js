@@ -27,5 +27,5 @@ const getInspectionAnswerSlice = createSlice({
 });
 
 export const { answerPending, answerSuccess, answerFail } =
-getInspectionAnswerSlice.actions;
+  getInspectionAnswerSlice.actions;
 export default getInspectionAnswerSlice.reducer;

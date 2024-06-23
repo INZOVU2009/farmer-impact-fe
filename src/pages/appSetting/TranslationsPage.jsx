@@ -4,25 +4,27 @@ import Header from "../../partials/Header";
 import TranslationsTable from "../../partials/dashboard/appSettings/TranslationsTable";
 import WelcomeBanner from "../../partials/dashboard/WelcomeBanner";
 import { fetchAllTranslations } from "../../redux/actions/translations/fetchAllTranslations.action";
-import { useDispatch,useSelector } from "react-redux";
-import DeleteTranslationModel from "../../components/DeleteTranslationModel";
-import { deleteTranslation } from "../../redux/actions/translations/deleteTranslation.action";
+import { useDispatch, useSelector } from "react-redux";
+
 function TransalationsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [allTranslations, setAllTranslations] = useState();
+  const [allTranslations, setAllTranslations] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(50);
   const [searchTerm, setSearchTerm] = useState("");
 
-let id;
   const { translations, loading } = useSelector(
     (state) => state.fetchAllTranslations
   );
-  const dispatch = useDispatch()
+  const { phrase } = useSelector((state) => state.addNewPhrase);
+  const { removedTranslation } = useSelector(
+    (state) => state.deleteTranslation
+  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchAllTranslations(currentPage, itemsPerPage));
-  }, [dispatch,currentPage,itemsPerPage]);
+  }, [dispatch, currentPage, itemsPerPage]);
 
   useEffect(() => {
     if (translations) {
@@ -40,15 +42,35 @@ let id;
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
+  useEffect(() => {
+    if (phrase) {
+      let addedPhrase = phrase.data;
+      let currentPhrases = allTranslations;
+
+      let updatedTranslations = [addedPhrase, ...currentPhrases];
+
+      setAllTranslations(updatedTranslations);
+    }
+  }, [phrase]);
+  console.log("remo", removedTranslation);
+
+  useEffect(() => {
+    if (removedTranslation) {
+      const removedTranslationId = removedTranslation?.data?.id;
+      setAllTranslations((prevTranslation) =>
+        prevTranslation.filter(
+          (translation) => translation.id !== removedTranslationId
+        )
+      );
+    }
+  }, [removedTranslation]);
   const filteredTranslations = allTranslations?.filter((translation) =>
-  Object.values(translation).some(
-    (value) =>
-      value?.toString()?.toLowerCase()?.indexOf(searchTerm?.toLowerCase()) !==
-      -1
-  )
-);
-
-
+    Object.values(translation).some(
+      (value) =>
+        value?.toString()?.toLowerCase()?.indexOf(searchTerm?.toLowerCase()) !==
+        -1
+    )
+  );
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -67,15 +89,14 @@ let id;
               {/* Right: Actions */}
             </div>
             <TranslationsTable
-            translations={filteredTranslations}
-            handleNextPage={handleNextPage}
-            handlePrevPage={handlePrevPage}
-            handleSearchChange={handleSearchChange}
-            currentPage={currentPage}
-            itemsPerPage={itemsPerPage}
-            searchTerm={searchTerm}
-            allTranslations={translations?.data?.totalItems}
-         
+              translations={filteredTranslations}
+              handleNextPage={handleNextPage}
+              handlePrevPage={handlePrevPage}
+              handleSearchChange={handleSearchChange}
+              currentPage={currentPage}
+              itemsPerPage={itemsPerPage}
+              searchTerm={searchTerm}
+              allTranslations={translations?.data?.totalItems}
             />
             <div className="grid grid-cols-12 gap-6"></div>
           </div>

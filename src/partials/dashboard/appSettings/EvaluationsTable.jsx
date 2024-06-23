@@ -23,36 +23,7 @@ function EvaluationsTable({
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
-      <div className="p-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
-        <button
-          id="createProductButton"
-          className="btn bg-green-500 hover:bg-green-500 text-white mb-3"
-          type="button"
-          //   onClick={() => setAddModalOpen(true)}
-        >
-          + New Phrase
-        </button>
-        <div className="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
-          <div className="flex items-center mb-4 sm:mb-0">
-            <form className="sm:pr-3" action="#" method="GET">
-              <label htmlFor="products-search" className="sr-only">
-                Search
-              </label>
-              <div className="relative w-48 mt-1 sm:w-64 xl:w-96">
-                <input
-                  type="text"
-                  name="email"
-                  id="products-search"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Search for phrase"
-                  //   value={searchTerm}
-                  //   onChange={handleSearchChange}
-                />
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+     
 
       <div className="flex flex-col">
         <div className="overflow-x-auto">
