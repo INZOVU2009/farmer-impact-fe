@@ -59,7 +59,15 @@ import updateModule from "./slices/accessModules/updateModuleSlice";
 import createNewModuleSlice from "./slices/accessModules/createNewModuleSlice";
 import getAllHouseholdTreesSlice from "./slices/householdTrees/getAllHouseholdTreesSlice";
 import getAssignedModulesSlice from "./slices/accessModules/getAssignedModulesSlice";
-
+import fetchAllTranslationsSlice from "./slices/translations/fetchAllTranslationsSlice";
+import deleteTranslationSlice from "./slices/translations/deleteTranslationSlice";
+import updateTranslationSlice from "./slices/translations/updateTranslationSlice";
+import addNewPhraseSlice from "./slices/translations/addNewPhraseSlice";
+import fetchAllEvaluatiosSlice from "./slices/evaluations/fetchAllEvaluatiosSlice";
+import getSingleInspectionAnswerSlice from "./slices/inspectionAnswers/getSingleInspectionAnswerSlice";
+import addNewInspectionAnswerSlice from "./slices/inspectionAnswers/addNewInspectionAnswerSlice";
+import deleteInspectionAnswerSlice from "./slices/inspectionAnswers/deleteInspectionAnswerSlice";
+import updateInspectionAnswerSlice from "./slices/inspectionAnswers/updateInspectionAnswerSlice";
 const store = configureStore({
   reducer: {
     login,
@@ -122,6 +130,15 @@ const store = configureStore({
     createModule: createNewModuleSlice,
     fetchAllHouseholdTrees: getAllHouseholdTreesSlice,
     fetchAssignedModules: getAssignedModulesSlice,
+    fetchAllTranslations: fetchAllTranslationsSlice,
+    deleteTranslation: deleteTranslationSlice,
+    updateTranslation: updateTranslationSlice,
+    addNewPhrase: addNewPhraseSlice,
+    fetchAllEvaluations: fetchAllEvaluatiosSlice,
+    getSingleInspectionAnswer: getSingleInspectionAnswerSlice,
+    addNewInspectionAnswer: addNewInspectionAnswerSlice,
+    deleteInspectionAnswer: deleteInspectionAnswerSlice,
+    updateInspectionAnswer: updateInspectionAnswerSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

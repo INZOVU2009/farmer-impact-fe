@@ -1153,6 +1153,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   {(handleClick, open) => {
                     const isAccessModulesActive =
                       pathname.includes("access_modules");
+                      const isTranslationsActive = pathname.includes("user_translator")
                     return (
                       <React.Fragment>
                         <a
@@ -1192,7 +1193,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <li className="mb-1 last:mb-0">
                               <NavLink
                                 end
-                                to="/signin"
+                                to="/app_setting/user_translator"
+                                style={
+                                  isTranslationsActive
+                                    ? { color: "#4F46E5" }
+                                    : {}
+                                }
                                 className="block text-black hover:text-slate-400 transition duration-150 truncate"
                               >
                                 <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -1203,11 +1209,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <li className="mb-1 last:mb-0">
                               <NavLink
                                 end
-                                to="/signup"
-                                className="block ttext-black hover:text-slate-400 transition duration-150 truncate"
+                                to="/app_setting/inspection_questions"
+                              
+                                className="block text-black hover:text-slate-400 transition duration-150 truncate"
                               >
                                 <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                  Inspection Questions
+                                Inspection Questions
                                 </span>
                               </NavLink>
                             </li>

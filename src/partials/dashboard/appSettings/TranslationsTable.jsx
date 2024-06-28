@@ -1,58 +1,96 @@
 import React, { useEffect, useState } from "react";
-import { fetchFieldFarmers } from "../../redux/actions/farmers/all_field_farmer.action";
 import { useSelector, useDispatch } from "react-redux";
-import { approveFieldFarmer } from "../../redux/actions/farmers/approveFarmer.action";
+import { MdEdit } from "react-icons/md";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import DeleteTranslationModel from "../../../components/DeleteTranslationModel";
+import { deleteTranslation } from "../../../redux/actions/translations/deleteTranslation.action";
+import { updateTranslation } from "../../../redux/actions/translations/updateTranslation.action";
+import AddTranslationModal from "../../../components/AddTranslationModal";
+import EditTranslationModel from "../../../components/EditTranslationModel.jsX";
+import { addNewPhraseTranslation } from "../../../redux/actions/translations/addNewPhrase.action";
+function TranslationsTable({
+  translations,
+  handleNextPage,
+  handlePrevPage,
+  handleSearchChange,
+  currentPage,
+  itemsPerPage,
+  searchTerm,
+  allTranslations,
+}) {
+  const [translationToDelete, setTranslationToDelete] = useState(null);
+  const [showEditTranslationModel, setShowEditTranslationModel] =
+    useState(false);
 
-function RecentFarmers() {
-  const dispatch = useDispatch();
-  const [recentFarmers, setRecentFarmers] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
-  const { AllFieldFarmers, loading } = useSelector(
-    (state) => state.Field_Farmer
+  const { removedTranslation } = useSelector(
+    (state) => state.deleteTranslation
   );
-  const { approve } = useSelector((state) => state.approveFarmer);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedTranslation, setSelectedTranslation] = useState(null);
+  const [isAddModalOpen, setAddModalOpen] = useState(false);
+  const token = localStorage.getItem("token");
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchFieldFarmers(currentPage, itemsPerPage));
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (AllFieldFarmers) {
-      const filteredFarmers = AllFieldFarmers?.data?.farmerData.filter(
-        (farmer) => farmer.status === "new"
-      );
-      setRecentFarmers(filteredFarmers);
+  //removing translation
+  const openModal = (translationId) => {
+    setTranslationToDelete(translationId);
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setTranslationToDelete(null);
+    setModalOpen(false);
+  };
+  const handleConfirmDelete = () => {
+    dispatch(deleteTranslation(translationToDelete));
+    if (removedTranslation) {
     }
-  }, [AllFieldFarmers]);
-
-  const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+    closeModal();
   };
 
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
+  const handleClickAction = (translation) => {
+    setSelectedTranslation(translation);
+    setShowEditTranslationModel(true);
   };
 
-  const handleApprove = (id) => {
-    dispatch(approveFieldFarmer(id)).then(() => {
-      setRecentFarmers((prevFarmers) =>
-        prevFarmers.filter((farmer) => farmer.id !== id)
-      );
-    });
+  const handleTranslationUpdate = (translationId, editedTranslation) => {
+    setSelectedTranslation(null);
+    setShowEditTranslationModel(true);
+  };
+  const formatDate = (dateString) => {
+    if (!dateString) {
+      return "0000 0000 0000 0000";
+    }
+
+    const date = new Date(dateString);
+    if (isNaN(date)) {
+      return "Invalid date";
+    }
+
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+    };
+
+    return new Intl.DateTimeFormat("en-US", options).format(date);
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!AllFieldFarmers || AllFieldFarmers.length === 0) {
-    return <div>No field farmers available</div>;
-  }
-
+  const handleAddNewPhrase = (newPhrase) => {
+    dispatch(addNewPhraseTranslation(token, newPhrase)); // Dispatch the action to add the new phrase
+    setAddModalOpen(false);
+  };
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="p-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
+        <button
+          id="createProductButton"
+          className="btn bg-green-500 hover:bg-green-500 text-white mb-3"
+          type="button"
+          onClick={() => setAddModalOpen(true)}
+        >
+          + New Phrase
+        </button>
         <div className="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
           <div className="flex items-center mb-4 sm:mb-0">
             <form className="sm:pr-3" action="#" method="GET">
@@ -65,22 +103,13 @@ function RecentFarmers() {
                   name="email"
                   id="products-search"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Search for farmers"
+                  placeholder="Search for phrase"
+                  value={searchTerm}
+                  onChange={handleSearchChange}
                 />
               </div>
             </form>
           </div>
-          <button
-            id="createProductButton"
-            className="btn bg-black hover:bg-black text-white"
-            type="button"
-            data-drawer-target="drawer-create-product-default"
-            data-drawer-show="drawer-create-product-default"
-            aria-controls="drawer-create-product-default"
-            data-drawer-placement="right"
-          >
-            Add new farmer
-          </button>
         </div>
       </div>
 
@@ -98,135 +127,87 @@ function RecentFarmers() {
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      Station
+                      TIME
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      Group
+                      CODE
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      Farmer Name
+                      ENGLISH
+                    </th>
+
+                    <th
+                      scope="col"
+                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                      FRENCH
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      Gender
+                      KINYARWANDA{" "}
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      Year Birth
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      Phone
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      National ID
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      Village
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      Cell
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      Sector
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      Trees
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      Plot
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      Action
+                      ACTION
                     </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                  {recentFarmers?.map((farmer, index) => (
+                  {translations?.map((translation, index) => (
                     <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <td className="w-4 p-4">
-                      {(currentPage - 1) * itemsPerPage + index + 1}
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {(currentPage - 1) * itemsPerPage + index + 1}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {formatDate(translation.created_at)}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {translation.code}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {translation.phrase}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {translation.phrasefr}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {translation.phraserw}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <div className=" flex flex-row gap-1">
+                          <MdEdit
+                            className=" text-green-500 border-2 border-green-500 rounded-full  text-3xl  p-1 cursor-pointer  hover:bg-green-500 hover:text-white"
+                            onClick={() => handleClickAction(translation)}
+                          />
+                          {showEditTranslationModel && selectedTranslation && (
+                            <EditTranslationModel
+                              translation={selectedTranslation}
+                              onClose={() => setShowEditTranslationModel(false)}
+                              onSubmit={handleTranslationUpdate}
+                            />
+                          )}
 
-                        </td>
-                      <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                        <div className="text-base font-semibold text-gray-900 dark:text-white">
-                          <a href="">Bwenda </a>
+                          <RiDeleteBin6Line
+                            className="text-red-500 border-2 border-red-500 rounded-full text-3xl p-1 cursor-pointer hover:bg-red-500 hover:text-white"
+                            onClick={() => openModal(translation.id)}
+                          />
+                          <DeleteTranslationModel
+                            isOpen={isModalOpen}
+                            onClose={closeModal}
+                            onConfirmDelete={handleConfirmDelete}
+                            translationId={translationToDelete}
+                          />
                         </div>
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {farmer.Group_ID}
-                      </td>
-                      <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                        {farmer.farmer_name}
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {farmer.Gender}
-                      </td>
-                      <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                        {farmer.Year_Birth}
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {farmer.phone}
-                      </td>
-                      <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                        {farmer.National_ID}
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {farmer.village}
-                      </td>
-                      <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                        {farmer.cell}
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {farmer.sector}
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {farmer.Trees}
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {farmer.number_of_plots}
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        <button
-                          type="button"
-                          className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                          onClick={() => handleApprove(farmer.id)}
-                        >
-                          Approve
-                        </button>
                       </td>
                     </tr>
                   ))}
@@ -282,11 +263,11 @@ function RecentFarmers() {
             </span>{" "}
             -{" "}
             <span className="font-semibold text-gray-900 dark:text-white">
-              {Math.min(currentPage * itemsPerPage, recentFarmers?.length)}
+              {Math.min(currentPage * itemsPerPage, allTranslations)}
             </span>{" "}
             of{" "}
             <span className="font-semibold text-gray-900 dark:text-white">
-              {recentFarmers?.length}
+              {allTranslations}
             </span>
           </span>
         </div>
@@ -331,8 +312,14 @@ function RecentFarmers() {
           </a>
         </div>
       </div>
+
+      <AddTranslationModal
+        isOpen={isAddModalOpen}
+        onClose={() => setAddModalOpen(false)}
+        onSubmit={handleAddNewPhrase}
+      />
     </div>
   );
 }
 
-export default RecentFarmers;
+export default TranslationsTable;
