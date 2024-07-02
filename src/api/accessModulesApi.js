@@ -8,7 +8,7 @@ export const getAllModules = () => {
       .get(`${url}/accessControl/allAccessControl`)
       .then((response) => resolve(response.data))
       .catch((error) => {
-        if (error.response.data !== undefined) {
+        if (error.response?.data !== undefined) {
           reject(error.response.data);
           console.log("err", error);
         }
@@ -26,7 +26,7 @@ export const getAssignedModules = (token) => {
       })
       .then((response) => resolve(response.data))
       .catch((error) => {
-        if (error.response.data !== undefined) {
+        if (error.response?.data !== undefined) {
           reject(error.response.data);
         }
         reject(error);
@@ -61,6 +61,24 @@ export const updateModule = (data, id) => {
       });
   });
 };
+
+
+export const getAssignedModulesToSingleUser = (id) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`${url}/accessControl/singleAssigned?id=${id}`)
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};
+
+
+
 export const createModule = (data) => {
   return new Promise((resolve, reject) => {
     axios

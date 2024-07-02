@@ -62,3 +62,21 @@ export const getUser = (userId) => {
 			});
 	});
 };
+export const getStaff = (userId) => {
+	console.log("urrr", userId)
+	return new Promise((resolve, reject) => {
+		axios
+			.get(`${url}/user/staff/${userId}`)
+			.then((response) => resolve(response.data))
+			.catch((error) => {
+				if (error.response.data !== undefined) {
+					reject(error.response.data);
+					console.log("err", error)
+				}
+				reject(error);
+				console.log("err", error)
+
+
+			});
+	});
+};

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchFieldFarmers } from "../../redux/actions/farmers/all_field_farmer.action";
 import { useSelector, useDispatch } from "react-redux";
+import { approveApprovedFieldFarmer } from "../../redux/actions/farmers/approveApprovedFarmer.action";
 
 function ApprovedFarmers() {
   const dispatch = useDispatch();
@@ -31,6 +32,14 @@ function ApprovedFarmers() {
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const handleApprove = (id) => {
+    dispatch(approveApprovedFieldFarmer(id)).then(() => {
+      setRecentFarmers((prevFarmers) =>
+        prevFarmers.filter((farmer) => farmer.id !== id)
+      );
+    });
   };
 
   if (loading) {
@@ -146,6 +155,12 @@ function ApprovedFarmers() {
                     >
                       Plot
                     </th>
+                    <th
+                      scope="col"
+                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                      Action
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
@@ -189,6 +204,16 @@ function ApprovedFarmers() {
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {farmer.number_of_plots}
+                      </td>
+
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <button
+                          type="button"
+                          className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                          onClick={() => handleApprove(farmer.id)}
+                        >
+                          Approve
+                        </button>
                       </td>
                     </tr>
                   ))}

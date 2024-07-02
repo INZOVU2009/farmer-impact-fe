@@ -6,18 +6,25 @@ import { GrSystem } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleUserById } from "../../redux/actions/user/singleUser.action";
 import { getModules } from "../../redux/actions/accessModules/getAllModules.action";
+import { assignedModulesForSingleUser } from "../../redux/actions/accessModules/getAssignedModulesForSingleUser.action";
 import { assignPermission } from "../../redux/actions/accessModules/addPermissions.action";
-
+import { getSingleStaffById } from "../../redux/actions/staff/getSingleStaff.action";
 const AccessControlTable = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [fetchedUser, setFetchedUser] = useState();
+  const [fetchedStaff, setFetchedStaff] = useState();
   const [retrievedModules, setRetrievedModules] = useState();
   const { user, loading } = useSelector((state) => state.fetchSingleUser);
+  const { staff } = useSelector((state) => state.fetchSingleStaff);
+
   const { modules } = useSelector((state) => state.fetchAllModules);
+  const { assignedModulesList } = useSelector((state) => state.getAssignedModulesForSingleUser);
   const [permissions, setPermissions] = useState({});
   const [selectAll, setSelectAll] = useState(false);
+  const [allAssignedModulesList, setAllAssignedModulesList] = useState();
+
   useEffect(() => {
     dispatch(getSingleUserById(userId));
   }, [dispatch, userId]);
@@ -27,16 +34,46 @@ const AccessControlTable = () => {
       setFetchedUser(user?.data);
     }
   }, [user]);
-
+  console.log("user", userId)
+  useEffect(() => {
+    dispatch(getSingleStaffById(userId));
+  }, [dispatch]);
+  useEffect(() => {
+    if (staff) {
+      setFetchedStaff(staff?.data);
+    }
+  }, [staff]);
   useEffect(() => {
     dispatch(getModules());
-  }, [dispatch]);
+  dispatch(assignedModulesForSingleUser(userId));
+  }, [dispatch, userId]);
 
   useEffect(() => {
     if (modules) {
       setRetrievedModules(modules.data);
     }
   }, [modules]);
+
+  useEffect(()=>{
+    if(assignedModulesList){
+      setAllAssignedModulesList(assignedModulesList.data)
+    }
+  },[assignedModulesList])
+  console.log("hehehe", allAssignedModulesList)
+  useEffect(() => {
+    if (assignedModulesList) {
+      const initialPermissions = {};
+      allAssignedModulesList?.forEach((assignedModule) => {
+        initialPermissions[assignedModule.moduleid] = {
+          view: assignedModule.view_record === 1,
+          add: assignedModule.add_record === 1,
+          delete: assignedModule.delete_record === 1,
+          edit: assignedModule.edit_record === 1,
+        };
+      });
+      setPermissions(initialPermissions);
+    }
+  }, [assignedModulesList]);
 
   const handlePermissionChange = (module, permissionType, value) => {
     setPermissions((prevPermissions) => ({
@@ -47,6 +84,7 @@ const AccessControlTable = () => {
       },
     }));
   };
+
   const handleSelectAllChange = (value) => {
     setSelectAll(value);
     const updatedPermissions = {};
@@ -79,7 +117,7 @@ const AccessControlTable = () => {
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="p-4 mb-5 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
         <p className="mb-6 ml-20">
-          Dashboard access control for <b>{fetchedUser?.Name_Full}</b>
+          Dashboard access control for <b>{fetchedStaff?.Name}</b>
         </p>
         <div className="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
           <div className="flex items-center ml-20 mb-4 sm:mb-0 gap-24">
@@ -243,19 +281,28 @@ const AccessControlTable = () => {
                       </tr>
                     ))}
                 </tbody>
-                <button
-                  className="bg-green-400 mt-4 w-48 h-10 flex items-center justify-center rounded-lg"
-                  onClick={handleSavePermissions}
-                >
-                  Save Access Control
-                </button>
               </table>
             </div>
           </div>
         </div>
       </div>
+      <button
+                  className="bg-green-400 mt-4 w-48 h-10 flex items-center justify-center rounded-lg"
+                  onClick={handleSavePermissions}
+                >
+                  Save Access Control
+                </button>
     </div>
   );
 };
 
 export default AccessControlTable;
+
+
+
+
+
+
+
+
+

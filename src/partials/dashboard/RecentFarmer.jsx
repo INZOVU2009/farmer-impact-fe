@@ -178,9 +178,8 @@ function RecentFarmers() {
                   {recentFarmers?.map((farmer, index) => (
                     <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                       <td className="w-4 p-4">
-                      {(currentPage - 1) * itemsPerPage + index + 1}
-
-                        </td>
+                        {(currentPage - 1) * itemsPerPage + index + 1}
+                      </td>
                       <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
                         <div className="text-base font-semibold text-gray-900 dark:text-white">
                           <a href="">Bwenda </a>

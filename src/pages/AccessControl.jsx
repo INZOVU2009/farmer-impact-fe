@@ -3,7 +3,6 @@ import Sidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
 import WelcomeBanner from "../partials/dashboard/WelcomeBanner";
 import AccessControlTable from "../partials/dashboard/AccessControlTable";
-
 function AccessControl() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 

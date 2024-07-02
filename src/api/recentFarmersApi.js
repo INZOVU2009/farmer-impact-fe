@@ -33,3 +33,17 @@ export const approveFarmer = (id) => {
         });
     });
   };
+
+  export const approveApprovedFarmer = (id) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .put(`${url}/user_registration/pending?id=${id}`)
+        .then((response) => resolve(response.data))
+        .catch((error) => {
+          if (error.response?.data !== undefined) {
+            reject(error.response.data);
+          }
+          reject(error);
+        });
+    });
+  };

@@ -68,6 +68,9 @@ import getSingleInspectionAnswerSlice from "./slices/inspectionAnswers/getSingle
 import addNewInspectionAnswerSlice from "./slices/inspectionAnswers/addNewInspectionAnswerSlice";
 import deleteInspectionAnswerSlice from "./slices/inspectionAnswers/deleteInspectionAnswerSlice";
 import updateInspectionAnswerSlice from "./slices/inspectionAnswers/updateInspectionAnswerSlice";
+import getAssignedModulesForSingleUserSlice from "./slices/accessModules/getAssignedModulesForSingleUserSlice";
+import fetchSingleStaffSlice from "./slices/staff/fetchSingleStaffSlice";
+import approveApprovedFarmerSlice from "./slices/farmers/approveApprovedFarmerSlice";
 const store = configureStore({
   reducer: {
     login,
@@ -139,6 +142,9 @@ const store = configureStore({
     addNewInspectionAnswer: addNewInspectionAnswerSlice,
     deleteInspectionAnswer: deleteInspectionAnswerSlice,
     updateInspectionAnswer: updateInspectionAnswerSlice,
+    getAssignedModulesForSingleUser: getAssignedModulesForSingleUserSlice,
+    fetchSingleStaff: fetchSingleStaffSlice,
+    approveApprovedFarmer: approveApprovedFarmerSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

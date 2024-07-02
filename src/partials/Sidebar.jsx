@@ -16,7 +16,6 @@ import SidebarLinkGroup from "./SidebarLinkGroup";
 import { assignedModules } from "../redux/actions/accessModules/getAssignedModules.action";
 import { useDispatch, useSelector } from "react-redux";
 import { getModules } from "../redux/actions/accessModules/getAllModules.action";
-
 function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const location = useLocation();
   const navigate = useNavigate();
