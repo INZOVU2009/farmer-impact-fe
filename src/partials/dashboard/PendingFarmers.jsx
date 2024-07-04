@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { fetchFieldFarmers } from "../../redux/actions/farmers/all_field_farmer.action";
 import { useSelector, useDispatch } from "react-redux";
-import { approveApprovedFieldFarmer } from "../../redux/actions/farmers/approveApprovedFarmer.action";
 
-function ApprovedFarmers() {
+function PendingFarmers() {
   const dispatch = useDispatch();
   const [recentFarmers, setRecentFarmers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,7 +18,7 @@ function ApprovedFarmers() {
   useEffect(() => {
     if (AllFieldFarmers) {
       const filteredFarmers = AllFieldFarmers?.data?.farmerData.filter(
-        (farmer) => farmer.status === "pending"
+        (farmer) => farmer.status === "approved"
       );
       setRecentFarmers(filteredFarmers);
     }
@@ -34,13 +33,6 @@ function ApprovedFarmers() {
     setCurrentPage((prevPage) => prevPage + 1);
   };
 
-  const handleApprove = (id) => {
-    dispatch(approveApprovedFieldFarmer(id)).then(() => {
-      setRecentFarmers((prevFarmers) =>
-        prevFarmers.filter((farmer) => farmer.id !== id)
-      );
-    });
-  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -155,12 +147,7 @@ function ApprovedFarmers() {
                     >
                       Plot
                     </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      Action
-                    </th>
+              
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
@@ -206,15 +193,6 @@ function ApprovedFarmers() {
                         {farmer.number_of_plots}
                       </td>
 
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        <button
-                          type="button"
-                          className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                          onClick={() => handleApprove(farmer.id)}
-                        >
-                          Approve
-                        </button>
-                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -222,7 +200,17 @@ function ApprovedFarmers() {
             </div>
           </div>
         </div>
+        <div className="flex justify-center mt-3 mb-2 items-center">
+          <button
+            className="bg-black text-white py-3 px-7 rounded-lg"
+          >
+            Submit to RTC
+          </button>
+   
       </div>
+      </div>
+      
+      
 
       <div className="sticky bottom-0 right-0 items-center w-full p-4 bg-white border-t border-gray-200 sm:flex sm:justify-between dark:bg-gray-800 dark:border-gray-700">
         <div className="flex items-center mb-4 sm:mb-0">
@@ -322,4 +310,4 @@ function ApprovedFarmers() {
   );
 }
 
-export default ApprovedFarmers;
+export default PendingFarmers;

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
 import WelcomeBanner from "../partials/dashboard/WelcomeBanner";
-import AccessControlTable from "../partials/dashboard/AccessControlTable";
-function AccessControl() {
+import PendingFarmers from "../partials/dashboard/PendingFarmers";
+function  PendingFarmersPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -20,7 +20,7 @@ function AccessControl() {
             <div className="sm:flex sm:justify-between sm:items-center mb-8"></div>
 
             <div className="grid grid-cols-12 gap-6">
-              <AccessControlTable />
+              <PendingFarmers />
             </div>
           </div>
         </main>
@@ -28,4 +28,4 @@ function AccessControl() {
     </div>
   );
 }
-export default AccessControl;
+export default PendingFarmersPage;

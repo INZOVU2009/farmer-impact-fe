@@ -48,6 +48,8 @@ import TransalationsPage from "./pages/appSetting/TranslationsPage";
 import EvaluationsPage from "./pages/appSetting/EvaluationsPage";
 import InspectionAnswersPage from "./pages/appSetting/InspectionAnswersPage";
 
+import PendingFarmersPage from "./pages/PendingFarmersPage";
+
 function App() {
   const location = useLocation();
   const userId = useParams();
@@ -231,24 +233,29 @@ function App() {
           element={<HouseholdTreesPage />}
         />
         <Route
-        exact
-        path="/user_registration/synced_farmers"
-        element={<SyncedFarmersPage/>}
+          exact
+          path="/user_registration/synced_farmers"
+          element={<SyncedFarmersPage />}
         />
         <Route
-        exact
-        path="/app_setting/user_translator"
-        element={<TransalationsPage/>}
+          exact
+          path="/app_setting/user_translator"
+          element={<TransalationsPage />}
         />
         <Route
-        exact
-        path="/app_setting/inspection_questions"
-        element={<EvaluationsPage/>}
+          exact
+          path="/app_setting/inspection_questions"
+          element={<EvaluationsPage />}
         />
-         <Route
-        exact
-        path="/app_setting/inspection_questions/:id"
-        element={<InspectionAnswersPage/>}
+        <Route
+          exact
+          path="/app_setting/inspection_questions/:id"
+          element={<InspectionAnswersPage />}
+        />
+        <Route
+          exact
+          path="/user_registration/pending_farmers"
+          element={<PendingFarmersPage />}
         />
       </Routes>
     </>

@@ -8,13 +8,16 @@ import { PiUsersFourDuotone } from "react-icons/pi";
 import { IoIosPhonePortrait } from "react-icons/io";
 import { GrSystem } from "react-icons/gr";
 import { assignPermission } from "../../redux/actions/accessModules/addPermissions.action";
+import { getSingleStaffById } from "../../redux/actions/staff/getSingleStaff.action";
 
 const AccessControlMobileTable = () => {
   const userId = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [fetchedUser, setFetchedUser] = useState();
+  const [fetchedStaff, setFetchedStaff] = useState();
   const { user, loading } = useSelector((state) => state.fetchSingleUser);
+  const { staff } = useSelector((state) => state.fetchSingleStaff);
   const { modules } = useSelector((state) => state.fetchAllModules);
   const [retrievedModules, setRetrievedModules] = useState();
   const [selectedModules, setSelectedModules] = useState([]);
@@ -26,6 +29,15 @@ const AccessControlMobileTable = () => {
       setFetchedUser(user?.data);
     }
   }, [user]);
+
+  useEffect(() => {
+    dispatch(getSingleStaffById(userId.userId));
+  }, [dispatch]);
+  useEffect(() => {
+    if (staff) {
+      setFetchedStaff(staff?.data);
+    }
+  }, [staff]);
 
   useEffect(() => {
     dispatch(getModules());
@@ -65,7 +77,7 @@ const AccessControlMobileTable = () => {
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="p-4 mb-5 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
         <p className="mb-6 ml-20">
-          Mobile access control for <b>{fetchedUser?.Name_Full}</b>
+          Mobile access control for <b>{fetchedStaff?.Name}</b>
         </p>
         <div className="   items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
           <div className="flex items-center ml-20 mb-4 sm:mb-0 gap-24">
