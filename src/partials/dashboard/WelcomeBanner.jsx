@@ -126,8 +126,14 @@ useEffect(() => {
             
             : currentPage === 'user-administration'
             ? 'Manage application Users'
-            : currentPage === `user_registration`
-            ? 'Recent Registered Farmers'
+            : currentPage === 'user_registration/recent_farmers'
+            ? 'The recent Farmer registrations'
+            : currentPage === `user_registration/approved_farmers`
+            ? 'Pending Farmers'
+            : currentPage === `user_registration/pending_farmers`
+            ? 'Approved Farmers'
+            : currentPage === `user_registration/synced_farmers`
+            ? 'Synced Farmers'
             : 'Welcome to Farmer Impact System'}
             
         </p>
