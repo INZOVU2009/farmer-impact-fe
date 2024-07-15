@@ -1,5 +1,4 @@
 /* eslint-disable */
-import { toast } from 'react-toastify';
 import { allUsers } from '../../../api/userApi';
 import { allUsersFail, allUsersPending,allUsersSuccess } from '../../slices/user/allUsersSlice';
 

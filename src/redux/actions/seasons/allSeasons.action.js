@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { getAllSeasons } from "../../../api/generalHarvestApi";
 import {
   seasonsFail,
@@ -11,16 +11,13 @@ export const fetchAllSeasons = () => async (dispatch) => {
     dispatch(seasonsPending());
 
     const res = await getAllSeasons();
-    console.log("res", res);
-    dispatch(seasonsSuccess(res));
+    // dispatch(seasonsSuccess(res));
     toast.success(res.message);
     return res;
   } catch (error) {
     if (error) {
-      console.log("err", error);
-
       toast.error(`${error.message} `);
-      console.log("errrrr", error.message);
+
       return dispatch(seasonsFail(error.message));
     }
     toast.error(`${error.Error}`);

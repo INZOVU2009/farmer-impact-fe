@@ -1,5 +1,5 @@
 
-import { toast } from "react-toastify";
+import {toast} from "react-hot-toast";
 import { deriveryReportLotById } from "../../../api/parchmentApi";
 import { reportLotFail, reportLotPending, reportLotSuccess } from "../../slices/parchment/reportLotByIdSlice";
   
@@ -7,8 +7,7 @@ import { reportLotFail, reportLotPending, reportLotSuccess } from "../../slices/
       try {
         dispatch(reportLotPending());
         const res = await deriveryReportLotById(id);
-        console.log("I am iddd", id)
-        console.log("res", res);
+      
         dispatch(reportLotSuccess(res));
         // toast.success(res.message);
         return res;

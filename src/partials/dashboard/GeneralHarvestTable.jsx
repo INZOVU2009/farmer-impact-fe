@@ -5,6 +5,7 @@ import { fetchGeneralHarvests } from "../../redux/actions/generalHarvest/allGene
 import { fetchAllStation } from "../../redux/actions/station/allStations.action";
 import { fetchAllSeasons } from "../../redux/actions/seasons/allSeasons.action";
 import "react-toastify/dist/ReactToastify.css";
+import { Toaster } from "react-hot-toast";
 
 const GeneralHarvestTable = () => {
   const navigate = useNavigate();
@@ -514,7 +515,9 @@ const GeneralHarvestTable = () => {
               {farmerData?.length}
             </span>
           </span>
+        <Toaster/>
         </div>
+
       </div>
     </div>
   );

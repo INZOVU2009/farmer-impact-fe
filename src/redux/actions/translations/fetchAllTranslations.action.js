@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+
 import {
   translationsFail,
   translationsPending,
@@ -16,14 +16,8 @@ export const fetchAllTranslations =
       return res;
     } catch (error) {
       if (error) {
-        console.log("err", error);
-
-        toast.error(`${error.message} `);
-        console.log("errrrr", error.message);
         return dispatch(translationsFail(error.message));
       }
-      toast.error(`${error.Error}`);
-      console.log("errrr", error);
       return dispatch(translationsFail(error.Error));
     }
   };

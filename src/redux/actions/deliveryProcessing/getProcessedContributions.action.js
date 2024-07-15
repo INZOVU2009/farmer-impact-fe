@@ -1,5 +1,4 @@
-
-  import { toast } from "react-toastify";
+import {toast} from "react-hot-toast";
 import { fetchProcessedContributions } from "../../../api/deliveryProcessingApi";
 import { contributionsFail, contributionsPending, contributionsSuccess } from "../../slices/deliveryProcessing/getProcessedContributionsSlice";
   
@@ -9,7 +8,7 @@ import { contributionsFail, contributionsPending, contributionsSuccess } from ".
       const res = await fetchProcessedContributions();
   
       dispatch(contributionsSuccess(res));
-      // toast.success(res.message);
+      toast.success(res.message);
       return res;
     } catch (error) {
       if (error) {

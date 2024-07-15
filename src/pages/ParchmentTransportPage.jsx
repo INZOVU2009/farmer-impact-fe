@@ -6,7 +6,7 @@ import ParchmentTransportTable from "../partials/dashboard/ParchmentTransportTab
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllDeliveryReports } from "../redux/actions/parchnment/getAllDeliveryReports.action";
-
+import { Toaster } from "react-hot-toast";
 function ParchmentTransportPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
@@ -167,6 +167,7 @@ function ParchmentTransportPage() {
           </div>
         </main>
       </div>
+      <Toaster />
     </div>
   );
 }

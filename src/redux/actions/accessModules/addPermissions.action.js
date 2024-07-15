@@ -1,5 +1,5 @@
 
-import { toast } from 'react-toastify';
+import {toast} from "react-hot-toast";
 import { permissionsFail, permissionsPending, permissionsSuccess } from "../../slices/accessModules/addPermissionsSlice";
 import { addPermissions } from "../../../api/accessModulesApi";
 

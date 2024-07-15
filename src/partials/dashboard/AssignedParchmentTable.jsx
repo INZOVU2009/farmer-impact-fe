@@ -6,7 +6,7 @@ import { fetchAllAssignedParchments } from "../../redux/actions/parchnment/allAs
 import { fetchAllStation } from "../../redux/actions/station/allStations.action";
 import { handleToken } from "../../redux/actions/auth/fetchToken.action";
 import { fetchAllTransactions } from "../../redux/actions/transactions/allTransactions.action";
-import { ToastContainer } from "react-toastify";
+import { Toaster } from "react-hot-toast";
 import "react-toastify/dist/ReactToastify.css";
 
 const AssignedParchmentTable = () => {
@@ -571,6 +571,7 @@ const AssignedParchmentTable = () => {
             </svg>
           </a>
         </div>
+        <Toaster/>
       </div>
     </div>
   );

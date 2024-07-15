@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { activateUser } from "../../../api/userAccessApi";
 import {
   activateFail,

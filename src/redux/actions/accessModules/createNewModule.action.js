@@ -1,5 +1,6 @@
 /* eslint-disable */
-import { toast } from "react-toastify";
+import {toast} from "react-hot-toast";
+
 import { createModule } from "../../../api/accessModulesApi";
 
 import {

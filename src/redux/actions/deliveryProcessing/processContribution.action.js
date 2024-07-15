@@ -1,5 +1,5 @@
 
-import { toast } from 'react-toastify';
+import {toast} from "react-hot-toast";
 import { processingFail, processingPending, processingSuccess } from '../../slices/deliveryProcessing/processingContributionSlice';
 import { processContributions } from '../../../api/deliveryProcessingApi';
 

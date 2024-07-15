@@ -7,8 +7,7 @@ import { fetchReportLotById } from "../redux/actions/parchnment/reportLotById.ac
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllStation } from "../redux/actions/station/allStations.action";
-import { ToastContainer, toast } from "react-toastify";
-
+import { Toaster } from "react-hot-toast";
 import ParchmentTransportDetailsTable from "../partials/dashboard/ParchmentTransportDetailsTable";
 
 function ParchmentTransportDetailsPage() {
@@ -100,7 +99,7 @@ function ParchmentTransportDetailsPage() {
           </div>
         </main>
       </div>
-      <ToastContainer />
+      <Toaster />
     </div>
   );
 }

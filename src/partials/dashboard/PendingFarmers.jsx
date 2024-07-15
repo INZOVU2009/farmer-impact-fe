@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchFieldFarmers } from "../../redux/actions/farmers/all_field_farmer.action";
 import { useSelector, useDispatch } from "react-redux";
-
+import { Toaster } from "react-hot-toast";
 function PendingFarmers() {
   const dispatch = useDispatch();
   const [recentFarmers, setRecentFarmers] = useState([]);
@@ -305,6 +305,7 @@ function PendingFarmers() {
             </svg>
           </a>
         </div>
+        <Toaster/>
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ import { fetchAllUserAccess } from "../../redux/actions/userAccess/fetchAllUserA
 import { createUserAccess } from "../../redux/actions/userAccess/addUserAccess.action";
 import { activateUserAccess } from "../../redux/actions/userAccess/activateUser.action";
 import "react-toastify/dist/ReactToastify.css";
-
+import { Toaster } from "react-hot-toast";
 const UsersTable = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -377,6 +377,8 @@ const UsersTable = () => {
             </span>
           </span>
         </div>
+        <Toaster/>
+
       </div>
     </div>
   );

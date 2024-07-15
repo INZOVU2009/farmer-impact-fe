@@ -7,11 +7,11 @@ export const fetchAllStaff = () => async (dispatch) => {
       const res = await allStaff();
       
       dispatch(fetchSuccess(res));
-      toast.success(res.message);
+      // toast.success(res.message);
       return res;
     } catch (error) {
       if (error) {
-        toast.error(`${error.message} `);
+        // toast.error(`${error.message} `);
         return dispatch(fetchFail(error.message));
       }
       toast.error(`${error.Error}`);

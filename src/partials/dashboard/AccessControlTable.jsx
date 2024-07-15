@@ -9,6 +9,7 @@ import { getModules } from "../../redux/actions/accessModules/getAllModules.acti
 import { assignedModulesForSingleUser } from "../../redux/actions/accessModules/getAssignedModulesForSingleUser.action";
 import { assignPermission } from "../../redux/actions/accessModules/addPermissions.action";
 import { getSingleStaffById } from "../../redux/actions/staff/getSingleStaff.action";
+import { Toaster } from "react-hot-toast";
 const AccessControlTable = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
@@ -292,6 +293,8 @@ const AccessControlTable = () => {
                 >
                   Save Access Control
                 </button>
+    <Toaster/>
+
     </div>
   );
 };

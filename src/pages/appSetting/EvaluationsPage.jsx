@@ -5,6 +5,7 @@ import WelcomeBanner from "../../partials/dashboard/WelcomeBanner";
 import { useDispatch, useSelector } from "react-redux";
 import EvaluationsTable from "../../partials/dashboard/appSettings/EvaluationsTable";
 import { fetchAllEvaluations } from "../../redux/actions/evaluations/fetchAllEvaluations.action";
+import { Toaster } from "react-hot-toast";
 function EvaluationsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [allEvaluations, setAllEvaluations] = useState();
@@ -17,30 +18,27 @@ function EvaluationsPage() {
     (state) => state.fetchAllEvaluations
   );
 
-
   useEffect(() => {
     dispatch(fetchAllEvaluations(currentPage, itemsPerPage));
-  }, [dispatch,currentPage,itemsPerPage]);
+  }, [dispatch, currentPage, itemsPerPage]);
 
   useEffect(() => {
     if (evaluations) {
       setAllEvaluations(evaluations.data?.evaluations);
     }
   }, [evaluations]);
-console.log("hehefffffffd", allEvaluations)
+  console.log("hehefffffffd", allEvaluations);
 
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1,evaluations.data?.totalPages);
+    setCurrentPage((prevPage) => prevPage + 1, evaluations.data?.totalPages);
   };
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
-
-  
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -58,18 +56,19 @@ console.log("hehefffffffd", allEvaluations)
             <div className="sm:flex sm:justify-between sm:items-center mb-8">
               {/* Right: Actions */}
             </div>
-            <EvaluationsTable 
-            allEvaluations={allEvaluations}
-            currentPage={currentPage}
-            itemsPerPage={itemsPerPage}
-            handleNextPage={handleNextPage}
-            handlePrevPage={handlePrevPage}
-            totalItems={evaluations?.data?.totalItems}
+            <EvaluationsTable
+              allEvaluations={allEvaluations}
+              currentPage={currentPage}
+              itemsPerPage={itemsPerPage}
+              handleNextPage={handleNextPage}
+              handlePrevPage={handlePrevPage}
+              totalItems={evaluations?.data?.totalItems}
             />
             <div className="grid grid-cols-12 gap-6"></div>
           </div>
         </main>
       </div>
+      <Toaster />
     </div>
   );
 }

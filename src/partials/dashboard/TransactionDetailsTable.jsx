@@ -12,7 +12,7 @@ import { CommisionFees } from "../../redux/actions/transactions/addCommissinFees
 import { addCommission } from "../../redux/actions/transactions/commission.action";
 import "react-toastify/dist/ReactToastify.css";
 import { approveJoulnal } from "../../redux/actions/transactions/approveJournal.action";
-
+import { Toaster } from "react-hot-toast";
 const TransactionDetailsTable = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -963,6 +963,8 @@ const TransactionDetailsTable = () => {
             </button>
           </div>
         </div>
+        <Toaster/>
+
       </div>
     </div>
   );

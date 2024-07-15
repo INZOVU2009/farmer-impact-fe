@@ -1,5 +1,4 @@
-import { toast } from "react-toastify";
-
+import { toast } from "react-hot-toast";
 import {
   loadedWeightFail,
   loadedWeightPending,
@@ -10,11 +9,9 @@ import { getLoadedWeightById } from "../../../api/deliveryProcessingApi";
 export const fetchloadedWeightByReportId = (id) => async (dispatch) => {
   try {
     dispatch(loadedWeightPending());
-    console.log("i am id", id);
     const res = await getLoadedWeightById(id);
-
     dispatch(loadedWeightSuccess(res));
-    // toast.success(res.message);
+    toast.success(res.message);
     return res;
   } catch (error) {
     if (error) {

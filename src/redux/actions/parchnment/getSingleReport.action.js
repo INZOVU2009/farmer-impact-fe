@@ -1,5 +1,5 @@
 
-  import { toast } from "react-toastify";
+import {toast} from "react-hot-toast";
 import { singleReportFail, singleReportPending, singleReportSuccess } from "../../slices/parchment/getSingleReportSlice";
 import { singleReport } from "../../../api/parchmentApi";
   
@@ -10,7 +10,7 @@ import { singleReport } from "../../../api/parchmentApi";
       const res = await singleReport();
   
       dispatch(singleReportSuccess(res));
-      toast.success(res.message);
+      
       return res;
     } catch (error) {
       if (error) {

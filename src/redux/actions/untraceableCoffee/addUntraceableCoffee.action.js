@@ -1,6 +1,5 @@
 
-import { toast } from 'react-toastify';
-
+import {toast} from "react-hot-toast";
 import { addFail, addPending, addSuccess } from '../../slices/untraceableCoffee/untraceableCoffeeSlice';
 import { untraceableCoffee } from '../../../api/untraceableCoffeeApi';
 export const addUntraceableCoffee= (data,token) => async (dispatch) => {

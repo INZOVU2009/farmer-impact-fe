@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllTransactions } from "../../redux/actions/transactions/allTransactions.action";
 import "react-toastify/dist/ReactToastify.css";
 import { fetchAllTransactionsByCherryLot } from "../../redux/actions/transactions/transactionsByCherryLot.action ";
-
+import { Toaster } from "react-hot-toast";
 const LotsInAdaylotTable = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -563,6 +563,8 @@ const LotsInAdaylotTable = () => {
           DOWNLOAD REPORT
         </button>
       </div>
+      <Toaster/>
+
     </div>
   );
 };

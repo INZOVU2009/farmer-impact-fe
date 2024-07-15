@@ -6,6 +6,8 @@ import { useParams } from "react-router-dom";
 import { CiEdit } from "react-icons/ci";
 import { createNewModule } from "../../../redux/actions/accessModules/createNewModule.action";
 import EditAccessModel from "../../../components/EditAccessModuleModel";
+import { Toaster } from "react-hot-toast";
+
 const AccessModuleTable = ({ onSubmit }) => {
   const userId = useParams();
   const navigate = useNavigate();
@@ -182,6 +184,7 @@ const AccessModuleTable = ({ onSubmit }) => {
               </table>
             </div>
           </div>
+          <Toaster/>
         </div>
       </div>
     </div>

@@ -5,6 +5,7 @@ import TranslationsTable from "../../partials/dashboard/appSettings/Translations
 import WelcomeBanner from "../../partials/dashboard/WelcomeBanner";
 import { fetchAllTranslations } from "../../redux/actions/translations/fetchAllTranslations.action";
 import { useDispatch, useSelector } from "react-redux";
+import { Toaster } from "react-hot-toast";
 
 function TransalationsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -102,6 +103,7 @@ function TransalationsPage() {
           </div>
         </main>
       </div>
+      <Toaster />
     </div>
   );
 }

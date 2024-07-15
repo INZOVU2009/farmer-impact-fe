@@ -3,7 +3,7 @@ import { MdAdd } from "react-icons/md";
 import "react-toastify/dist/ReactToastify.css";
 import AssignNewParchmentModel from "../../components/AssignNewParchmentModel";
 import { useDispatch, useSelector } from "react-redux";
-
+import { Toaster } from "react-hot-toast";
 const AssignNewParchmentTable = ({
   filteredTransactions,
   totalKilograms,
@@ -178,6 +178,8 @@ const AssignNewParchmentTable = ({
               </table>
             </div>
           </div>
+        <Toaster/>
+
         </div>
       </div>
     </div>

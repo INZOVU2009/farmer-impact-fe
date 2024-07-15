@@ -1,10 +1,4 @@
-import {
-  commissionSuccess,
-  commissionFail,
-  commissionPending,
-} from "../../slices/transactions/addCommissionFees";
-import { addCommissionFees } from "../../../api/coffeePurchaseApi";
-import { toast } from "react-toastify";
+import {toast} from "react-hot-toast";
 import {
   generalHarvestFail,
   generalHarvestPending,
@@ -24,7 +18,6 @@ export const fetchGeneralHarvests = (data) => async (dispatch) => {
   } catch (error) {
     if (error) {
       console.log("err", error);
-
       toast.error(`${error.message} `);
       console.log("errrrr", error.message);
       return dispatch(generalHarvestFail(error.message));

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { toast } from "react-toastify";
+import {toast} from "react-hot-toast";
 import { updateModule } from "../../../api/accessModulesApi";
 import {
   updateFail,

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchAllStation } from "../redux/actions/station/allStations.action";
 import { fetchAllUsers } from "../redux/actions/user/Users.action";
+import { Toaster } from "react-hot-toast";
 
 function ProcessedContribution() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -96,6 +97,7 @@ function ProcessedContribution() {
           </div>
         </main>
       </div>
+      <Toaster />
     </div>
   );
 }
