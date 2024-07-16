@@ -3,6 +3,7 @@ import Sidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
 import WelcomeBanner from "../partials/dashboard/WelcomeBanner";
 import UsersTable from "../partials/dashboard/UsersTable";
+import { Toaster } from "react-hot-toast";
 function Users() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -29,6 +30,7 @@ function Users() {
             <div className="grid grid-cols-12 gap-6">
               <UsersTable />
             </div>
+            <Toaster/>
           </div>
         </main>
       </div>

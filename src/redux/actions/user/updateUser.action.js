@@ -11,12 +11,10 @@ export const updateExistingUser = (id, data) => async (dispatch) => {
   try {
     dispatch(updatePending());
     const res = await updateUser(id, data);
-    console.log("Update successful:", res);
     dispatch(updateSuccess(res));
     toast.success(res.message);
     return res;
   } catch (error) {
-    console.error("Update failed:", error);
     if (error) {
       toast.error(`${error.message} `);
       return dispatch(updateFail(error.message));

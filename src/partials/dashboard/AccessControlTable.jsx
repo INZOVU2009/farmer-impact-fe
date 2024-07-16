@@ -10,6 +10,7 @@ import { assignedModulesForSingleUser } from "../../redux/actions/accessModules/
 import { assignPermission } from "../../redux/actions/accessModules/addPermissions.action";
 import { getSingleStaffById } from "../../redux/actions/staff/getSingleStaff.action";
 import { Toaster } from "react-hot-toast";
+
 const AccessControlTable = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
@@ -19,12 +20,14 @@ const AccessControlTable = () => {
   const [retrievedModules, setRetrievedModules] = useState();
   const { user, loading } = useSelector((state) => state.fetchSingleUser);
   const { staff } = useSelector((state) => state.fetchSingleStaff);
-
   const { modules } = useSelector((state) => state.fetchAllModules);
-  const { assignedModulesList } = useSelector((state) => state.getAssignedModulesForSingleUser);
+  const { assignedModulesList } = useSelector(
+    (state) => state.getAssignedModulesForSingleUser
+  );
   const [permissions, setPermissions] = useState({});
   const [selectAll, setSelectAll] = useState(false);
   const [allAssignedModulesList, setAllAssignedModulesList] = useState();
+  const { permission } = useSelector((state) => state.addPermissions);
 
   useEffect(() => {
     dispatch(getSingleUserById(userId));
@@ -35,7 +38,7 @@ const AccessControlTable = () => {
       setFetchedUser(user?.data);
     }
   }, [user]);
-  console.log("user", userId)
+
   useEffect(() => {
     dispatch(getSingleStaffById(userId));
   }, [dispatch]);
@@ -46,7 +49,7 @@ const AccessControlTable = () => {
   }, [staff]);
   useEffect(() => {
     dispatch(getModules());
-  dispatch(assignedModulesForSingleUser(userId));
+    dispatch(assignedModulesForSingleUser(userId));
   }, [dispatch, userId]);
 
   useEffect(() => {
@@ -55,12 +58,11 @@ const AccessControlTable = () => {
     }
   }, [modules]);
 
-  useEffect(()=>{
-    if(assignedModulesList){
-      setAllAssignedModulesList(assignedModulesList.data)
+  useEffect(() => {
+    if (assignedModulesList) {
+      setAllAssignedModulesList(assignedModulesList.data);
     }
-  },[assignedModulesList])
-  console.log("hehehe", allAssignedModulesList)
+  }, [assignedModulesList]);
   useEffect(() => {
     if (assignedModulesList) {
       const initialPermissions = {};
@@ -111,7 +113,9 @@ const AccessControlTable = () => {
       platform: "dashboard",
     }));
 
-    dispatch(assignPermission(permissionList));
+    dispatch(assignPermission(permissionList)).then(() => {
+      navigate("/user-administration"); // Redirect to the users list;
+    });
   };
 
   return (
@@ -288,24 +292,14 @@ const AccessControlTable = () => {
         </div>
       </div>
       <button
-                  className="bg-green-400 mt-4 w-48 h-10 flex items-center justify-center rounded-lg"
-                  onClick={handleSavePermissions}
-                >
-                  Save Access Control
-                </button>
-    <Toaster/>
-
+        className="bg-green-400 mt-4 w-48 h-10 flex items-center justify-center rounded-lg"
+        onClick={handleSavePermissions}
+      >
+        Save Access Control
+      </button>
+      <Toaster />
     </div>
   );
 };
 
 export default AccessControlTable;
-
-
-
-
-
-
-
-
-

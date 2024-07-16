@@ -10,6 +10,7 @@ export const activateUserAccess = (id) => async (dispatch) => {
   try {
     dispatch(activatePending());
     const res = await activateUser(id);
+    toast.success(res.message);
     dispatch(activateSuccess(res));
     return res;
   } catch (error) {

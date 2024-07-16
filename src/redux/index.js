@@ -71,6 +71,8 @@ import updateInspectionAnswerSlice from "./slices/inspectionAnswers/updateInspec
 import getAssignedModulesForSingleUserSlice from "./slices/accessModules/getAssignedModulesForSingleUserSlice";
 import fetchSingleStaffSlice from "./slices/staff/fetchSingleStaffSlice";
 import approveApprovedFarmerSlice from "./slices/farmers/approveApprovedFarmerSlice";
+import deactivateUserSlice from "./slices/userAccess/deactivateUserSlice";
+
 const store = configureStore({
   reducer: {
     login,
@@ -145,6 +147,7 @@ const store = configureStore({
     getAssignedModulesForSingleUser: getAssignedModulesForSingleUserSlice,
     fetchSingleStaff: fetchSingleStaffSlice,
     approveApprovedFarmer: approveApprovedFarmerSlice,
+    deactivateUser: deactivateUserSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

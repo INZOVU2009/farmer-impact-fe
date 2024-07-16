@@ -71,7 +71,9 @@ const AccessControlMobileTable = () => {
       platform: "mobile",
     }));
 
-    dispatch(assignPermission(permissionList));
+    dispatch(assignPermission(permissionList)).then(() => {
+      navigate("/user-administration"); // Redirect to the users list;
+    });
   };
 
   return (
@@ -169,7 +171,7 @@ const AccessControlMobileTable = () => {
             </div>
           </div>
         </div>
-        <Toaster/>
+        <Toaster />
       </div>
     </div>
   );

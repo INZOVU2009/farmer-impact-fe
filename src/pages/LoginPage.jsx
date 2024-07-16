@@ -4,8 +4,7 @@ import banner_IMG from "../images/banner_login.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/actions/auth/login.action";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -20,7 +19,6 @@ export default function LoginPage() {
       if (res.token) {
         navigate("/dashboard");
       }
-      console.log(res);
     });
   };
 
@@ -113,7 +111,7 @@ export default function LoginPage() {
           alt="banner"
           className="object-cover object-center h-full"
         />
-        <ToastContainer />
+       
       </div>
     </div>
   );

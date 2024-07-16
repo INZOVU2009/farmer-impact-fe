@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { Userlogin } from "../../../api/userApi";
 import { jwtDecode } from "jwt-decode";
 import {
@@ -14,20 +14,15 @@ export const login = (userData) => async (dispatch) => {
   try {
     dispatch(loginPending());
     const res = await Userlogin(userData);
-
     if (res.token) {
       localStorage.setItem("token", res.token);
-
       dispatch(loginSuccess(res));
-      toast.success(res.message);
-
       return res;
     } else {
-      toast.error("Invalid Credentials");
+      toast.error(error.message || "Invalid Credentials");
       return dispatch(loginFail("Invalid Credentials."));
     }
   } catch (error) {
-    console.log("error", error);
     toast.error(error.message || "Invalid Credentials");
     return dispatch(loginFail("Invalid Credentials."));
   }
@@ -35,7 +30,6 @@ export const login = (userData) => async (dispatch) => {
 
 export const handleToken = () => (dispatch) => {
   const token = localStorage.getItem("token");
-  console.log(token);
   if (token) {
     const decodedToken = jwtDecode(token);
     dispatch(fetchToken(token));
