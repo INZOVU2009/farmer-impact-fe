@@ -1,6 +1,6 @@
 import { commissionSuccess, commissionFail,commissionPending } from "../../slices/transactions/addCommissionFees";
 import { addCommissionFees } from "../../../api/coffeePurchaseApi";
-import { toast } from 'react-toastify';
+import toast from "react-hot-toast";
 
 export const CommisionFees= (token,data) => async (dispatch) => {
     try {

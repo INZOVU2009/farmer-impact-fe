@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { fetchAllTransactions } from "../../redux/actions/transactions/allTransactions.action";
 import { fetchAllStaff } from "../../redux/actions/staff/getAllStaff.action";
 import { approveJoulnal } from "../../redux/actions/transactions/approveJournal.action";
+import { Toaster } from "react-hot-toast";
 
 const UserTransactionsTable = () => {
   const navigate = useNavigate();
@@ -485,6 +486,7 @@ const UserTransactionsTable = () => {
             </span>
           </span>
         </div>
+        <Toaster />
       </div>
     </div>
   );

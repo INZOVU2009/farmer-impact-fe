@@ -1,5 +1,5 @@
 
-import { toast } from 'react-toastify';
+import {toast} from "react-hot-toast";
 import { assignFail, assignPending, assignSuccess } from "../../slices/parchment/assignNewParchmetnSlice";
 import { assignNewParchment } from "../../../api/parchmentApi";
 

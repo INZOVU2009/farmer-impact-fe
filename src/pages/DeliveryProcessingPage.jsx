@@ -11,7 +11,7 @@ import { fetchReportById } from "../redux/actions/parchnment/reportById.action";
 import { fetchAllStation } from "../redux/actions/station/allStations.action";
 import { processContribution } from "../redux/actions/deliveryProcessing/processContribution.action";
 import { fetchAllProcessedContributions } from "../redux/actions/deliveryProcessing/getProcessedContributions.action";
-import { ToastContainer, toast } from "react-toastify";
+import { Toaster } from "react-hot-toast";
 
 function DeliveryProcessingPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -257,7 +257,7 @@ function DeliveryProcessingPage() {
           {/* </div> */}
         </main>
       </div>
-      <ToastContainer />
+      <Toaster />
     </div>
   );
 }

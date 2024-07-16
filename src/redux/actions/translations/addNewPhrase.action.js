@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import {toast} from "react-hot-toast";
 import { addPhrase } from "../../../api/translationsApi";
 import {
   phraseFail,
@@ -15,10 +15,7 @@ export const addNewPhraseTranslation = (token,newPhrase) => async (dispatch) => 
     return res;
   } catch (error) {
     if (error) {
-      console.log("err", error);
-
       toast.error(`${error.message} `);
-      console.log("errrrr", error.message);
       return dispatch(phraseFail(error.message));
     }
     toast.error(`${error.Error}`);

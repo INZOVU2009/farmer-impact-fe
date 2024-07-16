@@ -13,7 +13,7 @@ import {
   setCertification,
   clearCertification,
 } from "../redux/actions/parchnment/setCertification.action";
-import { ToastContainer, toast } from "react-toastify";
+import { Toaster } from "react-hot-toast";
 import { assigParchmentGrade } from "../redux/actions/parchnment/assignParchmentGrade.action";
 
 function AssignNewParchment() {
@@ -411,7 +411,7 @@ function AssignNewParchment() {
               cherryLotIdToAssign={cherryLotToAssign}
             />
           </div>
-          <ToastContainer />
+          <Toaster/>
         </main>
       </div>
     </div>

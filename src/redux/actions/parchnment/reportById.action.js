@@ -1,5 +1,5 @@
 
-import { toast } from "react-toastify";
+import {toast} from "react-hot-toast";
 import { fetchFail, fetchPending, fetchSuccess } from "../../slices/parchment/reportByIdSlice";
 import { deriveryReportById } from "../../../api/parchmentApi";
   
@@ -9,7 +9,7 @@ import { deriveryReportById } from "../../../api/parchmentApi";
         const res = await deriveryReportById(id);
         console.log("res", res);
         dispatch(fetchSuccess(res));
-        // toast.success(res.message);
+    
         return res;
       } catch (error) {
         if (error) {

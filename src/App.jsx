@@ -5,6 +5,7 @@ import AccessControlMobile from "./pages/AccessControlMobile";
 import { useParams } from "react-router-dom";
 import "./css/style.css";
 import "./charts/ChartjsConfig";
+import { Toaster } from "react-hot-toast";
 
 // Import pages
 import Dashboard from "./pages/Dashboard";
@@ -258,6 +259,7 @@ function App() {
           element={<PendingFarmersPage />}
         />
       </Routes>
+      <Toaster/>
     </>
   );
 }

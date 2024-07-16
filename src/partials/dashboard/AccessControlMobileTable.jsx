@@ -9,6 +9,7 @@ import { IoIosPhonePortrait } from "react-icons/io";
 import { GrSystem } from "react-icons/gr";
 import { assignPermission } from "../../redux/actions/accessModules/addPermissions.action";
 import { getSingleStaffById } from "../../redux/actions/staff/getSingleStaff.action";
+import { Toaster } from "react-hot-toast";
 
 const AccessControlMobileTable = () => {
   const userId = useParams();
@@ -70,7 +71,9 @@ const AccessControlMobileTable = () => {
       platform: "mobile",
     }));
 
-    dispatch(assignPermission(permissionList));
+    dispatch(assignPermission(permissionList)).then(() => {
+      navigate("/user-administration"); // Redirect to the users list;
+    });
   };
 
   return (
@@ -168,6 +171,7 @@ const AccessControlMobileTable = () => {
             </div>
           </div>
         </div>
+        <Toaster />
       </div>
     </div>
   );

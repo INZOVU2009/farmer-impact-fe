@@ -6,6 +6,7 @@ import { fetchAllStation } from "../../redux/actions/station/allStations.action"
 import { fetchAllJournalsByCherryLotId } from "../../redux/actions/transactions/journalsByCherryLotId.action";
 import { saveCherry } from "../../redux/actions/submitCherry/saveCherryToSubmit.action";
 import "react-toastify/dist/ReactToastify.css";
+import { Toaster } from "react-hot-toast";
 
 const CherryLotDetailsTable = () => {
   const navigate = useNavigate();
@@ -660,6 +661,8 @@ const CherryLotDetailsTable = () => {
           Save and submit to RTC{" "}
         </button>
       </div>
+      <Toaster/>
+
     </div>
   );
 };

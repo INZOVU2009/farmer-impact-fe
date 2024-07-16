@@ -13,7 +13,8 @@ import { ToastContainer } from "react-toastify";
 import { fetchAllUserAccess } from "../../redux/actions/userAccess/fetchAllUserAccess.action";
 import { createUserAccess } from "../../redux/actions/userAccess/addUserAccess.action";
 import { activateUserAccess } from "../../redux/actions/userAccess/activateUser.action";
-import "react-toastify/dist/ReactToastify.css";
+import { deactivateUserAccess } from "../../redux/actions/userAccess/deactivateUser.action";
+import  { Toaster } from "react-hot-toast";
 
 const UsersTable = () => {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ const UsersTable = () => {
   const { staffs } = useSelector((state) => state.fetchAllStaff);
   const { allAccess } = useSelector((state) => state.allUserAccess);
   const { activate } = useSelector((state) => state.activateUser);
+  const { deactivate } = useSelector((state) => state.deactivateUser);
   const { access } = useSelector((state) => state.userAccess);
 
   const itemsPerPage = 20;
@@ -142,13 +144,25 @@ const UsersTable = () => {
   }, [access, dispatch]);
 
   const handleActivateUser = (id) => {
-    dispatch(activateUserAccess(id));
+ dispatch(activateUserAccess(id));
+  
+
   };
   useEffect(() => {
     if (activate) {
       dispatch(fetchAllUserAccess());
     }
   }, [dispatch, activate]);
+
+  const handleDeactivateUser = (id) => {
+    dispatch(deactivateUserAccess(id));
+  
+  };
+  useEffect(() => {
+    if (deactivate) {
+      dispatch(fetchAllUserAccess());
+    }
+  }, [dispatch, deactivate]);
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
@@ -279,7 +293,7 @@ const UsersTable = () => {
 
                               <RiKey2Line
                                 onClick={() => handleClickAction(staff)}
-                                className="text-2xl text-red-500"
+                                className="text-3xl text-red-500"
                               />
 
                               {showPasswordModel && selectedUser && (
@@ -296,8 +310,15 @@ const UsersTable = () => {
                                     `/user-administaration/access-controll/module-access/${staff.id}`
                                   )
                                 }
-                                className="text-2xl text-black"
+                                className="text-3xl text-black"
                               />
+                              <FaToggleOff
+                              onClick={() => {
+                                handleDeactivateUser(staff.userID);
+                              }}
+                              className=" text-2xl text-black w-[50%]"
+                            />
+
                             </div>
                           ) : (
                             <FaToggleOff
@@ -377,6 +398,7 @@ const UsersTable = () => {
             </span>
           </span>
         </div>
+        <Toaster />
       </div>
     </div>
   );

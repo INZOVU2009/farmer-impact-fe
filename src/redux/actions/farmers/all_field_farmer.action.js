@@ -1,27 +1,27 @@
-import {  
-    FarmerPending,
-    FarmerSuccess,
-    FarmerFailed
- } from '../../slices/farmers/all_field_farmerSlice'
+import {
+  FarmerPending,
+  FarmerSuccess,
+  FarmerFailed,
+} from "../../slices/farmers/all_field_farmerSlice";
+import { toast } from "react-hot-toast";
+import { getRecentFarmer } from "../../../api/recentFarmersApi";
 
-import { getRecentFarmer } from '../../../api/recentFarmersApi'
-import { toast } from 'react-toastify'
-
-export const fetchFieldFarmers = (currentPage,itemsPerPage) => async (dispatch) =>{
+export const fetchFieldFarmers =
+  (currentPage, itemsPerPage) => async (dispatch) => {
     try {
-        dispatch(FarmerPending());
+      dispatch(FarmerPending());
 
-        const res = await getRecentFarmer(currentPage,itemsPerPage);
-        dispatch(FarmerSuccess(res));
-        console.log(res);
-        toast.success(res.message);
-        return res;
+      const res = await getRecentFarmer(currentPage, itemsPerPage);
+      dispatch(FarmerSuccess(res));
+      console.log(res);
+    //   toast.success(res.message);
+      return res;
     } catch (error) {
-        if(error){
-            toast.error(`${error.message}`);
-            return dispatch(FarmerFailed(error.message))
-        }
-        toast.error(`${error.Error}`);
-        return dispatch(FarmerFailed(error.Error));
+      if (error) {
+        toast.error(`${error.message}`);
+        return dispatch(FarmerFailed(error.message));
+      }
+      toast.error(`${error.Error}`);
+      return dispatch(FarmerFailed(error.Error));
     }
-};
+  };

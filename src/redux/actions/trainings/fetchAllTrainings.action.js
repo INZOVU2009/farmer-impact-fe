@@ -1,4 +1,3 @@
-import { toast } from "react-toastify";
 import {
   trainingsFail,
   trainingsPending,
@@ -15,14 +14,8 @@ export const fetchAllTrainings = () => async (dispatch) => {
     return res;
   } catch (error) {
     if (error) {
-      console.log("err", error);
-
-      toast.error(`${error.message} `);
-      console.log("errrrr", error.message);
       return dispatch(trainingsFail(error.message));
     }
-    toast.error(`${error.Error}`);
-    console.log("errrr", error);
     return dispatch(trainingsFail(error.Error));
   }
 };

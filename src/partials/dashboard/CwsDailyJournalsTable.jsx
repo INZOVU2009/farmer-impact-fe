@@ -11,7 +11,7 @@ import BucketingDryingModel from "../../components/BucketingDryingModel";
 import { fetchAllBuckets } from "../../redux/actions/transactions/allBuckets.action";
 import { fetchAllDryWeighting } from "../../redux/actions/transactions/dryWeighting.action";
 import FarmerPriceCard from "./FarmerPriceCard";
-import { ToastContainer } from "react-toastify";
+import { Toaster } from "react-hot-toast";
 import "react-toastify/dist/ReactToastify.css";
 
 const CwsDailyJournalsTable = () => {
@@ -848,6 +848,8 @@ const CwsDailyJournalsTable = () => {
             </svg>
           </a>
         </div>
+        <Toaster/>
+
       </div>
     </div>
   );

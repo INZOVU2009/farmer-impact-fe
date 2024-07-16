@@ -42,3 +42,17 @@ export const activateUser = (id) => {
       });
   });
 };
+
+export const deactivateUser = (id) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(`${url}/useraccess/deactivate?id=${id}`)
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response?.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};

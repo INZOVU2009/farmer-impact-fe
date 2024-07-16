@@ -1,4 +1,3 @@
-import { toast } from "react-toastify";
 import { getAllAttendancesheets } from "../../../api/trainingAttendanceAPI";
 import {
   attendenceSheetFail,
@@ -15,13 +14,8 @@ export const fetchAllTrainingsAttendanceSheet =
       return res;
     } catch (error) {
       if (error) {
-        console.log("err", error);
-        toast.error(`${error.message} `);
-        console.log("errrrr", error.message);
         return dispatch(attendenceSheetFail(error.message));
       }
-      toast.error(`${error.Error}`);
-      console.log("errrr", error);
       return dispatch(attendenceSheetFail(error.Error));
     }
   };

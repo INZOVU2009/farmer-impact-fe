@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import {
   accessFail,
   accessPending,
@@ -10,6 +10,7 @@ export const createUserAccess = (id) => async (dispatch) => {
   try {
     dispatch(accessPending());
     const res = await addUserAccess(id);
+    toast.success(res.message);
     dispatch(accessSuccess(res));
     return res;
   } catch (error) {

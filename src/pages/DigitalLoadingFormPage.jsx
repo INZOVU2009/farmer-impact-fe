@@ -11,8 +11,8 @@ import { handleToken } from "../redux/actions/auth/fetchToken.action";
 import { submitDeliveryReport } from "../redux/actions/parchnment/submitDeliveryReport.action";
 import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../components/LoadingSpinner";
-import { ToastContainer, toast } from "react-toastify";
 import { fetchSingleReport } from "../redux/actions/parchnment/getSingleReport.action";
+import { Toaster } from "react-hot-toast";
 
 function DigitalLoadingFormPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -318,7 +318,7 @@ function DigitalLoadingFormPage() {
           </div>
         </main>
       </div>
-      <ToastContainer />
+      <Toaster />
     </div>
   );
 }

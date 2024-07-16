@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllAssignedParchments } from "../redux/actions/parchnment/allAssignedParchment.action";
 import { fetchAllStation } from "../redux/actions/station/allStations.action";
 import { updateReport } from "../redux/actions/parchnment/updateDeliveryReport.action";
-import { ToastContainer, toast } from "react-toastify";
+import { Toaster } from "react-hot-toast";
 
 function ReceivingDeliveryFormPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -377,7 +377,7 @@ function ReceivingDeliveryFormPage() {
                 </div>
               </div>
             </div>
-            <ToastContainer />
+            <Toaster />
           </div>
         </main>
       </div>

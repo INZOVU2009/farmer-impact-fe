@@ -5,7 +5,7 @@ import WelcomeBanner from "../partials/dashboard/WelcomeBanner";
 import ParchmentStockTable from "../partials/dashboard/ParchmentStockTable";
 import { fetchAllAssignedParchments } from "../redux/actions/parchnment/allAssignedParchment.action";
 import { fetchAllTransactions } from "../redux/actions/transactions/allTransactions.action";
-
+import { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllStation } from "../redux/actions/station/allStations.action";
 
@@ -456,6 +456,7 @@ function ParchmentStockPage() {
           </div>
         </main>
       </div>
+      <Toaster />
     </div>
   );
 }

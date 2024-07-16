@@ -4,8 +4,7 @@ import Header from "../partials/Header";
 import WelcomeBanner from "../partials/dashboard/WelcomeBanner";
 import { addUntraceableCoffee } from "../redux/actions/untraceableCoffee/addUntraceableCoffee.action";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
-
+import { Toaster } from "react-hot-toast";
 function AddUntraceableCoffee({ onSubmit }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const dispatch = useDispatch();
@@ -96,7 +95,7 @@ function AddUntraceableCoffee({ onSubmit }) {
           </div>
         </main>
       </div>
-      <ToastContainer />
+      <Toaster />
     </div>
   );
 }

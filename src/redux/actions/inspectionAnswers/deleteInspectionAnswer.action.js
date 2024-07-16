@@ -1,5 +1,4 @@
-import { toast } from "react-toastify";
-
+import {toast} from "react-hot-toast";
 import { removeInspectionAnswer } from "../../../api/inspectionAnswersApi";
 import {
   deletedAnswerFail,

@@ -1,6 +1,5 @@
 
-import { toast } from "react-toastify";
-
+import {toast} from "react-hot-toast";
 import { addInspectionAnswer } from "../../../api/inspectionAnswersApi";
 
 import { newAnswerFail, newAnswerPending, newAnswerSuccess } from "../../slices/inspectionAnswers/addNewInspectionAnswerSlice";
