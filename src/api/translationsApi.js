@@ -1,6 +1,8 @@
 import axios from "axios";
+import { constants } from "../constants/constants";
 
-const url = "http://localhost:5000";
+const url = constants.SERVER_URL;
+
 export const getAllTranslations = (currentPage, itemsPerPage) => {
   return new Promise((resolve, reject) => {
     axios

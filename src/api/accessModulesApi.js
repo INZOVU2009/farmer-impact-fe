@@ -1,6 +1,7 @@
 import axios from "axios";
+import { constants } from "../constants/constants";
 
-const url = "http://localhost:5000";
+const url = constants.SERVER_URL;
 
 export const getAllModules = () => {
   return new Promise((resolve, reject) => {
@@ -62,7 +63,6 @@ export const updateModule = (data, id) => {
   });
 };
 
-
 export const getAssignedModulesToSingleUser = (id) => {
   return new Promise((resolve, reject) => {
     axios
@@ -76,8 +76,6 @@ export const getAssignedModulesToSingleUser = (id) => {
       });
   });
 };
-
-
 
 export const createModule = (data) => {
   return new Promise((resolve, reject) => {

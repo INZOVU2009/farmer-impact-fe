@@ -1,13 +1,13 @@
 import axios from "axios";
+import { constants } from "../constants/constants";
 
-const url = "http://localhost:5000";
+const url = constants.SERVER_URL;
+
 export const getLoadedWeightById = (id) => {
   console.log("data", id);
   return new Promise((resolve, reject) => {
     axios
-      .get(
-        `${url}/loadedweight/loadedweight/${id}`
-      )
+      .get(`${url}/loadedweight/loadedweight/${id}`)
       .then((response) => resolve(response.data))
       .catch((error) => {
         if (error.response?.data !== undefined) {
@@ -18,14 +18,11 @@ export const getLoadedWeightById = (id) => {
   });
 };
 
-export const processContributions= (contributions) => {
-  console.log("we are data", contributions)
+export const processContributions = (contributions) => {
+  console.log("we are data", contributions);
   return new Promise((resolve, reject) => {
     axios
-      .post(
-        `${url}/loadedweight/start_processing`,
-        contributions,
-      )
+      .post(`${url}/loadedweight/start_processing`, contributions)
       .then((response) => resolve(response.data))
       .catch((error) => {
         if (error.response?.data !== undefined) {
@@ -39,9 +36,7 @@ export const processContributions= (contributions) => {
 export const fetchProcessedContributions = () => {
   return new Promise((resolve, reject) => {
     axios
-      .get(
-        `${url}/loadedweight/contributions`
-      )
+      .get(`${url}/loadedweight/contributions`)
       .then((response) => resolve(response.data))
       .catch((error) => {
         if (error.response?.data !== undefined) {
@@ -56,9 +51,7 @@ export const getProcessedContributionsById = (id) => {
   console.log("data", id);
   return new Promise((resolve, reject) => {
     axios
-      .get(
-        `${url}/loadedweight/contributions_by_id/${id}`
-      )
+      .get(`${url}/loadedweight/contributions_by_id/${id}`)
       .then((response) => resolve(response.data))
       .catch((error) => {
         if (error.response?.data !== undefined) {

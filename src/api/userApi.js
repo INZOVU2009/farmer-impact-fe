@@ -1,22 +1,24 @@
+import axios from "axios";
+import { constants } from "../constants/constants";
 
-import axios from 'axios';
-
-const url = "http://localhost:5000";
+const url = constants.SERVER_URL;
 
 export const Userlogin = (userData) => {
-	return new Promise((resolve, reject) => {
-		axios
-			.post(`${url}/user/login`, {Name_User:userData.userName,password:userData.password})
-			.then((response) => resolve(response.data))
-			.catch((error) => {
-				if (error.response.data !== undefined) {
-					reject(error.response.data);
-				}
-				reject(error);
-			});
-	});
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`${url}/user/login`, {
+        Name_User: userData.userName,
+        password: userData.password,
+      })
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
 };
-
 
 export const allUsers = async () => {
   try {
@@ -31,52 +33,48 @@ export const allUsers = async () => {
 };
 
 export const updateUser = (id, data) => {
-	return new Promise((resolve, reject) => {
-		axios
-			.put(`${url}/user/update/${id}`, data)
-			.then((response) => resolve(response.data))
-			.catch((error) => {
-				if (error.response.data !== undefined) {
-					reject(error.response.data);
-				}
-				console.log("errr", error.message)
-				reject(error);
-			});
-	});
+  return new Promise((resolve, reject) => {
+    axios
+      .put(`${url}/user/update/${id}`, data)
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response.data !== undefined) {
+          reject(error.response.data);
+        }
+        console.log("errr", error.message);
+        reject(error);
+      });
+  });
 };
 
 export const getUser = (userId) => {
-	return new Promise((resolve, reject) => {
-		axios
-			.get(`${url}/user/user/${userId}`)
-			.then((response) => resolve(response.data))
-			.catch((error) => {
-				if (error.response.data !== undefined) {
-					reject(error.response.data);
-					console.log("err", error)
-				}
-				reject(error);
-				console.log("err", error)
-
-
-			});
-	});
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`${url}/user/user/${userId}`)
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response.data !== undefined) {
+          reject(error.response.data);
+          console.log("err", error);
+        }
+        reject(error);
+        console.log("err", error);
+      });
+  });
 };
 export const getStaff = (userId) => {
-	console.log("urrr", userId)
-	return new Promise((resolve, reject) => {
-		axios
-			.get(`${url}/user/staff/${userId}`)
-			.then((response) => resolve(response.data))
-			.catch((error) => {
-				if (error.response.data !== undefined) {
-					reject(error.response.data);
-					console.log("err", error)
-				}
-				reject(error);
-				console.log("err", error)
-
-
-			});
-	});
+  console.log("urrr", userId);
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`${url}/user/staff/${userId}`)
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response.data !== undefined) {
+          reject(error.response.data);
+          console.log("err", error);
+        }
+        reject(error);
+        console.log("err", error);
+      });
+  });
 };

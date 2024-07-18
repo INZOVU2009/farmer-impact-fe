@@ -1,5 +1,8 @@
 import axios from "axios";
-const url = "http://localhost:5000";
+import { constants } from "../constants/constants";
+
+const url = constants.SERVER_URL;
+
 export const getRecentFarmer = (currentPage, itemsPerPage) => {
   return new Promise((resolve, reject) => {
     axios

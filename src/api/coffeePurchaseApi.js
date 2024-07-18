@@ -1,6 +1,7 @@
 import axios from "axios";
+import { constants } from "../constants/constants";
 
-const url = "http://localhost:5000";
+const url = constants.SERVER_URL;
 
 export const allStaff = async () => {
   try {
@@ -100,9 +101,6 @@ export const updateTransactionById = (token, id, data) => {
   });
 };
 
-
-
-
 export const approveJournal = (token, id) => {
   return new Promise((resolve, reject) => {
     axios
@@ -169,7 +167,6 @@ export const allJournalsByCherryLotId = (token, cherryLotId) => {
   });
 };
 
-
 //all buckets
 
 export const allBuckets = async () => {
@@ -196,18 +193,12 @@ export const dryWeighting = async () => {
   }
 };
 
-
-
-export const transactionBucket = (token,data) => {
+export const transactionBucket = (token, data) => {
   return new Promise((resolve, reject) => {
     axios
-      .post(
-        `${url}/coffeePurchase/dailyJournal/journalBucket`,
-        data,
-        {
-          headers: { auth_token: ` ${token}` },
-        }
-      )
+      .post(`${url}/coffeePurchase/dailyJournal/journalBucket`, data, {
+        headers: { auth_token: ` ${token}` },
+      })
       .then((response) => resolve(response.data))
       .catch((error) => {
         if (error.response?.data !== undefined) {
@@ -218,14 +209,10 @@ export const transactionBucket = (token,data) => {
   });
 };
 
-
 export const bucketWeighting = (data) => {
   return new Promise((resolve, reject) => {
     axios
-      .post(
-        `${url}/coffeePurchase/bucketWeight`,
-        data
-      )
+      .post(`${url}/coffeePurchase/bucketWeight`, data)
       .then((response) => resolve(response.data))
       .catch((error) => {
         if (error.response?.data !== undefined) {
