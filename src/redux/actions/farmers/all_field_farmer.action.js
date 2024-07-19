@@ -14,7 +14,7 @@ export const fetchFieldFarmers =
       const res = await getRecentFarmer(currentPage, itemsPerPage);
       dispatch(FarmerSuccess(res));
       console.log(res);
-    //   toast.success(res.message);
+      //   toast.success(res.message);
       return res;
     } catch (error) {
       if (error) {

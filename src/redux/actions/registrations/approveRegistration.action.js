@@ -1,15 +1,15 @@
 import { toast } from "react-hot-toast";
+import { approveRegistration } from "../../../api/registersApi";
 import {
   approveFail,
   approvePending,
   approveSuccess,
-} from "../../slices/farmers/approveFarmerSlice";
-import { approveFarmer } from "../../../api/recentFarmersApi";
+} from "../../slices/registrations/approveRegistrationSlice";
 
-export const approveFieldFarmer = (id) => async (dispatch) => {
+export const approveVerifiedRegistration = (id) => async (dispatch) => {
   try {
     dispatch(approvePending());
-    const res = await approveFarmer(id);
+    const res = await approveRegistration(id);
     toast.success(res.message);
     dispatch(approveSuccess(res));
     return res;
@@ -18,7 +18,7 @@ export const approveFieldFarmer = (id) => async (dispatch) => {
       toast.error(`${error.message} `);
       return dispatch(approveFail(error.message));
     }
-    toast.error(`${error.Error}`);
+    toast.error(`${error.Error} `);
     return dispatch(approveFail(error.Error));
   }
 };

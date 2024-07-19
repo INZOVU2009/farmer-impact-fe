@@ -48,8 +48,10 @@ import SyncedFarmersPage from "./pages/SyncedFarmersPage";
 import TransalationsPage from "./pages/appSetting/TranslationsPage";
 import EvaluationsPage from "./pages/appSetting/EvaluationsPage";
 import InspectionAnswersPage from "./pages/appSetting/InspectionAnswersPage";
-
 import PendingFarmersPage from "./pages/PendingFarmersPage";
+import RecentRegistrationsPage from "./pages/RecentRgistrationsPage";
+import VerifiedRegistrationsPage from "./pages/VerifiedRegistrationsPage";
+import ApprovedRegistrationsPage from "./pages/ApproveRegistrationsPage";
 
 function App() {
   const location = useLocation();
@@ -257,6 +259,21 @@ function App() {
           exact
           path="/user_registration/pending_farmers"
           element={<PendingFarmersPage />}
+        />
+         <Route
+          exact
+          path="/farmer_registrations/recent_registrations"
+          element={<RecentRegistrationsPage />}
+        />
+          <Route
+          exact
+          path="/farmer_registrations/verified_registrations"
+          element={<VerifiedRegistrationsPage />}
+        />
+          <Route
+          exact
+          path="/farmer_registrations/approved_registrations"
+          element={<ApprovedRegistrationsPage />}
         />
       </Routes>
       <Toaster/>
