@@ -75,6 +75,7 @@ import deactivateUserSlice from "./slices/userAccess/deactivateUserSlice";
 import fetchAllFarmerRegistrationSlice from "./slices/registrations/fetchAllFarmerRegistrationSlice";
 import verifyRegistrationSlice from "./slices/registrations/verifyRegistrationSlice";
 import approveRegistrationSlice from "./slices/registrations/approveRegistrationSlice";
+import proceedRegistrationsSlice from "./slices/registrations/proceedRegistrationsSlice";
 const store = configureStore({
   reducer: {
     login,
@@ -153,6 +154,7 @@ const store = configureStore({
     fetchAllFarmerRegistrations: fetchAllFarmerRegistrationSlice,
     verifyRegistration: verifyRegistrationSlice,
     approveRegistration: approveRegistrationSlice,
+    proceedRegistration: proceedRegistrationsSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

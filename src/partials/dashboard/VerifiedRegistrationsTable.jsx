@@ -6,7 +6,7 @@ function VerifiedRegistrationsTable() {
   const dispatch = useDispatch();
   const [allFarmerRegistrations, setAllFarmerRegistrations] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
+  const [itemsPerPage] = useState(50);
   const { registrations, loading } = useSelector(
     (state) => state.fetchAllFarmerRegistrations
   );
@@ -75,7 +75,7 @@ function VerifiedRegistrationsTable() {
             <div className="overflow-hidden shadow">
               <table className="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
                 <thead className="bg-gray-100 dark:bg-gray-700">
-                  <tr>
+                <tr>
                     <th scope="col" className="p-4">
                       No
                     </th>
@@ -89,7 +89,13 @@ function VerifiedRegistrationsTable() {
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      Group
+                      Old Group Name
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                      New Group Name
                     </th>
                     <th
                       scope="col"
@@ -120,17 +126,20 @@ function VerifiedRegistrationsTable() {
                       </td>
                       <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
                         <div className="text-base font-semibold text-gray-900 dark:text-white">
-                          <a href="">Bwenda </a>
+                          <a href="">{registration.station_name} </a>
                         </div>
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {registration.kf_group_new}
-                      </td>
-                      <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                        {registration._kf_farmer}
+                        {registration.group_name_old}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {registration._kf_farmer}
+                        {registration.group_name_new}
+                      </td>
+                      <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
+                        {registration.farmerid}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {registration.farmer_name}
                       </td>
 
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">

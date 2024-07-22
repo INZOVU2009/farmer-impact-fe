@@ -49,3 +49,16 @@ export const approveRegistration = (id) => {
       });
   });
 };
+export const proceedRegistrations = () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(`${url}/farmer_registrations/proceed`)
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response?.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};
