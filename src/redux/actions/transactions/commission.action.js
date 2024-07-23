@@ -8,8 +8,8 @@ import {
 export const addCommission = (data) => async (dispatch) => {
   try {
     dispatch(commissionPending());
-    dispatch(commissionSuccess(data));
-    toast.success(res.message);
+  const res =  dispatch(commissionSuccess(data));
+    toast.success("Fees Added Successfully !!!");
   } catch (error) {
     if (error) {
       toast.error(`${error.message} `);
