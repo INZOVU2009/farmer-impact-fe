@@ -139,7 +139,7 @@ function UserInspectionsPage() {
     const searchItem = e.target.value;
     setSearchQuery(searchItem);
   };
-  console.log("hehe", searchQuery);
+
   const getUniqueValues = (arr, key) => {
     const uniqueValues = [];
     const uniqueKeys = new Set();
@@ -189,6 +189,7 @@ function UserInspectionsPage() {
     link.click();
     document.body.removeChild(link);
   };
+  
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}

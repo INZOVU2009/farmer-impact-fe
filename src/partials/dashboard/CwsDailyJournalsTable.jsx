@@ -45,7 +45,11 @@ const CwsDailyJournalsTable = () => {
 
   useEffect(() => {
     if (transactions) {
-      setAllTransactions(transactions.data);
+      const transactionsCopy = [...transactions.data];
+      const sortedTransactions = transactionsCopy.sort(
+        (a, b) => new Date(b.created_at) - new Date(a.created_at)
+      );
+      setAllTransactions(sortedTransactions);
     }
   }, [transactions]);
 
@@ -848,8 +852,7 @@ const CwsDailyJournalsTable = () => {
             </svg>
           </a>
         </div>
-        <Toaster/>
-
+        <Toaster />
       </div>
     </div>
   );

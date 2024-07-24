@@ -21,7 +21,7 @@ function TrainingParticipantsPage() {
   const [allStation, setAllStation] = useState([]);
   const [allTrainings, setAllTrainings] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(100);
+  const [itemsPerPage] = useState(50);
 
   const [searchQuery, setSearchQuery] = useState();
   const [allAttendances, setAllAttendances] = useState([]);
@@ -44,8 +44,6 @@ function TrainingParticipantsPage() {
       setAllAttendances(attendences.data.attendance);
     }
   }, [attendences]);
-
-  console.log("hehe", allAttendances);
 
   useEffect(() => {
     dispatch(fetchAllFarmers());
@@ -198,7 +196,8 @@ function TrainingParticipantsPage() {
     const courseName = getCourseName(attendance._kf_Course);
     return (
       farmerName?.toLowerCase().includes(searchQuery?.toLowerCase()) ||
-      courseName?.toLowerCase().includes(searchQuery?.toLowerCase()) || allAttendances
+      courseName?.toLowerCase().includes(searchQuery?.toLowerCase()) ||
+      allAttendances
     );
   });
 
@@ -233,7 +232,7 @@ function TrainingParticipantsPage() {
                 handleDownload={handleDownload}
                 searchQuery={searchQuery}
                 handleSearch={handleSearchChange}
-                filteredTrainings = {allTrainings}
+                filteredTrainings={allTrainings}
                 filteredGroups={allGroups}
                 filteredStations={allStation}
               />
