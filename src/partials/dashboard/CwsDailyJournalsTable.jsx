@@ -13,6 +13,8 @@ import { fetchAllDryWeighting } from "../../redux/actions/transactions/dryWeight
 import FarmerPriceCard from "./FarmerPriceCard";
 import { Toaster } from "react-hot-toast";
 import "react-toastify/dist/ReactToastify.css";
+import EditBucketsModal from "../../components/EditBucketsModal";
+import EditBucketWeightingModel from "../../components/EditBucketWeightingModel";
 
 const CwsDailyJournalsTable = () => {
   const navigate = useNavigate();
@@ -38,6 +40,10 @@ const CwsDailyJournalsTable = () => {
   const { weight } = useSelector((state) => state.dryWeighting);
   const bucketWeightingState = useSelector((state) => state.bucketWeighting);
   const [allDryWeight, setAllDryWeight] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedBucketJournal, setSelectedBucketJournal] = useState(null);
+  const [isEditBucketModelOpen, setIsEditBucketModelOpen] = useState(false);
+  const [currentJournal, setCurrentJournal] = useState(null);
 
   useEffect(() => {
     dispatch(fetchAllTransactions(token));
@@ -333,6 +339,37 @@ const CwsDailyJournalsTable = () => {
     }
   };
 
+  const handleEditClick = (journal) => {
+    setSelectedBucketJournal(journal);
+    setIsModalOpen(true);
+  };
+  console.log("hehehe", selectedBucketJournal);
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setSelectedBucketJournal(null);
+  };
+
+  const handleModalSave = (updatedData) => {
+    // Handle the save logic here, such as updating the state or making an API call
+    console.log("Updated Data:", updatedData);
+  };
+
+  const handleEditBucketClick = (journal) => {
+    setCurrentJournal(journal);
+    setIsEditBucketModelOpen(true);
+    setShowDryingModel(false);
+  };
+
+  const handleEditBucketModalClose = () => {
+    setIsEditBucketModelOpen(false);
+    setCurrentJournal(null);
+  };
+
+  const handleEdutBucketModalSave = (updatedData) => {
+    // Handle the save logic here, such as updating the state or making an API call
+    console.log("Updated Data:", updatedData);
+  };
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="py-4 ml-0 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
@@ -620,10 +657,18 @@ const CwsDailyJournalsTable = () => {
                       <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
                         {bucketByCherryLot(journal.cherry_lot_id).length !==
                         0 ? (
-                          bucketByCherryLot(journal.cherry_lot_id)[0]?.bucketA
+                          <span
+                            className="inline-block cursor-pointer border border-gray-300 px-2 py-1 hover:bg-gray-500 hover:text-white dark:border-gray-700 dark:hover:bg-gray-800"
+                            onClick={() => handleEditClick(journal)}
+                          >
+                            {
+                              bucketByCherryLot(journal.cherry_lot_id)[0]
+                                ?.bucketA
+                            }
+                          </span>
                         ) : (
                           <MdAdd
-                            className="text-white rounded-full bg-green-500 w-[50%] h-[50%]"
+                            className="text-white cursor-pointer rounded-full bg-green-500 w-[50%] h-[50%]"
                             onClick={() => handleClickAction(journal)}
                           />
                         )}
@@ -638,10 +683,18 @@ const CwsDailyJournalsTable = () => {
                       <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
                         {bucketByCherryLot(journal.cherry_lot_id).length !==
                         0 ? (
-                          bucketByCherryLot(journal.cherry_lot_id)[0]?.bucketB
+                          <span
+                            className="inline-block cursor-pointer border border-gray-300 px-2 py-1 hover:bg-gray-500 hover:text-white dark:border-gray-700 dark:hover:bg-gray-800"
+                            onClick={() => handleEditClick(journal)}
+                          >
+                            {
+                              bucketByCherryLot(journal.cherry_lot_id)[0]
+                                ?.bucketB
+                            }
+                          </span>
                         ) : (
                           <MdAdd
-                            className="text-white rounded-full bg-green-500 w-[50%] h-[50%]"
+                            className="text-white  cursor-pointer rounded-full bg-green-500 w-[50%] h-[50%]"
                             onClick={() => handleClickAction(journal)}
                           />
                         )}
@@ -656,10 +709,18 @@ const CwsDailyJournalsTable = () => {
                       <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
                         {bucketByCherryLot(journal.cherry_lot_id).length !==
                         0 ? (
-                          bucketByCherryLot(journal.cherry_lot_id)[0]?.bucketC
+                          <span
+                            className="inline-block cursor-pointer border border-gray-300 px-2 py-1 hover:bg-gray-500 hover:text-white dark:border-gray-700 dark:hover:bg-gray-800"
+                            onClick={() => handleEditClick(journal)}
+                          >
+                            {
+                              bucketByCherryLot(journal.cherry_lot_id)[0]
+                                ?.bucketC
+                            }
+                          </span>
                         ) : (
                           <MdAdd
-                            className="text-white rounded-full bg-green-500 w-[50%] h-[50%]"
+                            className="text-white cursor-pointer rounded-full bg-green-500 w-[50%] h-[50%]"
                             onClick={() => handleClickAction(journal)}
                           />
                         )}
@@ -674,68 +735,80 @@ const CwsDailyJournalsTable = () => {
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {dryWeightByCherryLot(journal.cherry_lot_id).length !==
                         0 ? (
-                          Math.round(
-                            dryWeightByCherryLot(journal.cherry_lot_id)[0]
-                              .FinalGradeA
-                          )
+                          <span className="inline-block cursor-pointer border border-gray-300 px-2 py-1 hover:bg-gray-500 hover:text-white dark:border-gray-700 dark:hover:bg-gray-800">
+                            {Math.round(
+                              dryWeightByCherryLot(journal.cherry_lot_id)[0]
+                                .FinalGradeA
+                            )}
+                          </span>
                         ) : (
                           <MdAdd
-                            className="text-white rounded-full bg-green-500 w-[50%] h-[50%]"
+                            className="text-white cursor-pointer rounded-full bg-green-500 w-[50%] h-[50%]"
                             onClick={() => handleJournalClickAction(journal)}
                           />
                         )}
                       </td>
-                      {showDryingModel && selectedJournal && (
+                      {/* {showDryingModel && selectedJournal && (
                         <BucketingDryingModel
                           journal={selectedJournal}
                           onClose={() => setShowDryingModel(false)}
                           onSubmit={handleAddBucket}
                         />
-                      )}
+                      )} */}
+
+                      <td
+                        className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white border border-gray-300 hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-800"
+                        onClick={() => handleJournalClickAction(journal)}
+                      >
+                        {dryWeightByCherryLot(journal.cherry_lot_id).length !==
+                        0 ? (
+                          <span
+                            className="inline-block cursor-pointer border border-gray-300 px-2 py-1 hover:bg-gray-500 hover:text-white dark:border-gray-700 dark:hover:bg-gray-800"
+                            onClick={() => handleEditBucketClick(journal)}
+                          >
+                            {Math.round(
+                              dryWeightByCherryLot(journal.cherry_lot_id)[0]
+                                .FinalGradeB
+                            )}
+                          </span>
+                        ) : (
+                          <MdAdd
+                            className="text-white cursor-pointer rounded-full bg-green-500 w-[50%] h-[50%]"
+                            onClick={() => handleJournalClickAction(journal)}
+                          />
+                        )}
+                      </td>
+                      {/* {showDryingModel && selectedJournal && (
+                        <BucketingDryingModel
+                          journal={selectedJournal}
+                          onClose={() => setShowDryingModel(false)}
+                          onSubmit={handleAddBucket}
+                        />
+                      )} */}
 
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {dryWeightByCherryLot(journal.cherry_lot_id).length !==
                         0 ? (
-                          Math.round(
-                            dryWeightByCherryLot(journal.cherry_lot_id)[0]
-                              .FinalGradeB
-                          )
+                          <span className="inline-block  cursor-pointer border border-gray-300 px-2 py-1 hover:bg-gray-500 hover:text-white dark:border-gray-200 dark:hover:bg-gray-800">
+                            {Math.round(
+                              dryWeightByCherryLot(journal.cherry_lot_id)[0]
+                                .FinalGradeC
+                            )}
+                          </span>
                         ) : (
                           <MdAdd
-                            className="text-white rounded-full bg-green-500 w-[50%] h-[50%]"
+                            className="text-white cursor-pointer rounded-full bg-green-500 w-[50%] h-[50%]"
                             onClick={() => handleJournalClickAction(journal)}
                           />
                         )}
                       </td>
-                      {showDryingModel && selectedJournal && (
+                      {/* {showDryingModel && selectedJournal && (
                         <BucketingDryingModel
                           journal={selectedJournal}
                           onClose={() => setShowDryingModel(false)}
                           onSubmit={handleAddBucket}
                         />
-                      )}
-
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {dryWeightByCherryLot(journal.cherry_lot_id).length !==
-                        0 ? (
-                          Math.round(
-                            dryWeightByCherryLot(journal.cherry_lot_id)[0]
-                              .FinalGradeC
-                          )
-                        ) : (
-                          <MdAdd
-                            className="text-white rounded-full bg-green-500 w-[50%] h-[50%]"
-                            onClick={() => handleJournalClickAction(journal)}
-                          />
-                        )}
-                      </td>
-                      {showDryingModel && selectedJournal && (
-                        <BucketingDryingModel
-                          journal={selectedJournal}
-                          onClose={() => setShowDryingModel(false)}
-                          onSubmit={handleAddBucket}
-                        />
-                      )}
+                      )} */}
 
                       <td className="p-4 space-x-2 whitespace-nowrap">
                         <FaPeopleGroup
@@ -751,6 +824,28 @@ const CwsDailyJournalsTable = () => {
                   ))}
                 </tbody>
               </table>
+              <EditBucketsModal
+                isOpen={isModalOpen}
+                onClose={handleModalClose}
+                onSave={handleModalSave}
+                journal={selectedBucketJournal}
+              />
+                {showDryingModel && selectedJournal && (
+                <BucketingDryingModel
+                  journal={selectedJournal}
+                  onClose={() => setShowDryingModel(false)}
+                  onSubmit={handleAddBucket}
+                />
+              )}
+              {isEditBucketModelOpen && (
+                <EditBucketWeightingModel
+                  isOpen={isEditBucketModelOpen}
+                  journal={currentJournal}
+                  onClose={handleEditBucketModalClose}
+                  onSave={handleEdutBucketModalSave}
+                />
+              )}
+            
             </div>
           </div>
         </div>

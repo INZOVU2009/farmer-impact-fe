@@ -839,7 +839,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <ul className={`pl-9 mt-2 ${!open && "hidden"}`}>
                             {filteredModules?.some(
                               (module) =>
-                                module.module_name === "Add Untraceable Coffee	"
+                                module.module_name === "Add Untraceable Coffee"
                             ) && (
                               <li className="mb-3 last:mb-0">
                                 <NavLink

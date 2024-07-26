@@ -76,6 +76,9 @@ import fetchAllFarmerRegistrationSlice from "./slices/registrations/fetchAllFarm
 import verifyRegistrationSlice from "./slices/registrations/verifyRegistrationSlice";
 import approveRegistrationSlice from "./slices/registrations/approveRegistrationSlice";
 import proceedRegistrationsSlice from "./slices/registrations/proceedRegistrationsSlice";
+import getSingleBucketByDayLotNumberSlice from "./slices/bucketing/getSingleBucketByDayLotNumberSlice";
+import updateBucketSlice from "./slices/bucketing/updateBucketSlice";
+import getSingleBucketWeightByDayLotNumberSlice from "./slices/bucketing/getSingleBucketWeightByDayLotNumberSlice";
 const store = configureStore({
   reducer: {
     login,
@@ -155,6 +158,10 @@ const store = configureStore({
     verifyRegistration: verifyRegistrationSlice,
     approveRegistration: approveRegistrationSlice,
     proceedRegistration: proceedRegistrationsSlice,
+    getSingleBucketByDayLotNumber: getSingleBucketByDayLotNumberSlice,
+    updateBucket: updateBucketSlice,
+    getSingleBucketWeightByDayLotNumber:
+      getSingleBucketWeightByDayLotNumberSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
