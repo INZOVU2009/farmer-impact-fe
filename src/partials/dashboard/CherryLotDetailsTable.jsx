@@ -658,11 +658,10 @@ const CherryLotDetailsTable = () => {
           className="bg-green-500 p-4 mt-5 rounded-lg text-white "
           onClick={handleSave}
         >
-          Save and submit to RTC{" "}
+          Close and submit to RTC{" "}
         </button>
       </div>
-      <Toaster/>
-
+      <Toaster />
     </div>
   );
 };

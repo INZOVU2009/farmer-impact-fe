@@ -39,7 +39,7 @@ const EditBucketsModal = ({ isOpen, onClose, onSave, journal }) => {
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg  w-[50%]">
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg  w-[30%]">
         <h2 className="text-xl font-bold mb-4">Edit Grades</h2>
         <div className="mb-4">
           <label className="block text-gray-700 dark:text-gray-300">

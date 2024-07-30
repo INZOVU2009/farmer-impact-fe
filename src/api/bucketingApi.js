@@ -16,11 +16,10 @@ export const getBucketByDayLotNumber = (day_lot_number) => {
       });
   });
 };
-export const updateBucket = (day_lot_number,data) => {
-
+export const updateBucket = (day_lot_number, data) => {
   return new Promise((resolve, reject) => {
     axios
-      .put(`${url}/buckets/update?day_lot_number=${day_lot_number}`,data)
+      .put(`${url}/buckets/update?day_lot_number=${day_lot_number}`, data)
       .then((response) => resolve(response.data))
       .catch((error) => {
         if (error.response.data !== undefined) {
@@ -32,15 +31,29 @@ export const updateBucket = (day_lot_number,data) => {
 };
 
 export const getBucketWeightByDayLotNumber = (day_lot_number) => {
-    return new Promise((resolve, reject) => {
-      axios
-        .get(`${url}/buckets/bucketWeight?day_lot_number=${day_lot_number}`)
-        .then((response) => resolve(response.data))
-        .catch((error) => {
-          if (error.response.data !== undefined) {
-            reject(error.response.data);
-          }
-          reject(error);
-        });
-    });
-  };
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`${url}/buckets/bucketWeight?day_lot_number=${day_lot_number}`)
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};
+
+export const updateBucketWeight = (day_lot_number, data) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(`${url}/buckets/updateWeight?day_lot_number=${day_lot_number}`, data)
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};

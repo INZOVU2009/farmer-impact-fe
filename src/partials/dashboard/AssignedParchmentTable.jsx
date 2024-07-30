@@ -96,6 +96,7 @@ const AssignedParchmentTable = () => {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+  const totalPages = Math.ceil(assignedParchments?.length / itemsPerPage);
 
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
@@ -571,7 +572,7 @@ const AssignedParchmentTable = () => {
             </svg>
           </a>
         </div>
-        <Toaster/>
+        <Toaster />
       </div>
     </div>
   );
