@@ -23,7 +23,7 @@ function UserInspectionsPage() {
   const [allTrainings, setAllTrainings] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState();
-  const { inspections } = useSelector((state) => state.fetchAllInspections);
+  const { inspections,loading } = useSelector((state) => state.fetchAllInspections);
   const { farmers } = useSelector((state) => state.fetchAllFarmers);
   const { groups } = useSelector((state) => state.fetchAllGroups);
   const { households } = useSelector((state) => state.fetchAllHouseHolds);
@@ -189,7 +189,8 @@ function UserInspectionsPage() {
     link.click();
     document.body.removeChild(link);
   };
-  
+
+
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -205,22 +206,25 @@ function UserInspectionsPage() {
             <div className="sm:flex sm:justify-between sm:items-center mb-8"></div>
 
             <div className="grid grid-cols-12 gap-6">
-              <UserInspectionsTable
-                inspections={allInspections}
-                stationName={getStationName}
-                farmerName={getFarmerName}
-                farmerId={getFarmerId}
-                groupId={getGroupID}
-                farmerPhone={getFarmerPhone}
-                householdID={getHouseholdId}
-                filteredstation={filteredStation}
-                filteredInspections={filteredInspections}
-                handleDownload={handleDownload}
-                courseName={getCourseName}
-                // item={searchItem}
-                handleSearch={handleSearch}
-              />
-            </div>
+      {loading ? (
+        <div className="text-center text-3xl">Loading...</div>
+      ) : (
+        <UserInspectionsTable
+          inspections={allInspections}
+          stationName={getStationName}
+          farmerName={getFarmerName}
+          farmerId={getFarmerId}
+          groupId={getGroupID}
+          farmerPhone={getFarmerPhone}
+          householdID={getHouseholdId}
+          filteredstation={filteredStation}
+          filteredInspections={filteredInspections}
+          handleDownload={handleDownload}
+          courseName={getCourseName}
+          handleSearch={handleSearch}
+        />
+      )}
+    </div>
             <ToastContainer />
           </div>
         </main>

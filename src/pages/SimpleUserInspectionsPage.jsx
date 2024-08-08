@@ -19,7 +19,7 @@ function SimpleUserInspectionsPage() {
   const [allGroups, setAllGroups] = useState(null);
   const [allHouseholds, setAllHouseholds] = useState(null);
   const [allStation, setAllStation] = useState([]);
-  const { inspections } = useSelector((state) => state.fetchAllInspections);
+  const { inspections,loading } = useSelector((state) => state.fetchAllInspections);
   const { farmers } = useSelector((state) => state.fetchAllFarmers);
   const { groups } = useSelector((state) => state.fetchAllGroups);
   const { households } = useSelector((state) => state.fetchAllHouseHolds);
@@ -177,7 +177,7 @@ function SimpleUserInspectionsPage() {
             <div className="sm:flex sm:justify-between sm:items-center mb-8"></div>
 
             <div className="grid grid-cols-12 gap-6">
-              <SimpleUserInspectionsTable
+              {loading?( <div className="text-center text-3xl ">Loading...</div>):(  <SimpleUserInspectionsTable
                 inspections={allInspections}
                 stationName={getStationName}
                 farmerName={getFarmerName}
@@ -188,7 +188,8 @@ function SimpleUserInspectionsPage() {
                 filteredstation={filteredStation}
                 filteredInspections={filteredInspections}
                 handleDownload={handleDownload}
-              />
+              />)}
+            
             </div>
             <ToastContainer />
           </div>

@@ -25,15 +25,16 @@ function RecentRegistrationsTable() {
       setAllFarmerRegistrations(filteredRegistrations);
     }
   }, [registrations]);
+  const totalPages = Math.ceil(allFarmerRegistrations?.length / itemsPerPage);
+
 
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
   };
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -45,7 +46,7 @@ function RecentRegistrationsTable() {
       );
     });
   };
-
+console.log("items", itemsPerPage)
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="p-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">

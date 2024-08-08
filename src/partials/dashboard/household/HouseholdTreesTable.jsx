@@ -37,8 +37,12 @@ function HouseholdTreesTable() {
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, householdTrees?.data?.totalPages));
   };
+
+
+
+
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);

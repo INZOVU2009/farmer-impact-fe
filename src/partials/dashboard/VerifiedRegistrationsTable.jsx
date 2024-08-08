@@ -26,12 +26,15 @@ function VerifiedRegistrationsTable() {
     }
   }, [registrations]);
 
+  const totalPages = Math.ceil(allFarmerRegistrations?.length / itemsPerPage);
+
+
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
   };
 
   if (loading) {

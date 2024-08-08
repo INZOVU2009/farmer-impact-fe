@@ -13,12 +13,15 @@ function TrainingsPage() {
   const [showEditCourseModel, setShowEditCourseModel] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState();
-  const { trainings } = useSelector((state) => state.fetchAllTrainings);
-
+  const { trainings, loading } = useSelector(
+    (state) => state.fetchAllTrainings
+  );
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(50);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchAllTrainings());
-  }, [dispatch]);
+    dispatch(fetchAllTrainings(currentPage, itemsPerPage));
+  }, [dispatch, currentPage, itemsPerPage]);
 
   useEffect(() => {
     if (trainings) {
@@ -34,7 +37,13 @@ function TrainingsPage() {
     setSelectedCourse(null);
     setShowEditCourseModel(true);
   };
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
 
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, trainings.totalPages));
+  };
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
@@ -49,12 +58,20 @@ function TrainingsPage() {
             <div className="sm:flex sm:justify-between sm:items-center mb-8"></div>
 
             <div className="grid grid-cols-12 gap-6">
-              <TrainingsTable
-                trainings={allTrainings}
-                handleClickEditIconAction={handleClickEditIconAction}
-                showEditCourseModel={setShowEditCourseModel}
-                selectedCourse={selectedCourse}
-              />
+              {loading ? (
+                <div className="text-center text-3xl">Loading...</div>
+              ) : (
+                <TrainingsTable
+                  trainings={allTrainings}
+                  handleClickEditIconAction={handleClickEditIconAction}
+                  showEditCourseModel={setShowEditCourseModel}
+                  selectedCourse={selectedCourse}
+                  handleNextPage={handleNextPage}
+                  handlePrevPage={handlePrevPage}
+                  currentPage={currentPage}
+                  itemsPerPage={itemsPerPage}
+                />
+              )}
             </div>
           </div>
         </main>

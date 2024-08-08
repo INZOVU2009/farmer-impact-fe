@@ -16,7 +16,7 @@ const UserInspectionsTable = ({
   handleSearch,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 20;
+  const itemsPerPage = 50;
 
   const formatDate = (dateString) => {
     const options = {
@@ -36,6 +36,9 @@ const UserInspectionsTable = ({
     setSelectedStation(event.target.value);
   };
 
+  if (!inspections || inspections.length === 0) {
+    return <div>No Inspection available</div>;
+  }
   const filteredInspectionsByStation =
     selectedStation === "all"
       ? inspections

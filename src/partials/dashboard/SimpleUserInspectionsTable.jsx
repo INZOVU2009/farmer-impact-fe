@@ -60,6 +60,9 @@ const SimpleUserInspectionsTable = ({
   const handleNextPage = () => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
   };
+  if (!inspections || inspections.length === 0) {
+    return <div>No Inspection available</div>;
+  }
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="py-4 ml-0 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 mb-10">

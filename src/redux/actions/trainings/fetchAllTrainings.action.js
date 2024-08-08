@@ -5,10 +5,10 @@ import {
 } from "../../slices/trainings/fetchAllTrainingsSlice";
 import { getAllTrainings } from "../../../api/trainingsApi";
 
-export const fetchAllTrainings = () => async (dispatch) => {
+export const fetchAllTrainings = (currentPage,itemsPerPage) => async (dispatch) => {
   try {
     dispatch(trainingsPending());
-    const res = await getAllTrainings();
+    const res = await getAllTrainings(currentPage,itemsPerPage);
     dispatch(trainingsSuccess(res));
 
     return res;

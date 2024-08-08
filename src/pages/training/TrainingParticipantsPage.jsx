@@ -31,7 +31,9 @@ function TrainingParticipantsPage() {
   const { households } = useSelector((state) => state.fetchAllHouseHolds);
   const { stations } = useSelector((state) => state.fetchAllStations);
   const { trainings } = useSelector((state) => state.fetchAllTrainings);
-  const { attendences } = useSelector((state) => state.fetchAllAttendences);
+  const { attendences, loading } = useSelector(
+    (state) => state.fetchAllAttendences
+  );
 
   const dispatch = useDispatch();
 
@@ -216,26 +218,30 @@ function TrainingParticipantsPage() {
             <div className="sm:flex sm:justify-between sm:items-center mb-8"></div>
 
             <div className="grid grid-cols-12 gap-6">
-              <TrainingParticipantsTable
-                attendances={filteredAttendances}
-                handleNextPage={handleNextPage}
-                handlePrevPage={handlePrevPage}
-                itemsPerPage={itemsPerPage}
-                currentPage={currentPage}
-                totalItems={attendences?.data?.totalItems}
-                stationName={getStationName}
-                farmerName={getFarmerName}
-                farmerId={getFarmerId}
-                groupId={getGroupID}
-                courseName={getCourseName}
-                CourseID={getCourseId}
-                handleDownload={handleDownload}
-                searchQuery={searchQuery}
-                handleSearch={handleSearchChange}
-                filteredTrainings={allTrainings}
-                filteredGroups={allGroups}
-                filteredStations={allStation}
-              />
+              {loading ? (
+                <div className="text-center text-3xl">Loading...</div>
+              ) : (
+                <TrainingParticipantsTable
+                  attendances={filteredAttendances}
+                  handleNextPage={handleNextPage}
+                  handlePrevPage={handlePrevPage}
+                  itemsPerPage={itemsPerPage}
+                  currentPage={currentPage}
+                  totalItems={attendences?.data?.totalItems}
+                  stationName={getStationName}
+                  farmerName={getFarmerName}
+                  farmerId={getFarmerId}
+                  groupId={getGroupID}
+                  courseName={getCourseName}
+                  CourseID={getCourseId}
+                  handleDownload={handleDownload}
+                  searchQuery={searchQuery}
+                  handleSearch={handleSearchChange}
+                  filteredTrainings={allTrainings}
+                  filteredGroups={allGroups}
+                  filteredStations={allStation}
+                />
+              )}
             </div>
             <ToastContainer />
           </div>

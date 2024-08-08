@@ -23,15 +23,21 @@ function ApprovedRegistrationsTable() {
         );
       setAllFarmerRegistrations(filteredRegistrations);
     }
+    else{
+      setAllFarmerRegistrations([]);
+    }
   }, [registrations]);
 
-  const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
+  const totalPages = Math.ceil(allFarmerRegistrations?.length / itemsPerPage);
 
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
+  
+    const handlePrevPage = () => {
+      setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+    };
+  
+    const handleNextPage = () => {
+      setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+    };
 
   if (loading) {
     return <div>Loading...</div>;
