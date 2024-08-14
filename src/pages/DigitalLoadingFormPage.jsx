@@ -61,6 +61,7 @@ function DigitalLoadingFormPage() {
   });
 
   const finaleWeightLeft = parchWeight - formData.weight;
+  console.log("finaleW", finaleWeightLeft)
 
   useEffect(() => {
     dispatch(fetchAllAssignedParchments());

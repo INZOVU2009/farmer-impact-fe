@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { fetchFieldFarmers } from "../../redux/actions/farmers/all_field_farmer.action";
 import { useSelector, useDispatch } from "react-redux";
 import { Toaster } from "react-hot-toast";
+import { registerFarmers } from "../../redux/actions/farmers/registerNewFarmers.action";
 function PendingFarmers() {
   const dispatch = useDispatch();
   const [recentFarmers, setRecentFarmers] = useState([]);
@@ -10,6 +11,7 @@ function PendingFarmers() {
   const { AllFieldFarmers, loading } = useSelector(
     (state) => state.Field_Farmer
   );
+  const { register } = useSelector((state) => state.registerNewFarmers);
 
   useEffect(() => {
     dispatch(fetchFieldFarmers(currentPage, itemsPerPage));
@@ -33,7 +35,11 @@ function PendingFarmers() {
     setCurrentPage((prevPage) => prevPage + 1);
   };
 
-
+  const handleRegister = () => {
+    dispatch(registerFarmers()).then(() => {
+      dispatch(fetchFieldFarmers(currentPage, itemsPerPage));
+    });
+  };
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -147,7 +153,6 @@ function PendingFarmers() {
                     >
                       Plot
                     </th>
-              
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
@@ -192,7 +197,6 @@ function PendingFarmers() {
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {farmer.number_of_plots}
                       </td>
-
                     </tr>
                   ))}
                 </tbody>
@@ -203,14 +207,12 @@ function PendingFarmers() {
         <div className="flex justify-center mt-3 mb-2 items-center">
           <button
             className="bg-black text-white py-3 px-7 rounded-lg"
+            onClick={() => handleRegister()}
           >
             Submit to RTC
           </button>
-   
+        </div>
       </div>
-      </div>
-      
-      
 
       <div className="sticky bottom-0 right-0 items-center w-full p-4 bg-white border-t border-gray-200 sm:flex sm:justify-between dark:bg-gray-800 dark:border-gray-700">
         <div className="flex items-center mb-4 sm:mb-0">
@@ -305,7 +307,7 @@ function PendingFarmers() {
             </svg>
           </a>
         </div>
-        <Toaster/>
+        <Toaster />
       </div>
     </div>
   );

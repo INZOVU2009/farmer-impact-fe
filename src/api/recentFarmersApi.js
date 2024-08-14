@@ -50,3 +50,17 @@ export const approveFarmer = (id) => {
         });
     });
   };
+
+  export const submitNewFarmers = () => {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(`${url}/user_registration/farmers`)
+        .then((response) => resolve(response.data))
+        .catch((error) => {
+          if (error.response?.data !== undefined) {
+            reject(error.response.data);
+          }
+          reject(error);
+        });
+    });
+  };

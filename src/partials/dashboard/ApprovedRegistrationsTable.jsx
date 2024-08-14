@@ -44,9 +44,8 @@ function ApprovedRegistrationsTable() {
   }
   const handleProceed = () => {
     dispatch(proceedApprovedRegistrations()).then(() => {
-      // setAllFarmerRegistrations((prevRegistrations) =>
-      //   prevRegistrations.filter((registration) => registration.id !== id)
-      // );
+      dispatch(fetchFarmerRegistrations(currentPage, itemsPerPage));
+
     });
   };
 
