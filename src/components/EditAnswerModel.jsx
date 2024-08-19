@@ -36,7 +36,7 @@ export default function EditAnswerModel({ answer, onClose, onSubmit }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-5 overflow-y-auto flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto flex items-center justify-center z-50">
       <div className="bg-white  rounded-lg shadow-md mt-auto  mb-20">
         <div className="flex justify-end ">
           <button onClick={onClose}>

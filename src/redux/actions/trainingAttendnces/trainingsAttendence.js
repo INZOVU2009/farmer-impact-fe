@@ -7,10 +7,10 @@ import {
 import { getAllAttendances } from "../../../api/trainingAttendanceAPI";
 
 export const fetchAllTrainingsAttendance =
-  (currentPage, itemsPerPage) => async (dispatch) => {
+  (currentPage, itemsPerPage,from,to) => async (dispatch) => {
     try {
       dispatch(attendencesPending());
-      const res = await getAllAttendances(currentPage, itemsPerPage);
+      const res = await getAllAttendances(currentPage,itemsPerPage,from,to);
       dispatch(attendencesSuccess(res));
       return res;
     } catch (error) {

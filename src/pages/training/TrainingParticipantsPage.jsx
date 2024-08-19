@@ -12,6 +12,8 @@ import { fetchAllGroups } from "../../redux/actions/groups/fetchAllGroups.action
 import { fetchAllFarmers } from "../../redux/actions/farmers/fetchAllFarmers.action";
 import { fetchAllStation } from "../../redux/actions/station/allStations.action";
 import { fetchAllHouseHolds } from "../../redux/actions/households/fetchAllHousehold.action";
+import { fetchAllUsers } from "../../redux/actions/user/Users.action";
+import { getUser } from "../../api/userApi";
 
 function TrainingParticipantsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -34,12 +36,24 @@ function TrainingParticipantsPage() {
   const { attendences, loading } = useSelector(
     (state) => state.fetchAllAttendences
   );
+  const [allUsers, setAllUsers] = useState([]);
+  const { users } = useSelector((state) => state.users);
+
+  const currentYear = new Date().getFullYear();
+  const lastYear = currentYear - 1;
+
+  const defaultFromDate = `${lastYear}-07-01`;
+
+  // August 1st of the current year
+  const defaultToDate = `${currentYear}-08-31`;
+  const [fromDate, setFromDate] = useState(defaultFromDate);
+  const [toDate, setToDate] = useState(defaultToDate);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchAllTrainingsAttendance(currentPage, itemsPerPage));
-  }, [dispatch, currentPage, itemsPerPage]);
+    dispatch(fetchAllTrainingsAttendance(currentPage, itemsPerPage,fromDate,toDate));
+  }, [dispatch, currentPage, itemsPerPage,fromDate,toDate]);
 
   useEffect(() => {
     if (attendences) {
@@ -96,6 +110,15 @@ function TrainingParticipantsPage() {
       setAllTrainings(trainings.data);
     }
   }, [trainings]);
+  useEffect(() => {
+    dispatch(fetchAllUsers());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (users) {
+      setAllUsers(users.data);
+    }
+  }, [users]);
 
   const getStationName = (_kf_Station) => {
     const station = allStation?.find(
@@ -126,11 +149,9 @@ function TrainingParticipantsPage() {
     const group = allGroups?.find((group) => group.__Kp_Group === _kf_Group);
     return group ? group.ID_GROUP : null;
   };
-  const getHouseholdId = (_kf_Station) => {
-    const household = allHouseholds?.find(
-      (household) => household._kf_Station === _kf_Station
-    );
-    return household ? household.householdid : null;
+  const getUsername = (nameUser) => {
+    const user = allUsers?.find((user) => user.Name_User === nameUser);
+    return user ? user.Name_Full : null;
   };
   const getCourseName = (_kf_Course) => {
     const course = allTrainings?.find(
@@ -159,33 +180,51 @@ function TrainingParticipantsPage() {
     : 1;
 
   const handleDownload = () => {
-    const table = document.querySelector(".table-fixed");
-    const rows = table.querySelectorAll("tr");
+    if (!allAttendances || allAttendances.length === 0) return;
 
+    // Headers for the CSV file, customize as needed
+    const headers = [
+      "ATTENDANCE ID",
+      "CREATED AT",
+      "Farmer Name",
+      "Farmer ID",
+      "STATION NAME",
+      "GROUP ID",
+      " COURSE ID",
+      "TRAINING COURSE ",
+      "CREATED BY",
+    ];
     const data = [];
 
-    const headers = Array.from(rows[0].querySelectorAll("th")).map(
-      (header) => header.innerText
-    );
+    // Push headers to the CSV data
     data.push(headers.join(","));
 
-    rows.forEach((row, index) => {
-      if (index !== 0) {
-        const rowData = [];
-        const cells = row.querySelectorAll("td");
-        cells.forEach((cell) => {
-          rowData.push(cell.innerText);
-        });
-        data.push(rowData.join(","));
-      }
+    // Loop through all inspections to populate the CSV rows
+    allAttendances.forEach((attendance) => {
+      const rowData = [
+        attendance.id,
+        attendance.created_at,
+        getFarmerName(attendance._kf_Farmer),
+        getFarmerId(attendance._kf_Farmer),
+        getStationName(attendance._kf_Station),
+        getGroupID(attendance._kf_Group),
+        getCourseId(attendance._kf_Course),
+        getCourseName(attendance._kf_Course),
+        // getUsername(inspection.created_by),
+        // getCourseName(inspection._kf_Course),
+        getUsername(attendance.username),
+      
+      ];
+      data.push(rowData.join(","));
     });
 
+    // Convert data array to CSV format
     const csvContent = "data:text/csv;charset=utf-8," + data.join("\n");
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "full inspections.csv");
-    document.body.appendChild(link);
+    link.setAttribute("download", "training_attendance.csv");
+    document.body.appendChild(link); // Required for FF
     link.click();
     document.body.removeChild(link);
   };
@@ -240,6 +279,10 @@ function TrainingParticipantsPage() {
                   filteredTrainings={allTrainings}
                   filteredGroups={allGroups}
                   filteredStations={allStation}
+                  fromDate={fromDate}
+                  toDate={toDate}
+                  setFromDate={setFromDate}
+                  setToDate={setToDate}
                 />
               )}
             </div>

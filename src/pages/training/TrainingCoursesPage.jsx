@@ -17,7 +17,9 @@ function TrainingsPage() {
     (state) => state.fetchAllTrainings
   );
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(50);
+  const [itemsPerPage] = useState(10);
+
+ 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchAllTrainings(currentPage, itemsPerPage));
@@ -70,6 +72,7 @@ function TrainingsPage() {
                   handlePrevPage={handlePrevPage}
                   currentPage={currentPage}
                   itemsPerPage={itemsPerPage}
+                  
                 />
               )}
             </div>

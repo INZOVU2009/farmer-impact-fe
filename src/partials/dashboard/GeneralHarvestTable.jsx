@@ -27,7 +27,7 @@ const GeneralHarvestTable = () => {
   const [selectedStation, setSelectedStation] = useState("");
   const [itemsPerPage, setItemsPerPage] = useState(50);
   const [searchQuery, setSearchQuery] = useState();
-
+console.log("hehe", seasons)
   useEffect(() => {
     if (!generalHarvest) {
       const data = {
@@ -52,7 +52,6 @@ const GeneralHarvestTable = () => {
       console.log("stataaa", data);
     }
   }, [selectedStation]);
-
   const handleSeasonChange = (e) => {
     setSelectedSeason(e.target.value);
   };
@@ -96,6 +95,7 @@ const GeneralHarvestTable = () => {
       setAllSeasons(seasons.data);
     }
   }, [seasons]);
+console.log("hello", allSeasons)
 
   const getUniqueValues = (arr, key) => {
     const uniqueValues = [];

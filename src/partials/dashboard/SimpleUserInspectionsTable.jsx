@@ -7,42 +7,45 @@ const SimpleUserInspectionsTable = ({
   farmerName,
   farmerId,
   groupId,
+  farmerPhone,
+  householdID,
   filteredstation,
   filteredInspections,
   handleDownload,
+  courseName,
+  handleSearch,
+  fromDate,
+  toDate,
+  setFromDate,
+  setToDate,
+  fullName,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 20;
+  const itemsPerPage = 10;
+
   const formatDate = (dateString) => {
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-    };
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); 
+    const day = String(date.getDate()).padStart(2, "0");
 
-    return new Intl.DateTimeFormat("en-US", options).format(
-      new Date(dateString)
-    );
+    return `${year}-${month}-${day}`;
   };
-
   const [selectedStation, setSelectedStation] = useState("all");
-  const [selectedMode, setSelectedMode] = useState("all");
 
   const handleStationChange = (event) => {
     setSelectedStation(event.target.value);
   };
-  const handleModeChange = (event) => {
-    setSelectedMode(event.target.value);
-  };
 
+  if (!inspections || inspections.length === 0) {
+    return <div>No Inspection available</div>;
+  }
   const filteredInspectionsByStation =
-    selectedStation === "all" || selectedMode === "all"
+    selectedStation === "all"
       ? inspections
       : inspections.filter(
           (inspection) =>
-            stationName(inspection._kf_Station) === selectedStation ||
-            inspection.Score_n === selectedMode
+            stationName(inspection._kf_Station) === selectedStation
         );
   const totalPages = Math.ceil(
     filteredInspectionsByStation?.length / itemsPerPage
@@ -60,12 +63,9 @@ const SimpleUserInspectionsTable = ({
   const handleNextPage = () => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
   };
-  if (!inspections || inspections.length === 0) {
-    return <div>No Inspection available</div>;
-  }
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
-      <div className="py-4 ml-0 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 mb-10">
+      <div className="py-4 ml-0 overflow-x-auto px-5 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 mb-10">
         <div className="items-center  justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
           <div className="flex items-center  mb-4 sm:mb-0">
             <form className="sm:pr-3" action="#" method="GET">
@@ -77,14 +77,14 @@ const SimpleUserInspectionsTable = ({
                 <input
                   type="text"
                   name="email"
+                  onChange={handleSearch}
                   id="products-search"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-[65%] p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Search by Farmer Id, Name ..."
                 />
               </div>
             </form>
-
-            <div className="flex space-x-4 mt-1 -ml-32">
+            <div className="flex items-end pr-5 space-x-4 my-1 -ml-32">
               <div>
                 <p>Station</p>
 
@@ -106,12 +106,7 @@ const SimpleUserInspectionsTable = ({
 
               <div>
                 <p>Observation mode</p>
-                <select
-                  name=""
-                  value={selectedMode}
-                  onChange={handleModeChange}
-                  className="rounded-lg w-40"
-                >
+                <select name="" className="rounded-lg w-40">
                   <option value="all">All</option>
                   {filteredInspections?.map((Inspection) => (
                     <option key={Inspection.id} value={Inspection.Score_n}>
@@ -121,14 +116,25 @@ const SimpleUserInspectionsTable = ({
                 </select>
               </div>
               <div>
-                <p>Inspection Date</p>
-                <input type="Date" className="rounded-lg w-40" />
+                <p>From :</p>
+                <input
+                  type="Date"
+                  className="rounded-lg w-40"
+                  value={fromDate}
+                  onChange={(e) => setFromDate(e.target.value)}
+                />
               </div>
-            </div>
-
-            <div className="ml-4">
+              <div>
+                <p>To : </p>
+                <input
+                  type="Date"
+                  className="rounded-lg w-40"
+                  value={toDate}
+                  onChange={(e) => setToDate(e.target.value)}
+                />
+              </div>
               <button
-                className="bg-green-500 text-white p-1.5 rounded-md mt-6"
+                className="w-40 bg-green-500 text-white rounded-md py-2.5"
                 onClick={handleDownload}
               >
                 Download Report
@@ -163,6 +169,7 @@ const SimpleUserInspectionsTable = ({
                     >
                       GROUP.ID
                     </th>
+
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
@@ -180,21 +187,40 @@ const SimpleUserInspectionsTable = ({
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
+                      HOUSEHOLD.ID
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                      PHONE
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                      COURSE
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
                       MODE
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      DATE
+                      DONE AT
                     </th>
 
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      By
+                      INSPECTORS
                     </th>
+
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
@@ -223,6 +249,7 @@ const SimpleUserInspectionsTable = ({
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {groupId(inspection._kf_Station)}
                       </td>
+
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <a
                           href={`/user_registration/farmer_details/overview/${farmerId(
@@ -237,16 +264,25 @@ const SimpleUserInspectionsTable = ({
                         {farmerId(inspection._kf_Station)}
                       </td>
 
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {householdID(inspection._kf_Station)}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {farmerPhone(inspection._kf_Station)}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {courseName(inspection._kf_Course)}
+                      </td>
                       <td className="p-4 space-x-2 whitespace-nowrap">
                         {inspection.Score_n}
                       </td>
-
                       <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
                         {formatDate(inspection.created_at.toLocaleString())}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {inspection.created_by}
+                        {fullName(inspection.created_by)}
                       </td>
+
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {inspection.longitude}
                       </td>

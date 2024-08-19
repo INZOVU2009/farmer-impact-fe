@@ -3,11 +3,11 @@ import { constants } from "../constants/constants";
 
 const url = constants.SERVER_URL;
 
-export const getAllUsersInspections = () => {
+export const getAllUsersInspections = (from,to) => {
   return new Promise((resolve, reject) => {
     axios
       .get(
-        `${url}/inspections/allInspections`
+        `${url}/inspections/allInspections?from=${from}&&to=${to}`
       )
       .then((response) => resolve(response.data))
       .catch((error) => {

@@ -6,10 +6,10 @@ import {
 } from "../../slices/inspections/fetchInspectionsSlice";
 import { getAllUsersInspections } from "../../../api/inspectionsApi";
 
-export const fetchAllInspections = () => async (dispatch) => {
+export const fetchAllInspections = (from,to) => async (dispatch) => {
   try {
     dispatch(inspectionsPending());
-    const res = await getAllUsersInspections();
+    const res = await getAllUsersInspections(from,to);
     dispatch(inspectionsSuccess(res));
 
     return res;

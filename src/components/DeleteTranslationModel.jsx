@@ -13,7 +13,7 @@ function DeleteTranslationModel({
   return (
     <>
       {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-5 flex items-center justify-center">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-8 rounded-lg shadow-md">
             <p className="mb-4">
               Are you sure you want to delete this translation ?

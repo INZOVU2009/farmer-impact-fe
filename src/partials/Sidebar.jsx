@@ -216,7 +216,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <div className="flex items-center">
                               <FaRegIdCard className="text-black" />
                               <span className="text-sm  text-black font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Farmers
+                                Registers
                               </span>
                             </div>
                             {/* Icon */}
@@ -250,7 +250,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   className="block text-black hover:text-slate-400 transition duration-150 truncate"
                                 >
                                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                    Recent Farmers
+                                    Recent Registrations
                                   </span>
                                 </NavLink>
                               </li>
@@ -271,7 +271,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   className="block text-black hover:text-slate-400 transition duration-150 truncate"
                                 >
                                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                    Approved Farmers
+                                    Approved Registrations
                                   </span>
                                 </NavLink>
                               </li>
@@ -292,7 +292,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   className="block text-black hover:text-slate-400 transition duration-150 truncate"
                                 >
                                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                    Pending Farmers
+                                    Pending Registrations
                                   </span>
                                 </NavLink>
                               </li>
@@ -360,7 +360,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <div className="flex items-center">
                               <FaRegIdCard className="text-black" />
                               <span className="text-sm  text-black font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Registers
+                                Farmers
                               </span>
                             </div>
                             {/* Icon */}
@@ -394,7 +394,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   className="block text-black hover:text-slate-400 transition duration-150 truncate"
                                 >
                                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                    Recent Registrations
+                                    Recent Farmers
                                   </span>
                                 </NavLink>
                               </li>
@@ -415,7 +415,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   className="block text-black hover:text-slate-400 transition duration-150 truncate"
                                 >
                                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                    Verfied Registrations
+                                    Verfied Farmers
                                   </span>
                                 </NavLink>
                               </li>
@@ -436,7 +436,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   className="block text-black hover:text-slate-400 transition duration-150 truncate"
                                 >
                                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                    Approved Registrations
+                                    Approved Farmers
                                   </span>
                                 </NavLink>
                               </li>
@@ -1012,7 +1012,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   className="block text-black hover:text-slate-400 transition duration-150 truncate"
                                 >
                                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                    Assigned Apparchment
+                                  Assigned Parchment
                                   </span>
                                 </NavLink>
                               </li>

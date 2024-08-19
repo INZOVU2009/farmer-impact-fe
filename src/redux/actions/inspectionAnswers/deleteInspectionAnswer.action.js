@@ -10,6 +10,7 @@ export const deleteInspectionAnswer = (id) => async (dispatch) => {
   try {
     dispatch(deletedAnswerPending());
     const res = await removeInspectionAnswer(id);
+    toast.success(res.message);
     dispatch(deletedAnswerSuccess(res));
 
     return res;

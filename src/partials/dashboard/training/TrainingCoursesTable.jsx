@@ -16,18 +16,6 @@ const TrainingsTable = ({
   currentPage,
   itemsPerPage
 }) => {
-  const formatDate = (dateString) => {
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-    };
-
-    return new Intl.DateTimeFormat("en-US", options).format(
-      new Date(dateString)
-    );
-  };
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
@@ -67,12 +55,7 @@ const TrainingsTable = ({
                     >
                       No
                     </th>
-                    <th
-                      scope="col"
-                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      Time
-                    </th>
+                   
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
@@ -99,17 +82,12 @@ const TrainingsTable = ({
                     </th>
                   </tr>
                 </thead>
-
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                   {trainings?.map((training, index) => (
                     <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                       <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
                         {index + 1}
                       </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {formatDate(training.created_at)}
-                      </td>
-
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {training.Name}
                       </td>

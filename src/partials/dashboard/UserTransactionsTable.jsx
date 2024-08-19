@@ -382,11 +382,11 @@ const UserTransactionsTable = () => {
                           ? sumByJournal[
                               transaction.site_day_lot
                             ].toLocaleString()
-                          : 0}
+                          : ""}
                       </td>
                       <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
                         {transaction.certified === 1
-                          ? 0
+                          ? ""
                           : sumByJournal[
                               transaction.site_day_lot.toLocaleString()
                             ]}

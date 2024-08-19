@@ -356,9 +356,7 @@ const TransactionDetailsTable = () => {
   const handleApprove = () => {
     dispatch(approveJoulnal(token, journalId.journalId))
       .then(() => {
-        if (success) {
-          navigate("/user-transaction");
-        }
+          navigate("/user_transactions");
       })
       .catch((error) => {
         console.error("Error approving journal:", error);
@@ -816,17 +814,17 @@ const TransactionDetailsTable = () => {
         </div>
       )}
       <p className="mt-3 font-bold">Additional Info</p>
-      <div className="items-center  bg-white justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
+      <div className="items-center  bg-white justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700  dark:bg-gray-700">
         <div className="flex w-full gap-5 mb-4  sm:mb-0 ">
-          <table className="min-w-[70%] divide-y divide-gray-200  mt-8 table-fixed dark:divide-gray-600 border border-gray-300 dark:border-gray-600">
-            <thead className=" dark:bg-gray-700">
+          <table className="min-w-[70%] divide-y divide-gray-200  mt-8 table-fixed dark:divide-gray-600 border border-gray-300 dark:border-gray-600 dark:hover:gray-700">
+            <thead className=" dark:bg-gray-700 ">
               {!isCommissionPriceAdded && (
                 <>
                   <>
-                    <tr className="border-b hover:bg-gray-100">
+                    <tr className="border-b hover:bg-gray-100 dark:hover:bg-gray-700 ">
                       <th
                         scope="col"
-                        className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
+                        className="p-4 text-xs font-bold text-left text-gray-700 uppercase dark:text-gray-400  border-r"
                       >
                         Commission Fees
                       </th>
@@ -836,12 +834,12 @@ const TransactionDetailsTable = () => {
                           name="commissionFee"
                           value={additionalInfo.commissionFee}
                           placeholder=""
-                          className="rounded-lg   w-80"
+                          className="rounded-lg   w-80 dark:text-black"
                           onChange={handleAdditionalInfoChange}
                         />
                       </td>
                     </tr>
-                    <tr className="border-b hover:bg-gray-100">
+                    <tr className="border-b hover:bg-gray-100 dark:hover:bg-gray-700">
                       <th
                         scope="col"
                         className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
@@ -852,7 +850,7 @@ const TransactionDetailsTable = () => {
                         <input
                           type="text"
                           value={additionalInfo.transportFee}
-                          className="rounded-lg w-80"
+                          className="rounded-lg w-80 dark:text-black"
                           name="transportFee"
                           onChange={handleAdditionalInfoChange}
                         />
@@ -874,10 +872,10 @@ const TransactionDetailsTable = () => {
               {isCommissionPriceAdded && !isApproveButton && (
                 <>
                   <>
-                    <tr className="border-b hover:bg-gray-100">
+                    <tr className="border-b hover:bg-gray-100  dark:hover:bg-gray-700 ">
                       <th
                         scope="col"
-                        className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
+                        className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400  border-r"
                       >
                         Commission
                       </th>
@@ -887,11 +885,11 @@ const TransactionDetailsTable = () => {
                           name="commissionCertified"
                           value={totalCommission.toLocaleString()}
                           placeholder=""
-                          className="rounded-lg   w-80"
+                          className="rounded-lg   w-80 dark:text-black"
                         />
                       </td>
                     </tr>
-                    <tr className="border-b hover:bg-gray-100">
+                    <tr className="border-b hover:bg-gray-100  dark:hover:bg-gray-700 ">
                       <th
                         scope="col"
                         className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
@@ -902,12 +900,12 @@ const TransactionDetailsTable = () => {
                         <input
                           type="text"
                           value={transportFeesCherry.toLocaleString()}
-                          className="rounded-lg w-80"
+                          className="rounded-lg w-80 dark:text-black"
                           name="transportCherry"
                         />
                       </td>
                     </tr>
-                    <tr className="border-b">
+                    <tr className="border-b " >
                       <th
                         scope="col"
                         className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
@@ -919,14 +917,14 @@ const TransactionDetailsTable = () => {
                           type="text"
                           name="transportFloaters"
                           value={transportFeesFloaters.toLocaleString()}
-                          className="rounded-lg w-80"
+                          className="rounded-lg w-80 dark:text-black"
                           // onChange={handleAdditionalInfoChange}
                         />
                       </td>
                     </tr>
                   </>
 
-                  <tr className="border-b hover:bg-gray-100">
+                  <tr className="border-b hover:bg-gray-100  dark:hover:bg-gray-700 ">
                     <th
                       scope="col"
                       className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
@@ -938,7 +936,7 @@ const TransactionDetailsTable = () => {
                         type="text"
                         name="commissionCertified"
                         value={totals.toLocaleString()}
-                        className="rounded-lg  w-80"
+                        className="rounded-lg  w-80 dark:text-black"
                       />
                     </td>
                   </tr>

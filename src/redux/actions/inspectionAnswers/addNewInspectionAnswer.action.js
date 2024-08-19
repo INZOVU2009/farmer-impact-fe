@@ -8,6 +8,7 @@ export const addNewInspectionAnswer = (id,token,formData) => async (dispatch) =>
   try {
     dispatch(newAnswerPending());
     const res = await addInspectionAnswer(id,token,formData);
+    toast.success(res.message);
     dispatch(newAnswerSuccess(res));
 
     return res;

@@ -11,6 +11,7 @@ export const editInspectionAnswer = (id, updatedAnswer) => async (dispatch) => {
   try {
     dispatch(updatedAnswerPending());
     const res = await updateInspectionAnswer(id, updatedAnswer);
+    toast.success(res.message);
     dispatch(updatedAnswerSuccess(res));
 
     return res;

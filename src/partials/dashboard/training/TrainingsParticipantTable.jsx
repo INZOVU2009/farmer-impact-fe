@@ -20,18 +20,19 @@ const TrainingParticipantsTable = ({
   filteredTrainings,
   filteredGroups,
   filteredStations,
+  fromDate,
+  toDate,
+  setFromDate,
+  setToDate
 }) => {
   const formatDate = (dateString) => {
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      // hour: "numeric",
-    };
-
-    return new Intl.DateTimeFormat("en-US", options).format(
-      new Date(dateString)
-    );
+    const date = new Date(dateString);
+    
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Adding 1 because getMonth() returns 0-indexed month
+    const day = String(date.getDate()).padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
   };
   const [selectedCourse, setSelectedCourse] = useState("all");
   const [selectedGroup, setSelectedGroup] = useState("all");
@@ -56,7 +57,7 @@ const TrainingParticipantsTable = ({
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
-      <div className="py-4 ml-0 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 mb-10">
+    <div className="py-4 ml-0 overflow-x-auto px-5 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 mb-10">
         <div className="items-center  justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
           <div className="flex items-center  mb-4 sm:mb-0">
             <form className="sm:pr-3" action="#" method="GET">
@@ -77,7 +78,7 @@ const TrainingParticipantsTable = ({
               </div>
             </form>
 
-            <div className="flex space-x-4 mt-1 -ml-32">
+            <div className="flex items-end pr-5 space-x-4 my-1 -ml-32">
               <div>
                 <p>Station</p>
 
@@ -125,16 +126,33 @@ const TrainingParticipantsTable = ({
                   ))}
                 </select>
               </div>
-            </div>
-
-            <div className="ml-4">
+              <div>
+                <p>From :</p>
+                <input 
+                type="Date" 
+                className="rounded-lg w-40" 
+                value={fromDate}
+                onChange={(e)=>setFromDate(e.target.value)}
+                />
+              </div>
+              <div>
+                <p>To : </p>
+                <input 
+                type="Date" 
+                className="rounded-lg w-40"
+                value={toDate}
+                onChange={(e)=>setToDate(e.target.value)}
+                 />
+              </div>
               <button
-                className="bg-green-500 text-white p-1.5 rounded-md mt-6"
+                className="w-40 bg-green-500 text-white rounded-md py-2.5"
                 onClick={handleDownload}
               >
                 Download Report
               </button>
             </div>
+
+          
           </div>
         </div>
       </div>

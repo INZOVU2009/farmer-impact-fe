@@ -222,13 +222,19 @@ function AssignNewParchment() {
       parch_weight: parchmentWeight,
     };
     dispatch(assigParchmentGrade(data, token));
+
   };
   useEffect(() => {
     if (parchmentGrade) {
+    navigate("/user_inventory_management/new_parchment_assignement")
+    console.log("hey");
+
+
     } else {
       console.log("hey");
     }
-  }, [parchmentGrade]);
+  }, [parchmentGrade,navigate]);
+  console.log("yuhu",parchmentGrade)
 
   return (
     <div className="flex h-screen overflow-hidden">

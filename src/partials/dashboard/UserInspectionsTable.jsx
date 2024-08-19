@@ -14,21 +14,37 @@ const UserInspectionsTable = ({
   handleDownload,
   courseName,
   handleSearch,
+  fromDate,
+  toDate,
+  cafeId,
+  handleDateChange,
+  setFromDate,
+  setToDate,
+  farmerBirthYear,
+  farmerGender,
+  farmerNationalId,
+  district,
+  sector,
+  cell,
+  village,
+  trees,
+  treesProducing,
+  fullName
+
+
+
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 50;
+  const itemsPerPage = 10;
 
   const formatDate = (dateString) => {
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-    };
-
-    return new Intl.DateTimeFormat("en-US", options).format(
-      new Date(dateString)
-    );
+    const date = new Date(dateString);
+    
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Adding 1 because getMonth() returns 0-indexed month
+    const day = String(date.getDate()).padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
   };
   const [selectedStation, setSelectedStation] = useState("all");
 
@@ -64,7 +80,7 @@ const UserInspectionsTable = ({
   };
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
-      <div className="py-4 ml-0 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 mb-10">
+      <div className="py-4 ml-0 overflow-x-auto px-5 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 mb-10">
         <div className="items-center  justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
           <div className="flex items-center  mb-4 sm:mb-0">
             <form className="sm:pr-3" action="#" method="GET">
@@ -83,7 +99,7 @@ const UserInspectionsTable = ({
                 />
               </div>
             </form>
-            <div className="flex space-x-4 mt-1 -ml-32">
+            <div className="flex items-end pr-5 space-x-4 my-1 -ml-32">
               <div>
                 <p>Station</p>
 
@@ -115,14 +131,25 @@ const UserInspectionsTable = ({
                 </select>
               </div>
               <div>
-                <p>Inspection Date</p>
-                <input type="Date" className="rounded-lg w-40" />
+                <p>From :</p>
+                <input 
+                type="Date" 
+                className="rounded-lg w-40" 
+                value={fromDate}
+                onChange={(e)=>setFromDate(e.target.value)}
+                />
               </div>
-            </div>
-
-            <div className="ml-4">
+              <div>
+                <p>To : </p>
+                <input 
+                type="Date" 
+                className="rounded-lg w-40"
+                value={toDate}
+                onChange={(e)=>setToDate(e.target.value)}
+                 />
+              </div>
               <button
-                className="bg-green-500 text-white p-1.5 rounded-md mt-6"
+                className="w-40 bg-green-500 text-white rounded-md py-2.5"
                 onClick={handleDownload}
               >
                 Download Report
@@ -161,6 +188,30 @@ const UserInspectionsTable = ({
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
+                      DISTRICT
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                      SECTOR
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                      CELL
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                      VILLAGE
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
                       NAME
                     </th>
                     <th
@@ -173,13 +224,37 @@ const UserInspectionsTable = ({
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
+                      CAFE.ID
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                    NATIONAL ID
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                     GENDER
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                     BIRTH YEAR
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
                       HOUSEHOLD.ID
                     </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      MOBILE
+                      PHONE
                     </th>
                     <th
                       scope="col"
@@ -197,14 +272,26 @@ const UserInspectionsTable = ({
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      DATE
+                      DONE AT
                     </th>
 
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      By
+                      INSPECTORS
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                      TREES
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
+                      TREES PRODUCING
                     </th>
                     <th
                       scope="col"
@@ -235,6 +322,18 @@ const UserInspectionsTable = ({
                         {groupId(inspection._kf_Station)}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {district(inspection._kf_Station)}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {sector(inspection._kf_Station)}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {cell(inspection._kf_Station)}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {village(inspection._kf_Station)}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <a
                           href={`/user_registration/farmer_details/overview/${farmerId(
                             inspection._kf_Station
@@ -246,6 +345,18 @@ const UserInspectionsTable = ({
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {farmerId(inspection._kf_Station)}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {cafeId(inspection._kf_Station)}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {farmerNationalId(inspection._kf_Station)}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {farmerGender(inspection._kf_Station)}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {farmerBirthYear(inspection._kf_Station)}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {householdID(inspection._kf_Station)}
@@ -263,7 +374,13 @@ const UserInspectionsTable = ({
                         {formatDate(inspection.created_at.toLocaleString())}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {inspection.created_by}
+                        {fullName(inspection.created_by)}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      {trees(inspection._kf_Station)}
+                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      {treesProducing(inspection._kf_Station)}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {inspection.longitude}

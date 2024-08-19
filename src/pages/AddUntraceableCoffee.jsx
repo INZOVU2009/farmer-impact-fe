@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Sidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
 import WelcomeBanner from "../partials/dashboard/WelcomeBanner";
 import { addUntraceableCoffee } from "../redux/actions/untraceableCoffee/addUntraceableCoffee.action";
 import { useDispatch, useSelector } from "react-redux";
 import { Toaster } from "react-hot-toast";
+
 function AddUntraceableCoffee({ onSubmit }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
-  const { isloading } = useSelector((state) => state.addUntraceableCoffee);
+  const { isloading, error, success } = useSelector((state) => state.addUntraceableCoffee);
   const [formData, setFormData] = useState({
     kilograms: "",
     unitprice: "",
@@ -27,13 +28,17 @@ function AddUntraceableCoffee({ onSubmit }) {
   const handleAddSubmit = async (e) => {
     e.preventDefault();
     try {
-      dispatch(addUntraceableCoffee(formData, token));
-      onSubmit(formData);
-      setFormData({
-        kilograms: "",
-        unitprice: "",
-        cash_paid: "",
-      });
+      await dispatch(addUntraceableCoffee(formData, token));
+
+      // Clear the form fields if submission was successful
+      if (!error) {
+        setFormData({
+          kilograms: "",
+          unitprice: "",
+          cash_paid: "",
+        });
+        onSubmit(formData);
+      }
     } catch (error) {
       console.error("Adding untraceable coffee failed", error);
     }
@@ -51,12 +56,12 @@ function AddUntraceableCoffee({ onSubmit }) {
             <WelcomeBanner />
           </div>
           <div className="flex items-center justify-center h-[60%] ">
-            <div className="bg-white w-[45%] flex flex-col  border-2 rounded-md ">
+            <div className="bg-white w-[45%] flex flex-col border-2 rounded-md ">
               <div className="p-5 border-b-3 w-full">
-                <p className=" text-green-500">Add Untraceable Coffee</p>
+                <p className="text-green-500">Add Untraceable Coffee</p>
               </div>
               <div className="p-4">
-                <form action="" className=" space-y-4">
+                <form className="space-y-4" onSubmit={handleAddSubmit}>
                   <input
                     type="number"
                     className="w-full rounded-md"
@@ -76,17 +81,17 @@ function AddUntraceableCoffee({ onSubmit }) {
                   <input
                     type="number"
                     className="w-full rounded-md"
-                    placeholder="Enter the amount paid "
+                    placeholder="Enter the amount paid"
                     name="cash_paid"
                     value={formData.cash_paid}
                     onChange={handleInputChange}
                   />
-                  <div className=" flex justify-center">
+                  <div className="flex justify-center">
                     <button
-                      className=" bg-green-500 text-white rounded-md w-48 p-2"
-                      onClick={handleAddSubmit}
+                      className="bg-green-500 text-white rounded-md w-48 p-2"
+                      type="submit"
                     >
-                      {isloading ? "loading..." : "Save Coffee"}
+                      {isloading ? "Loading..." : "Save Coffee"}
                     </button>
                   </div>
                 </form>
@@ -99,4 +104,5 @@ function AddUntraceableCoffee({ onSubmit }) {
     </div>
   );
 }
+
 export default AddUntraceableCoffee;

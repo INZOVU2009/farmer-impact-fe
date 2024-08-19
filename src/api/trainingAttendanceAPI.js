@@ -3,10 +3,10 @@ import { constants } from "../constants/constants";
 
 const url = constants.SERVER_URL;
 
-export const getAllAttendances = (currentPage,itemsPerPage) => {
+export const getAllAttendances = (currentPage,itemsPerPage,from , to ) => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`${url}/attendance/allAttendance?page=${currentPage}&&pageSize=${itemsPerPage}`)
+      .get(`${url}/attendance/allAttendance?page=${currentPage}&&pageSize=${itemsPerPage}&&from=${from}&&to=${to}`)
       .then((response) => resolve(response.data))
       .catch((error) => {
         if (error.response?.data !== undefined) {

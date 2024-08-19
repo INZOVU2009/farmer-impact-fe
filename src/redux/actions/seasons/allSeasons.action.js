@@ -11,7 +11,7 @@ export const fetchAllSeasons = () => async (dispatch) => {
     dispatch(seasonsPending());
 
     const res = await getAllSeasons();
-    // dispatch(seasonsSuccess(res));
+    dispatch(seasonsSuccess(res));
     toast.success(res.message);
     return res;
   } catch (error) {

@@ -127,12 +127,6 @@ function TranslationsTable({
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      TIME
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
                       CODE
                     </th>
                     <th
@@ -169,9 +163,6 @@ function TranslationsTable({
                         {(currentPage - 1) * itemsPerPage + index + 1}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {formatDate(translation.created_at)}
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {translation.code}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -189,24 +180,13 @@ function TranslationsTable({
                             className=" text-green-500 border-2 border-green-500 rounded-full  text-3xl  p-1 cursor-pointer  hover:bg-green-500 hover:text-white"
                             onClick={() => handleClickAction(translation)}
                           />
-                          {showEditTranslationModel && selectedTranslation && (
-                            <EditTranslationModel
-                              translation={selectedTranslation}
-                              onClose={() => setShowEditTranslationModel(false)}
-                              onSubmit={handleTranslationUpdate}
-                            />
-                          )}
+
 
                           <RiDeleteBin6Line
                             className="text-red-500 border-2 border-red-500 rounded-full text-3xl p-1 cursor-pointer hover:bg-red-500 hover:text-white"
                             onClick={() => openModal(translation.id)}
                           />
-                          <DeleteTranslationModel
-                            isOpen={isModalOpen}
-                            onClose={closeModal}
-                            onConfirmDelete={handleConfirmDelete}
-                            translationId={translationToDelete}
-                          />
+                         
                         </div>
                       </td>
                     </tr>
@@ -318,6 +298,19 @@ function TranslationsTable({
         onClose={() => setAddModalOpen(false)}
         onSubmit={handleAddNewPhrase}
       />
+       <DeleteTranslationModel
+                            isOpen={isModalOpen}
+                            onClose={closeModal}
+                            onConfirmDelete={handleConfirmDelete}
+                            translationId={translationToDelete}
+                          />
+                                                    {showEditTranslationModel && selectedTranslation && (
+                            <EditTranslationModel
+                              translation={selectedTranslation}
+                              onClose={() => setShowEditTranslationModel(false)}
+                              onSubmit={handleTranslationUpdate}
+                            />
+                          )}
     </div>
   );
 }
