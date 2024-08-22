@@ -54,7 +54,7 @@ const DigitalLoadingFormTable = ({
                     Delivery ID
                   </th>
                   <td className="p-3 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
-                    LF-24--2289
+                    LF-24-2289
                   </td>
                 </tr>
                 <tr className="border-b">

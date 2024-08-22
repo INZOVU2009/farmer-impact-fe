@@ -55,7 +55,7 @@ function ReceivingDeliveryFormPage() {
       setReportLotById(lot.data);
     }
   }, [report]);
-
+console.log("lot",reportId)
   useEffect(() => {
     dispatch(fetchAllAssignedParchments());
   }, [dispatch]);

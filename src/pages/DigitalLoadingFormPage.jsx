@@ -41,9 +41,10 @@ function DigitalLoadingFormPage() {
   const parchmentid = selectedParchments[0];
 
   const wantedGrade = parchmentid?.charAt(parchmentid?.length - 1);
-  console.log("hellll", wantedGrade);
+  console.log("hellll000000", parchmentToDeliver);
 
   const parchWeight = parchmentToDeliver?.parch_weight;
+
   const [formData, setFormData] = useState({
     tally_sheet_no: "",
     truck_plate: "",
@@ -59,9 +60,9 @@ function DigitalLoadingFormPage() {
     final_bags_of_parchment_left: "",
     parch_lot_ID: "",
   });
-
-  const finaleWeightLeft = parchWeight - formData.weight;
-  console.log("finaleW", finaleWeightLeft)
+  console.log("parchWeight:", parchWeight, "formData.weight:", formData?.weight);
+  const finaleWeightLeft = parchWeight - formData?.weight;
+  console.log("finaleW", finaleWeightLeft,formData)
 
   useEffect(() => {
     dispatch(fetchAllAssignedParchments());
@@ -177,7 +178,7 @@ function DigitalLoadingFormPage() {
       return latestReport?.final_weight_left;
     } else {
       // If not delivered, return the original parchment weight
-      return parch_weight;
+      return parch_weight ;
     }
   };
 
@@ -192,8 +193,7 @@ function DigitalLoadingFormPage() {
         if (!parchment) return null; // Handle case where parchment is not found
 
         // Calculate final weight left
-        const finaleWeightLeft =
-          getWeightLeft(parchment.id) - formData[`weight_${parchmentId}`];
+        const finalWeightLeft = getWeightLeft(parchment.id, parchment.weight) - formData[`weight_${parchmentId}`];
 
         // Calculate grade based on parchment ID
         const grade = parchmentId?.charAt(parchmentId?.length - 1);
@@ -206,7 +206,7 @@ function DigitalLoadingFormPage() {
             formData[`bags_of_parchment_left${parchmentId}`],
           final_bags_of_parchment_left:
             formData[`bags_of_parchment_left${parchmentId}`],
-          final_weight_left: finaleWeightLeft,
+          final_weight_left: finalWeightLeft,
           grade: grade,
         };
       })
@@ -232,6 +232,10 @@ function DigitalLoadingFormPage() {
 
     // Clear the form data after submission
     setFormData({});
+
+  setTimeout(() => {
+    navigate("/user_inventory_management/parchment_transport");
+  }, 4000); // 2 seconds delay
   };
 
   useEffect(() => {
@@ -259,6 +263,8 @@ function DigitalLoadingFormPage() {
       });
     }
   }, [delivery]);
+
+
 
   const handleClick = (parchment) => {
     const newParchment = {

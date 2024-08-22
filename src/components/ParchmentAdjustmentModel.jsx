@@ -12,7 +12,7 @@ import { adjustParchment } from "../redux/actions/parchnment/adjustParchment.act
 export default function ParchmentAdjustmentModel({ onClose, onSubmit }) {
   const dispatch = useDispatch();
   const [parchmentToAdjust, setParchmentToAdjust] = useState({
-    cherrylotid: "",
+    cherrylotid:"",
     grade: "",
     kilogram: "",
   });
@@ -25,8 +25,6 @@ export default function ParchmentAdjustmentModel({ onClose, onSubmit }) {
     }));
   };
   const { isloading } = useSelector((state) => state.adjustParchment);
-
-  console.log("I am parchment", parchmentToAdjust);
 
   const handleAdjustSubmit = async (e) => {
     e.preventDefault();

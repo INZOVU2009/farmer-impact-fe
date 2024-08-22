@@ -12,7 +12,8 @@ import { fetchAllStation } from "../redux/actions/station/allStations.action";
 import { processContribution } from "../redux/actions/deliveryProcessing/processContribution.action";
 import { fetchAllProcessedContributions } from "../redux/actions/deliveryProcessing/getProcessedContributions.action";
 import { Toaster } from "react-hot-toast";
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function DeliveryProcessingPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [allDeliveryReports, setAllDeliveryReports] = useState();
@@ -88,7 +89,7 @@ function DeliveryProcessingPage() {
       const wantedReport = await dispatch(fetchReportById(id));
 
       const loadedWeightsWithTransactions = await Promise.all(
-        loadedWeightsData.map(async (loadedWeight) => {
+        loadedWeightsData?.map(async (loadedWeight) => {
           const transactionId = loadedWeight.rtc_transaction_id;
           const transaction = allTransactions.find(
             (transaction) =>
@@ -150,7 +151,7 @@ function DeliveryProcessingPage() {
         const processingResponse = await dispatch(
           processContribution(validLoadedWeights)
         );
-
+        dispatch(fetchAllProcessedContributions());
         setIsProcessingStarted(true);
       } else {
         toast.error("No valid transactions found for loaded weights.");
@@ -202,6 +203,7 @@ function DeliveryProcessingPage() {
       (contribution) => contribution.rtc_delivery_reports_id == id
     );
     return contribution ? contribution.started_at : "0000-00-00 00:00:00";
+
   };
 
   return (

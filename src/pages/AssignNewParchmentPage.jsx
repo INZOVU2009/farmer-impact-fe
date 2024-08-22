@@ -234,7 +234,7 @@ function AssignNewParchment() {
       console.log("hey");
     }
   }, [parchmentGrade,navigate]);
-  console.log("yuhu",parchmentGrade)
+ 
 
   return (
     <div className="flex h-screen overflow-hidden">

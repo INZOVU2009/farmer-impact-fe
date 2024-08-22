@@ -83,39 +83,45 @@ const AccessModuleTable = ({ onSubmit }) => {
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="flex flex-col">
         <div className="overflow-x-auto">
-          <div className="w-[45%] flex flex-col ml-48 mb-4 border-2 rounded-md ">
-            <div className="p-5 border-b-3 w-full">
-              <p className=" text-green-500">Add new access control</p>
-            </div>
-            <div className="p-2">
-              <form action="" className=" space-y-2">
-                <input
-                  type="text"
-                  className="w-full rounded-md"
-                  name="module_name"
-                  placeholder="Enter module name"
-                  value={formData.module_name}
-                  onChange={handleInputChange}
-                />
-                <input
-                  type="text"
-                  className="w-full rounded-md"
-                  placeholder="Enter Platform"
-                  name="platform"
-                  value={formData.platform}
-                  onChange={handleInputChange}
-                />
-                <div className=" flex justify-center">
-                  <button
-                    className=" bg-green-500 text-white rounded-md w-48 p-2"
-                    onClick={handleAddSubmit}
-                  >
-                    Submit
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+        <div className="w-[55%] flex flex-col ml-48 mb-4 border-2 rounded-md">
+  <div className="p-5 border-b-3 w-full">
+    <p className="text-green-500">Add new access control</p>
+  </div>
+  <div className="p-2">
+    <form action="" className="space-y-2">
+      <div className="flex space-x-4">
+        <input
+          type="text"
+          className="w-1/2 rounded-md"
+          name="module_name"
+          placeholder="Enter module name"
+          value={formData.module_name}
+          onChange={handleInputChange}
+        />
+        <select
+          className="w-1/2 rounded-md"
+          name="platform"
+          value={formData.platform}
+          onChange={handleInputChange}
+        >
+          <option value="">Select Platform</option>
+          <option value="dashboard">dashboard</option>
+          <option value="mobile">mobile</option>
+        </select>
+      </div>
+      <div className="flex justify-center mt-4">
+        <button
+          className="bg-green-500 text-white rounded-md w-48 p-2"
+          onClick={handleAddSubmit}
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
 
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden shadow">
