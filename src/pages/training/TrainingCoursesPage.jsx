@@ -39,12 +39,13 @@ function TrainingsPage() {
     setSelectedCourse(null);
     setShowEditCourseModel(true);
   };
+  const totalItems = trainings?.totalItems
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, trainings.totalPages));
+    setCurrentPage((prevPage) => prevPage + 1);
   };
   return (
     <div className="flex h-screen overflow-hidden">
@@ -72,6 +73,7 @@ function TrainingsPage() {
                   handlePrevPage={handlePrevPage}
                   currentPage={currentPage}
                   itemsPerPage={itemsPerPage}
+                  totalItems={totalItems}
                   
                 />
               )}

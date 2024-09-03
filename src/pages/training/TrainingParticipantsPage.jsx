@@ -57,7 +57,8 @@ function TrainingParticipantsPage() {
 
   useEffect(() => {
     if (attendences) {
-      setAllAttendances(attendences.data.attendance);
+      const sortedAttendances = [...attendences.data.attendance].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      setAllAttendances(sortedAttendances);
     }
   }, [attendences]);
 
@@ -210,8 +211,6 @@ function TrainingParticipantsPage() {
         getGroupID(attendance._kf_Group),
         getCourseId(attendance._kf_Course),
         getCourseName(attendance._kf_Course),
-        // getUsername(inspection.created_by),
-        // getCourseName(inspection._kf_Course),
         getUsername(attendance.username),
       
       ];

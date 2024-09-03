@@ -52,7 +52,8 @@ function UserInspectionsPage() {
 
   useEffect(() => {
     if (inspections) {
-      setAllInspections(inspections.data);
+      const sortedInspections = [...inspections.data].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      setAllInspections(sortedInspections);
     }
   }, [inspections]);
 

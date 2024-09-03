@@ -7,11 +7,11 @@ import { toast } from "react-hot-toast";
 import { getRecentFarmer } from "../../../api/recentFarmersApi";
 
 export const fetchFieldFarmers =
-  (currentPage, itemsPerPage) => async (dispatch) => {
+  (currentPage, itemsPerPage , token) => async (dispatch) => {
     try {
       dispatch(FarmerPending());
 
-      const res = await getRecentFarmer(currentPage, itemsPerPage);
+      const res = await getRecentFarmer(currentPage, itemsPerPage , token);
       dispatch(FarmerSuccess(res));
       console.log(res);
       //   toast.success(res.message);

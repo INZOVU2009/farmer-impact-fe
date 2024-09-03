@@ -11,9 +11,11 @@ function RecentRegistrationsTable() {
     (state) => state.fetchAllFarmerRegistrations
   );
   const { verify } = useSelector((state) => state.verifyRegistration);
+  const token = localStorage.getItem("token");
+
 
   useEffect(() => {
-    dispatch(fetchFarmerRegistrations(currentPage, itemsPerPage));
+    dispatch(fetchFarmerRegistrations(currentPage, itemsPerPage,token),);
   }, [dispatch]);
 
   useEffect(() => {

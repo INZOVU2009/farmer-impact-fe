@@ -11,10 +11,12 @@ function PendingFarmers() {
   const { AllFieldFarmers, loading } = useSelector(
     (state) => state.Field_Farmer
   );
+  const token = localStorage.getItem("token");
+
   const { register } = useSelector((state) => state.registerNewFarmers);
 
   useEffect(() => {
-    dispatch(fetchFieldFarmers(currentPage, itemsPerPage));
+    dispatch(fetchFieldFarmers(currentPage, itemsPerPage,token));
   }, [dispatch]);
 
   useEffect(() => {

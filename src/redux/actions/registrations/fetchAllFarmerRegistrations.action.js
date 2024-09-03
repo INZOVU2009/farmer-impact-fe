@@ -7,11 +7,11 @@ import {
 import { getFarmerRegistrations } from "../../../api/registersApi";
 
 export const fetchFarmerRegistrations =
-  (currentPage, itemsPerPage) => async (dispatch) => {
+  (currentPage, itemsPerPage,token) => async (dispatch) => {
     try {
       dispatch(registrationsPending());
-
-      const res = await getFarmerRegistrations(currentPage, itemsPerPage);
+      
+      const res = await getFarmerRegistrations(currentPage, itemsPerPage,token);
       dispatch(registrationsSuccess(res));
       console.log(res);
       //   toast.success(res.message);

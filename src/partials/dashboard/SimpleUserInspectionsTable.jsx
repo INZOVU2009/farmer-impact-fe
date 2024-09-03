@@ -7,13 +7,9 @@ const SimpleUserInspectionsTable = ({
   farmerName,
   farmerId,
   groupId,
-  farmerPhone,
-  householdID,
   filteredstation,
   filteredInspections,
   handleDownload,
-  courseName,
-  handleSearch,
   fromDate,
   toDate,
   setFromDate,
@@ -68,23 +64,8 @@ const SimpleUserInspectionsTable = ({
       <div className="py-4 ml-0 overflow-x-auto px-5 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 mb-10">
         <div className="items-center  justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
           <div className="flex items-center  mb-4 sm:mb-0">
-            <form className="sm:pr-3" action="#" method="GET">
-              <label htmlFor="products-search" className="sr-only">
-                Search
-              </label>
-              <div className="relative w-48 ml-3 mt-1 sm:w-64 mr-1 xl:w-96">
-                <span>Search by Farmer Id, Name ...</span>
-                <input
-                  type="text"
-                  name="email"
-                  onChange={handleSearch}
-                  id="products-search"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-[65%] p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Search by Farmer Id, Name ..."
-                />
-              </div>
-            </form>
-            <div className="flex items-end pr-5 space-x-4 my-1 -ml-32">
+           
+            <div className="flex items-end space-x-4 my-1 ">
               <div>
                 <p>Station</p>
 
@@ -182,25 +163,6 @@ const SimpleUserInspectionsTable = ({
                     >
                       FARMER.ID
                     </th>
-
-                    <th
-                      scope="col"
-                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      HOUSEHOLD.ID
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      PHONE
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      COURSE
-                    </th>
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
@@ -262,16 +224,6 @@ const SimpleUserInspectionsTable = ({
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {farmerId(inspection._kf_Station)}
-                      </td>
-
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {householdID(inspection._kf_Station)}
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {farmerPhone(inspection._kf_Station)}
-                      </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {courseName(inspection._kf_Course)}
                       </td>
                       <td className="p-4 space-x-2 whitespace-nowrap">
                         {inspection.Score_n}

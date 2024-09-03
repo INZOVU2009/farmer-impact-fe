@@ -8,12 +8,13 @@ function ApprovedFarmers() {
   const [recentFarmers, setRecentFarmers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+  const token = localStorage.getItem("token");
   const { AllFieldFarmers, loading } = useSelector(
     (state) => state.Field_Farmer
   );
 
   useEffect(() => {
-    dispatch(fetchFieldFarmers(currentPage, itemsPerPage));
+    dispatch(fetchFieldFarmers(currentPage, itemsPerPage,token));
   }, [dispatch]);
 
   useEffect(() => {

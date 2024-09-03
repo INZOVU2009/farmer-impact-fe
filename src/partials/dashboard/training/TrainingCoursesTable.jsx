@@ -14,33 +14,12 @@ const TrainingsTable = ({
   handleNextPage,
   handlePrevPage,
   currentPage,
-  itemsPerPage
+  itemsPerPage,
+  totalItems
 }) => {
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
-      <div className="py-4 ml-0 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 mb-10">
-        <div className="items-center  justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
-          <div className="flex items-center  mb-4 sm:mb-0">
-            <form className="sm:pr-3" action="#" method="GET">
-              <label htmlFor="products-search" className="sr-only">
-                Search
-              </label>
-              <div className="relative w-48 ml-3 mt-1 sm:w-64 mr-1 xl:w-96">
-                <span>Search by Farmer Id, Name ...</span>
-                <input
-                  type="text"
-                  name="email"
-                  //   onChange={handleSearch}
-                  id="products-search"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-[65%] p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Search by Farmer Id, Name ..."
-                />
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
       <div className="flex flex-col">
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
@@ -86,7 +65,7 @@ const TrainingsTable = ({
                   {trainings?.map((training, index) => (
                     <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                       <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                        {index + 1}
+                      {(currentPage - 1) * itemsPerPage + index + 1}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {training.Name}
@@ -168,11 +147,11 @@ const TrainingsTable = ({
             </span>{" "}
             -{" "}
             <span className="font-semibold text-gray-900 dark:text-white">
-              {Math.min(currentPage * itemsPerPage, trainings?.length)}
+              {Math.min(currentPage * itemsPerPage, totalItems)}
             </span>{" "}
             of{" "}
             <span className="font-semibold text-gray-900 dark:text-white">
-              {trainings?.length}
+              {totalItems}
             </span>
           </span>
         </div>

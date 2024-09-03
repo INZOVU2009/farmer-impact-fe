@@ -10,9 +10,9 @@ function ApprovedRegistrationsTable() {
   const { registrations, loading } = useSelector(
     (state) => state.fetchAllFarmerRegistrations
   );
-
+const token = localStorage.getItem("token")
   useEffect(() => {
-    dispatch(fetchFarmerRegistrations(currentPage, itemsPerPage));
+    dispatch(fetchFarmerRegistrations(currentPage, itemsPerPage,token));
   }, [dispatch]);
 
   useEffect(() => {

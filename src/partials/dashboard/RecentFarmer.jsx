@@ -13,9 +13,10 @@ function RecentFarmers() {
     (state) => state.Field_Farmer
   );
   const { approve } = useSelector((state) => state.approveFarmer);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    dispatch(fetchFieldFarmers(currentPage, itemsPerPage));
+    dispatch(fetchFieldFarmers(currentPage, itemsPerPage,token));
   }, [dispatch]);
 
   useEffect(() => {

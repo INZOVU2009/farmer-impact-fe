@@ -11,9 +11,9 @@ function VerifiedRegistrationsTable() {
     (state) => state.fetchAllFarmerRegistrations
   );
   const { verify } = useSelector((state) => state.verifyRegistration);
-
+  const token = localStorage.getItem("token");
   useEffect(() => {
-    dispatch(fetchFarmerRegistrations(currentPage, itemsPerPage));
+    dispatch(fetchFarmerRegistrations(currentPage, itemsPerPage,token));
   }, [dispatch]);
 
   useEffect(() => {
@@ -27,7 +27,6 @@ function VerifiedRegistrationsTable() {
   }, [registrations]);
 
   const totalPages = Math.ceil(allFarmerRegistrations?.length / itemsPerPage);
-
 
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
@@ -78,7 +77,7 @@ function VerifiedRegistrationsTable() {
             <div className="overflow-hidden shadow">
               <table className="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
                 <thead className="bg-gray-100 dark:bg-gray-700">
-                <tr>
+                  <tr>
                     <th scope="col" className="p-4">
                       No
                     </th>
