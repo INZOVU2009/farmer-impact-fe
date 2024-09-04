@@ -31,7 +31,10 @@ const AssignedParchmentTable = () => {
 
   useEffect(() => {
     if (allParchments) {
-      setAssignedParchments(allParchments.data);
+      const sortedParchments = [...allParchments.data].sort((a, b) => {
+        return new Date(b.created_at) - new Date(a.created_at); // Sort by date in descending order
+      });
+      setAssignedParchments(sortedParchments);
     }
   }, [allParchments]);
 
@@ -317,57 +320,37 @@ const AssignedParchmentTable = () => {
       </div>
 
       <div className="py-4 ml-0 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
-        <div className="items-center  justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
-          <div className="flex items-center mb-4 sm:mb-0">
-            <div className="flex items-center sm:justify-end">
-              <div className="flex pl-2 space-x-1 mt-1">
-                <div>
-                  <span>Record</span>
-                  <select
-                    name=""
-                    // value={itemsPerPage}
-                    // onChange={handleItemsPerPageChange}
-                    className="rounded-lg w-40"
-                  >
-                    <option value="20">20</option>
-                    <option value="40">40</option>
-                    <option value="60">60</option>
-                  </select>
-                </div>
+        <div className=" justify-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
 
-                <div>
-                  <span>Status</span>
-                  <select
-                    name=""
-                    // value={selectedStatus}
-                    // onChange={handleStatusChange}
-                    className="rounded-lg w-40"
-                  >
-                    <option value="all">All</option>
-                    <option value="open">Open</option>
-                    <option value="closed">Closed</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <form className="sm:pr-3" action="#" method="GET">
-              <label htmlFor="products-search" className="sr-only">
-                Search
-              </label>
-              <div className="relative w-48 ml-3 mt-1 sm:w-64 mr-1 xl:w-96">
-                <span>Search by Cherry Lot ID ...</span>
-                <input
-                  type="text"
-                  name="email"
-                  // onChange={handleSearch}
-                  id="products-search"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-[60%]  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Search for products"
-                />
-              </div>
-            </form>
-            <div className="flex space-x-1 -ml-36">
-              <div>
+  <div className="flex  gap-10 ">
+    <div className="flex flex-col ">
+      <span>Record</span>
+      <select
+        name=""
+        // value={itemsPerPage}
+        // onChange={handleItemsPerPageChange}
+        className="rounded-lg w-40"
+      >
+        <option value="20">20</option>
+        <option value="40">40</option>
+        <option value="60">60</option>
+      </select>
+    </div>
+
+    <div className="flex flex-col">
+      <span>Status</span>
+      <select
+        name=""
+        // value={selectedStatus}
+        // onChange={handleStatusChange}
+        className="rounded-lg w-40"
+      >
+        <option value="all">All</option>
+        <option value="open">Open</option>
+        <option value="closed">Closed</option>
+      </select>
+    </div>
+    <div>
                 <span>From</span>
                 <input
                   value={new Date().toISOString().split("T")[0]}
@@ -383,9 +366,9 @@ const AssignedParchmentTable = () => {
                   class="bg-gray-50 border border-gray-300 mr-2 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-30  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 />
               </div>
-            </div>
-          </div>
-        </div>
+  </div>
+</div>
+
       </div>
 
       <div className="flex flex-row left-4 items-center justify-center py-8 gap-3"></div>

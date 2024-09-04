@@ -423,7 +423,8 @@ const UserTransactionsTable = () => {
                         )}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                        {transaction.parchment_lot_id}
+                      {transaction.approved === 1 ? transaction.parchment_lot_id : ""}
+                        
                       </td>
                     </tr>
                   ))}

@@ -44,7 +44,7 @@ const token = localStorage.getItem("token")
   }
   const handleProceed = () => {
     dispatch(proceedApprovedRegistrations()).then(() => {
-      dispatch(fetchFarmerRegistrations(currentPage, itemsPerPage));
+      dispatch(fetchFarmerRegistrations(currentPage, itemsPerPage,token));
 
     });
   };

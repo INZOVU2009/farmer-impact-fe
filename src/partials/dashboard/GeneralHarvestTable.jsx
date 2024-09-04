@@ -373,12 +373,6 @@ console.log("hello", allSeasons)
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      FARMER-ID
-                    </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
                       NAMES
                     </th>
                     <th
@@ -427,10 +421,6 @@ console.log("hello", allSeasons)
                     >
                       <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
                         {(currentPage - 1) * itemsPerPage + index + 1}
-                      </td>
-
-                      <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                        {farmers.farmerid}
                       </td>
                       <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white">
                         {farmers.Name}

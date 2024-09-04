@@ -271,7 +271,7 @@ const TransactionDetailsTable = () => {
   const totalValues = calculateTotalValues();
   const totalCommission = additionalInfo.commissionFee * totalValues.totalKgs;
   const transportFeesCherry =
-    additionalInfo.transportFee * totalValues.totalCertified;
+    additionalInfo.transportFee * totalValues.totalCertified + additionalInfo.transportFee * totalValues.totalUncertified;
   const transportFeesFloaters =
     additionalInfo.transportFee * totalValues.totalFloaters;
   const totals = totalCommission + transportFeesCherry + transportFeesFloaters;
@@ -362,6 +362,20 @@ const TransactionDetailsTable = () => {
         console.error("Error approving journal:", error);
       });
   };
+  const handleDeny = () => {
+    // Resetting the additionalInfo fields to their initial values
+    setAdditionalInfo({
+      commissionFee: 10,
+      transportFee: 10,
+      commissionUntraced: 10,
+      transportCherry: 10,
+      transportFloaters: 10,
+    });
+    navigate("/user_transactions");
+
+  };
+  
+
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
@@ -803,6 +817,7 @@ const TransactionDetailsTable = () => {
         </div>
       </div>{" "}
       {isCommissionFeesAdded && (
+        <div className="flex flex-row justify-center gap-20 mt-4">
         <div className="flex justify-center items-center">
           <button
             className="bg-green-500 text-white p-2 m-2"
@@ -811,7 +826,15 @@ const TransactionDetailsTable = () => {
           >
             Approve Transaction
           </button>
-        </div>
+        </div><div className="flex justify-center items-center">
+            <button
+              className="bg-red-500 text-white p-2 m-2"
+              onClick={handleDeny}
+              disabled={totalValues.approved}
+            >
+              Deny Transaction
+            </button>
+          </div></div>
       )}
       <p className="mt-3 font-bold">Additional Info</p>
       <div className="items-center  bg-white justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700  dark:bg-gray-700">
