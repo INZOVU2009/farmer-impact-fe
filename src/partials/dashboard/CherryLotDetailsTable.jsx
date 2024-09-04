@@ -405,33 +405,6 @@ const CherryLotDetailsTable = () => {
                     {totalValues.totalKgs.toLocaleString()}
                   </td>
                 </tr>
-                <tr className="border-b">
-                  <th
-                    scope="col"
-                    className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
-                  >
-                    Avg Transport Fee per Kg Cherry
-                  </th>
-                  <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r"></td>
-                </tr>
-                <tr className="border-b">
-                  <th
-                    scope="col"
-                    className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
-                  >
-                    Avg Transport Fee per Kg Floater
-                  </th>
-                  <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r"></td>
-                </tr>
-                <tr className="border-b">
-                  <th
-                    scope="col"
-                    className="p-4 text-xs font-bold text-left text-gray-500 uppercase dark:text-gray-400 border-r"
-                  >
-                    Avg Commission Fee per Kg Cherry
-                  </th>
-                  <td className="p-4 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r"></td>
-                </tr>
               </thead>
             </table>
           </div>

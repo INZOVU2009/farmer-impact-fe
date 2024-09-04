@@ -255,7 +255,13 @@ const TransactionDetailsTable = () => {
         totalValues.totalCertified = 0;
       }
       totalValues.totalFloaters += transaction.bad_kilograms;
+      if(transaction.certified === 1){
       totalValues.averagePrice = transaction.unitprice;
+      }
+      else{
+        totalValues.averagePrice = transaction.bad_unit_price;
+
+      }
       totalValues.totalCoffeeValue +=
         transaction.kilograms * transaction.unitprice +
         transaction.bad_kilograms * transaction.bad_unit_price;

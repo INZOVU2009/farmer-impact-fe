@@ -772,13 +772,6 @@ const CwsDailyJournalsTable = () => {
                           />
                         )}
                       </td>
-                      {/* {showDryingModel && selectedJournal && (
-                        <BucketingDryingModel
-                          journal={selectedJournal}
-                          onClose={() => setShowDryingModel(false)}
-                          onSubmit={handleAddBucket}
-                        />
-                      )} */}
 
                       <td className="p-4 space-x-2 whitespace-nowrap">
                         <FaPeopleGroup
