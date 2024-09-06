@@ -2,11 +2,10 @@ import {toast} from "react-hot-toast";
 import { fetchProcessedContributions } from "../../../api/deliveryProcessingApi";
 import { contributionsFail, contributionsPending, contributionsSuccess } from "../../slices/deliveryProcessing/getProcessedContributionsSlice";
   
-  export const fetchAllProcessedContributions = () => async (dispatch) => {
+  export const fetchAllProcessedContributions = (token) => async (dispatch) => {
     try {
       dispatch(contributionsPending());
-      const res = await fetchProcessedContributions();
-  
+      const res = await fetchProcessedContributions(token);
       dispatch(contributionsSuccess(res));
       toast.success(res.message);
       return res;

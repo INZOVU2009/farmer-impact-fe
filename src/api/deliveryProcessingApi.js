@@ -19,7 +19,7 @@ export const getLoadedWeightById = (id) => {
 };
 
 export const processContributions = (contributions) => {
-  console.log("we are data", contributions);
+
   return new Promise((resolve, reject) => {
     axios
       .post(`${url}/loadedweight/start_processing`, contributions)
@@ -33,10 +33,12 @@ export const processContributions = (contributions) => {
   });
 };
 
-export const fetchProcessedContributions = () => {
+export const fetchProcessedContributions = (token) => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`${url}/loadedweight/contributions`)
+      .get(`${url}/loadedweight/contributions`,{
+        headers: { auth_token: ` ${token}` },
+      })
       .then((response) => resolve(response.data))
       .catch((error) => {
         if (error.response?.data !== undefined) {

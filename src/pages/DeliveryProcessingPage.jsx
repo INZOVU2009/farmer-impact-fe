@@ -151,7 +151,7 @@ function DeliveryProcessingPage() {
         const processingResponse = await dispatch(
           processContribution(validLoadedWeights)
         );
-        dispatch(fetchAllProcessedContributions());
+        dispatch(fetchAllProcessedContributions(token));
         setIsProcessingStarted(true);
       } else {
         toast.error("No valid transactions found for loaded weights.");
@@ -162,7 +162,7 @@ function DeliveryProcessingPage() {
   };
 
   useEffect(() => {
-    dispatch(fetchAllProcessedContributions());
+    dispatch(fetchAllProcessedContributions(token));
   }, [dispatch]);
 
   useEffect(() => {
