@@ -81,6 +81,7 @@ import updateBucketSlice from "./slices/bucketing/updateBucketSlice";
 import getSingleBucketWeightByDayLotNumberSlice from "./slices/bucketing/getSingleBucketWeightByDayLotNumberSlice";
 import updateBucketWeightSlice from "./slices/bucketing/updateBucketWeightSlice";
 import registerNewFarmersSlice from "./slices/farmers/registerNewFarmersSlice";
+import addInspectionQuestionSlice from "./slices/evaluations/addInspectionQuestionSlice";
 const store = configureStore({
   reducer: {
     login,
@@ -166,6 +167,7 @@ const store = configureStore({
       getSingleBucketWeightByDayLotNumberSlice,
     updateBucketWeight: updateBucketWeightSlice,
     registerNewFarmers: registerNewFarmersSlice,
+    addNewInspectionQuestion:addInspectionQuestionSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

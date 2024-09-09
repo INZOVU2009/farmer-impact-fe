@@ -18,3 +18,16 @@ export const getAllEvaluations = (currentPage, itemsPerPage) => {
       });
   });
 };
+export const addInspectionQuestion = (inspectionQuestion) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`${url}/evaluations/question`, inspectionQuestion, )
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};

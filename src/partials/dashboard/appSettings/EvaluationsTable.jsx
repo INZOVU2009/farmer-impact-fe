@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import AddNewInspectionQuestionModel from "../../../components/AddNewInspectionQuestionModel";
+import { useSelector, useDispatch } from "react-redux";
 
 function EvaluationsTable({
   allEvaluations,
@@ -7,7 +9,12 @@ function EvaluationsTable({
   handleNextPage,
   handlePrevPage,
   totalItems,
+  isAddModalOpen,
+  handleAddNewQuestion,
+  setAddModalOpen,
+
 }) {
+
   const formatDate = (dateString) => {
     const options = {
       year: "numeric",
@@ -21,11 +28,19 @@ function EvaluationsTable({
     );
   };
 
+
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
-     
-
+        <button
+          id="createProductButton"
+          className="btn bg-green-500 hover:bg-green-500 text-white mb-3  w-40 " 
+          type="button"
+          onClick={() => setAddModalOpen(true)}
+        >
+          + New Question
+        </button>
       <div className="flex flex-col">
+    
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden shadow">
@@ -212,6 +227,11 @@ function EvaluationsTable({
           </a>
         </div>
       </div>
+      <AddNewInspectionQuestionModel
+        isOpen={isAddModalOpen}
+        onClose={() => setAddModalOpen(false)}
+        onSubmit={handleAddNewQuestion}
+      />
     </div>
   );
 }
