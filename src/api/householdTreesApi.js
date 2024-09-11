@@ -3,7 +3,7 @@ import { constants } from "../constants/constants";
 
 const url = constants.SERVER_URL;
 
-export const getAllHouseholdTrees = (currentPage,itemsPerPage) => {
+export const getHouseholdTreeServey = (currentPage,itemsPerPage) => {
   return new Promise((resolve, reject) => {
     axios
       .get(`${url}/trees/allTrees?page=${currentPage}&&pageSize=${itemsPerPage}`)

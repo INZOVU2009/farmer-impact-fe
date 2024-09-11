@@ -57,7 +57,7 @@ import fetchAllUserAccessSllice from "./slices/userAccess/fetchAllUserAccessSlic
 import activateUserSlice from "./slices/userAccess/activateUserSlice";
 import updateModule from "./slices/accessModules/updateModuleSlice";
 import createNewModuleSlice from "./slices/accessModules/createNewModuleSlice";
-import getAllHouseholdTreesSlice from "./slices/householdTrees/getAllHouseholdTreesSlice";
+import getAllTreeServeySlice from "./slices/householdTrees/getAllTreeServeySlice";
 import getAssignedModulesSlice from "./slices/accessModules/getAssignedModulesSlice";
 import fetchAllTranslationsSlice from "./slices/translations/fetchAllTranslationsSlice";
 import deleteTranslationSlice from "./slices/translations/deleteTranslationSlice";
@@ -141,7 +141,9 @@ const store = configureStore({
     activateUser: activateUserSlice,
     updateModule: updateModule,
     createModule: createNewModuleSlice,
-    fetchAllHouseholdTrees: getAllHouseholdTreesSlice,
+
+    fetchAllTrees: getAllTreeServeySlice,
+    
     fetchAssignedModules: getAssignedModulesSlice,
     fetchAllTranslations: fetchAllTranslationsSlice,
     deleteTranslation: deleteTranslationSlice,

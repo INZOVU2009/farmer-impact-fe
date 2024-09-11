@@ -481,7 +481,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <div className="flex items-center">
                               <TbBuildingFortress className="text-black" />
                               <span className="text-sm  text-black font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Households
+                                Tree Census Servey
                               </span>
                             </div>
                             {/* Icon */}
@@ -515,7 +515,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   className="block text-black hover:text-slate-400 transition duration-150 truncate"
                                 >
                                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                    Household trees
+                                    Recent trees servey
                                   </span>
                                 </NavLink>
                               </li>
@@ -536,7 +536,28 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   className="block text-black hover:text-slate-400 transition duration-150 truncate"
                                 >
                                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                    Approved HouseHold Tress
+                                    Approved tree servey
+                                  </span>
+                                </NavLink>
+                              </li>
+                            )}
+
+                            {filteredModules?.some(
+                              (module) =>
+                                module.module_name ===
+                                "Approved Household Tress"
+                            ) && (
+                              <li className="mb-1 last:mb-0">
+                                <NavLink
+                                  end
+                                  // to="/user_registration/approved_farmers"
+                                  // style={
+                                  //   isApprovedFarmers ? { color: "#4F46E5" } : {}
+                                  // }
+                                  className="block text-black hover:text-slate-400 transition duration-150 truncate"
+                                >
+                                  <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                    Final Servey Trees
                                   </span>
                                 </NavLink>
                               </li>

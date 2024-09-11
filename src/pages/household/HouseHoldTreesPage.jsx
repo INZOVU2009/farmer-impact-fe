@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Sidebar from "../../partials/Sidebar";
 import Header from "../../partials/Header";
-import HouseholdTreesTable from "../../partials/dashboard/household/HouseholdTreesTable";
+import TreesTable from "../../partials/dashboard/household/TreesTable";
 import WelcomeBanner from "../../partials/dashboard/WelcomeBanner";
 
 function HouseholdTreesPage() {
@@ -24,7 +24,7 @@ function HouseholdTreesPage() {
             </div>
 
             <div className="grid grid-cols-12 gap-6">
-              <HouseholdTreesTable />
+              <TreesTable />
             </div>
           </div>
         </main>
