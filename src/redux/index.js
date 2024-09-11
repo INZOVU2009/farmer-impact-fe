@@ -147,7 +147,9 @@ const store = configureStore({
     activateUser: activateUserSlice,
     updateModule: updateModule,
     createModule: createNewModuleSlice,
+
     fetchAllTrees: getAllTreeServeySlice,
+    
     fetchAssignedModules: getAssignedModulesSlice,
     fetchAllTranslations: fetchAllTranslationsSlice,
     deleteTranslation: deleteTranslationSlice,
