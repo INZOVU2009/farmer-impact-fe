@@ -48,6 +48,7 @@ export const updateUser = (id, data) => {
 };
 
 export const getUser = (userId) => {
+  console.log("user",userId)
   return new Promise((resolve, reject) => {
     axios
       .get(`${url}/user/user/${userId}`)

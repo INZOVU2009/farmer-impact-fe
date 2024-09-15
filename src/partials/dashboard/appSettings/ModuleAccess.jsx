@@ -65,6 +65,7 @@ const AccessModuleTable = ({ onSubmit }) => {
     e.preventDefault();
     try {
       dispatch(createNewModule(formData));
+      console.log("hello",formData)
       onSubmit(formData);
       setFormData({
         module_name: "",

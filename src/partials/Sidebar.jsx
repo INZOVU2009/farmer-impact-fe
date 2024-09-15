@@ -79,7 +79,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
       setRetrievedModules(modules.data);
     }
   }, [modules]);
-
+// console.log("retrieved",retrievedModules)
   useEffect(() => {
     dispatch(assignedModules(token));
   }, [dispatch]);
@@ -89,13 +89,14 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
       setAllAssignedModules(modulesAssigned.data);
     }
   }, [modulesAssigned]);
-
+console.log("all assigned",modulesAssigned)
   const assignedModuleIds =
     allAssignedModules?.map((mod) => mod.moduleid) || [];
   const filteredModules = retrievedModules?.filter((module) =>
     assignedModuleIds.includes(module.id)
   );
-
+console.log("alll",allAssignedModules)
+console.log("filtered",filteredModules)
   return (
     <div>
       {/* Sidebar backdrop (mobile only) */}
@@ -683,6 +684,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                     const isParticipantsActive = pathname.includes(
                       "recent_participants"
                     );
+                    const isWeeklyReportActive = pathname.includes(
+                      "weekly_report"
+                    );
                     return (
                       <React.Fragment>
                         <a
@@ -755,6 +759,26 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 >
                                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                     Courses
+                                  </span>
+                                </NavLink>
+                              </li>
+                            )}
+                            {filteredModules?.some(
+                              (module) => module.module_name === "weekly report" || "Weekly Report" || "WEEKLY REPORT"
+                            ) && (
+                              <li className="mb-1 last:mb-0">
+                                <NavLink
+                                  end
+                                  to="/user_trainings/weekly_report"
+                                  style={
+                                    isWeeklyReportActive
+                                      ? { color: "#4F46E5" }
+                                      : {}
+                                  }
+                                  className="block text-black hover:text-slate-400 transition duration-150 truncate"
+                                >
+                                  <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                    Weekly Report
                                   </span>
                                 </NavLink>
                               </li>

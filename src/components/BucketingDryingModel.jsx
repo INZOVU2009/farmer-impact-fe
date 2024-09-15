@@ -18,6 +18,7 @@ export default function BucketingDryingModel({ journal, onClose, onSubmit }) {
     day_lot: journal.cherry_lot_id,
     certified: journal.certified,
   });
+const token = localStorage.getItem("token")
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -38,7 +39,7 @@ export default function BucketingDryingModel({ journal, onClose, onSubmit }) {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      dispatch(addBucketweighting(editedJournal));
+      dispatch(addBucketweighting(editedJournal,token));
       toast.success("Transaction updated successfully");
       onClose();
       onSubmit(editedJournal);

@@ -28,6 +28,7 @@ function RecentFarmers() {
     }
   }, [AllFieldFarmers]);
 
+
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };

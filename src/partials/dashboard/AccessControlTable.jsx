@@ -29,15 +29,15 @@ const AccessControlTable = () => {
   const [allAssignedModulesList, setAllAssignedModulesList] = useState();
   const { permission } = useSelector((state) => state.addPermissions);
 
-  useEffect(() => {
-    dispatch(getSingleUserById(userId));
-  }, [dispatch, userId]);
+  // useEffect(() => {
+  //   dispatch(getSingleUserById(userId));
+  // }, [dispatch, userId]);
 
-  useEffect(() => {
-    if (user) {
-      setFetchedUser(user?.data);
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     setFetchedUser(user?.data);
+  //   }
+  // }, [user]);
 
   useEffect(() => {
     dispatch(getSingleStaffById(userId));
@@ -117,7 +117,6 @@ const AccessControlTable = () => {
       navigate("/user-administration"); // Redirect to the users list;
     });
   };
-
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="p-4 mb-5 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
