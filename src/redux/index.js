@@ -57,7 +57,7 @@ import fetchAllUserAccessSllice from "./slices/userAccess/fetchAllUserAccessSlic
 import activateUserSlice from "./slices/userAccess/activateUserSlice";
 import updateModule from "./slices/accessModules/updateModuleSlice";
 import createNewModuleSlice from "./slices/accessModules/createNewModuleSlice";
-import getAllHouseholdTreesSlice from "./slices/householdTrees/getAllHouseholdTreesSlice";
+import getAllTreeServeySlice from "./slices/householdTrees/getAllTreeServeySlice";
 import getAssignedModulesSlice from "./slices/accessModules/getAssignedModulesSlice";
 import fetchAllTranslationsSlice from "./slices/translations/fetchAllTranslationsSlice";
 import deleteTranslationSlice from "./slices/translations/deleteTranslationSlice";
@@ -82,6 +82,9 @@ import getSingleBucketWeightByDayLotNumberSlice from "./slices/bucketing/getSing
 import updateBucketWeightSlice from "./slices/bucketing/updateBucketWeightSlice";
 import registerNewFarmersSlice from "./slices/farmers/registerNewFarmersSlice";
 import addInspectionQuestionSlice from "./slices/evaluations/addInspectionQuestionSlice";
+import fetchWeeklyReportSlice from "./slices/trainings/fetchWeeklyReportSlice";
+import approveHouseholdTreesSlice from "./slices/householdTrees/approveHouseholdTreesSlice";
+import verifyHouseholdTreesSlice from "./slices/householdTrees/verifyHouseholdTreesSlice";
 const store = configureStore({
   reducer: {
     login,
@@ -142,7 +145,7 @@ const store = configureStore({
     activateUser: activateUserSlice,
     updateModule: updateModule,
     createModule: createNewModuleSlice,
-    fetchAllHouseholdTrees: getAllHouseholdTreesSlice,
+    fetchAllTrees: getAllTreeServeySlice,
     fetchAssignedModules: getAssignedModulesSlice,
     fetchAllTranslations: fetchAllTranslationsSlice,
     deleteTranslation: deleteTranslationSlice,
@@ -168,6 +171,9 @@ const store = configureStore({
     updateBucketWeight: updateBucketWeightSlice,
     registerNewFarmers: registerNewFarmersSlice,
     addNewInspectionQuestion:addInspectionQuestionSlice,
+    fetchWeeklyReport : fetchWeeklyReportSlice,
+    approveHouseholdTrees: approveHouseholdTreesSlice,
+    verifyHouseholdTrees: verifyHouseholdTreesSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

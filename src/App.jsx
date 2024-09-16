@@ -52,6 +52,9 @@ import PendingFarmersPage from "./pages/PendingFarmersPage";
 import RecentRegistrationsPage from "./pages/RecentRgistrationsPage";
 import VerifiedRegistrationsPage from "./pages/VerifiedRegistrationsPage";
 import ApprovedRegistrationsPage from "./pages/ApproveRegistrationsPage";
+import WeeklyReportPage from "./pages/training/WeeklyReportPage";
+import ApprovedTreesSurveyPage from "./pages/household/ApprovedTreesSurveyPage";
+import FinalTreeSurveyPage from "./pages/household/FinalTreeSurveyPage";
 
 function App() {
   const location = useLocation();
@@ -220,6 +223,11 @@ function App() {
           path="user_trainings/recent_participants"
           element={<TrainingParticipantsPage />}
         />
+          <Route
+          exact
+          path="user_trainings/weekly_report"
+          element={<WeeklyReportPage />}
+        />
         <Route
           exact
           path="app_setting/access_modules"
@@ -274,6 +282,16 @@ function App() {
           exact
           path="/farmer_registrations/approved_registrations"
           element={<ApprovedRegistrationsPage />}
+        />
+          <Route
+          exact
+          path="household/approved_trees"
+          element={<ApprovedTreesSurveyPage />}
+        />
+           <Route
+          exact
+          path="household/verified_trees"
+          element={<FinalTreeSurveyPage />}
         />
       </Routes>
       <Toaster/>

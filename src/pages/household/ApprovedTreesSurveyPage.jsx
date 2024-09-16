@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Sidebar from "../../partials/Sidebar";
 import Header from "../../partials/Header";
-import TreesTable from "../../partials/dashboard/household/TreesTable";
+import ApprovedTreesSurveyTable from "../../partials/dashboard/household/ApprovedTreesSurveyTable";
 import WelcomeBanner from "../../partials/dashboard/WelcomeBanner";
 
-function HouseholdTreesPage() {
+function ApprovedTreesSurveyPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <div className="flex h-screen overflow-hidden">
@@ -24,7 +24,7 @@ function HouseholdTreesPage() {
             </div>
 
             <div className="grid grid-cols-12 gap-6">
-              <TreesTable />
+              <ApprovedTreesSurveyTable />
             </div>
           </div>
         </main>
@@ -33,4 +33,4 @@ function HouseholdTreesPage() {
   );
 }
 
-export default HouseholdTreesPage;
+export default ApprovedTreesSurveyPage;

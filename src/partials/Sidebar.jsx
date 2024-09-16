@@ -79,7 +79,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
       setRetrievedModules(modules.data);
     }
   }, [modules]);
-
+// console.log("retrieved",retrievedModules)
   useEffect(() => {
     dispatch(assignedModules(token));
   }, [dispatch]);
@@ -89,13 +89,14 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
       setAllAssignedModules(modulesAssigned.data);
     }
   }, [modulesAssigned]);
-
+console.log("all assigned",modulesAssigned)
   const assignedModuleIds =
     allAssignedModules?.map((mod) => mod.moduleid) || [];
   const filteredModules = retrievedModules?.filter((module) =>
     assignedModuleIds.includes(module.id)
   );
-
+console.log("alll",allAssignedModules)
+console.log("filtered",filteredModules)
   return (
     <div>
       {/* Sidebar backdrop (mobile only) */}
@@ -461,8 +462,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   {(handleClick, open) => {
                     const isHouseholdTreesActive =
                       pathname.includes("household_trees");
-                    // const isApprovedFarmers =
-                    //   pathname.includes("approved_farmers");
+                    const isApprovedTreesActive =
+                      pathname.includes("approved_trees");
+                      const isVerifiedTreesActive =
+                      pathname.includes("verified_trees");
                     return (
                       <React.Fragment>
                         <a
@@ -481,7 +484,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <div className="flex items-center">
                               <TbBuildingFortress className="text-black" />
                               <span className="text-sm  text-black font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Households
+                                Tree Census Servey
                               </span>
                             </div>
                             {/* Icon */}
@@ -515,7 +518,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   className="block text-black hover:text-slate-400 transition duration-150 truncate"
                                 >
                                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                    Household trees
+                                    Recent trees servey
                                   </span>
                                 </NavLink>
                               </li>
@@ -529,14 +532,35 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               <li className="mb-1 last:mb-0">
                                 <NavLink
                                   end
-                                  // to="/user_registration/approved_farmers"
-                                  // style={
-                                  //   isApprovedFarmers ? { color: "#4F46E5" } : {}
-                                  // }
+                                  to="/household/approved_trees"
+                                  style={
+                                    isApprovedTreesActive ? { color: "#4F46E5" } : {}
+                                  }
                                   className="block text-black hover:text-slate-400 transition duration-150 truncate"
                                 >
                                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                    Approved HouseHold Tress
+                                    Approved tree servey
+                                  </span>
+                                </NavLink>
+                              </li>
+                            )}
+
+                            {filteredModules?.some(
+                              (module) =>
+                                module.module_name ===
+                                "Approved Household Tress"
+                            ) && (
+                              <li className="mb-1 last:mb-0">
+                                <NavLink
+                                  end
+                                  to="/household/verified_trees"
+                                  style={
+                                    isVerifiedTreesActive ? { color: "#4F46E5" } : {}
+                                  }
+                                  className="block text-black hover:text-slate-400 transition duration-150 truncate"
+                                >
+                                  <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                    Final Servey Trees
                                   </span>
                                 </NavLink>
                               </li>
@@ -683,6 +707,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                     const isParticipantsActive = pathname.includes(
                       "recent_participants"
                     );
+                    const isWeeklyReportActive = pathname.includes(
+                      "weekly_report"
+                    );
                     return (
                       <React.Fragment>
                         <a
@@ -755,6 +782,26 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 >
                                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                     Courses
+                                  </span>
+                                </NavLink>
+                              </li>
+                            )}
+                            {filteredModules?.some(
+                              (module) => module.module_name === "weekly report" || "Weekly Report" || "WEEKLY REPORT"
+                            ) && (
+                              <li className="mb-1 last:mb-0">
+                                <NavLink
+                                  end
+                                  to="/user_trainings/weekly_report"
+                                  style={
+                                    isWeeklyReportActive
+                                      ? { color: "#4F46E5" }
+                                      : {}
+                                  }
+                                  className="block text-black hover:text-slate-400 transition duration-150 truncate"
+                                >
+                                  <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                    Weekly Report
                                   </span>
                                 </NavLink>
                               </li>
