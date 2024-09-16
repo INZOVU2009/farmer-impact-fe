@@ -52,6 +52,7 @@ import PendingFarmersPage from "./pages/PendingFarmersPage";
 import RecentRegistrationsPage from "./pages/RecentRgistrationsPage";
 import VerifiedRegistrationsPage from "./pages/VerifiedRegistrationsPage";
 import ApprovedRegistrationsPage from "./pages/ApproveRegistrationsPage";
+import WeeklyReportPage from "./pages/training/WeeklyReportPage";
 
 function App() {
   const location = useLocation();
@@ -219,6 +220,11 @@ function App() {
           exact
           path="user_trainings/recent_participants"
           element={<TrainingParticipantsPage />}
+        />
+          <Route
+          exact
+          path="user_trainings/weekly_report"
+          element={<WeeklyReportPage />}
         />
         <Route
           exact

@@ -133,10 +133,10 @@ console.log("items", itemsPerPage)
                         </div>
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {registration.group_name_old}
+                        {registration.group_id_old}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {registration.group_name_new}
+                        {registration.group_id_new}
                       </td>
                       <td class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
                         {registration.farmerid}
