@@ -15,7 +15,7 @@ const WeeklyReportTable = ({
     const date = new Date(dateString);
 
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Adding 1 because getMonth() returns 0-indexed month
+    const month = String(date.getMonth() + 1).padStart(2, "0"); 
     const day = String(date.getDate()).padStart(2, "0");
 
     return `${year}-${month}-${day}`;
@@ -116,8 +116,8 @@ const WeeklyReportTable = ({
                   {paginatedReports?.map((report, index) => (
                     <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                       <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                        {/* {(currentPage - 1) * itemsPerPage + index + 1} */}
-                        {index + 1}
+                        {(currentPage - 1) * itemsPerPage + index + 1}
+                        {/* {index + 1} */}
                       </td>
 
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -147,7 +147,7 @@ const WeeklyReportTable = ({
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {report.men_attended}
                       </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"  style={{ maxWidth: "300px" }}>
                         {report.comments}
                       </td>
                     </tr>

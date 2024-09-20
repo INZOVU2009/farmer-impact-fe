@@ -12,15 +12,13 @@ function EvaluationsTable({
   isAddModalOpen,
   handleAddNewQuestion,
   setAddModalOpen,
-
 }) {
-
   const formatDate = (dateString) => {
     const options = {
       year: "numeric",
       month: "long",
       day: "numeric",
-      hour: "numeric",
+      // hour: "numeric",
     };
 
     return new Intl.DateTimeFormat("en-US", options).format(
@@ -28,19 +26,17 @@ function EvaluationsTable({
     );
   };
 
-
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
-        <button
-          id="createProductButton"
-          className="btn bg-green-500 hover:bg-green-500 text-white mb-3  w-40 " 
-          type="button"
-          onClick={() => setAddModalOpen(true)}
-        >
-          + New Question
-        </button>
+      <button
+        id="createProductButton"
+        className="btn bg-green-500 hover:bg-green-500 text-white mb-3  w-40 "
+        type="button"
+        onClick={() => setAddModalOpen(true)}
+      >
+        + New Question
+      </button>
       <div className="flex flex-col">
-    
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden shadow">
@@ -96,17 +92,24 @@ function EvaluationsTable({
                       key={evaluation.id}
                     >
                       <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {(currentPage - 1) * itemsPerPage + index + 1}
+                        {(currentPage - 1) * itemsPerPage + index + 1}
                       </td>
                       <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {formatDate(evaluation.updated_at)}
                       </td>
-                      <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      <td
+                        className="p-4 text-base font-medium text-gray-900 dark:text-white"
+                        style={{ maxWidth: "300px" }}
+                      >
                         {evaluation.Eng_phrase}
                       </td>
-                      <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      <td
+                        className="p-4 text-base font-medium text-gray-900 dark:text-white"
+                        style={{ maxWidth: "300px" }}
+                      >
                         {evaluation.Kiny_phrase}
                       </td>
+
                       <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {evaluation.evaluation_mode}
                       </td>
@@ -114,15 +117,14 @@ function EvaluationsTable({
                         {evaluation.priority}
                       </td>
                       <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      <a
+                        <a
                           href={`/app_setting/inspection_questions/${evaluation.id}`}
                           className="text-blue-500 hover:text-gray-500"
                         >
-                           <button className=" bg-green-500 text-white p-1 rounded-md  w-20">
-                          Option
-                        </button>
+                          <button className=" bg-green-500 text-white p-1 rounded-md  w-20">
+                            Option
+                          </button>
                         </a>
-                      
                       </td>
                     </tr>
                   ))}
