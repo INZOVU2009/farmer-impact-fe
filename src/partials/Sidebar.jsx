@@ -462,8 +462,10 @@ console.log("filtered",filteredModules)
                   {(handleClick, open) => {
                     const isHouseholdTreesActive =
                       pathname.includes("household_trees");
-                    // const isApprovedFarmers =
-                    //   pathname.includes("approved_farmers");
+                    const isApprovedTreesActive =
+                      pathname.includes("approved_trees");
+                      const isVerifiedTreesActive =
+                      pathname.includes("verified_trees");
                     return (
                       <React.Fragment>
                         <a
@@ -482,7 +484,7 @@ console.log("filtered",filteredModules)
                             <div className="flex items-center">
                               <TbBuildingFortress className="text-black" />
                               <span className="text-sm  text-black font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Households
+                                Tree Census Servey
                               </span>
                             </div>
                             {/* Icon */}
@@ -516,7 +518,7 @@ console.log("filtered",filteredModules)
                                   className="block text-black hover:text-slate-400 transition duration-150 truncate"
                                 >
                                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                    Household trees
+                                    Recent trees servey
                                   </span>
                                 </NavLink>
                               </li>
@@ -530,14 +532,35 @@ console.log("filtered",filteredModules)
                               <li className="mb-1 last:mb-0">
                                 <NavLink
                                   end
-                                  // to="/user_registration/approved_farmers"
-                                  // style={
-                                  //   isApprovedFarmers ? { color: "#4F46E5" } : {}
-                                  // }
+                                  to="/household/approved_trees"
+                                  style={
+                                    isApprovedTreesActive ? { color: "#4F46E5" } : {}
+                                  }
                                   className="block text-black hover:text-slate-400 transition duration-150 truncate"
                                 >
                                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                    Approved HouseHold Tress
+                                    Approved tree servey
+                                  </span>
+                                </NavLink>
+                              </li>
+                            )}
+
+                            {filteredModules?.some(
+                              (module) =>
+                                module.module_name ===
+                                "Approved Household Tress"
+                            ) && (
+                              <li className="mb-1 last:mb-0">
+                                <NavLink
+                                  end
+                                  to="/household/verified_trees"
+                                  style={
+                                    isVerifiedTreesActive ? { color: "#4F46E5" } : {}
+                                  }
+                                  className="block text-black hover:text-slate-400 transition duration-150 truncate"
+                                >
+                                  <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                    Final Servey Trees
                                   </span>
                                 </NavLink>
                               </li>
