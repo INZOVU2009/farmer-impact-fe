@@ -165,13 +165,13 @@ function TranslationsTable({
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {translation.code}
                       </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white" style={{ maxWidth: "300px" }}>
                         {translation.phrase}
                       </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white" style={{ maxWidth: "300px" }}>
                         {translation.phrasefr}
                       </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white" style={{ maxWidth: "300px" }}>
                         {translation.phraserw}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">

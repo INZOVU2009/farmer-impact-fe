@@ -15,9 +15,8 @@ const TrainingsTable = ({
   handlePrevPage,
   currentPage,
   itemsPerPage,
-  totalItems
+  totalItems,
 }) => {
-
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="flex flex-col">
@@ -34,7 +33,7 @@ const TrainingsTable = ({
                     >
                       No
                     </th>
-                   
+
                     <th
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
@@ -65,15 +64,24 @@ const TrainingsTable = ({
                   {trainings?.map((training, index) => (
                     <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                       <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                      {(currentPage - 1) * itemsPerPage + index + 1}
+                        {(currentPage - 1) * itemsPerPage + index + 1}
                       </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      <td
+                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        tyle={{ maxWidth: "300px" }}
+                      >
                         {training.Name}
                       </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      <td
+                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        style={{ maxWidth: "300px" }}
+                      >
                         {training.Name_rw}
                       </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      <td
+                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        style={{ maxWidth: "300px" }}
+                      >
                         {training.Name_fr}
                       </td>
 
