@@ -27,5 +27,5 @@ const approveHouseholdTreesSlice = createSlice({
 });
 
 export const { approvePending, approveSuccess, approveFail } =
-approveHouseholdTreesSlice.actions;
+  approveHouseholdTreesSlice.actions;
 export default approveHouseholdTreesSlice.reducer;

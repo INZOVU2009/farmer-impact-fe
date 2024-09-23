@@ -85,6 +85,7 @@ import addInspectionQuestionSlice from "./slices/evaluations/addInspectionQuesti
 import fetchWeeklyReportSlice from "./slices/trainings/fetchWeeklyReportSlice";
 import approveHouseholdTreesSlice from "./slices/householdTrees/approveHouseholdTreesSlice";
 import verifyHouseholdTreesSlice from "./slices/householdTrees/verifyHouseholdTreesSlice";
+import fetchTreeDetailsSlice from "./slices/householdTrees/fetchTreeDetailsSlice";
 const store = configureStore({
   reducer: {
     login,
@@ -170,10 +171,11 @@ const store = configureStore({
       getSingleBucketWeightByDayLotNumberSlice,
     updateBucketWeight: updateBucketWeightSlice,
     registerNewFarmers: registerNewFarmersSlice,
-    addNewInspectionQuestion:addInspectionQuestionSlice,
-    fetchWeeklyReport : fetchWeeklyReportSlice,
+    addNewInspectionQuestion: addInspectionQuestionSlice,
+    fetchWeeklyReport: fetchWeeklyReportSlice,
     approveHouseholdTrees: approveHouseholdTreesSlice,
     verifyHouseholdTrees: verifyHouseholdTreesSlice,
+    fetchTreeDetails: fetchTreeDetailsSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

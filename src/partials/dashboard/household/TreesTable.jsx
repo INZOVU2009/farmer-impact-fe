@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAllTrees } from "../../../redux/actions/householdTrees/fetchAllTrees.action";
 import { approveTrees } from "../../../redux/actions/householdTrees/approveHouseholdTrees.action";
+import { getTreeDetails } from "../../../redux/actions/householdTrees/fetchTreeDetails.action";
 function TreesTable() {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
@@ -10,9 +11,12 @@ function TreesTable() {
   const [itemsPerPage] = useState(10);
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [selectedTree, setSelectedTree] = useState(null);
+  const [kpTreesSurvey , setKpTreessurvey] = useState(null)
+  const [treeDetails , setTreeDetails] = useState([])
 
   const { householdTrees } = useSelector((state) => state.fetchAllTrees);
-  const { approve } = useSelector((state) => state.approveHouseholdTrees);
+  const { approve,success } = useSelector((state) => state.approveHouseholdTrees);
+  const { details } = useSelector((state) => state.fetchTreeDetails);
   const token = localStorage.getItem("token");
   useEffect(() => {
     dispatch(fetchAllTrees(currentPage, itemsPerPage));
@@ -23,6 +27,20 @@ function TreesTable() {
       setAllTrees(householdTrees?.data?.household || []);
     }
   }, [householdTrees]);
+
+  useEffect(() => {
+    if (kpTreesSurvey) {
+      dispatch(getTreeDetails(kpTreesSurvey)); 
+    }
+  }, [kpTreesSurvey, dispatch]);
+
+  useEffect(() => {
+    if (details) {
+      setTreeDetails(details?.data ); 
+    }
+  }, [details]);
+
+  console.log("details",treeDetails)
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
@@ -46,17 +64,21 @@ function TreesTable() {
 
   const handleVerifyClick = (tree) => {
     setSelectedTree(tree);
+    setKpTreessurvey(tree.__kp_trees_survey)
     setAddModalOpen(true);
   };
+  console.log("hehehe",kpTreesSurvey)
   const handleApproveTree = (id) => {
     dispatch(approveTrees(id, token)).then(() => {
-      setAllTrees((prevTrees) => prevTrees.filter((trees) => trees.ID !== id));
+      if(success)
+      setAllTrees((prevTrees) => prevTrees.filter((trees) => trees.id !== id));
     });
   };
   const handleCloseModal = () => {
     setAddModalOpen(false);
     setSelectedTree(null);
   };
+
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
@@ -153,22 +175,22 @@ function TreesTable() {
                         {(currentPage - 1) * itemsPerPage + index + 1}
                       </td>
                       <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {tree.CW_Name}
+                        {tree.station_name}
                       </td>
                       <td className="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                        {tree.Group_ID}
+                        {tree.group_id}
                       </td>
                       <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {tree.farmer_name}
                       </td>
                       <td className="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                        {tree.farmer_ID}
+                        {tree.farmer_id}
                       </td>
                       <td className="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                        {tree.national_ID}
+                        {tree.national_id}
                       </td>
                       <td className="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                        {tree.Gender}
+                        {tree.gender}
                       </td>
                       <td className="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
                         {tree.full_name}
@@ -314,7 +336,7 @@ function TreesTable() {
                           <strong>Station:</strong>
                         </td>
                         <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                          {selectedTree.CW_Name}
+                          {selectedTree.station_name}
                         </td>
                       </tr>
                       <tr>
@@ -322,7 +344,7 @@ function TreesTable() {
                           <strong>Group:</strong>
                         </td>
                         <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                          {selectedTree.Group_ID}
+                          {selectedTree.group_id}
                         </td>
                       </tr>
                       <tr>
@@ -338,7 +360,7 @@ function TreesTable() {
                           <strong>Farmer ID:</strong>
                         </td>
                         <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                          {selectedTree.farmer_ID}
+                          {selectedTree.farmer_id}
                         </td>
                       </tr>
                       <tr>
@@ -346,7 +368,7 @@ function TreesTable() {
                           <strong>National ID:</strong>
                         </td>
                         <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                          {selectedTree.national_ID}
+                          {selectedTree.national_id}
                         </td>
                       </tr>
                       <tr>
@@ -354,7 +376,7 @@ function TreesTable() {
                           <strong>Year:</strong>
                         </td>
                         <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                          {selectedTree.Year_Birth}
+                          {selectedTree.year_of_birth}
                         </td>
                       </tr>
                       <tr>
@@ -362,7 +384,7 @@ function TreesTable() {
                           <strong>Gender:</strong>
                         </td>
                         <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                          {selectedTree.Gender}
+                          {selectedTree.gender}
                         </td>
                       </tr>
                       <tr>
@@ -370,7 +392,7 @@ function TreesTable() {
                           <strong>Phone:</strong>
                         </td>
                         <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                          {selectedTree.Phone}
+                          {selectedTree.phone}
                         </td>
                       </tr>
                       <tr>
@@ -378,8 +400,8 @@ function TreesTable() {
                           <strong>Children:</strong>
                         </td>
                         <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                          ( -20 is {selectedTree.child_year_1_20})<br />( 20-30
-                          is {selectedTree.child_year_20_30})
+                          ( -20 is {selectedTree.child_1_to_20_yrs})<br />( 20-30
+                          is {selectedTree.child_20_to_30_yrs})
                         </td>
                       </tr>
                     </tbody>
@@ -393,7 +415,7 @@ function TreesTable() {
                           <strong>Source of income:</strong>
                         </td>
                         <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                          {selectedTree.source_income}
+                          {selectedTree.income_source_main}
                         </td>
                       </tr>
                       <tr>
@@ -401,7 +423,7 @@ function TreesTable() {
                           <strong>Coffee Plot:</strong>
                         </td>
                         <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                          {selectedTree.coffee_plot}
+                          {selectedTree.coffee_farms}
                         </td>
                       </tr>
                       <tr>
@@ -409,7 +431,7 @@ function TreesTable() {
                           <strong>Trees:</strong>
                         </td>
                         <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                          {selectedTree.Trees}
+                          {selectedTree.coffee_trees}
                         </td>
                       </tr>
                       <tr>
@@ -417,12 +439,13 @@ function TreesTable() {
                           <strong>Receiving Trees:</strong>
                         </td>
                         <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                          ({selectedTree.seedling_last_3_year} is{" "}
-                          {selectedTree.received_tree_3_y})<br />(
+                          ({treeDetails.received_seedlings_year} is{" "}
+                          {treeDetails.received_seedlings})<br />
+                          {/* (
                           {selectedTree.seedling_last_2_year} is{" "}
                           {selectedTree.received_tree_2_y})<br />(
                           {selectedTree.seedling_last_year} is{" "}
-                          {selectedTree.received_tree_l_y})
+                          {selectedTree.received_tree_l_y}) */}
                         </td>
                       </tr>
                       <tr>
@@ -430,9 +453,9 @@ function TreesTable() {
                           <strong>Trees Year:</strong>
                         </td>
                         <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                          ( -10 is {selectedTree.Trees_year_less_10})<br />(
-                          10-20 is {selectedTree.Trees_year_10_20})<br />( 20+
-                          is {selectedTree.Trees_year_greater_20})
+                          ( -10 is {selectedTree.trees_less_than_10})<br />(
+                          10-20 is {selectedTree.trees_10_20})<br />( 20+
+                          is {selectedTree.trees_20_more})
                         </td>
                       </tr>
                       <tr>
@@ -440,10 +463,11 @@ function TreesTable() {
                           <strong>Rejuvenation Trees:</strong>
                         </td>
                         <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                          ({selectedTree.rejuvenation_last_year} is{" "}
-                          {selectedTree.rejuvenated_l_tree})<br />(
-                          {selectedTree.rejuvenation_current_year} is{" "}
-                          {selectedTree.rejuvenated_c_tree})
+                          ({treeDetails.rejuvenated_seedlings_year} is{" "}
+                          {treeDetails.rejuvenated_seedlings})<br />
+                          {/* ( */}
+                          {/* {selectedTree.rejuvenation_current_year} is{" "}
+                          {selectedTree.rejuvenated_c_tree}) */}
                         </td>
                       </tr>
                       <tr>
@@ -451,10 +475,11 @@ function TreesTable() {
                           <strong>Production:</strong>
                         </td>
                         <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                          ({selectedTree.last_season} is{" "}
-                          {selectedTree.last_season_production})<br />(
-                          {selectedTree.current_season} is{" "}
-                          {selectedTree.current_season_production})
+                          ({treeDetails.est_production_year} is{" "}
+                          {treeDetails.est_production_year})<br />
+                          {/* ( */}
+                          {/* {selectedTree.current_season} is{" "}
+                          {selectedTree.current_season_production}) */}
                         </td>
                       </tr>
                     </tbody>
@@ -468,7 +493,7 @@ function TreesTable() {
                           <strong>Nitrogen Trees:</strong>
                         </td>
                         <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                          {selectedTree.nitrogen}
+                          {selectedTree.nitrogen_fixing_shade_trees}
                         </td>
                       </tr>
                       <tr>
@@ -476,7 +501,7 @@ function TreesTable() {
                           <strong>Natural Shade Trees:</strong>
                         </td>
                         <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                          {selectedTree.natural_shade}
+                          {selectedTree.natural_shade_trees}
                         </td>
                       </tr>
                       <tr>
@@ -492,7 +517,7 @@ function TreesTable() {
                           <strong>Other Crops:</strong>
                         </td>
                         <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                          {selectedTree.other_crops_coffee_farm}
+                          {selectedTree.other_crops_in_coffee_farm}
                         </td>
                       </tr>
                       <tr>
@@ -500,7 +525,7 @@ function TreesTable() {
                           <strong>Other Farm:</strong>
                         </td>
                         <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                          {selectedTree.other_crops_farm}
+                          {selectedTree.other_crops_in_farm}
                         </td>
                       </tr>
 
@@ -537,7 +562,7 @@ function TreesTable() {
               <button
                 className="bg-green-500 text-white px-4 py-2 rounded-lg"
                 onClick={() => {
-                  handleApproveTree(selectedTree.ID);
+                  handleApproveTree(selectedTree.id);
                   handleCloseModal();
                 }}
               >
