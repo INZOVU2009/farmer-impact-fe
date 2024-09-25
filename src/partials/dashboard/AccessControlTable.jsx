@@ -26,27 +26,18 @@ const AccessControlTable = () => {
   );
   const [permissions, setPermissions] = useState({});
   const [selectAll, setSelectAll] = useState(false);
-  const [allAssignedModulesList, setAllAssignedModulesList] = useState();
   const { permission } = useSelector((state) => state.addPermissions);
-
-  // useEffect(() => {
-  //   dispatch(getSingleUserById(userId));
-  // }, [dispatch, userId]);
-
-  // useEffect(() => {
-  //   if (user) {
-  //     setFetchedUser(user?.data);
-  //   }
-  // }, [user]);
 
   useEffect(() => {
     dispatch(getSingleStaffById(userId));
   }, [dispatch]);
+
   useEffect(() => {
     if (staff) {
       setFetchedStaff(staff?.data);
     }
   }, [staff]);
+
   useEffect(() => {
     dispatch(getModules());
     dispatch(assignedModulesForSingleUser(userId));
@@ -60,13 +51,8 @@ const AccessControlTable = () => {
 
   useEffect(() => {
     if (assignedModulesList) {
-      setAllAssignedModulesList(assignedModulesList.data);
-    }
-  }, [assignedModulesList]);
-  useEffect(() => {
-    if (assignedModulesList) {
       const initialPermissions = {};
-      allAssignedModulesList?.forEach((assignedModule) => {
+      assignedModulesList.data.forEach((assignedModule) => {
         initialPermissions[assignedModule.moduleid] = {
           view: assignedModule.view_record === 1,
           add: assignedModule.add_record === 1,
@@ -103,20 +89,34 @@ const AccessControlTable = () => {
   };
 
   const handleSavePermissions = () => {
-    const permissionList = Object.keys(permissions).map((moduleId) => ({
-      userid: parseInt(userId, 10), // Ensure userId is an integer
-      moduleid: parseInt(moduleId, 10),
-      view_record: permissions[moduleId].view ? 1 : 0,
-      add_record: permissions[moduleId].add ? 1 : 0,
-      delete_record: permissions[moduleId].delete ? 1 : 0,
-      edit_record: permissions[moduleId].edit ? 1 : 0,
-      platform: "dashboard",
-    }));
-
-    dispatch(assignPermission(permissionList)).then(() => {
+    // Filter out permissions where none of the actions (view, add, delete, edit) are selected
+    const filteredPermissionList = Object.keys(permissions)
+      .map((moduleId) => ({
+        userid: parseInt(userId, 10), // Ensure userId is an integer
+        moduleid: parseInt(moduleId, 10),
+        view_record: permissions[moduleId].view ? 1 : 0,
+        add_record: permissions[moduleId].add ? 1 : 0,
+        delete_record: permissions[moduleId].delete ? 1 : 0,
+        edit_record: permissions[moduleId].edit ? 1 : 0,
+        platform: "dashboard",
+      }))
+      .filter(
+        (permission) =>
+          permission.view_record ||
+          permission.add_record ||
+          permission.delete_record ||
+          permission.edit_record
+      ); // Only include permissions with at least one action selected
+  
+    console.log("Filtered Permissions being sent:", filteredPermissionList);
+    
+    // Dispatch the action with the filtered permissions list
+    dispatch(assignPermission(filteredPermissionList)).then(() => {
       navigate("/user-administration"); // Redirect to the users list;
     });
   };
+  
+
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="p-4 mb-5 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
@@ -142,7 +142,7 @@ const AccessControlTable = () => {
                 <IoIosPhonePortrait />
                 <NavLink
                   end
-                  to={`/user-administaration/access-controll/mobile-access/${userId}`}
+                  to={`/user-administration/access-control/mobile-access/${userId}`}
                   className="block text-slate-500 hover:text-slate-400 transition duration-150 truncate"
                 >
                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -154,7 +154,7 @@ const AccessControlTable = () => {
                 <GrSystem />
                 <NavLink
                   end
-                  to={`/user-administaration/access-controll/module-access/${userId}`}
+                  to={`/user-administration/access-control/module-access/${userId}`}
                   className="block text-slate-500 hover:text-slate-400 transition duration-150 truncate"
                 >
                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -289,13 +289,15 @@ const AccessControlTable = () => {
             </div>
           </div>
         </div>
+        <div className="mt-4">
+          <button
+            onClick={handleSavePermissions}
+            className="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"
+          >
+            Save Permissions
+          </button>
+        </div>
       </div>
-      <button
-        className="bg-green-400 mt-4 w-48 h-10 flex items-center justify-center rounded-lg"
-        onClick={handleSavePermissions}
-      >
-        Save Access Control
-      </button>
       <Toaster />
     </div>
   );
