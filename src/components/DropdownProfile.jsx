@@ -87,13 +87,13 @@ const Role = decodedToken?.staff.Role
           </div>
           <ul>
             <li>
-              <Link
+              {/* <Link
                 className="font-medium text-sm text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center py-1 px-3"
                 to="/settings"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
                 Settings
-              </Link>
+              </Link> */}
             </li>
             <li>
             <span
@@ -107,7 +107,7 @@ const Role = decodedToken?.staff.Role
 
               // Redirect to the root ('/') after sign out
               navigate('/');
-            }}
+            }} style={{ fontSize: '1.1rem'}}
           >
             Sign Out
           </span>
