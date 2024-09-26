@@ -2,7 +2,7 @@ import React from "react";
 
 function FarmerPriceCard({ goodCherry, floaters }) {
   return (
-    <div className="flex flex-col col-span-full h-full  sm:col-span-6 xl:col-span-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
+    <div className="flex flex-col col-span-full h-full  sm:col-span-6 xl:col-span-4 bg-white dark:bg-slate-800 shadow-lg rounded-lg border border-slate-200 dark:border-slate-700">
       <div className="px-5 pt-5">
         <div>
           <div className="flex flex-row justify-between text-[12px] mb-4">

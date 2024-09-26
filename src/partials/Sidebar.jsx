@@ -134,13 +134,15 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             </svg>
           </button>
           {/* Logo */}
-          <NavLink end to="/" className="block">
-            <img src={logo} height={75} width={75} alt="logo" />
+          <NavLink end to="/" className="block" style={{display: "flex", marginTop: "-1rem"}}>
+            <img src={logo} height={55} width={55} alt="logo" />
+            <h1 style={{marginTop: "2rem", fontSize:"1.5rem",color:"GrayText"}}>CoChain</h1>
           </NavLink>
+          
         </div>
 
         {/* Links */}
-        <div className="space-y-8 ">
+        <div className="space-y-8 " style={{marginTop:"-2rem"}}>
           <div>
             <ul className="mt-3">
               <SidebarLinkGroup
@@ -151,6 +153,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 }
               >
                 {(handleClick, open) => {
+                  const isDashboardActive =
+                      pathname.includes("dashboard")||
+                      pathname.includes("user_supply_inventory_details");
                   return (
                     <React.Fragment>
                       <NavLink
@@ -168,7 +173,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             : setSidebarExpanded(true);
                         }}
                       >
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between" >
                           <div className="flex items-center  ">
                             <RiDashboard3Line className="text-black" />
                             <span className="text-sm text-black font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -334,6 +339,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   activecondition={pathname.includes("farmer_registrations")}
                 >
                   {(handleClick, open) => {
+                    
                     const isRecentRegistrationsActive =
                       pathname.includes("recent_registrations");
                     const isVerifiedRegistrations =
