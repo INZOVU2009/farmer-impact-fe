@@ -54,7 +54,7 @@ function RecentFarmers() {
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
-      <div className="p-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
+      <div className="p-4 bg-white dark:bg-slate-800 shadow-lg rounded-lg border border-slate-200 dark:border-slate-700">
         <div className="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
           <div className="flex items-center mb-4 sm:mb-0">
             <form className="sm:pr-3" action="#" method="GET">
