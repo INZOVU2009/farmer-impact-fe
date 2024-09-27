@@ -6,36 +6,40 @@ function RecentRegistrationsTable() {
   const dispatch = useDispatch();
   const [allFarmerRegistrations, setAllFarmerRegistrations] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(50);
+  const [itemsPerPage, setItemsPerPage] = useState(50);
   const { registrations, loading } = useSelector(
     (state) => state.fetchAllFarmerRegistrations
   );
   const { verify } = useSelector((state) => state.verifyRegistration);
   const token = localStorage.getItem("token");
 
-
   useEffect(() => {
-    dispatch(fetchFarmerRegistrations(currentPage, itemsPerPage,token),);
+    dispatch(fetchFarmerRegistrations(currentPage, itemsPerPage, token, "new"));
   }, [dispatch]);
 
   useEffect(() => {
+    console.log(currentPage);
+    if (currentPage > 0)
+      dispatch(
+        fetchFarmerRegistrations(currentPage, itemsPerPage, token, "new")
+      );
+  }, [currentPage]);
+
+  useEffect(() => {
     if (registrations) {
-      const filteredRegistrations =
-        registrations?.data?.RegistrationData.filter(
-          (registration) => registration.status === "new"
-        );
-      setAllFarmerRegistrations(filteredRegistrations);
+      setAllFarmerRegistrations(registrations.data.RegistrationData);
     }
   }, [registrations]);
-  const totalPages = Math.ceil(allFarmerRegistrations?.length / itemsPerPage);
 
+  const totalPages = Math.ceil(allFarmerRegistrations?.length / itemsPerPage);
 
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+    let newPage = Math.min(currentPage + 1, totalPages);
+    setCurrentPage(newPage);
   };
   if (loading) {
     return <div>Loading...</div>;
@@ -48,7 +52,7 @@ function RecentRegistrationsTable() {
       );
     });
   };
-console.log("items", itemsPerPage)
+
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="p-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">

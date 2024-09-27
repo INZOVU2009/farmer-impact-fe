@@ -3,11 +3,17 @@ import { constants } from "../constants/constants";
 
 const url = constants.SERVER_URL;
 
-export const getFarmerRegistrations = (currentPage, itemsPerPage, token) => {
+export const getFarmerRegistrations = (
+  currentPage,
+  itemsPerPage,
+  token,
+  status
+) => {
   return new Promise((resolve, reject) => {
     axios
       .get(
-        `${url}/farmer_registrations/registrations?page=${currentPage}&&pageSize=${itemsPerPage}`,{
+        `${url}/farmer_registrations/registrations?page=${currentPage}&pageSize=${itemsPerPage}&status=${status}`,
+        {
           headers: { auth_token: ` ${token}` },
         }
       )
