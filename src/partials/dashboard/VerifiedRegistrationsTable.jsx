@@ -13,7 +13,7 @@ function VerifiedRegistrationsTable() {
   const { verify } = useSelector((state) => state.verifyRegistration);
   const token = localStorage.getItem("token");
   useEffect(() => {
-    dispatch(fetchFarmerRegistrations(currentPage, itemsPerPage,token));
+    dispatch(fetchFarmerRegistrations(currentPage, itemsPerPage, token));
   }, [dispatch]);
 
   useEffect(() => {
@@ -209,12 +209,12 @@ function VerifiedRegistrationsTable() {
             <span className="font-semibold text-gray-900 dark:text-white">
               {Math.min(
                 currentPage * itemsPerPage,
-                allFarmerRegistrations?.length
+                registrations?.data?.totalItems
               )}
             </span>{" "}
             of{" "}
             <span className="font-semibold text-gray-900 dark:text-white">
-              {allFarmerRegistrations?.length}
+              {registrations?.data?.totalItems}
             </span>
           </span>
         </div>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAllTrees } from "../../../redux/actions/householdTrees/fetchAllTrees.action";
-import { verifyTrees } from "../../../redux/actions/householdTrees/verifyHouseholdTrees.action";
 import { getTreeDetails } from "../../../redux/actions/householdTrees/fetchTreeDetails.action";
 function FinalTreeSurveyTable() {
   const dispatch = useDispatch();
@@ -71,9 +70,9 @@ function FinalTreeSurveyTable() {
   };
 
   const handleVerifyTrees = (id) => {
-    dispatch(verifyTrees(id)).then(() => {
-      setAllTrees((prevTrees) => prevTrees.filter((trees) => trees.id !== id));
-    });
+    // dispatch(verifyTrees(id)).then(() => {
+    //   setAllTrees((prevTrees) => prevTrees.filter((trees) => trees.id !== id));
+    // });
   };
   const handleCloseModal = () => {
     setAddModalOpen(false);

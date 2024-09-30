@@ -73,11 +73,12 @@ function ApprovedTreesSurveyTable() {
   };
   console.log("selectedTree", selectedTree);
   const handleVerifyTrees = (id) => {
-    dispatch(verifyTrees(id, token)).then(() => {
-      if (success)
+    dispatch(verifyTrees(id, token)).then((res) => {
+      if (res.status === "success") {
         setAllTrees((prevTrees) =>
           prevTrees.filter((trees) => trees.id !== id)
         );
+      }
     });
   };
   const handleCloseModal = () => {

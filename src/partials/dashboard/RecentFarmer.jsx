@@ -16,7 +16,7 @@ function RecentFarmers() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    dispatch(fetchFieldFarmers(currentPage, itemsPerPage,token));
+    dispatch(fetchFieldFarmers(currentPage, itemsPerPage, token));
   }, [dispatch]);
 
   useEffect(() => {
@@ -27,7 +27,6 @@ function RecentFarmers() {
       setRecentFarmers(filteredFarmers);
     }
   }, [AllFieldFarmers]);
-
 
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
@@ -284,11 +283,14 @@ function RecentFarmers() {
             </span>{" "}
             -{" "}
             <span className="font-semibold text-gray-900 dark:text-white">
-              {Math.min(currentPage * itemsPerPage, recentFarmers?.length)}
+              {Math.min(
+                currentPage * itemsPerPage,
+                AllFieldFarmers?.data?.totalItems
+              )}
             </span>{" "}
             of{" "}
             <span className="font-semibold text-gray-900 dark:text-white">
-              {recentFarmers?.length}
+              {AllFieldFarmers?.data?.totalItems}
             </span>
           </span>
         </div>

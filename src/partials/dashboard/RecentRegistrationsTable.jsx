@@ -6,7 +6,7 @@ function RecentRegistrationsTable() {
   const dispatch = useDispatch();
   const [allFarmerRegistrations, setAllFarmerRegistrations] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(50);
+  const [itemsPerPage] = useState(10);
   const { registrations, loading } = useSelector(
     (state) => state.fetchAllFarmerRegistrations
   );
@@ -35,7 +35,7 @@ function RecentRegistrationsTable() {
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+    setCurrentPage((prevPage) => prevPage + 1);
   };
   if (loading) {
     return <div>Loading...</div>;
@@ -125,7 +125,7 @@ console.log("items", itemsPerPage)
                   {allFarmerRegistrations?.map((registration, index) => (
                     <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                       <td className="w-4 p-4">
-                        {(currentPage - 1) * itemsPerPage + index + 1}
+                      {(currentPage - 1) * itemsPerPage + index + 1}
                       </td>
                       <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
                         <div className="text-base font-semibold text-gray-900 dark:text-white">
@@ -208,14 +208,11 @@ console.log("items", itemsPerPage)
             </span>{" "}
             -{" "}
             <span className="font-semibold text-gray-900 dark:text-white">
-              {Math.min(
-                currentPage * itemsPerPage,
-                allFarmerRegistrations?.length
-              )}
+              {Math.min(currentPage * itemsPerPage, registrations?.data?.totalItems)}
             </span>{" "}
             of{" "}
             <span className="font-semibold text-gray-900 dark:text-white">
-              {allFarmerRegistrations?.length}
+              {registrations?.data?.totalItems}
             </span>
           </span>
         </div>
