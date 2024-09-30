@@ -261,11 +261,11 @@ function PendingFarmers() {
             </span>{" "}
             -{" "}
             <span className="font-semibold text-gray-900 dark:text-white">
-              {Math.min(currentPage * itemsPerPage, recentFarmers?.length)}
+              {Math.min(currentPage * itemsPerPage, AllFieldFarmers?.data?.totalItems)}
             </span>{" "}
             of{" "}
             <span className="font-semibold text-gray-900 dark:text-white">
-              {recentFarmers?.length}
+              {AllFieldFarmers?.data?.totalItems}
             </span>
           </span>
         </div>

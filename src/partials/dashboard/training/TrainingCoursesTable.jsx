@@ -56,6 +56,12 @@ const TrainingsTable = ({
                       scope="col"
                       className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
+                      French
+                    </th>
+                    <th
+                      scope="col"
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                    >
                       Action
                     </th>
                   </tr>
@@ -70,17 +76,23 @@ const TrainingsTable = ({
                         class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         tyle={{ maxWidth: "300px" }}
                       >
+                        {training.ID_COURSE}
+                      </td>
+                      <td
+                        className="p-4 text-base font-medium text-gray-900 dark:text-white whitespace-normal overflow-hidden text-ellipsis"
+                        style={{ maxWidth: "300px", wordBreak: "break-word" }}
+                      >
                         {training.Name}
                       </td>
                       <td
-                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                        style={{ maxWidth: "300px" }}
+                        className="p-4 text-base font-medium text-gray-900 dark:text-white whitespace-normal overflow-hidden text-ellipsis"
+                        style={{ maxWidth: "300px", wordBreak: "break-word" }}
                       >
                         {training.Name_rw}
                       </td>
                       <td
-                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                        style={{ maxWidth: "300px" }}
+                        className="p-4 text-base font-medium text-gray-900 dark:text-white whitespace-normal overflow-hidden text-ellipsis"
+                        style={{ maxWidth: "300px", wordBreak: "break-word" }}
                       >
                         {training.Name_fr}
                       </td>

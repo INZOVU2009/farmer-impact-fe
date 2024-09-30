@@ -220,7 +220,7 @@ const TrainingParticipantsTable = ({
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {CourseID(attendance.__Kf_Training)}
                       </td>
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white" style={{maxWidth: "300px" ,  wordBreak: "break-word"}}>
                         {courseName(attendance.__Kf_Training)}
                       </td>
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
