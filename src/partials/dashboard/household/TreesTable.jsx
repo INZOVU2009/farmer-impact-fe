@@ -15,7 +15,7 @@ function TreesTable() {
   const [treeDetails , setTreeDetails] = useState([])
 
   const { householdTrees } = useSelector((state) => state.fetchAllTrees);
-  const { approve,success } = useSelector((state) => state.approveHouseholdTrees);
+  const { approve } = useSelector((state) => state.approveHouseholdTrees);
   const { details } = useSelector((state) => state.fetchTreeDetails);
   const token = localStorage.getItem("token");
   useEffect(() => {
@@ -24,9 +24,13 @@ function TreesTable() {
 
   useEffect(() => {
     if (householdTrees) {
-      setAllTrees(householdTrees?.data?.household || []);
+      setAllTrees(householdTrees?.data?.household.filter(
+        (tree) => tree.status === "new"
+      ) || []);
+      
     }
   }, [householdTrees]);
+  
 
   useEffect(() => {
     if (kpTreesSurvey) {
@@ -68,12 +72,15 @@ function TreesTable() {
     setAddModalOpen(true);
   };
   console.log("hehehe",kpTreesSurvey)
+  // Updated handleApproveTree with success flag check
   const handleApproveTree = (id) => {
-    dispatch(approveTrees(id, token)).then(() => {
-      if(success)
-      setAllTrees((prevTrees) => prevTrees.filter((trees) => trees.id !== id));
+    dispatch(approveTrees(id, token)).then((res) => {
+      if (res.status === "success") {  // Check if the status is "success"
+        setAllTrees((prevTrees) => prevTrees.filter((tree) => tree.id !== id));
+      }
     });
   };
+  
   const handleCloseModal = () => {
     setAddModalOpen(false);
     setSelectedTree(null);
