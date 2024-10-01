@@ -79,7 +79,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
       setRetrievedModules(modules.data);
     }
   }, [modules]);
-// console.log("retrieved",retrievedModules)
+  // console.log("retrieved",retrievedModules)
   useEffect(() => {
     dispatch(assignedModules(token));
   }, [dispatch]);
@@ -89,14 +89,14 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
       setAllAssignedModules(modulesAssigned.data);
     }
   }, [modulesAssigned]);
-console.log("all assigned",modulesAssigned)
+  console.log("all assigned", modulesAssigned);
   const assignedModuleIds =
     allAssignedModules?.map((mod) => mod.moduleid) || [];
   const filteredModules = retrievedModules?.filter((module) =>
     assignedModuleIds.includes(module.id)
   );
-console.log("alll",allAssignedModules)
-console.log("filtered",filteredModules)
+  console.log("alll", allAssignedModules);
+  console.log("filtered", filteredModules);
   return (
     <div>
       {/* Sidebar backdrop (mobile only) */}
@@ -195,9 +195,9 @@ console.log("filtered",filteredModules)
                       pathname.includes("recent_farmers");
                     const isApprovedFarmers =
                       pathname.includes("approved_farmers");
-                      const isPendingFarmers =
+                    const isPendingFarmers =
                       pathname.includes("pending_farmers");
-                      const isSyncedFarmersActive =
+                    const isSyncedFarmersActive =
                       pathname.includes("synced_farmers");
                     return (
                       <React.Fragment>
@@ -277,7 +277,7 @@ console.log("filtered",filteredModules)
                                 </NavLink>
                               </li>
                             )}
-                              {filteredModules?.some(
+                            {filteredModules?.some(
                               (module) =>
                                 module.module_name === "Pending farmers"
                             ) && (
@@ -286,9 +286,7 @@ console.log("filtered",filteredModules)
                                   end
                                   to="/user_registration/pending_farmers"
                                   style={
-                                    isPendingFarmers
-                                      ? { color: "#4F46E5" }
-                                      : {}
+                                    isPendingFarmers ? { color: "#4F46E5" } : {}
                                   }
                                   className="block text-black hover:text-slate-400 transition duration-150 truncate"
                                 >
@@ -335,13 +333,15 @@ console.log("filtered",filteredModules)
                   activecondition={pathname.includes("farmer_registrations")}
                 >
                   {(handleClick, open) => {
-                    const isRecentRegistrationsActive =
-                      pathname.includes("recent_registrations");
-                    const isVerifiedRegistrations =
-                      pathname.includes("verified_registrations");
-                      const isApprovedRegistrationsActive =
+                    const isRecentRegistrationsActive = pathname.includes(
+                      "recent_registrations"
+                    );
+                    const isVerifiedRegistrations = pathname.includes(
+                      "verified_registrations"
+                    );
+                    const isApprovedRegistrationsActive =
                       pathname.includes("approved_farmers");
-                      const isSyncedFarmersActive =
+                    const isSyncedFarmersActive =
                       pathname.includes("synced_farmers");
                     return (
                       <React.Fragment>
@@ -400,7 +400,7 @@ console.log("filtered",filteredModules)
                                 </NavLink>
                               </li>
                             )}{" "}
-                             {filteredModules.some(
+                            {filteredModules.some(
                               (module) =>
                                 module.module_name === "Verified Registrations"
                             ) && (
@@ -421,7 +421,7 @@ console.log("filtered",filteredModules)
                                 </NavLink>
                               </li>
                             )}{" "}
-                             {filteredModules.some(
+                            {filteredModules.some(
                               (module) =>
                                 module.module_name === "Approved Registrations"
                             ) && (
@@ -442,7 +442,6 @@ console.log("filtered",filteredModules)
                                 </NavLink>
                               </li>
                             )}{" "}
-                           
                           </ul>
                         </div>
                       </React.Fragment>
@@ -464,7 +463,7 @@ console.log("filtered",filteredModules)
                       pathname.includes("household_trees");
                     const isApprovedTreesActive =
                       pathname.includes("approved_trees");
-                      const isVerifiedTreesActive =
+                    const isVerifiedTreesActive =
                       pathname.includes("verified_trees");
                     return (
                       <React.Fragment>
@@ -534,7 +533,9 @@ console.log("filtered",filteredModules)
                                   end
                                   to="/household/approved_trees"
                                   style={
-                                    isApprovedTreesActive ? { color: "#4F46E5" } : {}
+                                    isApprovedTreesActive
+                                      ? { color: "#4F46E5" }
+                                      : {}
                                   }
                                   className="block text-black hover:text-slate-400 transition duration-150 truncate"
                                 >
@@ -555,7 +556,9 @@ console.log("filtered",filteredModules)
                                   end
                                   to="/household/verified_trees"
                                   style={
-                                    isVerifiedTreesActive ? { color: "#4F46E5" } : {}
+                                    isVerifiedTreesActive
+                                      ? { color: "#4F46E5" }
+                                      : {}
                                   }
                                   className="block text-black hover:text-slate-400 transition duration-150 truncate"
                                 >
@@ -707,9 +710,8 @@ console.log("filtered",filteredModules)
                     const isParticipantsActive = pathname.includes(
                       "recent_participants"
                     );
-                    const isWeeklyReportActive = pathname.includes(
-                      "weekly_report"
-                    );
+                    const isWeeklyReportActive =
+                      pathname.includes("weekly_report");
                     return (
                       <React.Fragment>
                         <a
@@ -787,7 +789,10 @@ console.log("filtered",filteredModules)
                               </li>
                             )}
                             {filteredModules?.some(
-                              (module) => module.module_name === "weekly report" || "Weekly Report" || "WEEKLY REPORT"
+                              (module) =>
+                                module.module_name === "weekly report" ||
+                                module.module_name === "Weekly Report" ||
+                                module.module_name === "WEEKLY REPORT"
                             ) && (
                               <li className="mb-1 last:mb-0">
                                 <NavLink
@@ -1059,7 +1064,7 @@ console.log("filtered",filteredModules)
                                   className="block text-black hover:text-slate-400 transition duration-150 truncate"
                                 >
                                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                  Assigned Parchment
+                                    Assigned Parchment
                                   </span>
                                 </NavLink>
                               </li>
@@ -1346,7 +1351,8 @@ console.log("filtered",filteredModules)
                   {(handleClick, open) => {
                     const isAccessModulesActive =
                       pathname.includes("access_modules");
-                      const isTranslationsActive = pathname.includes("user_translator")
+                    const isTranslationsActive =
+                      pathname.includes("user_translator");
                     return (
                       <React.Fragment>
                         <a
@@ -1403,11 +1409,10 @@ console.log("filtered",filteredModules)
                               <NavLink
                                 end
                                 to="/app_setting/inspection_questions"
-                              
                                 className="block text-black hover:text-slate-400 transition duration-150 truncate"
                               >
                                 <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Inspection Questions
+                                  Inspection Questions
                                 </span>
                               </NavLink>
                             </li>

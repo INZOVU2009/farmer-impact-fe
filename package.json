@@ -27,6 +27,8 @@
     "react-router-dom": "^6.20.1",
     "react-toastify": "^10.0.4",
     "react-transition-group": "^4.4.5",
+    "tw-elements": "^2.0.0",
+    "tw-elements-react": "^1.0.0-alpha-end",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
