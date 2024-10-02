@@ -86,6 +86,7 @@ import fetchWeeklyReportSlice from "./slices/trainings/fetchWeeklyReportSlice";
 import approveHouseholdTreesSlice from "./slices/householdTrees/approveHouseholdTreesSlice";
 import verifyHouseholdTreesSlice from "./slices/householdTrees/verifyHouseholdTreesSlice";
 import fetchTreeDetailsSlice from "./slices/householdTrees/fetchTreeDetailsSlice";
+import getHouseholdTreeSurveyByDateSlice from "./slices/householdTrees/getHouseholdTreeSurveyByDateSlice";
 const store = configureStore({
   reducer: {
     login,
@@ -176,6 +177,7 @@ const store = configureStore({
     approveHouseholdTrees: approveHouseholdTreesSlice,
     verifyHouseholdTrees: verifyHouseholdTreesSlice,
     fetchTreeDetails: fetchTreeDetailsSlice,
+    getHouseholdTreeSurveyByDate: getHouseholdTreeSurveyByDateSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

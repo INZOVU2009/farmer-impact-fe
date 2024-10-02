@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAllTrees } from "../../../redux/actions/householdTrees/fetchAllTrees.action";
 import { getTreeDetails } from "../../../redux/actions/householdTrees/fetchTreeDetails.action";
+import { fetchHouseholdTreesSurveyByDate } from "../../../redux/actions/householdTrees/getHouseholdTreesSurveyByDate.action";
+import { fetchAllStation } from "../../../redux/actions/station/allStations.action";
+import toast from "react-hot-toast";
 function FinalTreeSurveyTable() {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
@@ -11,9 +14,13 @@ function FinalTreeSurveyTable() {
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [selectedTree, setSelectedTree] = useState(null);
   const [kpTreesSurvey, setKpTreessurvey] = useState(null);
+  const [allStation, setAllStation] = useState([]);
   const [treeDetails, setTreeDetails] = useState([]);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const { householdTrees } = useSelector((state) => state.fetchAllTrees);
   const { details } = useSelector((state) => state.fetchTreeDetails);
+  const { stations } = useSelector((state) => state.fetchAllStations);
 
   useEffect(() => {
     dispatch(fetchAllTrees(currentPage, itemsPerPage));
@@ -40,6 +47,16 @@ function FinalTreeSurveyTable() {
       setTreeDetails(details?.data);
     }
   }, [details]);
+
+  useEffect(() => {
+    dispatch(fetchAllStation());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (stations) {
+      setAllStation(stations.data);
+    }
+  }, [stations]);
 
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
@@ -69,14 +86,131 @@ function FinalTreeSurveyTable() {
     setAddModalOpen(true);
   };
 
-  const handleVerifyTrees = (id) => {
-    // dispatch(verifyTrees(id)).then(() => {
-    //   setAllTrees((prevTrees) => prevTrees.filter((trees) => trees.id !== id));
-    // });
-  };
   const handleCloseModal = () => {
     setAddModalOpen(false);
     setSelectedTree(null);
+  };
+  const getStationName = (_kf_Station) => {
+    const station = allStation?.find(
+      (station) => station.__kp_Station === _kf_Station
+    );
+    return station ? station.Name : null;
+  };
+  const handleDownload = () => {
+    dispatch(fetchHouseholdTreesSurveyByDate(startDate, endDate))
+      .then((response) => {
+        const allSurvey = response.data || [];
+
+        if (allSurvey.length === 0) {
+          toast.error("No data available to download.");
+          return; // Exit the function if there's no data
+        }
+
+        const formatDate = (dateString) => {
+          const date = new Date(dateString);
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, "0");
+          const day = String(date.getDate()).padStart(2, "0");
+          return `${year}-${month}-${day}`;
+        };
+
+        const headers = [
+          "ID",
+          "Created At",
+          "User ID",
+          "Full Name",
+          "Station ID",
+          "Supplier ID",
+          "Tree Details ID",
+          "Pests Diseases ID",
+          "Pests Observation ID",
+          "Courses Observation ID",
+          "Station Name",
+          "Group ID",
+          "Farmer ID",
+          "Farmer Name",
+          "National ID",
+          "Phone",
+          "Year of Birth",
+          "Gender",
+          "Children (1-20 years)",
+          "Children (20-30 years)",
+          "Main Income Source",
+          "Coffee Trees",
+          "Coffee Farms",
+          "Trees (10-20)",
+          "Trees (20+)",
+          "Trees (<10)",
+          "Shade Trees",
+          "Natural Shade Trees",
+          "Nitrogen Fixing Shade Trees",
+          "Other Crops in Coffee Farm",
+          "Other Crops in Farm",
+          "Latitude",
+          "Longitude",
+          "Status",
+          "Updated At",
+        ];
+
+        const data = [];
+
+        data.push(headers.join(","));
+
+        allSurvey.forEach((survey) => {
+          const rowData = [
+            survey.id,
+            formatDate(survey.created_at),
+            survey._kf_User,
+            survey.full_name,
+            getStationName(survey._kf_Station),
+            survey._kf_Supplier,
+            survey._kf_tree_details,
+            survey._kf_pests_diseases,
+            survey._kf_pests_observation,
+            survey._kf_courses_observation,
+            survey.station_name,
+            survey.group_id,
+            survey.farmer_id,
+            survey.farmer_name,
+            survey.national_id,
+            survey.phone,
+            survey.year_of_birth,
+            survey.gender,
+            survey.child_1_to_20_yrs,
+            survey.child_20_to_30_yrs,
+            survey.income_source_main,
+            survey.coffee_trees,
+            survey.coffee_farms,
+            survey.trees_10_20,
+            survey.trees_20_more,
+            survey.trees_less_than_10,
+            survey.shade_trees,
+            survey.natural_shade_trees,
+            survey.nitrogen_fixing_shade_trees,
+            survey.other_crops_in_coffee_farm,
+            survey.other_crops_in_farm,
+            survey.latitude,
+            survey.longitude,
+            survey.status,
+            formatDate(survey.updated_at),
+          ];
+          data.push(rowData.join(","));
+        });
+
+        const csvContent = "data:text/csv;charset=utf-8," + data.join("\n");
+        const encodedUri = encodeURI(csvContent);
+
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "trees_survey_data.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        toast.error("Failed to fetch data for download.");
+      });
   };
 
   return (
@@ -101,6 +235,34 @@ function FinalTreeSurveyTable() {
               </div>
             </form>
           </div>
+        </div>
+      </div>
+      <div className="flex items-center justify-end my-4  sm:mb-0">
+        <div className="flex  justify-end items-end  space-x-4 my-1 ">
+          <div>
+            <p>From :</p>
+            <input
+              type="Date"
+              className="rounded-lg w-40"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+          </div>
+          <div>
+            <p>To : </p>
+            <input
+              type="Date"
+              className="rounded-lg w-40"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </div>
+          <button
+            className="w-40 bg-green-500 text-white rounded-md py-2.5"
+            onClick={handleDownload}
+          >
+            Download Report
+          </button>
         </div>
       </div>
 

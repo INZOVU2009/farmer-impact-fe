@@ -63,3 +63,18 @@ export const fetchTreeDetails = (kpTreesSurvey) => {
       });
   });
 };
+export const getTreeSurveyByDate = (startDate, endDate) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(
+        `${url}/trees/treesurveybydate?startDate=${startDate}&&endDate=${endDate}`
+      )
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response?.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};
