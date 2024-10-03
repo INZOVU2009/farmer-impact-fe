@@ -137,7 +137,7 @@ console.log("filtered",filteredModules)
           {/* Logo */}
           <NavLink end to="/" className="block" style={{display: "flex", marginTop: "-1rem"}}>
             <img src={logo} height={55} width={55} alt="logo" />
-            <h1 style={{marginTop: "2rem", fontSize:"1.5rem",color:"GrayText"}}>CoChain</h1>
+            <h1 style={{marginTop: "2rem", fontSize:"1.4rem",color:"GrayText"}}>Famer Impact</h1>
           </NavLink>
           
         </div>
