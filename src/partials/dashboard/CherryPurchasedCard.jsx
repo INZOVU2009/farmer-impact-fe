@@ -16,7 +16,7 @@ function CherryPurchasedCard({
   floaters,
 }) {
   return (
-    <div className="flex flex-col  col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
+    <div className="flex flex-col  col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-slate-800 shadow-lg rounded-lg border border-slate-200 dark:border-slate-700">
       <div className="px-5 pt-5">
         <header className="flex justify-between items-start mb-2">
           <img src={Icon} width="32" height="32" alt="Icon 02" />

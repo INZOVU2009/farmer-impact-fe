@@ -16,6 +16,7 @@ import commissionFeesSlice from "./slices/transactions/addCommissionFees";
 import commissionSlice from "./slices/transactions/addCommisionPrice";
 import approveJournalSlice from "./slices/transactions/approveJournalSlice";
 import allStationSlice from "./slices/station/allStationsSlice";
+import allSupplierSlice from "./slices/supplier/allSupplierSlice";
 import journalsByCherryLotSlice from "./slices/transactions/journalsByCherryLotSlice";
 import addPermissionsSlice from "./slices/accessModules/addPermissionsSlice";
 import transactionByCherryLotSlice from "./slices/transactions/transactionByCherryLotSlice";
@@ -106,6 +107,9 @@ const store = configureStore({
     commissionFees: commissionFeesSlice,
     approveJournal: approveJournalSlice,
     fetchAllStations: allStationSlice,
+
+    Suppliers: allSupplierSlice,
+
     fetchAllJournalsByCherryLotId: journalsByCherryLotSlice,
     addPermissions: addPermissionsSlice,
     fetchAllTransactionsByCherryLot: transactionByCherryLotSlice,
@@ -147,7 +151,9 @@ const store = configureStore({
     activateUser: activateUserSlice,
     updateModule: updateModule,
     createModule: createNewModuleSlice,
+
     fetchAllTrees: getAllTreeServeySlice,
+    
     fetchAssignedModules: getAssignedModulesSlice,
     fetchAllTranslations: fetchAllTranslationsSlice,
     deleteTranslation: deleteTranslationSlice,
