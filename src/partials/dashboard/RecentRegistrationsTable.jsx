@@ -6,37 +6,33 @@ function RecentRegistrationsTable() {
   const dispatch = useDispatch();
   const [allFarmerRegistrations, setAllFarmerRegistrations] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
+  const [itemsPerPage] = useState(3);
   const { registrations, loading } = useSelector(
     (state) => state.fetchAllFarmerRegistrations
   );
   const { verify } = useSelector((state) => state.verifyRegistration);
   const token = localStorage.getItem("token");
 
-
   useEffect(() => {
-    dispatch(fetchFarmerRegistrations(currentPage, itemsPerPage,token),);
-  }, [dispatch]);
+    dispatch(fetchFarmerRegistrations(currentPage, itemsPerPage, token));
+  }, [dispatch, currentPage, token]);
 
   useEffect(() => {
     if (registrations) {
-      const filteredRegistrations =
-        registrations?.data?.RegistrationData.filter(
-          (registration) => registration.status === "new"
-        );
-      setAllFarmerRegistrations(filteredRegistrations);
+      setAllFarmerRegistrations(registrations?.data?.RegistrationData);
     }
   }, [registrations]);
-  const totalPages = Math.ceil(allFarmerRegistrations?.length / itemsPerPage);
-
 
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
+    setCurrentPage((prevPage) =>
+      Math.min(prevPage + 1, registrations?.data?.totalPages)
+    );
   };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -48,7 +44,7 @@ function RecentRegistrationsTable() {
       );
     });
   };
-console.log("items", itemsPerPage)
+  console.log("items", itemsPerPage);
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="p-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
@@ -125,7 +121,7 @@ console.log("items", itemsPerPage)
                   {allFarmerRegistrations?.map((registration, index) => (
                     <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                       <td className="w-4 p-4">
-                      {(currentPage - 1) * itemsPerPage + index + 1}
+                        {(currentPage - 1) * itemsPerPage + index + 1}
                       </td>
                       <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
                         <div className="text-base font-semibold text-gray-900 dark:text-white">
@@ -201,20 +197,29 @@ console.log("items", itemsPerPage)
               ></path>
             </svg>
           </a>
-          <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-            Showing{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {(currentPage - 1) * itemsPerPage + 1}
-            </span>{" "}
-            -{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {Math.min(currentPage * itemsPerPage, registrations?.data?.totalItems)}
-            </span>{" "}
-            of{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {registrations?.data?.totalItems}
+          {registrations?.data?.totalItems > 0 ? (
+            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+              Showing{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {(currentPage - 1) * itemsPerPage + 1}
+              </span>{" "}
+              -{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {Math.min(
+                  currentPage * itemsPerPage,
+                  registrations?.data?.totalItems
+                )}
+              </span>{" "}
+              of{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {registrations?.data?.totalItems}
+              </span>
             </span>
-          </span>
+          ) : (
+            <span className="text-lg font-bold text-blue-700 dark:text-gray-400">
+              No items to display
+            </span>
+          )}
         </div>
         <div className="flex items-center space-x-3">
           <a

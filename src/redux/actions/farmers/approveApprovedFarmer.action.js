@@ -14,14 +14,10 @@ export const approveApprovedFieldFarmer = (id) => async (dispatch) => {
     return res;
   } catch (error) {
     if (error) {
-      console.log("err", error);
-
       toast.error(`${error.message} `);
-      console.log("errrrr", error.message);
       return dispatch(approvedFail(error.message));
     }
     toast.error(`${error.Error}`);
-    console.log("errrr", error);
     return dispatch(approvedFail(error.Error));
   }
 };

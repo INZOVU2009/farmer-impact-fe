@@ -8,7 +8,7 @@ function RecentFarmers() {
   const dispatch = useDispatch();
   const [recentFarmers, setRecentFarmers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
+  const [itemsPerPage] = useState(20);
   const { AllFieldFarmers, loading } = useSelector(
     (state) => state.Field_Farmer
   );
@@ -17,14 +17,11 @@ function RecentFarmers() {
 
   useEffect(() => {
     dispatch(fetchFieldFarmers(currentPage, itemsPerPage, token));
-  }, [dispatch]);
+  }, [dispatch,currentPage,token]);
 
   useEffect(() => {
     if (AllFieldFarmers) {
-      const filteredFarmers = AllFieldFarmers?.data?.farmerData.filter(
-        (farmer) => farmer.status === "new"
-      );
-      setRecentFarmers(filteredFarmers);
+      setRecentFarmers(AllFieldFarmers?.data?.farmerData);
     }
   }, [AllFieldFarmers]);
 
@@ -33,7 +30,7 @@ function RecentFarmers() {
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, AllFieldFarmers?.data?.totalPages));
   };
 
   const handleApprove = (id) => {
@@ -46,10 +43,6 @@ function RecentFarmers() {
 
   if (loading) {
     return <div>Loading...</div>;
-  }
-
-  if (!AllFieldFarmers || AllFieldFarmers.length === 0) {
-    return <div>No field farmers available</div>;
   }
 
   return (
@@ -276,23 +269,29 @@ function RecentFarmers() {
               ></path>
             </svg>
           </a>
-          <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-            Showing{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {(currentPage - 1) * itemsPerPage + 1}
-            </span>{" "}
-            -{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {Math.min(
-                currentPage * itemsPerPage,
-                AllFieldFarmers?.data?.totalItems
-              )}
-            </span>{" "}
-            of{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {AllFieldFarmers?.data?.totalItems}
+          {AllFieldFarmers?.data?.totalItems > 0 ? (
+            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+              Showing{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {(currentPage - 1) * itemsPerPage + 1}
+              </span>{" "}
+              -{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {Math.min(
+                  currentPage * itemsPerPage,
+                  AllFieldFarmers?.data?.totalItems
+                )}
+              </span>{" "}
+              of{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {AllFieldFarmers?.data?.totalItems}
+              </span>
             </span>
-          </span>
+          ) : (
+            <span className="text-lg font-bold text-[#4F46E5] dark:text-gray-400">
+              No items to display
+            </span>
+          )}
         </div>
         <div className="flex items-center space-x-3">
           <a

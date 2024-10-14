@@ -344,9 +344,9 @@ console.log("filtered",filteredModules)
                     const isRecentRegistrationsActive =
                       pathname.includes("recent_registrations");
                     const isVerifiedRegistrations =
-                      pathname.includes("verified_registrations");
+                      pathname.includes("farmer_registrations/verified_registrations");
                       const isApprovedRegistrationsActive =
-                      pathname.includes("approved_farmers");
+                      pathname.includes("farmer_registrations/approved_registrations");
                       const isSyncedFarmersActive =
                       pathname.includes("synced_farmers");
                     return (

@@ -88,6 +88,10 @@ import approveHouseholdTreesSlice from "./slices/householdTrees/approveHousehold
 import verifyHouseholdTreesSlice from "./slices/householdTrees/verifyHouseholdTreesSlice";
 import fetchTreeDetailsSlice from "./slices/householdTrees/fetchTreeDetailsSlice";
 import getHouseholdTreeSurveyByDateSlice from "./slices/householdTrees/getHouseholdTreeSurveyByDateSlice";
+import fetchAllPendingFarmersSlice from "./slices/farmers/fetchPendingFarmersSlice";
+import fetchAllApprovedFarmersSlice from "./slices/farmers/fetchApprovedFarmersSlice";
+import fetchAllApprovedRegistrationSlice from "./slices/registrations/fetchApprovedRegistrationSlice";
+import fetchAllVerifiedRegistrationsSlice from "./slices/registrations/fetchVerifiedRegistrationsSlice";
 const store = configureStore({
   reducer: {
     login,
@@ -107,9 +111,7 @@ const store = configureStore({
     commissionFees: commissionFeesSlice,
     approveJournal: approveJournalSlice,
     fetchAllStations: allStationSlice,
-
     Suppliers: allSupplierSlice,
-
     fetchAllJournalsByCherryLotId: journalsByCherryLotSlice,
     addPermissions: addPermissionsSlice,
     fetchAllTransactionsByCherryLot: transactionByCherryLotSlice,
@@ -184,6 +186,13 @@ const store = configureStore({
     verifyHouseholdTrees: verifyHouseholdTreesSlice,
     fetchTreeDetails: fetchTreeDetailsSlice,
     getHouseholdTreeSurveyByDate: getHouseholdTreeSurveyByDateSlice,
+    fetchAllApprovedFarmers: fetchAllApprovedFarmersSlice,
+    fetchAllPendingFarmers: fetchAllPendingFarmersSlice,
+    fetchAllApprovedRegistrations: fetchAllApprovedRegistrationSlice,
+    fetchAllVerifiedRegistrations: fetchAllVerifiedRegistrationsSlice,
+
+
+  
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -105,8 +105,8 @@ const WeeklyReportTable = ({
                     </th>
                     <th
                       scope="col"
-                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
+                      className="p-2 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400 max-w-[9rem]">
+                    
                       Comment
                     </th>
                   </tr>
@@ -146,12 +146,10 @@ const WeeklyReportTable = ({
                       <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {report.men_attended}
                       </td>
-                      <td
-                        className="p-4 text-base font-medium text-gray-900 dark:text-white whitespace-normal overflow-hidden text-ellipsis"
-                        style={{ maxWidth: "300px", wordBreak: "break-word" }}
-                      >
-                        {report.comments}
-                      </td>
+                      <td class="p-4 text-base font-medium text-gray-900 dark:text-white break-words whitespace-normal max-w-[9rem]">
+  Nasuye pipinyeri abahinzi bakomeje igikorwa gusasira nakoranye inama n abahinzi tuganira kumusaruro wubutaha
+</td>
+
                     </tr>
                   ))}
                 </tbody>

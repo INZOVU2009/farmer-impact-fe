@@ -1,43 +1,43 @@
 import React, { useEffect, useState } from "react";
-import { fetchFieldFarmers } from "../../redux/actions/farmers/all_field_farmer.action";
 import { useSelector, useDispatch } from "react-redux";
 import { approveApprovedFieldFarmer } from "../../redux/actions/farmers/approveApprovedFarmer.action";
 import { Toaster } from "react-hot-toast";
+import { fetchAllApprovedFarmers } from "../../redux/actions/farmers/fetchAllApprovedFarmers.action";
+
 function ApprovedFarmers() {
   const dispatch = useDispatch();
-  const [recentFarmers, setRecentFarmers] = useState([]);
+  const [allApprovedFarmers, setAllApprovedFarmers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
+  const [itemsPerPage] = useState(20);
   const token = localStorage.getItem("token");
-  const { AllFieldFarmers, loading } = useSelector(
-    (state) => state.Field_Farmer
+  const { approvedFarmers, loading } = useSelector(
+    (state) => state.fetchAllApprovedFarmers
   );
 
   useEffect(() => {
-    dispatch(fetchFieldFarmers(currentPage, itemsPerPage,token));
-  }, [dispatch]);
+    dispatch(fetchAllApprovedFarmers(currentPage, itemsPerPage,token));
+  }, [dispatch,currentPage,token]);
 
   useEffect(() => {
-    if (AllFieldFarmers) {
-      const filteredFarmers = AllFieldFarmers?.data?.farmerData.filter(
-        (farmer) => farmer.status === "pending"
-      );
-      setRecentFarmers(filteredFarmers);
+    if (approvedFarmers) {
+      
+      setAllApprovedFarmers(approvedFarmers?.data?.farmerData);
     }
-  }, [AllFieldFarmers]);
+  }, [approvedFarmers]);
 
-  console.log("farmers", recentFarmers);
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
+    setCurrentPage((prevPage) =>
+      Math.min(prevPage + 1, approvedFarmers?.data?.totalPages)
+    );
   };
 
   const handleApprove = (id) => {
     dispatch(approveApprovedFieldFarmer(id)).then(() => {
-      setRecentFarmers((prevFarmers) =>
+      setAllApprovedFarmers((prevFarmers) =>
         prevFarmers.filter((farmer) => farmer.id !== id)
       );
     });
@@ -47,9 +47,6 @@ function ApprovedFarmers() {
     return <div>Loading...</div>;
   }
 
-  if (!AllFieldFarmers || AllFieldFarmers.length === 0) {
-    return <div>No field farmers available</div>;
-  }
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
@@ -165,7 +162,7 @@ function ApprovedFarmers() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                  {recentFarmers?.map((farmer, index) => (
+                  {approvedFarmers?.map((farmer, index) => (
                     <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                       <td className="w-4 p-4">{index + 1}</td>
                       <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
@@ -263,20 +260,29 @@ function ApprovedFarmers() {
               ></path>
             </svg>
           </a>
-          <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-            Showing{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {(currentPage - 1) * itemsPerPage + 1}
-            </span>{" "}
-            -{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {Math.min(currentPage * itemsPerPage, recentFarmers?.length)}
-            </span>{" "}
-            of{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {recentFarmers?.length}
+          {approvedFarmers?.data?.totalItems > 0 ? (
+            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+              Showing{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {(currentPage - 1) * itemsPerPage + 1}
+              </span>{" "}
+              -{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {Math.min(
+                  currentPage * itemsPerPage,
+                  approvedFarmers?.data?.totalItems
+                )}
+              </span>{" "}
+              of{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {approvedFarmers?.data?.totalItems}
+              </span>
             </span>
-          </span>
+          ) : (
+            <span className="text-lg font-bold text-[#4F46E5] dark:text-gray-400">
+              No items to display
+            </span>
+          )}
         </div>
         <div className="flex items-center space-x-3">
           <a
