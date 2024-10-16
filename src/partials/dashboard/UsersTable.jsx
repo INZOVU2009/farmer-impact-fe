@@ -45,14 +45,14 @@ const UsersTable = () => {
       setAllUsers(users.data);
     }
   }, [users]);
-
   useEffect(() => {
     dispatch(fetchAllStaff());
   }, [dispatch]);
 
   useEffect(() => {
     if (staffs) {
-      setAllStaff(staffs.data);
+      const sortedStaff = [...staffs.data].sort((a, b) => b.id - a.id);
+      setAllStaff(sortedStaff);
     }
   }, [staffs]);
 
@@ -71,8 +71,6 @@ const UsersTable = () => {
     : allStaff;
 
   const totalPages = Math.ceil(filteredStaff?.length / itemsPerPage);
-
-  // Paginate the user data
   const paginatedStaffs = filteredStaff?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage

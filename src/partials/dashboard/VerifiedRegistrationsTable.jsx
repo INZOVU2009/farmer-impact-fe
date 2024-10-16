@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchFarmerRegistrations } from "../../redux/actions/registrations/fetchAllFarmerRegistrations.action";
 import { approveVerifiedRegistration } from "../../redux/actions/registrations/approveRegistration.action";
+import { fetchVerifiedFarmerRegistrations } from "../../redux/actions/registrations/fetchAllVerifiedFarmers.action";
+
 function VerifiedRegistrationsTable() {
   const dispatch = useDispatch();
   const [allFarmerRegistrations, setAllFarmerRegistrations] = useState([]);
@@ -10,21 +12,23 @@ function VerifiedRegistrationsTable() {
   const { registrations, loading } = useSelector(
     (state) => state.fetchAllFarmerRegistrations
   );
+  const { verifiedRegistrations } = useSelector(
+    (state) => state.fetchAllVerifiedRegistrations
+  );
+  console.log("zdjhjhsf", verifiedRegistrations);
   const { verify } = useSelector((state) => state.verifyRegistration);
   const token = localStorage.getItem("token");
   useEffect(() => {
-    dispatch(fetchFarmerRegistrations(currentPage, itemsPerPage, token));
-  }, [dispatch]);
+    dispatch(
+      fetchVerifiedFarmerRegistrations(currentPage, itemsPerPage, token)
+    );
+  }, [dispatch, currentPage, token]);
 
   useEffect(() => {
-    if (registrations) {
-      const filteredRegistrations =
-        registrations?.data?.RegistrationData.filter(
-          (registration) => registration.status === "verified"
-        );
-      setAllFarmerRegistrations(filteredRegistrations);
+    if (verifiedRegistrations) {
+      setAllFarmerRegistrations(verifiedRegistrations?.data?.RegistrationData);
     }
-  }, [registrations]);
+  }, [verifiedRegistrations]);
 
   const totalPages = Math.ceil(allFarmerRegistrations?.length / itemsPerPage);
 
@@ -33,7 +37,9 @@ function VerifiedRegistrationsTable() {
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+    setCurrentPage((prevPage) =>
+      Math.min(prevPage + 1, verifiedRegistrations?.data?.totalPages)
+    );
   };
 
   if (loading) {
@@ -200,23 +206,29 @@ function VerifiedRegistrationsTable() {
               ></path>
             </svg>
           </a>
-          <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-            Showing{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {(currentPage - 1) * itemsPerPage + 1}
-            </span>{" "}
-            -{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {Math.min(
-                currentPage * itemsPerPage,
-                registrations?.data?.totalItems
-              )}
-            </span>{" "}
-            of{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {registrations?.data?.totalItems}
+          {verifiedRegistrations?.data?.totalItems > 0 ? (
+            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+              Showing{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {(currentPage - 1) * itemsPerPage + 1}
+              </span>{" "}
+              -{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {Math.min(
+                  currentPage * itemsPerPage,
+                  verifiedRegistrations?.data?.totalItems
+                )}
+              </span>{" "}
+              of{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {verifiedRegistrations?.data?.totalItems}
+              </span>
             </span>
-          </span>
+          ) : (
+            <span className="text-lg font-bold text-[#4F46E5] dark:text-gray-400">
+              No items to display
+            </span>
+          )}
         </div>
         <div className="flex items-center space-x-3">
           <a

@@ -1,51 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchFarmerRegistrations } from "../../redux/actions/registrations/fetchAllFarmerRegistrations.action";
 import { proceedApprovedRegistrations } from "../../redux/actions/registrations/proceedRegistrations.action";
+import { fetchApprovedFarmerRegistrations } from "../../redux/actions/registrations/fetchAllApprovedFarmerRegistration.action";
 function ApprovedRegistrationsTable() {
   const dispatch = useDispatch();
   const [allFarmerRegistrations, setAllFarmerRegistrations] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(50);
-  const { registrations, loading } = useSelector(
-    (state) => state.fetchAllFarmerRegistrations
+  const [itemsPerPage] = useState(20);
+  const { approvedRegistrations, loading } = useSelector(
+    (state) => state.fetchAllApprovedRegistrations
   );
-const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token");
   useEffect(() => {
-    dispatch(fetchFarmerRegistrations(currentPage, itemsPerPage,token));
-  }, [dispatch]);
+    dispatch(
+      fetchApprovedFarmerRegistrations(currentPage, itemsPerPage, token)
+    );
+  }, [dispatch, currentPage, token]);
 
   useEffect(() => {
-    if (registrations) {
-      const filteredRegistrations =
-        registrations?.data?.RegistrationData.filter(
-          (registration) => registration.status === "approved"
-        );
-      setAllFarmerRegistrations(filteredRegistrations);
-    }
-    else{
+    if (approvedRegistrations) {
+      setAllFarmerRegistrations(approvedRegistrations?.data?.RegistrationData);
+    } else {
       setAllFarmerRegistrations([]);
     }
-  }, [registrations]);
+  }, [approvedRegistrations]);
 
-  const totalPages = Math.ceil(allFarmerRegistrations?.length / itemsPerPage);
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
 
-  
-    const handlePrevPage = () => {
-      setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-    };
-  
-    const handleNextPage = () => {
-      setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-    };
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) =>
+      Math.min(prevPage + 1, approvedRegistrations?.data?.totalPages)
+    );
+  };
 
   if (loading) {
     return <div>Loading...</div>;
   }
   const handleProceed = () => {
     dispatch(proceedApprovedRegistrations()).then(() => {
-      dispatch(fetchFarmerRegistrations(currentPage, itemsPerPage,token));
-
+      dispatch(
+        fetchApprovedFarmerRegistrations(currentPage, itemsPerPage, token)
+      );
     });
   };
 
@@ -78,7 +75,7 @@ const token = localStorage.getItem("token")
             <div className="overflow-hidden shadow">
               <table className="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
                 <thead className="bg-gray-100 dark:bg-gray-700">
-                <tr>
+                  <tr>
                     <th scope="col" className="p-4">
                       No
                     </th>
@@ -183,24 +180,30 @@ const token = localStorage.getItem("token")
                 clipRule="evenodd"
               ></path>
             </svg>
-          </a>
-          <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-            Showing{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {(currentPage - 1) * itemsPerPage + 1}
-            </span>{" "}
-            -{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {Math.min(
-                currentPage * itemsPerPage,
-                allFarmerRegistrations?.length
-              )}
-            </span>{" "}
-            of{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {allFarmerRegistrations?.length}
+          </a>{" "}
+          {approvedRegistrations?.data?.totalItems > 0 ? (
+            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+              Showing{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {(currentPage - 1) * itemsPerPage + 1}
+              </span>{" "}
+              -{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {Math.min(
+                  currentPage * itemsPerPage,
+                  approvedRegistrations?.data?.totalItems
+                )}
+              </span>{" "}
+              of{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {approvedRegistrations?.data?.totalItems}
+              </span>
             </span>
-          </span>
+          ) : (
+            <span className="text-lg font-bold text-[#4F46E5] dark:text-gray-400">
+              No items to display
+            </span>
+          )}
         </div>
         <div className="flex items-center space-x-3">
           <a
@@ -244,9 +247,9 @@ const token = localStorage.getItem("token")
         </div>
       </div>
       <div className="flex justify-center mt-3 mb-2 items-center">
-        <button 
-        className="bg-black text-white py-3 px-7 rounded-lg"
-        onClick={() => handleProceed()}
+        <button
+          className="bg-black text-white py-3 px-7 rounded-lg"
+          onClick={() => handleProceed()}
         >
           PROCEED
         </button>

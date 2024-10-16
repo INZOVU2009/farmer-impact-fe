@@ -2,12 +2,12 @@ import axios from "axios";
 import { constants } from "../constants/constants";
 
 const url = constants.SERVER_URL;
-
 export const getFarmerRegistrations = (currentPage, itemsPerPage, token) => {
   return new Promise((resolve, reject) => {
     axios
       .get(
-        `${url}/farmer_registrations/registrations?page=${currentPage}&&pageSize=${itemsPerPage}`,{
+        `${url}/farmer_registrations/registrations?page=${currentPage}&&pageSize=${itemsPerPage}`,
+        {
           headers: { auth_token: ` ${token}` },
         }
       )
@@ -23,7 +23,48 @@ export const getFarmerRegistrations = (currentPage, itemsPerPage, token) => {
       });
   });
 };
-
+export const getApprovedRegistrations = (currentPage, itemsPerPage, token) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(
+        `${url}/farmer_registrations/approved?page=${currentPage}&&pageSize=${itemsPerPage}`,
+        {
+          headers: { auth_token: ` ${token}` },
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        resolve(response.data);
+      })
+      .catch((error) => {
+        if (error.response?.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};
+export const getVerifiedRegistrations = (currentPage, itemsPerPage, token) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(
+        `${url}/farmer_registrations/verified?page=${currentPage}&&pageSize=${itemsPerPage}`,
+        {
+          headers: { auth_token: ` ${token}` },
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        resolve(response.data);
+      })
+      .catch((error) => {
+        if (error.response?.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};
 export const verifyRegistration = (id) => {
   return new Promise((resolve, reject) => {
     axios
