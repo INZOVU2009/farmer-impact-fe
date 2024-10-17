@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchFarmerRegistrations } from "../../redux/actions/registrations/fetchAllFarmerRegistrations.action";
 import { verifyNewRegistration } from "../../redux/actions/registrations/verifyRegistration.action";
+import { deleteSingleRegistration } from "../../redux/actions/registrations/deleteSingleRegistration.action";
 function RecentRegistrationsTable() {
   const dispatch = useDispatch();
   const [allFarmerRegistrations, setAllFarmerRegistrations] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(3);
+  const [itemsPerPage] = useState(10);
   const { registrations, loading } = useSelector(
     (state) => state.fetchAllFarmerRegistrations
   );
@@ -44,7 +45,19 @@ function RecentRegistrationsTable() {
       );
     });
   };
-  console.log("items", itemsPerPage);
+
+  const handleDelete = (id) => {
+    const userConfirmed = window.confirm("Are you sure you want this record?");
+
+    if (userConfirmed) {
+      dispatch(deleteSingleRegistration(id)).then(() => {
+        setAllFarmerRegistrations((prevRegistrations) =>
+          prevRegistrations.filter((registration) => registration.id !== id)
+        );
+      });
+    } else return;
+  };
+
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="p-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
@@ -141,13 +154,20 @@ function RecentRegistrationsTable() {
                         {registration.farmer_name}
                       </td>
 
-                      <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      <td class="flex gap-3 p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <button
                           type="button"
                           className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                           onClick={() => handleVerify(registration.id)}
                         >
                           Verify
+                        </button>
+                        <button
+                          type="button"
+                          className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:red:bg-green-700 dark:focus:ring-red-800"
+                          onClick={() => handleDelete(registration.id)}
+                        >
+                          Remove
                         </button>
                       </td>
                     </tr>
