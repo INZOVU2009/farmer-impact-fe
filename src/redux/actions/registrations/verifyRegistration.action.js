@@ -18,7 +18,7 @@ export const verifyNewRegistration = (id) => async (dispatch) => {
       toast.error(`${error.message} || Something Went wrong `);
       return dispatch(verifyFail(error.message));
     }
-    toast.error(`${error.Error} || Something Went wrong !!1`);
+    toast.error(`${error.Error} || Something Went wrong !!`);
     return dispatch(verifyFail(error.Error));
   }
 };

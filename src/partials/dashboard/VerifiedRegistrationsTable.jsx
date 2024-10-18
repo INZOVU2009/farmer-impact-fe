@@ -46,7 +46,7 @@ function VerifiedRegistrationsTable() {
   }
 
   const handleApprove = (id) => {
-    dispatch(approveVerifiedRegistration(id)).then(() => {
+    dispatch(approveVerifiedRegistration(id, token)).then(() => {
       setAllFarmerRegistrations((prevRegistrations) =>
         prevRegistrations.filter((registration) => registration.id !== id)
       );

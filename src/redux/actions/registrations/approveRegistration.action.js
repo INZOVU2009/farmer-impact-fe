@@ -6,10 +6,10 @@ import {
   approveSuccess,
 } from "../../slices/registrations/approveRegistrationSlice";
 
-export const approveVerifiedRegistration = (id) => async (dispatch) => {
+export const approveVerifiedRegistration = (id, token) => async (dispatch) => {
   try {
     dispatch(approvePending());
-    const res = await approveRegistration(id);
+    const res = await approveRegistration(id, token);
     toast.success(res.message);
     dispatch(approveSuccess(res));
     return res;
