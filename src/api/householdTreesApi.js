@@ -7,7 +7,7 @@ export const getHouseholdTreeServey = (currentPage, itemsPerPage) => {
   return new Promise((resolve, reject) => {
     axios
       .get(
-        `${url}/trees/allTreessurvey?page=${currentPage}&&pageSize=${itemsPerPage}`
+        `${url}/trees/allNewTreessurvey?page=${currentPage}&&pageSize=${itemsPerPage}`
       )
       .then((response) => resolve(response.data))
       .catch((error) => {
@@ -18,6 +18,7 @@ export const getHouseholdTreeServey = (currentPage, itemsPerPage) => {
       });
   });
 };
+
 export const approveHouseholdTree = (id, token) => {
   return new Promise((resolve, reject) => {
     axios
@@ -34,6 +35,21 @@ export const approveHouseholdTree = (id, token) => {
   });
 };
 
+export const getApprovedHouseholdTreeServey = (currentPage, itemsPerPage) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(
+        `${url}/trees/allApprovedTreessurvey?page=${currentPage}&&pageSize=${itemsPerPage}`
+      )
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response?.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};
 export const verifyHouseholdTree = (id, token) => {
   return new Promise((resolve, reject) => {
     axios
@@ -49,7 +65,21 @@ export const verifyHouseholdTree = (id, token) => {
       });
   });
 };
-
+export const getVerifiedHouseholdTreeServey = (currentPage, itemsPerPage) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(
+        `${url}/trees/allVerifiedTreessurvey?page=${currentPage}&&pageSize=${itemsPerPage}`
+      )
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response?.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};
 export const fetchTreeDetails = (kpTreesSurvey) => {
   return new Promise((resolve, reject) => {
     axios

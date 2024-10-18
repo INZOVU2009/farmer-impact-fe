@@ -58,7 +58,7 @@ import fetchAllUserAccessSllice from "./slices/userAccess/fetchAllUserAccessSlic
 import activateUserSlice from "./slices/userAccess/activateUserSlice";
 import updateModule from "./slices/accessModules/updateModuleSlice";
 import createNewModuleSlice from "./slices/accessModules/createNewModuleSlice";
-import getAllTreeServeySlice from "./slices/householdTrees/getAllTreeServeySlice";
+import getAllNewTreeServeySlice from "./slices/householdTrees/getAllNewTreeServeySlice";
 import getAssignedModulesSlice from "./slices/accessModules/getAssignedModulesSlice";
 import fetchAllTranslationsSlice from "./slices/translations/fetchAllTranslationsSlice";
 import deleteTranslationSlice from "./slices/translations/deleteTranslationSlice";
@@ -92,6 +92,9 @@ import fetchAllPendingFarmersSlice from "./slices/farmers/fetchPendingFarmersSli
 import fetchAllApprovedFarmersSlice from "./slices/farmers/fetchApprovedFarmersSlice";
 import fetchAllApprovedRegistrationSlice from "./slices/registrations/fetchApprovedRegistrationSlice";
 import fetchAllVerifiedRegistrationsSlice from "./slices/registrations/fetchVerifiedRegistrationsSlice";
+import getAllApprovedHouseholdTreesSlice from "./slices/householdTrees/getAllApprovedHouseholdTreesSlice";
+import getAllVerifiedHouseholdTreesSlice from "./slices/householdTrees/getAllVerifiedHouseholdTreesSlice";
+// import getAllNewHouseholdTreesSlice from "./slices/householdTrees/getAllNewHouseholdTreesSlice";
 const store = configureStore({
   reducer: {
     login,
@@ -153,9 +156,7 @@ const store = configureStore({
     activateUser: activateUserSlice,
     updateModule: updateModule,
     createModule: createNewModuleSlice,
-
-    fetchAllTrees: getAllTreeServeySlice,
-    
+    fetchAllTrees: getAllNewTreeServeySlice,
     fetchAssignedModules: getAssignedModulesSlice,
     fetchAllTranslations: fetchAllTranslationsSlice,
     deleteTranslation: deleteTranslationSlice,
@@ -190,9 +191,8 @@ const store = configureStore({
     fetchAllPendingFarmers: fetchAllPendingFarmersSlice,
     fetchAllApprovedRegistrations: fetchAllApprovedRegistrationSlice,
     fetchAllVerifiedRegistrations: fetchAllVerifiedRegistrationsSlice,
-
-
-  
+    fetchAllApprovedHouseholdTrees: getAllApprovedHouseholdTreesSlice,
+    fetchAllVerifiedHouseholdTrees: getAllVerifiedHouseholdTreesSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

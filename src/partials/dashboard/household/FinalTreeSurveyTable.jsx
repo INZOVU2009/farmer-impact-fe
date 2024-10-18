@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchAllTrees } from "../../../redux/actions/householdTrees/fetchAllTrees.action";
 import { getTreeDetails } from "../../../redux/actions/householdTrees/fetchTreeDetails.action";
 import { fetchHouseholdTreesSurveyByDate } from "../../../redux/actions/householdTrees/getHouseholdTreesSurveyByDate.action";
 import { fetchAllStation } from "../../../redux/actions/station/allStations.action";
+import { fetchAllVerifiedHouseholdTrees } from "../../../redux/actions/householdTrees/fetchAllVerifiedHouseholdTrees.action";
+
 import toast from "react-hot-toast";
 function FinalTreeSurveyTable() {
   const dispatch = useDispatch();
@@ -18,23 +19,20 @@ function FinalTreeSurveyTable() {
   const [treeDetails, setTreeDetails] = useState([]);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const { householdTrees } = useSelector((state) => state.fetchAllTrees);
+  const { VerifiedHouseholdTrees } = useSelector(
+    (state) => state.fetchAllVerifiedHouseholdTrees
+  );
   const { details } = useSelector((state) => state.fetchTreeDetails);
   const { stations } = useSelector((state) => state.fetchAllStations);
 
   useEffect(() => {
-    dispatch(fetchAllTrees(currentPage, itemsPerPage));
+    dispatch(fetchAllVerifiedHouseholdTrees(currentPage, itemsPerPage));
   }, [dispatch, currentPage, itemsPerPage]);
   useEffect(() => {
-    if (householdTrees) {
-      // Filter trees with status 'Approved'
-      const approvedTrees =
-        householdTrees?.data?.household?.filter(
-          (tree) => tree.status === "verified"
-        ) || [];
-      setAllTrees(approvedTrees);
+    if (VerifiedHouseholdTrees) {
+      setAllTrees(VerifiedHouseholdTrees?.data?.household);
     }
-  }, [householdTrees]);
+  }, [VerifiedHouseholdTrees]);
 
   useEffect(() => {
     if (kpTreesSurvey) {
@@ -63,8 +61,9 @@ function FinalTreeSurveyTable() {
   };
 
   const handleNextPage = () => {
-    const totalPages = householdTrees?.data?.totalPages || 1;
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+    setCurrentPage((prevPage) =>
+      Math.min(prevPage + 1, VerifiedHouseholdTrees?.data?.totalItems)
+    );
   };
 
   const handleSearchChange = (event) => {
@@ -103,7 +102,7 @@ function FinalTreeSurveyTable() {
 
         if (allSurvey.length === 0) {
           toast.error("No data available to download.");
-          return; // Exit the function if there's no data
+          return; 
         }
 
         const formatDate = (dateString) => {
@@ -413,20 +412,29 @@ function FinalTreeSurveyTable() {
               ></path>
             </svg>
           </a>
-          <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-            Showing{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {(currentPage - 1) * itemsPerPage + 1}
-            </span>{" "}
-            -{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {Math.min(currentPage * itemsPerPage, allTrees?.length)}
-            </span>{" "}
-            of{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {allTrees?.length}
+          {VerifiedHouseholdTrees?.data?.totalItems > 0 ? (
+            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+              Showing{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {(currentPage - 1) * itemsPerPage + 1}
+              </span>{" "}
+              -{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {Math.min(
+                  currentPage * itemsPerPage,
+                  VerifiedHouseholdTrees?.data?.totalItems
+                )}
+              </span>{" "}
+              of{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {VerifiedHouseholdTrees?.data?.totalItems}
+              </span>
             </span>
-          </span>
+          ) : (
+            <span className="text-lg font-bold text-[#4F46E5] dark:text-gray-400">
+              No items to display
+            </span>
+          )}
         </div>
         <div className="flex items-center space-x-3">
           <a

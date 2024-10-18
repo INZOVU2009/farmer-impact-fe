@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAllTrees } from "../../../redux/actions/householdTrees/fetchAllTrees.action";
+import { verifyTrees } from "../../../redux/actions/householdTrees/verifyHouseholdTrees.action";
+import { getTreeDetails } from "../../../redux/actions/householdTrees/fetchTreeDetails.action";
+import { approveTrees } from "../../../redux/actions/householdTrees/approveHouseholdTrees.action";
+
 function TreesTable() {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
@@ -9,8 +13,14 @@ function TreesTable() {
   const [itemsPerPage] = useState(10);
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [selectedTree, setSelectedTree] = useState(null);
-
+  const [kpTreesSurvey, setKpTreessurvey] = useState(null);
+  const [treeDetails, setTreeDetails] = useState([]);
   const { householdTrees } = useSelector((state) => state.fetchAllTrees);
+  const { verify, success } = useSelector(
+    (state) => state.verifyHouseholdTrees
+  );
+  const { details } = useSelector((state) => state.fetchTreeDetails);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     dispatch(fetchAllTrees(currentPage, itemsPerPage));
@@ -18,17 +28,27 @@ function TreesTable() {
 
   useEffect(() => {
     if (householdTrees) {
-      setAllTrees(householdTrees?.data?.household || []);
+      setAllTrees( householdTrees?.data?.household);
     }
   }, [householdTrees]);
+  useEffect(() => {
+    if (kpTreesSurvey) {
+      dispatch(getTreeDetails(kpTreesSurvey));
+    }
+  }, [kpTreesSurvey, dispatch]);
+
+  useEffect(() => {
+    if (details) {
+      setTreeDetails(details?.data);
+    }
+  }, [details]);
 
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
   const handleNextPage = () => {
-    const totalPages = householdTrees?.data?.totalPages || 1;
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, householdTrees?.data?.totalItems));
   };
 
   const handleSearchChange = (event) => {
@@ -38,15 +58,26 @@ function TreesTable() {
   const filteredHouseholdTrees = allTrees.filter((tree) =>
     Object.values(tree).some(
       (value) =>
-        value?.toString()?.toLowerCase()?.indexOf(searchTerm?.toLowerCase()) !== -1
+        value?.toString()?.toLowerCase()?.indexOf(searchTerm?.toLowerCase()) !==
+        -1
     )
   );
 
-  const handleVerifyClick = (tree) => {
+  const handleApproveClick = (tree) => {
     setSelectedTree(tree);
+    setKpTreessurvey(tree.__kp_trees_survey);
     setAddModalOpen(true);
   };
-
+  console.log("selectedTree", selectedTree);
+  const handleApproveTrees = (id) => {
+    dispatch(approveTrees(id, token)).then((res) => {
+      if (res.status === "success") {
+        setAllTrees((prevTrees) =>
+          prevTrees.filter((trees) => trees.id !== id)
+        );
+      }
+    });
+  };
   const handleCloseModal = () => {
     setAddModalOpen(false);
     setSelectedTree(null);
@@ -139,27 +170,30 @@ function TreesTable() {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                   {filteredHouseholdTrees.map((tree, index) => (
-                    <tr key={tree.id} className="hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <tr
+                      key={tree.id}
+                      className="hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
                       <td className="w-4 p-4">
                         {(currentPage - 1) * itemsPerPage + index + 1}
                       </td>
                       <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {tree.CW_Name}
+                        {tree.station_name}
                       </td>
                       <td className="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                        {tree.Group_ID}
+                        {tree.group_id}
                       </td>
                       <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {tree.farmer_name}
                       </td>
                       <td className="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                        {tree.farmer_ID}
+                        {tree.farmer_id}
                       </td>
                       <td className="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                        {tree.national_ID}
+                        {tree.national_id}
                       </td>
                       <td className="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                        {tree.Gender}
+                        {tree.gender}
                       </td>
                       <td className="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
                         {tree.full_name}
@@ -169,9 +203,9 @@ function TreesTable() {
                           id="createProductButton"
                           className="btn bg-green-500 hover:bg-green-600 text-white mb-3"
                           type="button"
-                          onClick={() => handleVerifyClick(tree)}
+                          onClick={() => handleApproveClick(tree)}
                         >
-                          Verify
+                          Approve
                         </button>
                       </td>
                     </tr>
@@ -221,20 +255,29 @@ function TreesTable() {
               ></path>
             </svg>
           </a>
-          <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-            Showing{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {(currentPage - 1) * itemsPerPage + 1}
-            </span>{" "}
-            -{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {Math.min(currentPage * itemsPerPage, allTrees?.length)}
-            </span>{" "}
-            of{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {allTrees?.length}
+          {householdTrees?.data?.totalItems > 0 ? (
+            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+              Showing{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {(currentPage - 1) * itemsPerPage + 1}
+              </span>{" "}
+              -{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {Math.min(
+                  currentPage * itemsPerPage,
+                  householdTrees?.data?.totalItems
+                )}
+              </span>{" "}
+              of{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {householdTrees?.data?.totalItems}
+              </span>
             </span>
-          </span>
+          ) : (
+            <span className="text-lg font-bold text-[#4F46E5] dark:text-gray-400">
+              No items to display
+            </span>
+          )}
         </div>
         <div className="flex items-center space-x-3">
           <a
@@ -281,250 +324,266 @@ function TreesTable() {
       {/* Modal */}
       {isAddModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
-            <div className="fixed inset-0 bg-black opacity-50" onClick={handleCloseModal}></div>
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg z-10 w-full"  style={{ maxWidth: '1000px' }}>
+          <div
+            className="fixed inset-0 bg-black opacity-50"
+            onClick={handleCloseModal}
+          ></div>
+          <div
+            className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg z-10 w-full"
+            style={{ maxWidth: "1000px" }}
+          >
             <div className="flex justify-center mb-4">
-                <h1 className="text-xl font-semibold uppercase">Household Trees details </h1>
+              <h1 className="text-xl font-semibold uppercase">
+                Household Trees details{" "}
+              </h1>
             </div>
             <hr className="mb-4" />
             {selectedTree && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-4">
                 <div>
-                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
-                        <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>Station:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    {selectedTree.CW_Name}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>Group:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    {selectedTree.Group_ID}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>Farmer Name:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    {selectedTree.farmer_name}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>Farmer ID:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    {selectedTree.farmer_ID}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>National ID:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    {selectedTree.national_ID}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>Year:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    {selectedTree.Year_Birth}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>Gender:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    {selectedTree.Gender}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>Phone:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    {selectedTree.Phone}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>Children:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    ( -20 is {selectedTree.child_year_1_20})<br/>
-                                    ( 20-30 is {selectedTree.child_year_20_30})
-                                </td>
-                            </tr>
-                            
-                            
-                        </tbody>
-                    </table>
+                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
+                    <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>Station:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          {selectedTree.station_name}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>Group:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          {selectedTree.group_id}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>Farmer Name:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          {selectedTree.farmer_name}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>Farmer ID:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          {selectedTree.farmer_id}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>National ID:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          {selectedTree.national_id}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>Year:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          {selectedTree.year_of_birth}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>Gender:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          {selectedTree.gender}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>Phone:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          {selectedTree.phone}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>Children:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          ( -20 is {selectedTree.child_1_to_20_yrs})<br />(
+                          20-30 is {selectedTree.child_20_to_30_yrs})
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
                 <div>
-                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
-                        <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>Source of income:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    {selectedTree.source_income}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>Coffee Plot:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    {selectedTree.coffee_plot}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>Trees:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    {selectedTree.Trees}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>Receiving Trees:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    ({selectedTree.seedling_last_3_year} is {selectedTree.received_tree_3_y})<br/>
-                                    ({selectedTree.seedling_last_2_year} is {selectedTree.received_tree_2_y})<br/>
-                                    ({selectedTree.seedling_last_year} is {selectedTree.received_tree_l_y})
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>Trees Year:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    ( -10 is {selectedTree.Trees_year_less_10})<br/>
-                                    ( 10-20 is {selectedTree.Trees_year_10_20})<br/>
-                                    ( 20+ is {selectedTree.Trees_year_greater_20})
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>Rejuvenation Trees:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    ({selectedTree.rejuvenation_last_year} is {selectedTree.rejuvenated_l_tree})<br/>
-                                    ({selectedTree.rejuvenation_current_year} is {selectedTree.rejuvenated_c_tree})
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>Production:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    ({selectedTree.last_season} is {selectedTree.last_season_production})<br/>
-                                    ({selectedTree.current_season} is {selectedTree.current_season_production})
-                                </td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
+                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
+                    <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>Source of income:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          {selectedTree.income_source_main}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>Coffee Plot:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          {selectedTree.coffee_farms}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>Trees:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          {selectedTree.coffee_trees}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>Receiving Trees:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          ({treeDetails.received_seedlings_year} is{" "}
+                          {treeDetails.received_seedlings})<br />
+                          {/* (
+                          {selectedTree.seedling_last_2_year} is{" "}
+                          {selectedTree.received_tree_2_y})<br />(
+                          {selectedTree.seedling_last_year} is{" "}
+                          {selectedTree.received_tree_l_y}) */}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>Trees Year:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          ( -10 is {selectedTree.trees_less_than_10})<br />(
+                          10-20 is {selectedTree.trees_10_20})<br />( 20+ is{" "}
+                          {selectedTree.trees_20_more})
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>Rejuvenation Trees:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          ({treeDetails.rejuvenated_seedlings_year} is{" "}
+                          {treeDetails.rejuvenated_seedlings})<br />
+                          {/* ( */}
+                          {/* {selectedTree.rejuvenation_current_year} is{" "}
+                          {selectedTree.rejuvenated_c_tree}) */}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>Production:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          ({treeDetails.est_production_year} is{" "}
+                          {treeDetails.est_production_year})<br />
+                          {/* ( */}
+                          {/* {selectedTree.current_season} is{" "}
+                          {selectedTree.current_season_production}) */}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
                 <div>
-                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
-                        <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>Nitrogen Trees:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    {selectedTree.nitrogen}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>Natural Shade Trees:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    {selectedTree.natural_shade}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>Shade Trees:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    {selectedTree.shade_trees}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>Other Crops:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    {selectedTree.other_crops_coffee_farm}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>Other Farm:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    {selectedTree.other_crops_farm}
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>GPS:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    {selectedTree.latitude}<br/>
-                                    {selectedTree.longitude}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
-                                    <strong>Serveyor:</strong>
-                                </td>
-                                <td className="p-2 text-left text-gray-500 dark:text-gray-400">
-                                    {selectedTree.full_name}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
+                    <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>Nitrogen Trees:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          {selectedTree.nitrogen_fixing_shade_trees}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>Natural Shade Trees:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          {selectedTree.natural_shade_trees}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>Shade Trees:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          {selectedTree.shade_trees}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>Other Crops:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          {selectedTree.other_crops_in_coffee_farm}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>Other Farm:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          {selectedTree.other_crops_in_farm}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>GPS:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          {selectedTree.latitude}
+                          <br />
+                          {selectedTree.longitude}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="p-2 text-left font-medium text-gray-900 dark:text-white">
+                          <strong>Serveyor:</strong>
+                        </td>
+                        <td className="p-2 text-left text-gray-500 dark:text-gray-400">
+                          {selectedTree.full_name}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                </div>
+              </div>
             )}
             <div className="mt-4 flex justify-end">
-                <button
+              <button
                 className="bg-gray-500 text-white px-4 py-2 rounded-lg mr-2"
                 onClick={handleCloseModal}
-                >
+              >
                 Close
-                </button>
-                <button
+              </button>
+              <button
                 className="bg-green-500 text-white px-4 py-2 rounded-lg"
                 onClick={() => {
-                    // Add any additional logic for verification here
-                    handleCloseModal();
+                  handleApproveTrees(selectedTree.id);
+                  handleCloseModal();
                 }}
-                >
+              >
                 Confirm
-                </button>
+              </button>
             </div>
-            </div>
+          </div>
         </div>
-        )}
+      )}
     </div>
   );
 }

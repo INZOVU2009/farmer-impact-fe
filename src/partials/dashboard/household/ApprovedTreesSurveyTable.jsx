@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchAllTrees } from "../../../redux/actions/householdTrees/fetchAllTrees.action";
 import { verifyTrees } from "../../../redux/actions/householdTrees/verifyHouseholdTrees.action";
 import { getTreeDetails } from "../../../redux/actions/householdTrees/fetchTreeDetails.action";
+import { fetchAllApprovedHouseholdTrees } from "../../../redux/actions/householdTrees/fetchAllApprovedHouseholdTrees.action";
 
 function ApprovedTreesSurveyTable() {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ function ApprovedTreesSurveyTable() {
   const [selectedTree, setSelectedTree] = useState(null);
   const [kpTreesSurvey, setKpTreessurvey] = useState(null);
   const [treeDetails, setTreeDetails] = useState([]);
-  const { householdTrees } = useSelector((state) => state.fetchAllTrees);
+  const { ApprovedHouseholdTrees } = useSelector((state) => state.fetchAllApprovedHouseholdTrees);
   const { verify, success } = useSelector(
     (state) => state.verifyHouseholdTrees
   );
@@ -22,17 +23,13 @@ function ApprovedTreesSurveyTable() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    dispatch(fetchAllTrees(currentPage, itemsPerPage));
+    dispatch(fetchAllApprovedHouseholdTrees(currentPage, itemsPerPage));
   }, [dispatch, currentPage, itemsPerPage]);
   useEffect(() => {
-    if (householdTrees) {
-      const approvedTrees =
-        householdTrees?.data?.household?.filter(
-          (tree) => tree.status === "Approved"
-        ) || [];
-      setAllTrees(approvedTrees);
+    if (ApprovedHouseholdTrees) {
+      setAllTrees(ApprovedHouseholdTrees?.data?.household);
     }
-  }, [householdTrees]);
+  }, [ApprovedHouseholdTrees]);
   useEffect(() => {
     if (kpTreesSurvey) {
       dispatch(getTreeDetails(kpTreesSurvey));
@@ -50,8 +47,7 @@ function ApprovedTreesSurveyTable() {
   };
 
   const handleNextPage = () => {
-    const totalPages = householdTrees?.data?.totalPages || 1;
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, ApprovedHouseholdTrees?.data?.totalItems ));
   };
 
   const handleSearchChange = (event) => {
@@ -258,20 +254,29 @@ function ApprovedTreesSurveyTable() {
               ></path>
             </svg>
           </a>
-          <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-            Showing{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {(currentPage - 1) * itemsPerPage + 1}
-            </span>{" "}
-            -{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {Math.min(currentPage * itemsPerPage, allTrees?.length)}
-            </span>{" "}
-            of{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {allTrees?.length}
+          {ApprovedHouseholdTrees?.data?.totalItems > 0 ? (
+            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+              Showing{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {(currentPage - 1) * itemsPerPage + 1}
+              </span>{" "}
+              -{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {Math.min(
+                  currentPage * itemsPerPage,
+                  ApprovedHouseholdTrees?.data?.totalItems
+                )}
+              </span>{" "}
+              of{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {ApprovedHouseholdTrees?.data?.totalItems}
+              </span>
             </span>
-          </span>
+          ) : (
+            <span className="text-lg font-bold text-[#4F46E5] dark:text-gray-400">
+              No items to display
+            </span>
+          )}
         </div>
         <div className="flex items-center space-x-3">
           <a

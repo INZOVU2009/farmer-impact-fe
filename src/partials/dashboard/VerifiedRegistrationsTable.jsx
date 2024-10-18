@@ -15,7 +15,6 @@ function VerifiedRegistrationsTable() {
   const { verifiedRegistrations } = useSelector(
     (state) => state.fetchAllVerifiedRegistrations
   );
-  console.log("zdjhjhsf", verifiedRegistrations);
   const { verify } = useSelector((state) => state.verifyRegistration);
   const token = localStorage.getItem("token");
   useEffect(() => {

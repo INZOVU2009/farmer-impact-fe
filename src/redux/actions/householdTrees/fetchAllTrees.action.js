@@ -3,7 +3,7 @@ import {
     TreesPending,
     TreesSuccess,
     TreesFail
-} from "../../slices/householdTrees/getAllTreeServeySlice"
+} from "../../slices/householdTrees/getAllNewTreeServeySlice"
 import { getHouseholdTreeServey } from "../../../api/householdTreesApi";
 
 export const fetchAllTrees =
