@@ -569,10 +569,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               <li className="mb-1 last:mb-0">
                                 <NavLink
                                   end
-                                  // to="/user_registration/approved_farmers"
-                                  // style={
-                                  //   isApprovedFarmers ? { color: "#4F46E5" } : {}
-                                  // }
+                                  to="/user_registration/approved_farmers"
+                                  style={
+                                    isApprovedFarmers
+                                      ? { color: "#4F46E5" }
+                                      : {}
+                                  }
                                   className="block text-black hover:text-slate-400 transition duration-150 truncate"
                                 >
                                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -804,8 +806,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             {filteredModules?.some(
                               (module) =>
                                 module.module_name === "weekly report" ||
-                                "Weekly Report" ||
-                                "WEEKLY REPORT"
+                                module.module_name === "Weekly Report" ||
+                                module.module_name === "WEEKLY REPORT"
                             ) && (
                               <li className="mb-1 last:mb-0">
                                 <NavLink
