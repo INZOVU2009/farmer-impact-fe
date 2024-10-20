@@ -569,9 +569,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               <li className="mb-1 last:mb-0">
                                 <NavLink
                                   end
-                                  to="/user_registration/approved_farmers"
+                                  to="/household/verified_trees"
                                   style={
-                                    isApprovedFarmers
+                                    isVerifiedTreesActive
                                       ? { color: "#4F46E5" }
                                       : {}
                                   }
