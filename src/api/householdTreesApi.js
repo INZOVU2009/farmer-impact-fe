@@ -34,6 +34,19 @@ export const approveHouseholdTree = (id, token) => {
       });
   });
 };
+export const deleteHouseholdTree = (id) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .delete(`${url}/trees/delete?id=${id}`)
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response?.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};
 
 export const getApprovedHouseholdTreeServey = (currentPage, itemsPerPage) => {
   return new Promise((resolve, reject) => {

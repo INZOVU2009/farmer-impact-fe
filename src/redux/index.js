@@ -96,7 +96,7 @@ import getAllApprovedHouseholdTreesSlice from "./slices/householdTrees/getAllApp
 import getAllVerifiedHouseholdTreesSlice from "./slices/householdTrees/getAllVerifiedHouseholdTreesSlice";
 // import getAllNewHouseholdTreesSlice from "./slices/householdTrees/getAllNewHouseholdTreesSlice";
 import deleteRegistrationSlice from "./slices/registrations/deleteRegistrationSlice";
-
+import deleteHouseholdTreesSlice from "./slices/householdTrees/deleteHouseholdTreesSlice";
 const store = configureStore({
   reducer: {
     login,
@@ -196,6 +196,7 @@ const store = configureStore({
     fetchAllApprovedHouseholdTrees: getAllApprovedHouseholdTreesSlice,
     fetchAllVerifiedHouseholdTrees: getAllVerifiedHouseholdTreesSlice,
     deleteRegistration: deleteRegistrationSlice,
+    deleteHouseholdTrees: deleteHouseholdTreesSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

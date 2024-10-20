@@ -4,7 +4,7 @@ import { getTreeDetails } from "../../../redux/actions/householdTrees/fetchTreeD
 import { fetchHouseholdTreesSurveyByDate } from "../../../redux/actions/householdTrees/getHouseholdTreesSurveyByDate.action";
 import { fetchAllStation } from "../../../redux/actions/station/allStations.action";
 import { fetchAllVerifiedHouseholdTrees } from "../../../redux/actions/householdTrees/fetchAllVerifiedHouseholdTrees.action";
-
+import { deleteHouseholdTreeSurvey } from "../../../redux/actions/householdTrees/deleteHouseholdTrees.action";
 import toast from "react-hot-toast";
 function FinalTreeSurveyTable() {
   const dispatch = useDispatch();
@@ -211,7 +211,15 @@ function FinalTreeSurveyTable() {
         toast.error("Failed to fetch data for download.");
       });
   };
-
+  const handleDeleteTreeSurvey = (id) => {
+    dispatch(deleteHouseholdTreeSurvey(id)).then((res) => {
+      if (res.status === "success") {
+        setAllTrees((prevTrees) =>
+          prevTrees.filter((tree) => tree.id !== id)
+        );
+      }
+    });
+  };
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="p-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
@@ -729,13 +737,13 @@ function FinalTreeSurveyTable() {
                 Close
               </button>
               <button
-                className="bg-green-500 text-white px-4 py-2 rounded-lg"
+                className="bg-red-500 text-white px-4 py-2 rounded-lg"
                 onClick={() => {
-                  handleVerifyTrees(selectedTree.id);
+                  handleDeleteTreeSurvey(selectedTree.id);
                   handleCloseModal();
                 }}
               >
-                Confirm
+                Delete
               </button>
             </div>
           </div>

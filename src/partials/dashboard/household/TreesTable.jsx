@@ -4,6 +4,7 @@ import { fetchAllTrees } from "../../../redux/actions/householdTrees/fetchAllTre
 import { verifyTrees } from "../../../redux/actions/householdTrees/verifyHouseholdTrees.action";
 import { getTreeDetails } from "../../../redux/actions/householdTrees/fetchTreeDetails.action";
 import { approveTrees } from "../../../redux/actions/householdTrees/approveHouseholdTrees.action";
+import { deleteHouseholdTreeSurvey } from "../../../redux/actions/householdTrees/deleteHouseholdTrees.action";
 
 function TreesTable() {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ function TreesTable() {
 
   useEffect(() => {
     if (householdTrees) {
-      setAllTrees( householdTrees?.data?.household);
+      setAllTrees(householdTrees?.data?.household);
     }
   }, [householdTrees]);
   useEffect(() => {
@@ -48,7 +49,9 @@ function TreesTable() {
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, householdTrees?.data?.totalItems));
+    setCurrentPage((prevPage) =>
+      Math.min(prevPage + 1, householdTrees?.data?.totalItems)
+    );
   };
 
   const handleSearchChange = (event) => {
@@ -78,9 +81,19 @@ function TreesTable() {
       }
     });
   };
+
   const handleCloseModal = () => {
     setAddModalOpen(false);
     setSelectedTree(null);
+  };
+  const handleDeleteTreeSurvey = (id) => {
+    dispatch(deleteHouseholdTreeSurvey(id)).then((res) => {
+      if (res.status === "success") {
+        setAllTrees((prevTrees) =>
+          prevTrees.filter((trees) => trees.id !== id)
+        );
+      }
+    });
   };
 
   return (
@@ -564,9 +577,9 @@ function TreesTable() {
                 </div>
               </div>
             )}
-            <div className="mt-4 flex justify-end">
+            <div className="mt-4 flex justify-end gap-4">
               <button
-                className="bg-gray-500 text-white px-4 py-2 rounded-lg mr-2"
+                className="bg-gray-500 text-white px-4 py-2 rounded-lg"
                 onClick={handleCloseModal}
               >
                 Close
@@ -579,6 +592,15 @@ function TreesTable() {
                 }}
               >
                 Confirm
+              </button>
+              <button
+                className="bg-red-500 text-white px-4 py-2 rounded-lg"
+                onClick={() => {
+                  handleDeleteTreeSurvey(selectedTree.id);
+                  handleCloseModal();
+                }}
+              >
+                Delete
               </button>
             </div>
           </div>
