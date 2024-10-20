@@ -4,7 +4,7 @@ import { fetchAllTrees } from "../../../redux/actions/householdTrees/fetchAllTre
 import { verifyTrees } from "../../../redux/actions/householdTrees/verifyHouseholdTrees.action";
 import { getTreeDetails } from "../../../redux/actions/householdTrees/fetchTreeDetails.action";
 import { fetchAllApprovedHouseholdTrees } from "../../../redux/actions/householdTrees/fetchAllApprovedHouseholdTrees.action";
-
+import { deleteHouseholdTreeSurvey } from "../../../redux/actions/householdTrees/deleteHouseholdTrees.action";
 function ApprovedTreesSurveyTable() {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,7 +15,9 @@ function ApprovedTreesSurveyTable() {
   const [selectedTree, setSelectedTree] = useState(null);
   const [kpTreesSurvey, setKpTreessurvey] = useState(null);
   const [treeDetails, setTreeDetails] = useState([]);
-  const { ApprovedHouseholdTrees } = useSelector((state) => state.fetchAllApprovedHouseholdTrees);
+  const { ApprovedHouseholdTrees } = useSelector(
+    (state) => state.fetchAllApprovedHouseholdTrees
+  );
   const { verify, success } = useSelector(
     (state) => state.verifyHouseholdTrees
   );
@@ -47,7 +49,9 @@ function ApprovedTreesSurveyTable() {
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, ApprovedHouseholdTrees?.data?.totalItems ));
+    setCurrentPage((prevPage) =>
+      Math.min(prevPage + 1, ApprovedHouseholdTrees?.data?.totalItems)
+    );
   };
 
   const handleSearchChange = (event) => {
@@ -80,6 +84,13 @@ function ApprovedTreesSurveyTable() {
   const handleCloseModal = () => {
     setAddModalOpen(false);
     setSelectedTree(null);
+  };
+  const handleDeleteTreeSurvey = (id) => {
+    dispatch(deleteHouseholdTreeSurvey(id)).then((res) => {
+      if (res.status === "success") {
+        setAllTrees((prevTrees) => prevTrees.filter((tree) => tree.id !== id));
+      }
+    });
   };
 
   return (
@@ -563,9 +574,9 @@ function ApprovedTreesSurveyTable() {
                 </div>
               </div>
             )}
-            <div className="mt-4 flex justify-end">
+            <div className="mt-4 flex justify-end gap-4">
               <button
-                className="bg-gray-500 text-white px-4 py-2 rounded-lg mr-2"
+                className="bg-gray-500 text-white px-4 py-2 rounded-lg"
                 onClick={handleCloseModal}
               >
                 Close
@@ -578,6 +589,15 @@ function ApprovedTreesSurveyTable() {
                 }}
               >
                 Confirm
+              </button>
+              <button
+                className="bg-red-500 text-white px-4 py-2 rounded-lg"
+                onClick={() => {
+                  handleDeleteTreeSurvey(selectedTree.id);
+                  handleCloseModal();
+                }}
+              >
+                Delete
               </button>
             </div>
           </div>
