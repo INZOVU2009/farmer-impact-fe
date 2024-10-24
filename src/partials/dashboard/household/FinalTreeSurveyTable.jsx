@@ -24,9 +24,10 @@ function FinalTreeSurveyTable() {
   );
   const { details } = useSelector((state) => state.fetchTreeDetails);
   const { stations } = useSelector((state) => state.fetchAllStations);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    dispatch(fetchAllVerifiedHouseholdTrees(currentPage, itemsPerPage));
+    dispatch(fetchAllVerifiedHouseholdTrees(currentPage, itemsPerPage, token));
   }, [dispatch, currentPage, itemsPerPage]);
   useEffect(() => {
     if (VerifiedHouseholdTrees) {
@@ -96,13 +97,13 @@ function FinalTreeSurveyTable() {
     return station ? station.Name : null;
   };
   const handleDownload = () => {
-    dispatch(fetchHouseholdTreesSurveyByDate(startDate, endDate))
+    dispatch(fetchHouseholdTreesSurveyByDate(startDate, endDate, token))
       .then((response) => {
         const allSurvey = response.data || [];
 
         if (allSurvey.length === 0) {
           toast.error("No data available to download.");
-          return; 
+          return;
         }
 
         const formatDate = (dateString) => {
@@ -214,9 +215,7 @@ function FinalTreeSurveyTable() {
   const handleDeleteTreeSurvey = (id) => {
     dispatch(deleteHouseholdTreeSurvey(id)).then((res) => {
       if (res.status === "success") {
-        setAllTrees((prevTrees) =>
-          prevTrees.filter((tree) => tree.id !== id)
-        );
+        setAllTrees((prevTrees) => prevTrees.filter((tree) => tree.id !== id));
       }
     });
   };

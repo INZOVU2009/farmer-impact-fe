@@ -3,11 +3,14 @@ import { constants } from "../constants/constants";
 
 const url = constants.SERVER_URL;
 
-export const getHouseholdTreeServey = (currentPage, itemsPerPage) => {
+export const getHouseholdTreeServey = (currentPage, itemsPerPage, token) => {
   return new Promise((resolve, reject) => {
     axios
       .get(
-        `${url}/trees/allNewTreessurvey?page=${currentPage}&&pageSize=${itemsPerPage}`
+        `${url}/trees/allNewTreessurvey?page=${currentPage}&&pageSize=${itemsPerPage}`,
+        {
+          headers: { auth_token: token },
+        }
       )
       .then((response) => resolve(response.data))
       .catch((error) => {
@@ -48,11 +51,18 @@ export const deleteHouseholdTree = (id) => {
   });
 };
 
-export const getApprovedHouseholdTreeServey = (currentPage, itemsPerPage) => {
+export const getApprovedHouseholdTreeServey = (
+  currentPage,
+  itemsPerPage,
+  token
+) => {
   return new Promise((resolve, reject) => {
     axios
       .get(
-        `${url}/trees/allApprovedTreessurvey?page=${currentPage}&&pageSize=${itemsPerPage}`
+        `${url}/trees/allApprovedTreessurvey?page=${currentPage}&&pageSize=${itemsPerPage}`,
+        {
+          headers: { auth_token: token },
+        }
       )
       .then((response) => resolve(response.data))
       .catch((error) => {
@@ -78,11 +88,18 @@ export const verifyHouseholdTree = (id, token) => {
       });
   });
 };
-export const getVerifiedHouseholdTreeServey = (currentPage, itemsPerPage) => {
+export const getVerifiedHouseholdTreeServey = (
+  currentPage,
+  itemsPerPage,
+  token
+) => {
   return new Promise((resolve, reject) => {
     axios
       .get(
-        `${url}/trees/allVerifiedTreessurvey?page=${currentPage}&&pageSize=${itemsPerPage}`
+        `${url}/trees/allVerifiedTreessurvey?page=${currentPage}&&pageSize=${itemsPerPage}`,
+        {
+          headers: { auth_token: token },
+        }
       )
       .then((response) => resolve(response.data))
       .catch((error) => {
@@ -106,11 +123,14 @@ export const fetchTreeDetails = (kpTreesSurvey) => {
       });
   });
 };
-export const getTreeSurveyByDate = (startDate, endDate) => {
+export const getTreeSurveyByDate = (startDate, endDate, token) => {
   return new Promise((resolve, reject) => {
     axios
       .get(
-        `${url}/trees/treesurveybydate?startDate=${startDate}&&endDate=${endDate}`
+        `${url}/trees/treesurveybydate?startDate=${startDate}&&endDate=${endDate}`,
+        {
+          headers: { auth_token: token },
+        }
       )
       .then((response) => resolve(response.data))
       .catch((error) => {

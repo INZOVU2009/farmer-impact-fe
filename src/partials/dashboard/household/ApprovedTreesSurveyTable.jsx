@@ -25,7 +25,7 @@ function ApprovedTreesSurveyTable() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    dispatch(fetchAllApprovedHouseholdTrees(currentPage, itemsPerPage));
+    dispatch(fetchAllApprovedHouseholdTrees(currentPage, itemsPerPage, token));
   }, [dispatch, currentPage, itemsPerPage]);
   useEffect(() => {
     if (ApprovedHouseholdTrees) {
@@ -71,7 +71,7 @@ function ApprovedTreesSurveyTable() {
     setKpTreessurvey(tree.__kp_trees_survey);
     setAddModalOpen(true);
   };
-  console.log("selectedTree", selectedTree);
+
   const handleVerifyTrees = (id) => {
     dispatch(verifyTrees(id, token)).then((res) => {
       if (res.status === "success") {
