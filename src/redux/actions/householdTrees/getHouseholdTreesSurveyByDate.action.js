@@ -7,10 +7,10 @@ import {
 } from "../../slices/householdTrees/getHouseholdTreeSurveyByDateSlice";
 
 export const fetchHouseholdTreesSurveyByDate =
-  (startDate, endDate) => async (dispatch) => {
+  (startDate, endDate, token) => async (dispatch) => {
     try {
       dispatch(surveyByDatePending());
-      const res = await getTreeSurveyByDate(startDate, endDate);
+      const res = await getTreeSurveyByDate(startDate, endDate, token);
       dispatch(surveyByDateSuccess(res));
       return res;
     } catch (error) {

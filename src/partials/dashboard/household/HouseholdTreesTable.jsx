@@ -12,9 +12,10 @@ function HouseholdTreesTable() {
   const { householdTrees } = useSelector(
     (state) => state.fetchAllHouseholdTrees
   );
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    dispatch(fetchAllHouseholdTrees(currentPage, itemsPerPage));
+    dispatch(fetchAllHouseholdTrees(currentPage, itemsPerPage, token));
   }, [dispatch, currentPage, itemsPerPage]);
 
   useEffect(() => {
@@ -37,12 +38,10 @@ function HouseholdTreesTable() {
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, householdTrees?.data?.totalPages));
+    setCurrentPage((prevPage) =>
+      Math.min(prevPage + 1, householdTrees?.data?.totalPages)
+    );
   };
-
-
-
-
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);

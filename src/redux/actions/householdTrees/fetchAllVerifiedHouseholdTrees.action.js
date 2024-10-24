@@ -8,12 +8,13 @@ import {
 } from "../../slices/householdTrees/getAllVerifiedHouseholdTreesSlice";
 
 export const fetchAllVerifiedHouseholdTrees =
-  (currentPage, itemsPerPage) => async (dispatch) => {
+  (currentPage, itemsPerPage, token) => async (dispatch) => {
     try {
       dispatch(VerifiedHouseholdTreesPending());
       const res = await getVerifiedHouseholdTreeServey(
         currentPage,
-        itemsPerPage
+        itemsPerPage,
+        token
       );
       dispatch(VerifiedHouseholdTreesSuccess(res));
       return res;

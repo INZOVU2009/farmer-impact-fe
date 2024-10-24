@@ -1,4 +1,4 @@
-import {toast} from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import {
   householdTreesFail,
   householdTreesPending,
@@ -7,10 +7,14 @@ import {
 import { getHouseholdTreeServey } from "../../../api/householdTreesApi";
 
 export const fetchAllHouseholdTrees =
-  (currentPage, itemsPerPage) => async (dispatch) => {
+  (currentPage, itemsPerPage, token) => async (dispatch) => {
     try {
       dispatch(householdTreesPending());
-      const res = await getHouseholdTreeServey(currentPage, itemsPerPage);
+      const res = await getHouseholdTreeServey(
+        currentPage,
+        itemsPerPage,
+        token
+      );
       dispatch(householdTreesSuccess(res));
       return res;
     } catch (error) {

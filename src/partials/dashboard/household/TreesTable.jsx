@@ -24,7 +24,7 @@ function TreesTable() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    dispatch(fetchAllTrees(currentPage, itemsPerPage));
+    dispatch(fetchAllTrees(currentPage, itemsPerPage, token));
   }, [dispatch, currentPage, itemsPerPage]);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ function TreesTable() {
     setKpTreessurvey(tree.__kp_trees_survey);
     setAddModalOpen(true);
   };
-  console.log("selectedTree", selectedTree);
+
   const handleApproveTrees = (id) => {
     dispatch(approveTrees(id, token)).then((res) => {
       if (res.status === "success") {
