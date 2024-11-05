@@ -16,3 +16,21 @@ export const getAllGroups = () => {
       });
   });
 };
+
+export const getGroupsByStation = (currentPage, itemsPerPage, token) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(
+        `${url}/groups/byStation?page=${currentPage}&&pageSize=${itemsPerPage}`
+      )
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        if (error.response?.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};
