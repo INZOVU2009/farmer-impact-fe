@@ -21,7 +21,10 @@ export const getGroupsByStation = (currentPage, itemsPerPage, token) => {
   return new Promise((resolve, reject) => {
     axios
       .get(
-        `${url}/groups/byStation?page=${currentPage}&&pageSize=${itemsPerPage}`
+        `${url}/groups/byStation?page=${currentPage}&&pageSize=${itemsPerPage}`,
+        {
+          headers: { auth_token: ` ${token}` },
+        }
       )
       .then((response) => {
         resolve(response.data);
@@ -30,6 +33,21 @@ export const getGroupsByStation = (currentPage, itemsPerPage, token) => {
         if (error.response?.data !== undefined) {
           reject(error.response.data);
         }
+        reject(error);
+      });
+  });
+};
+
+export const createGroup = (data, token) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`${url}/groups/create`, data, {
+        headers: { auth_token: ` ${token}` },
+      })
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
         reject(error);
       });
   });

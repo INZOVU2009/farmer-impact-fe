@@ -222,19 +222,12 @@ function AssignNewParchment() {
       parch_weight: parchmentWeight,
     };
     dispatch(assigParchmentGrade(data, token));
-
   };
   useEffect(() => {
     if (parchmentGrade) {
-    navigate("/user_inventory_management/new_parchment_assignement")
-    console.log("hey");
-
-
-    } else {
-      console.log("hey");
+      navigate("/user_inventory_management/new_parchment_assignement");
     }
-  }, [parchmentGrade,navigate]);
- 
+  }, [parchmentGrade, navigate]);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -417,7 +410,7 @@ function AssignNewParchment() {
               cherryLotIdToAssign={cherryLotToAssign}
             />
           </div>
-          <Toaster/>
+          <Toaster />
         </main>
       </div>
     </div>

@@ -41,7 +41,6 @@ const AssignedParchmentTable = () => {
   useEffect(() => {
     dispatch(handleToken());
   }, [dispatch]);
-  console.log("I am parchm", assignedParchments);
 
   const formatDate = (dateString) => {
     const options = {
@@ -235,8 +234,6 @@ const AssignedParchmentTable = () => {
     (total, parchC) => total + parseInt(parchC.parch_weight),
     0
   );
-  console.log("I am total weight", totalWeightDrying);
-
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="p-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
@@ -321,54 +318,52 @@ const AssignedParchmentTable = () => {
 
       <div className="py-4 ml-0 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
         <div className=" justify-center block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
+          <div className="flex  gap-10 ">
+            <div className="flex flex-col ">
+              <span>Record</span>
+              <select
+                name=""
+                // value={itemsPerPage}
+                // onChange={handleItemsPerPageChange}
+                className="rounded-lg w-40"
+              >
+                <option value="20">20</option>
+                <option value="40">40</option>
+                <option value="60">60</option>
+              </select>
+            </div>
 
-  <div className="flex  gap-10 ">
-    <div className="flex flex-col ">
-      <span>Record</span>
-      <select
-        name=""
-        // value={itemsPerPage}
-        // onChange={handleItemsPerPageChange}
-        className="rounded-lg w-40"
-      >
-        <option value="20">20</option>
-        <option value="40">40</option>
-        <option value="60">60</option>
-      </select>
-    </div>
-
-    <div className="flex flex-col">
-      <span>Status</span>
-      <select
-        name=""
-        // value={selectedStatus}
-        // onChange={handleStatusChange}
-        className="rounded-lg w-40"
-      >
-        <option value="all">All</option>
-        <option value="open">Open</option>
-        <option value="closed">Closed</option>
-      </select>
-    </div>
-    <div>
-                <span>From</span>
-                <input
-                  value={new Date().toISOString().split("T")[0]}
-                  type="date"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-30  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                />
-              </div>
-              <div>
-                <span>To</span>
-                <input
-                  value={new Date().toISOString().split("T")[0]}
-                  type="date"
-                  class="bg-gray-50 border border-gray-300 mr-2 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-30  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                />
-              </div>
-  </div>
-</div>
-
+            <div className="flex flex-col">
+              <span>Status</span>
+              <select
+                name=""
+                // value={selectedStatus}
+                // onChange={handleStatusChange}
+                className="rounded-lg w-40"
+              >
+                <option value="all">All</option>
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
+              </select>
+            </div>
+            <div>
+              <span>From</span>
+              <input
+                value={new Date().toISOString().split("T")[0]}
+                type="date"
+                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-30  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              />
+            </div>
+            <div>
+              <span>To</span>
+              <input
+                value={new Date().toISOString().split("T")[0]}
+                type="date"
+                class="bg-gray-50 border border-gray-300 mr-2 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-30  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="flex flex-row left-4 items-center justify-center py-8 gap-3"></div>

@@ -10,6 +10,7 @@ const TrainingsTable = ({
   handleClickEditIconAction,
   handleEditCourseSUbmit,
   showEditCourseModel,
+  setShowEditCourseModel,
   selectedCourse,
   handleNextPage,
   handlePrevPage,
@@ -106,7 +107,7 @@ const TrainingsTable = ({
                           {showEditCourseModel && selectedCourse && (
                             <EditCourseModel
                               course={selectedCourse}
-                              onClose={() => showEditCourseModel(false)}
+                              onClose={() => setShowEditCourseModel(false)}
                               onSubmit={handleEditCourseSUbmit}
                             />
                           )}{" "}

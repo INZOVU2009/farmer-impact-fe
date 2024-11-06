@@ -1,16 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAllGroupsByStation } from "../redux/actions/groups/fetchGroupsByStation.action";
+import acronymGenerator from "../helpers/acronymGenerator";
+import { createNewGroups } from "../redux/actions/groups/createNewGroup.action";
+import { resetCreateGroupState } from "../redux/slices/groups/createNewGroupSlice";
 
 function GroupsTable() {
   const dispatch = useDispatch();
 
   const [displayGroups, setDisplayGroups] = useState([]);
+  const [stationsList, setStationsList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [itemsPerPage] = useState(10);
   const [isAddModalOpen, setAddModalOpen] = useState(false);
+  const [formData, setFormData] = useState({});
+  const [selectedStation, setSelectedStation] = useState();
+  const [generatedID, setGeneratedID] = useState();
+  const [submitted, setSubmitted] = useState(false);
+
   const { groups } = useSelector((state) => state.fetchAllGroups);
+
+  const createGroupState = useSelector((state) => state.createFarmerGroup);
 
   const token = localStorage.getItem("token");
 
@@ -28,7 +39,68 @@ function GroupsTable() {
 
   const handleApproveClick = (tree) => {};
 
-  const handleCloseModal = () => {};
+  const handleCreateGroup = () => {
+    setSubmitted(true);
+    let submitData = {
+      ...formData,
+      ...{
+        _kf_Station: getStation(selectedStation).__kp_Station,
+        _kf_Supplier: getStation(selectedStation)._kf_Supplier,
+        Area_Big: formData?.Area_Big || getStation(selectedStation).Area_Big,
+        Area_Biggest:
+          formData?.Area_Biggest || getStation(selectedStation).Area_Biggest,
+        Area_Medium:
+          formData?.Area_Medium || getStation(selectedStation).Area_Medium,
+        ID_GROUP: generatedID,
+      },
+    };
+
+    dispatch(createNewGroups({ group: submitData }, token));
+  };
+
+  const getStation = (kp) => {
+    return stationsList.find((item) => item.__kp_Station === kp);
+  };
+
+  const handleCloseModal = () => {
+    setAddModalOpen(false);
+    setFormData({});
+    setGeneratedID();
+    setSubmitted(false);
+    setSelectedStation();
+    dispatch(resetCreateGroupState());
+  };
+
+  // Handle form input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "station") {
+      let selected_station = getStation(value);
+      let prefix = acronymGenerator(selected_station?.Name);
+      setGeneratedID(prefix);
+      setSelectedStation(value);
+    }
+    setFormData((prevModule) => ({
+      ...prevModule,
+      [name]: value,
+    }));
+  };
+
+  useEffect(() => {
+    if (createGroupState.response) {
+      let fullyGeneratedID = createGroupState.response.generatedID;
+      let newGroup = createGroupState.response.createdGroup;
+
+      let allGroups = [...displayGroups];
+
+      allGroups.unshift(newGroup);
+
+      setDisplayGroups(allGroups);
+
+      setGeneratedID(fullyGeneratedID);
+    }
+  }, [createGroupState.response]);
 
   useEffect(() => {
     let allGroups = groups.data;
@@ -52,10 +124,22 @@ function GroupsTable() {
 
   useEffect(() => {
     let allGroups = groups.data;
-    if (allGroups) {
-      setDisplayGroups(groups.data);
-    }
+    let allStations = groups.allStations;
+
+    setDisplayGroups(allGroups || []);
+    setStationsList(allStations || []);
   }, [groups]);
+
+  useEffect(() => {
+    return () => {
+      setAddModalOpen(false);
+      setFormData({});
+      setGeneratedID();
+      setSubmitted(false);
+      setSelectedStation();
+      dispatch(resetCreateGroupState());
+    };
+  }, []);
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
@@ -83,7 +167,7 @@ function GroupsTable() {
               id="createProductButton"
               className="btn bg-blue-500 hover:bg-blue-600 text-white mx-1"
               type="button"
-              onClick={() => handleApproveClick(tree)}
+              onClick={() => setAddModalOpen(true)}
             >
               Create New Group
             </button>
@@ -135,7 +219,7 @@ function GroupsTable() {
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      Cell
+                      Status
                     </th>
                     <th
                       scope="col"
@@ -155,7 +239,7 @@ function GroupsTable() {
                         {(currentPage - 1) * itemsPerPage + index + 1}
                       </td>
                       <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {"station"}
+                        {getStation(group._kf_Station)?.Name || "N/A"}
                       </td>
                       <td className="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
                         {group.ID_GROUP}
@@ -170,10 +254,18 @@ function GroupsTable() {
                         {group.Area_Big}
                       </td>
                       <td className="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                        {group.Area_Medium}
+                        {group.status === "approved" ? (
+                          <label className="text-green-600 text-xs bg-green-300 rounded-full p-1">
+                            Approved
+                          </label>
+                        ) : (
+                          <label className="text-yellow-600 text-xs bg-yellow-200 rounded-full p-1">
+                            Pending
+                          </label>
+                        )}
                       </td>
                       <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {group.active == "0" ? (
+                        {group.active == "0" && group.status !== "pending" ? (
                           <button
                             id="createProductButton"
                             className="btn bg-green-500 hover:bg-green-600 text-white mb-3 mx-1"
@@ -190,6 +282,16 @@ function GroupsTable() {
                             onClick={() => handleApproveClick(group)}
                           >
                             Deactivate
+                          </button>
+                        )}
+                        {group.status === "pending" && (
+                          <button
+                            id="createProductButton"
+                            className="btn bg-blue-500 hover:bg-blue-600 text-white mb-3 mx-1"
+                            type="button"
+                            onClick={() => handleApproveClick(group)}
+                          >
+                            Approve
                           </button>
                         )}
                       </td>
@@ -311,16 +413,112 @@ function GroupsTable() {
             onClick={handleCloseModal}
           ></div>
           <div
-            className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg z-10 w-full"
+            className="flex flex-col bg-white items-center justify-center dark:bg-gray-800 p-8 rounded-lg shadow-lg z-10 w-fit"
             style={{ maxWidth: "1000px" }}
           >
             <div className="flex justify-center mb-4">
-              <h1 className="text-xl font-semibold uppercase">
-                Household Trees details{" "}
-              </h1>
+              <h1 className="text-xl font-semibold uppercase">Create Group</h1>
             </div>
             <hr className="mb-4" />
-            <div className="mt-4 flex justify-end gap-4">
+            <div className="flex w-full items-center justify-center">
+              <form className="flex flex-row gap-4 w-full justify-center">
+                <div className="flex flex-col gap-2 w-64">
+                  <div className="flex flex-col gap-4 w-64">
+                    <div className="flex flex-col gap-2 w-full">
+                      <label className="text-xl">Station: </label>
+                      <select
+                        className="rounded-md w-full"
+                        name="station"
+                        value={formData?.station}
+                        onChange={handleInputChange}
+                      >
+                        <option value="">Select Station</option>
+                        {stationsList.map((station) => (
+                          <option
+                            key={station.__kp_Station}
+                            value={station.__kp_Station}
+                          >
+                            {station.Name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="flex flex-col gap-2 w-full">
+                      <label className="text-xl">Group ID(prefix):</label>
+                      <input
+                        name="ID_GROUP"
+                        className="rounded-lg w-auto  opacity-70"
+                        type="text"
+                        value={
+                          generatedID && !createGroupState.response
+                            ? `${generatedID} _ _ _ _`
+                            : generatedID && createGroupState.response
+                            ? generatedID
+                            : "N/A"
+                        }
+                        onChange={handleInputChange}
+                        disabled
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2 w-full">
+                      <label className="text-xl">Group name:</label>
+                      <input
+                        name="group_name"
+                        className="rounded-lg w-64"
+                        type="text"
+                        value={formData?.group_name || ""}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-4 w-64">
+                  <div className="flex flex-col gap-2 w-full">
+                    <label className="text-xl">Location | Biggest:</label>
+                    <input
+                      name="Area_Biggest"
+                      className="rounded-lg w-64"
+                      type="text"
+                      value={
+                        getStation(selectedStation)?.Area_Biggest ||
+                        formData?.Area_Biggest ||
+                        "N/A"
+                      }
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2 w-full">
+                    <label className="text-xl">Location | Big:</label>
+                    <input
+                      name="Area_Big"
+                      className="rounded-lg w-64"
+                      type="text"
+                      value={
+                        getStation(selectedStation)?.Area_Big ||
+                        formData?.Area_Big ||
+                        "N/A"
+                      }
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2 w-full">
+                    <label className="text-xl">Location | Medium:</label>
+                    <input
+                      name="Area_Medium"
+                      className="rounded-lg w-64"
+                      type="text"
+                      value={
+                        getStation(selectedStation)?.Area_Medium ||
+                        formData?.Area_Medium ||
+                        "N/A"
+                      }
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div className="mt-4 flex w-full justify-end gap-4">
               <button
                 className="bg-gray-500 text-white px-4 py-2 rounded-lg"
                 onClick={handleCloseModal}
@@ -328,20 +526,15 @@ function GroupsTable() {
                 Close
               </button>
               <button
-                className="bg-green-500 text-white px-4 py-2 rounded-lg"
+                className={`bg-green-500 text-white px-4 py-2 rounded-lg ${
+                  submitted ? "opacity-40" : "opacity-100"
+                }`}
                 onClick={() => {
-                  handleCloseModal();
+                  handleCreateGroup();
                 }}
+                disabled={submitted}
               >
                 Confirm
-              </button>
-              <button
-                className="bg-red-500 text-white px-4 py-2 rounded-lg"
-                onClick={() => {
-                  handleCloseModal();
-                }}
-              >
-                Delete
               </button>
             </div>
           </div>
