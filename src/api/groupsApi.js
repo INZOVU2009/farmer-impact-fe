@@ -52,3 +52,33 @@ export const createGroup = (data, token) => {
       });
   });
 };
+
+export const approveCreatedGroup = (data, token) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(`${url}/groups/approve/${data}`, null, {
+        headers: { auth_token: ` ${token}` },
+      })
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export const toggleGroup = (data, token) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(`${url}/groups/toggle/${data}`, null, {
+        headers: { auth_token: ` ${token}` },
+      })
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};

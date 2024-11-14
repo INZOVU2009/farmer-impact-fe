@@ -64,7 +64,6 @@ export const getUser = (userId) => {
   });
 };
 export const getStaff = (userId) => {
-  console.log("urrr", userId);
   return new Promise((resolve, reject) => {
     axios
       .get(`${url}/user/staff/${userId}`)

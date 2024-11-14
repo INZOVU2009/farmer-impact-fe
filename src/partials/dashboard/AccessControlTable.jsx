@@ -142,7 +142,7 @@ const AccessControlTable = () => {
                 <IoIosPhonePortrait />
                 <NavLink
                   end
-                  to={`/user-administration/access-control/mobile-access/${userId}`}
+                  to={`/user-administaration/access-controll/mobile-access/${fetchedStaff?.id}`}
                   className="block text-slate-500 hover:text-slate-400 transition duration-150 truncate"
                 >
                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -154,7 +154,7 @@ const AccessControlTable = () => {
                 <GrSystem />
                 <NavLink
                   end
-                  to={`/user-administration/access-control/module-access/${userId}`}
+                  to={`/user-administration/access-control/module-access/${fetchedStaff?.id}`}
                   className="block text-slate-500 hover:text-slate-400 transition duration-150 truncate"
                 >
                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">

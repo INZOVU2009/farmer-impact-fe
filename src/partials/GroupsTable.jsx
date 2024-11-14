@@ -4,6 +4,12 @@ import { fetchAllGroupsByStation } from "../redux/actions/groups/fetchGroupsBySt
 import acronymGenerator from "../helpers/acronymGenerator";
 import { createNewGroups } from "../redux/actions/groups/createNewGroup.action";
 import { resetCreateGroupState } from "../redux/slices/groups/createNewGroupSlice";
+import { approveNewGroup } from "../redux/actions/groups/approveNewGroup.action";
+import { toggleGroupAction } from "../redux/actions/groups/toggleGroup.action";
+import { resetApproveGroupState } from "../redux/slices/groups/approveNewGroupSlice";
+import { resetToggleGroupState } from "../redux/slices/groups/toggleGroupSlice";
+import { getModules } from "../redux/actions/accessModules/getAllModules.action";
+import { assignedModules } from "../redux/actions/accessModules/getAssignedModules.action";
 
 function GroupsTable() {
   const dispatch = useDispatch();
@@ -14,14 +20,33 @@ function GroupsTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const [itemsPerPage] = useState(10);
   const [isAddModalOpen, setAddModalOpen] = useState(false);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    station: "",
+    Area_Big: "",
+    Area_Biggest: "",
+    Area_Medium: "",
+  });
   const [selectedStation, setSelectedStation] = useState();
   const [generatedID, setGeneratedID] = useState();
   const [submitted, setSubmitted] = useState(false);
+  const [grpNameValid, setGrpNameValid] = useState(false);
+
+  const [allAssignedModules, setAllAssignedModules] = useState();
+  const [retrievedModules, setRetrievedModules] = useState();
+  const [filteredModules, setFilteredModules] = useState([]);
+  const [assignedModuleIds, setAssignedModuleIds] = useState([]);
+  const [isAllowedToApprove, setIsAllowedToApprove] = useState(false);
+  const [isAllowedToToggle, setIsAllowedToToggle] = useState(false);
 
   const { groups } = useSelector((state) => state.fetchAllGroups);
+  const { modules } = useSelector((state) => state.fetchAllModules);
+  const { modulesAssigned } = useSelector(
+    (state) => state.fetchAssignedModules
+  );
 
   const createGroupState = useSelector((state) => state.createFarmerGroup);
+  const approveGroupState = useSelector((state) => state.approveFarmerGroup);
+  const toggleGroupState = useSelector((state) => state.activateFarmerGroup);
 
   const token = localStorage.getItem("token");
 
@@ -30,14 +55,24 @@ function GroupsTable() {
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, groups?.totalItems));
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, groups?.totalPages));
   };
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleApproveClick = (tree) => {};
+  const handleApproveClick = (id) => {
+    dispatch(approveNewGroup(id, token));
+  };
+
+  const handleActivateClick = (id) => {
+    dispatch(toggleGroupAction(id, token));
+  };
+
+  const handleDeactivateClick = (id) => {
+    dispatch(toggleGroupAction(id, token));
+  };
 
   const handleCreateGroup = () => {
     setSubmitted(true);
@@ -64,10 +99,18 @@ function GroupsTable() {
 
   const handleCloseModal = () => {
     setAddModalOpen(false);
-    setFormData({});
+    setFormData({
+      station: "",
+      Area_Big: "",
+      Area_Biggest: "",
+      Area_Medium: "",
+    });
     setGeneratedID();
     setSubmitted(false);
     setSelectedStation();
+    setGrpNameValid(false);
+    dispatch(resetToggleGroupState());
+    dispatch(resetApproveGroupState());
     dispatch(resetCreateGroupState());
   };
 
@@ -81,11 +124,61 @@ function GroupsTable() {
       setGeneratedID(prefix);
       setSelectedStation(value);
     }
-    setFormData((prevModule) => ({
-      ...prevModule,
-      [name]: value,
+    if (name === "group_name") {
+      let pattern = /^[a-zA-Z s]+$/;
+      setGrpNameValid(pattern.test(value));
+    }
+
+    setFormData((prevState) => ({
+      ...prevState,
+      ...{ [name]: value },
     }));
   };
+
+  useEffect(() => {
+    let filteredMods = retrievedModules?.filter((module) =>
+      assignedModuleIds.includes(module.id)
+    );
+
+    setIsAllowedToApprove(
+      filteredMods?.some((module) => module.module_name === "Groups approve")
+    );
+    setIsAllowedToToggle(
+      filteredMods?.some((module) => module.module_name === "Groups toggle")
+    );
+    setFilteredModules(filteredMods);
+  }, [retrievedModules]);
+
+  useEffect(() => {
+    if (modules) {
+      setRetrievedModules(modules.data);
+    }
+  }, [modules]);
+
+  useEffect(() => {
+    if (allAssignedModules) {
+      setAssignedModuleIds(
+        allAssignedModules?.map((mod) => mod.moduleid) || []
+      );
+    }
+  }, [allAssignedModules]);
+
+  useEffect(() => {
+    if (modulesAssigned) {
+      setAllAssignedModules(modulesAssigned.data);
+    }
+  }, [modulesAssigned]);
+
+  useEffect(() => {
+    if (selectedStation) {
+      setFormData({
+        station: selectedStation,
+        Area_Big: getStation(selectedStation)?.Area_Big || "N/A",
+        Area_Biggest: getStation(selectedStation)?.Area_Biggest || "N/A",
+        Area_Medium: getStation(selectedStation)?.Area_Medium || "N/A",
+      });
+    }
+  }, [selectedStation]);
 
   useEffect(() => {
     if (createGroupState.response) {
@@ -103,18 +196,45 @@ function GroupsTable() {
   }, [createGroupState.response]);
 
   useEffect(() => {
-    let allGroups = groups.data;
-    if (searchTerm.length > 0) {
-      let filteredGroups = allGroups?.filter((group) =>
-        Object.values(group).some(
-          (value) =>
-            value
-              ?.toString()
-              ?.toLowerCase()
-              ?.indexOf(searchTerm?.toLowerCase()) !== -1
-        )
+    if (approveGroupState.response) {
+      let approvedGroup = approveGroupState.response.approvedGroup;
+
+      let allGroups = displayGroups.filter(
+        (item) => item.__kp_Group !== approvedGroup.__kp_Group
       );
+
+      allGroups.unshift(approvedGroup);
+      setDisplayGroups(allGroups);
+    }
+  }, [approveGroupState.response]);
+
+  useEffect(() => {
+    if (toggleGroupState.response) {
+      let toggledGroup = toggleGroupState.response.toggledGroup;
+
+      let allGroups = displayGroups.filter(
+        (item) => item.__kp_Group !== toggledGroup.__kp_Group
+      );
+
+      allGroups.unshift(toggledGroup);
+      setDisplayGroups(allGroups);
+    }
+  }, [toggleGroupState.response]);
+
+  useEffect(() => {
+    if (searchTerm.length > 0) {
+      let text = searchTerm.toLowerCase();
+
+      let currentGrps = [...displayGroups];
+
+      const filteredGroups = currentGrps.filter((item) => {
+        return Object.values(item).some((value) => {
+          return String(value).toLowerCase().includes(text);
+        });
+      });
       setDisplayGroups(filteredGroups);
+    } else {
+      setDisplayGroups(groups.data || []);
     }
   }, [searchTerm]);
 
@@ -131,12 +251,23 @@ function GroupsTable() {
   }, [groups]);
 
   useEffect(() => {
+    dispatch(getModules());
+    dispatch(assignedModules(token));
+
     return () => {
       setAddModalOpen(false);
-      setFormData({});
+      setFormData({
+        station: "",
+        Area_Big: "",
+        Area_Biggest: "",
+        Area_Medium: "",
+      });
       setGeneratedID();
       setSubmitted(false);
       setSelectedStation();
+      setGrpNameValid(false);
+      dispatch(resetToggleGroupState());
+      dispatch(resetApproveGroupState());
       dispatch(resetCreateGroupState());
     };
   }, []);
@@ -163,14 +294,18 @@ function GroupsTable() {
               </div>
             </form>
 
-            <button
-              id="createProductButton"
-              className="btn bg-blue-500 hover:bg-blue-600 text-white mx-1"
-              type="button"
-              onClick={() => setAddModalOpen(true)}
-            >
-              Create New Group
-            </button>
+            {filteredModules?.some(
+              (module) => module.module_name === "Groups create"
+            ) && (
+              <button
+                id="createProductButton"
+                className="btn bg-blue-500 hover:bg-blue-600 text-white mx-1"
+                type="button"
+                onClick={() => setAddModalOpen(true)}
+              >
+                Create New Group
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -239,19 +374,41 @@ function GroupsTable() {
                         {(currentPage - 1) * itemsPerPage + index + 1}
                       </td>
                       <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {getStation(group._kf_Station)?.Name || "N/A"}
+                        {getStation(group._kf_Station)?.Name || (
+                          <label className="align-middle text-gray-400 text-sm text-center">
+                            N/A
+                          </label>
+                        )}
                       </td>
                       <td className="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
                         {group.ID_GROUP}
                       </td>
                       <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {group.Name}
+                        {group.Name.length > 0 ? (
+                          group.Name
+                        ) : (
+                          <label className="align-middle text-gray-400 text-sm text-center">
+                            N/A
+                          </label>
+                        )}
                       </td>
                       <td className="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                        {group.Area_Biggest}
+                        {group.Area_Biggest.length > 0 ? (
+                          group.Area_Biggest
+                        ) : (
+                          <label className="align-middle text-gray-400 text-sm text-center">
+                            N/A
+                          </label>
+                        )}
                       </td>
                       <td className="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
-                        {group.Area_Big}
+                        {group.Area_Big.length > 0 ? (
+                          group.Area_Big
+                        ) : (
+                          <label className="align-middle text-gray-400 text-sm text-center">
+                            N/A
+                          </label>
+                        )}
                       </td>
                       <td className="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
                         {group.status === "approved" ? (
@@ -268,28 +425,48 @@ function GroupsTable() {
                         {group.active == "0" && group.status !== "pending" ? (
                           <button
                             id="createProductButton"
-                            className="btn bg-green-500 hover:bg-green-600 text-white mb-3 mx-1"
+                            className={`btn bg-green-500 text-white mb-3 mx-1 ${
+                              isAllowedToToggle
+                                ? "opacity-100 hover:bg-green-600"
+                                : "opacity-40"
+                            }`}
                             type="button"
-                            onClick={() => handleApproveClick(group)}
+                            onClick={() =>
+                              handleActivateClick(group.__kp_Group)
+                            }
+                            disabled={!isAllowedToToggle}
                           >
                             Activate
                           </button>
-                        ) : (
+                        ) : group.active == "1" &&
+                          group.status !== "pending" ? (
                           <button
                             id="createProductButton"
-                            className="btn bg-red-500 hover:bg-red-600 text-white mb-3 mx-1"
+                            className={`btn bg-red-500 text-white mb-3 mx-1 ${
+                              isAllowedToToggle
+                                ? "opacity-100 hover:bg-red-600"
+                                : "opacity-40"
+                            }`}
                             type="button"
-                            onClick={() => handleApproveClick(group)}
+                            onClick={() =>
+                              handleDeactivateClick(group.__kp_Group)
+                            }
+                            disabled={!isAllowedToToggle}
                           >
                             Deactivate
                           </button>
+                        ) : (
+                          ""
                         )}
                         {group.status === "pending" && (
                           <button
                             id="createProductButton"
-                            className="btn bg-blue-500 hover:bg-blue-600 text-white mb-3 mx-1"
+                            className={`btn bg-blue-500 hover:bg-blue-600 text-white mb-3 mx-1 ${
+                              isAllowedToApprove ? "opacity-100" : "opacity-40"
+                            }`}
                             type="button"
-                            onClick={() => handleApproveClick(group)}
+                            onClick={() => handleApproveClick(group.__kp_Group)}
+                            disabled={!isAllowedToApprove}
                           >
                             Approve
                           </button>
@@ -447,7 +624,7 @@ function GroupsTable() {
                       <label className="text-xl">Group ID(prefix):</label>
                       <input
                         name="ID_GROUP"
-                        className="rounded-lg w-auto  opacity-70"
+                        className="rounded-lg w-auto opacity-70"
                         type="text"
                         value={
                           generatedID && !createGroupState.response
@@ -464,11 +641,71 @@ function GroupsTable() {
                       <label className="text-xl">Group name:</label>
                       <input
                         name="group_name"
-                        className="rounded-lg w-64"
+                        className={`rounded-lg w-64 ${
+                          grpNameValid ? "border-green-400" : "border-red-500"
+                        }`}
                         type="text"
                         value={formData?.group_name || ""}
                         onChange={handleInputChange}
                       />
+
+                      {grpNameValid ? (
+                        <div className="flex flex-row items-center gap-1">
+                          <svg
+                            width={25}
+                            height={25}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g
+                              id="SVGRepo_tracerCarrier"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            ></g>
+                            <g id="SVGRepo_iconCarrier">
+                              {" "}
+                              <path
+                                d="M12 2C6.4898 2 2 6.4898 2 12C2 17.5102 6.4898 22 12 22C17.5102 22 22 17.5102 22 12C22 6.4898 17.5102 2 12 2ZM15.5714 10.4694L11.4898 14.551C11.2857 14.6531 11.1837 14.7551 10.9796 14.7551C10.7755 14.7551 10.5714 14.6531 10.4694 14.551L8.42857 12.5102C8.12245 12.2041 8.12245 11.6939 8.42857 11.3878C8.73469 11.0816 9.2449 11.0816 9.55102 11.3878L11.0816 12.9184L14.6531 9.34694C14.9592 9.04082 15.4694 9.04082 15.7755 9.34694C15.8776 9.7551 15.8776 10.1633 15.5714 10.4694Z"
+                                fill="#4ade80"
+                              ></path>{" "}
+                            </g>
+                          </svg>
+                          <label className="text-sm text-green-400">
+                            Group name is valid
+                          </label>
+                        </div>
+                      ) : (
+                        <div className="flex flex-row items-center gap-1">
+                          <svg
+                            width={25}
+                            height={25}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g
+                              id="SVGRepo_tracerCarrier"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            ></g>
+                            <g id="SVGRepo_iconCarrier">
+                              {" "}
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM8.96963 8.96965C9.26252 8.67676 9.73739 8.67676 10.0303 8.96965L12 10.9393L13.9696 8.96967C14.2625 8.67678 14.7374 8.67678 15.0303 8.96967C15.3232 9.26256 15.3232 9.73744 15.0303 10.0303L13.0606 12L15.0303 13.9696C15.3232 14.2625 15.3232 14.7374 15.0303 15.0303C14.7374 15.3232 14.2625 15.3232 13.9696 15.0303L12 13.0607L10.0303 15.0303C9.73742 15.3232 9.26254 15.3232 8.96965 15.0303C8.67676 14.7374 8.67676 14.2625 8.96965 13.9697L10.9393 12L8.96963 10.0303C8.67673 9.73742 8.67673 9.26254 8.96963 8.96965Z"
+                                fill="#ef4444"
+                              ></path>{" "}
+                            </g>
+                          </svg>
+                          <label className="text-sm text-red-400">
+                            Group name is invalid
+                          </label>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -479,12 +716,9 @@ function GroupsTable() {
                       name="Area_Biggest"
                       className="rounded-lg w-64"
                       type="text"
-                      value={
-                        getStation(selectedStation)?.Area_Biggest ||
-                        formData?.Area_Biggest ||
-                        "N/A"
-                      }
+                      value={formData?.Area_Biggest}
                       onChange={handleInputChange}
+                      disabled={!selectedStation}
                     />
                   </div>
                   <div className="flex flex-col gap-2 w-full">
@@ -493,12 +727,9 @@ function GroupsTable() {
                       name="Area_Big"
                       className="rounded-lg w-64"
                       type="text"
-                      value={
-                        getStation(selectedStation)?.Area_Big ||
-                        formData?.Area_Big ||
-                        "N/A"
-                      }
+                      value={formData?.Area_Big}
                       onChange={handleInputChange}
+                      disabled={!selectedStation}
                     />
                   </div>
                   <div className="flex flex-col gap-2 w-full">
@@ -507,12 +738,9 @@ function GroupsTable() {
                       name="Area_Medium"
                       className="rounded-lg w-64"
                       type="text"
-                      value={
-                        getStation(selectedStation)?.Area_Medium ||
-                        formData?.Area_Medium ||
-                        "N/A"
-                      }
+                      value={formData?.Area_Medium}
                       onChange={handleInputChange}
+                      disabled={!selectedStation}
                     />
                   </div>
                 </div>
@@ -527,12 +755,14 @@ function GroupsTable() {
               </button>
               <button
                 className={`bg-green-500 text-white px-4 py-2 rounded-lg ${
-                  submitted ? "opacity-40" : "opacity-100"
+                  submitted || !selectedStation || !grpNameValid
+                    ? "opacity-40"
+                    : "opacity-100"
                 }`}
                 onClick={() => {
                   handleCreateGroup();
                 }}
-                disabled={submitted}
+                disabled={submitted || !selectedStation || !grpNameValid}
               >
                 Confirm
               </button>
