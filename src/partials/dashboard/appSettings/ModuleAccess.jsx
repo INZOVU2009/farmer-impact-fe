@@ -37,7 +37,6 @@ const AccessModuleTable = ({ onSubmit }) => {
   useEffect(() => {
     if (modules) {
       setRetrievedModules(modules.data);
-      console.log("Fetched modules:", modules.data); // Check API response
     }
   }, [modules]);
 
@@ -61,7 +60,6 @@ const AccessModuleTable = ({ onSubmit }) => {
       ...prevModule,
       [name]: value,
     }));
-    console.log(`Updated ${name}: ${value}`); // Log the change
   };
 
   // Handle form submission to create a new module
@@ -69,7 +67,6 @@ const AccessModuleTable = ({ onSubmit }) => {
     e.preventDefault();
     try {
       dispatch(createNewModule(formData));
-      console.log("hello",formData)
       onSubmit(formData);
       setFormData({
         module_name: "",
@@ -87,10 +84,6 @@ const AccessModuleTable = ({ onSubmit }) => {
     formData.type === "Sub-Menu"
       ? retrievedModules.filter((module) => module.type === "Menu")
       : [];
-
-  useEffect(() => {
-    console.log("Available Parent Modules:", availableParentModules); // Log the filtered modules
-  }, [formData.type, retrievedModules]);
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">

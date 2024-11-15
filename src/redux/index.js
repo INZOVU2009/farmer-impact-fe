@@ -94,9 +94,12 @@ import fetchAllApprovedRegistrationSlice from "./slices/registrations/fetchAppro
 import fetchAllVerifiedRegistrationsSlice from "./slices/registrations/fetchVerifiedRegistrationsSlice";
 import getAllApprovedHouseholdTreesSlice from "./slices/householdTrees/getAllApprovedHouseholdTreesSlice";
 import getAllVerifiedHouseholdTreesSlice from "./slices/householdTrees/getAllVerifiedHouseholdTreesSlice";
-// import getAllNewHouseholdTreesSlice from "./slices/householdTrees/getAllNewHouseholdTreesSlice";
 import deleteRegistrationSlice from "./slices/registrations/deleteRegistrationSlice";
 import deleteHouseholdTreesSlice from "./slices/householdTrees/deleteHouseholdTreesSlice";
+import createNewGroupSlice from "./slices/groups/createNewGroupSlice";
+import approveNewGroupSlice from "./slices/groups/approveNewGroupSlice";
+import toggleGroupSlice from "./slices/groups/toggleGroupSlice";
+
 const store = configureStore({
   reducer: {
     login,
@@ -147,6 +150,9 @@ const store = configureStore({
     fetchAllInspections: fetchInspectionsSlice,
     fetchAllFarmers: fetchAllFarmersSlice,
     fetchAllGroups: fetchAllGroupsSlice,
+    createFarmerGroup: createNewGroupSlice,
+    approveFarmerGroup: approveNewGroupSlice,
+    activateFarmerGroup: toggleGroupSlice,
     fetchAllHouseHolds: fetchAllHouseholdsSlice,
     fetchAllTrainings: fetchAllTrainingsSlice,
     fetchAllAttendences: fetchAllAttendencesSlice,

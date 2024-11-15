@@ -19,7 +19,6 @@ function TrainingsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
 
- 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchAllTrainings(currentPage, itemsPerPage));
@@ -39,7 +38,7 @@ function TrainingsPage() {
     setSelectedCourse(null);
     setShowEditCourseModel(true);
   };
-  const totalItems = trainings?.totalItems
+  const totalItems = trainings?.totalItems;
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
@@ -67,14 +66,14 @@ function TrainingsPage() {
                 <TrainingsTable
                   trainings={allTrainings}
                   handleClickEditIconAction={handleClickEditIconAction}
-                  showEditCourseModel={setShowEditCourseModel}
+                  showEditCourseModel={showEditCourseModel}
+                  setShowEditCourseModel={setShowEditCourseModel}
                   selectedCourse={selectedCourse}
                   handleNextPage={handleNextPage}
                   handlePrevPage={handlePrevPage}
                   currentPage={currentPage}
                   itemsPerPage={itemsPerPage}
                   totalItems={totalItems}
-                  
                 />
               )}
             </div>

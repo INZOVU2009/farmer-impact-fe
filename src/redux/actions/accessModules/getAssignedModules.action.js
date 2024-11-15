@@ -1,5 +1,5 @@
 /* eslint-disable */
-import {toast} from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { getAssignedModules } from "../../../api/accessModulesApi";
 import {
   assignedModulesFail,

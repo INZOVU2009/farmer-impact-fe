@@ -107,21 +107,21 @@ const AccessControlTable = () => {
           permission.delete_record ||
           permission.edit_record
       ); // Only include permissions with at least one action selected
-  
-    console.log("Filtered Permissions being sent:", filteredPermissionList);
-    
+
     // Dispatch the action with the filtered permissions list
     dispatch(assignPermission(filteredPermissionList)).then(() => {
       navigate("/user-administration"); // Redirect to the users list;
     });
   };
-  
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="p-4 mb-5 bg-white dark:bg-slate-800 shadow-lg rounded-xl border border-slate-200 dark:border-slate-700">
-        <p className="mb-6 ml-20" >
-          <strong style={{ fontSize:'1.2rem'}}>Dashboard access control for <b style={{color: "#4F46E5"}}>{fetchedStaff?.Name}</b></strong>
+        <p className="mb-6 ml-20">
+          <strong style={{ fontSize: "1.2rem" }}>
+            Dashboard access control for{" "}
+            <b style={{ color: "#4F46E5" }}>{fetchedStaff?.Name}</b>
+          </strong>
         </p>
         <div className="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
           <div className="flex items-center ml-20 mb-4 sm:mb-0 gap-24">
@@ -142,7 +142,7 @@ const AccessControlTable = () => {
                 <IoIosPhonePortrait />
                 <NavLink
                   end
-                  to={`/user-administration/access-control/mobile-access/${userId}`}
+                  to={`/user-administaration/access-controll/mobile-access/${fetchedStaff?.id}`}
                   className="block text-slate-500 hover:text-slate-400 transition duration-150 truncate"
                 >
                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -154,7 +154,7 @@ const AccessControlTable = () => {
                 <GrSystem />
                 <NavLink
                   end
-                  to={`/user-administration/access-control/module-access/${userId}`}
+                  to={`/user-administration/access-control/module-access/${fetchedStaff?.id}`}
                   className="block text-slate-500 hover:text-slate-400 transition duration-150 truncate"
                 >
                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
