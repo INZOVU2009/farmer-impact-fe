@@ -99,6 +99,7 @@ import deleteHouseholdTreesSlice from "./slices/householdTrees/deleteHouseholdTr
 import createNewGroupSlice from "./slices/groups/createNewGroupSlice";
 import approveNewGroupSlice from "./slices/groups/approveNewGroupSlice";
 import toggleGroupSlice from "./slices/groups/toggleGroupSlice";
+import createNewCourseSlice from "./slices/trainings/createNewCourseSlice";
 
 const store = configureStore({
   reducer: {
@@ -191,6 +192,7 @@ const store = configureStore({
     registerNewFarmers: registerNewFarmersSlice,
     addNewInspectionQuestion: addInspectionQuestionSlice,
     fetchWeeklyReport: fetchWeeklyReportSlice,
+    createNewCourse: createNewCourseSlice,
     approveHouseholdTrees: approveHouseholdTreesSlice,
     verifyHouseholdTrees: verifyHouseholdTreesSlice,
     fetchTreeDetails: fetchTreeDetailsSlice,
