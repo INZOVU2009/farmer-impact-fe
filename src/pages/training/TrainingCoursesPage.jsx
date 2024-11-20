@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import EditCourseModel from "../../components/EditCourseModel";
 
 function TrainingsPage() {
+  const token = localStorage.getItem("token");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [allTrainings, setAllTrainings] = useState([]);
   const [showEditCourseModel, setShowEditCourseModel] = useState(false);
@@ -21,7 +22,7 @@ function TrainingsPage() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchAllTrainings(currentPage, itemsPerPage));
+    dispatch(fetchAllTrainings(currentPage, itemsPerPage, token));
   }, [dispatch, currentPage, itemsPerPage]);
 
   useEffect(() => {
