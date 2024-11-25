@@ -17,11 +17,18 @@ export const getAllGroups = () => {
   });
 };
 
-export const getGroupsByStation = (currentPage, itemsPerPage, token) => {
+export const getGroupsByStation = (
+  currentPage,
+  itemsPerPage,
+  token,
+  station = null
+) => {
   return new Promise((resolve, reject) => {
     axios
       .get(
-        `${url}/groups/byStation?page=${currentPage}&&pageSize=${itemsPerPage}`,
+        `${url}/groups/byStation?page=${currentPage}&pageSize=${itemsPerPage}${
+          station !== null && "&station=" + station
+        }`,
         {
           headers: { auth_token: ` ${token}` },
         }

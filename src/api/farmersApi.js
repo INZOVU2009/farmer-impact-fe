@@ -16,3 +16,19 @@ export const getAllFarmers = () => {
       });
   });
 };
+
+export const getFarmersByGroup = (group, token) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`${url}/farmers/list/${group}`, {
+        headers: { auth_token: ` ${token}` },
+      })
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response?.data !== undefined) {
+          reject(error.response.data);
+        }
+        reject(error);
+      });
+  });
+};
