@@ -124,6 +124,9 @@ function TrainingAttendanceSheet() {
               </div>
             </div>
             <hr className="my-8" />
+            <div className="flex flex-col">
+                  
+            </div>
           </div>
         </main>
       </div>

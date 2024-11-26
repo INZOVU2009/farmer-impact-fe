@@ -209,10 +209,10 @@ export const transactionBucket = (token, data) => {
   });
 };
 
-export const bucketWeighting = (data,token) => {
+export const bucketWeighting = (data, token) => {
   return new Promise((resolve, reject) => {
     axios
-      .post(`${url}/coffeePurchase/bucketWeight`, data ,  {
+      .post(`${url}/coffeePurchase/bucketWeight`, data, {
         headers: { auth_token: ` ${token}` },
       })
       .then((response) => resolve(response.data))
