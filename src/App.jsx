@@ -56,6 +56,7 @@ import WeeklyReportPage from "./pages/training/WeeklyReportPage";
 import ApprovedTreesSurveyPage from "./pages/household/ApprovedTreesSurveyPage";
 import FinalTreeSurveyPage from "./pages/household/FinalTreeSurveyPage";
 import GroupsManagementPage from "./pages/GroupsManagement";
+import TrainingAttendanceSheet from "./partials/dashboard/training/TrainingAttendanceSheet";
 
 function App() {
   const location = useLocation();
@@ -228,6 +229,11 @@ function App() {
           exact
           path="user_trainings/weekly_report"
           element={<WeeklyReportPage />}
+        />
+        <Route
+          exact
+          path="user_trainings/generate_attendance_sheet"
+          element={<TrainingAttendanceSheet />}
         />
         <Route
           exact

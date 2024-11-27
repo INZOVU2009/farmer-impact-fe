@@ -100,6 +100,8 @@ import createNewGroupSlice from "./slices/groups/createNewGroupSlice";
 import approveNewGroupSlice from "./slices/groups/approveNewGroupSlice";
 import toggleGroupSlice from "./slices/groups/toggleGroupSlice";
 import createNewCourseSlice from "./slices/trainings/createNewCourseSlice";
+import stationsListSlice from "./slices/station/stationsListSlice";
+import fetchFarmerByGroupSlice from "./slices/farmers/fetchFarmerByGroupSlice";
 
 const store = configureStore({
   reducer: {
@@ -120,6 +122,7 @@ const store = configureStore({
     commissionFees: commissionFeesSlice,
     approveJournal: approveJournalSlice,
     fetchAllStations: allStationSlice,
+    stationsByUser: stationsListSlice,
     Suppliers: allSupplierSlice,
     fetchAllJournalsByCherryLotId: journalsByCherryLotSlice,
     addPermissions: addPermissionsSlice,
@@ -150,6 +153,7 @@ const store = configureStore({
     saveCherryToSubmit: saveCherryToSubmitSlice,
     fetchAllInspections: fetchInspectionsSlice,
     fetchAllFarmers: fetchAllFarmersSlice,
+    fetchFarmersByGroup: fetchFarmerByGroupSlice,
     fetchAllGroups: fetchAllGroupsSlice,
     createFarmerGroup: createNewGroupSlice,
     approveFarmerGroup: approveNewGroupSlice,

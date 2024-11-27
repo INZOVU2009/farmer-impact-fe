@@ -7,11 +7,17 @@ import {
 import { getGroupsByStation } from "../../../api/groupsApi";
 
 export const fetchAllGroupsByStation =
-  (currentPage, itemsPerPage, token) => async (dispatch) => {
+  (currentPage, itemsPerPage, token, station = null) =>
+  async (dispatch) => {
     try {
       dispatch(groupsPending());
 
-      const res = await getGroupsByStation(currentPage, itemsPerPage, token);
+      const res = await getGroupsByStation(
+        currentPage,
+        itemsPerPage,
+        token,
+        station
+      );
 
       dispatch(groupsSuccess(res));
       return res;
