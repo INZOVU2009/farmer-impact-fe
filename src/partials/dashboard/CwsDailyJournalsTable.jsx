@@ -166,7 +166,7 @@ const CwsDailyJournalsTable = () => {
     // Iterate through transactions
     allTransactions.forEach((transaction) => {
       const journal = transaction.transaction_date;
-      const kilograms = transaction.kilograms || 0;
+      const kilograms = transaction.kilograms +transaction.bad_kilograms || 0;
 
       // Check if the JOURNAL# exists in the sumMap
       if (!sumByJournal[journal]) {
@@ -722,7 +722,7 @@ const CwsDailyJournalsTable = () => {
                           >
                             {Math.round(
                               dryWeightByCherryLot(journal.cherry_lot_id)[0]
-                                .FinalGradeA
+                                .GradeA
                             )}
                           </span>
                         ) : (
@@ -742,7 +742,7 @@ const CwsDailyJournalsTable = () => {
                           >
                             {Math.round(
                               dryWeightByCherryLot(journal.cherry_lot_id)[0]
-                                .FinalGradeB
+                                .GradeB
                             )}
                           </span>
                         ) : (
@@ -762,7 +762,7 @@ const CwsDailyJournalsTable = () => {
                           >
                             {Math.round(
                               dryWeightByCherryLot(journal.cherry_lot_id)[0]
-                                .FinalGradeC
+                                .GradeC
                             )}
                           </span>
                         ) : (

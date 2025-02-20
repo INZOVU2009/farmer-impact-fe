@@ -221,7 +221,9 @@ function AssignNewParchment() {
       certificate: certificate,
       parch_weight: parchmentWeight,
     };
-    dispatch(assigParchmentGrade(data, token));
+    dispatch(assigParchmentGrade(data, token)).then(() => {
+      navigate("/user_inventory_management/assigned_parchment"); // Redirect to the users list;
+    });
   };
   useEffect(() => {
     if (parchmentGrade) {

@@ -627,13 +627,14 @@ const CherryLotDetailsTable = () => {
       </div>
 
       <div className="flex items-center justify-center">
-        <button
-          className="bg-green-500 p-4 mt-5 rounded-lg text-white "
-          onClick={handleSave}
-        >
-          Close and submit to RTC{" "}
-        </button>
-      </div>
+  <button
+    className="bg-green-500 p-4 mt-5 rounded-lg text-white disabled:bg-gray-800 disabled:cursor-not-allowed"
+    onClick={handleSave}
+    disabled={filteredJournals.some((journal) => journal.fm_approval === 1)}
+  >
+    Close and submit to RTC
+  </button>
+</div>
       <Toaster />
     </div>
   );
