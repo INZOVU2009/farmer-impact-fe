@@ -29,7 +29,7 @@ export default function EditTransactionModel({
     certificationType:
       transaction.certification === "CP"
         ? "Cafe Practice"
-        : transaction.certification === "RN"
+        : transaction.certification === "RF"
         ? "Rain Forest"
         : transaction.certification === "NC"
         ? "Non Certified"
@@ -103,10 +103,12 @@ export default function EditTransactionModel({
           <p>Paper Receipt</p>
 
           <input
-            className="rounded-lg   w-80"
-            type="text"
-            value={editedTransaction.paper_receipt}
-            readOnly
+          type="text"
+          name="paper_receipt"
+          value={editedTransaction.paper_receipt}
+          onChange={handleInputChange}
+          placeholder=""
+          className="rounded-lg   w-80"
           />
 
           <p>Transaction Date</p>
@@ -177,7 +179,7 @@ export default function EditTransactionModel({
             className="rounded-lg w-80"
           >
             <option value="CP">Cafe Practice</option>
-            <option value="RN">Rain Forest</option>
+            <option value="RF">Rain Forest</option>
             <option value="NC">Non Certified</option>
           </select>
 
