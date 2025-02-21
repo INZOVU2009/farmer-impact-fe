@@ -14,36 +14,51 @@ function AddUntraceableCoffee({ onSubmit }) {
   const [formData, setFormData] = useState({
     kilograms: "",
     unitprice: "",
+    floaters: "",
+    bad_price: "",
     cash_paid: "",
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevTransaction) => ({
-      ...prevTransaction,
-      [name]: value,
-    }));
+    setFormData((prevTransaction) => { 
+      const updatedData = { ...prevTransaction,[name]: value };
+
+      const kilograms = parseFloat(updatedData.kilograms) || 0;
+      const unitprice = parseFloat(updatedData.unitprice) || 0;
+      const floaters = parseFloat(updatedData.floaters) || 0;
+      const bad_price = parseFloat(updatedData.bad_price) || 0;
+
+      updatedData.cash_paid = (kilograms * unitprice) + (floaters * bad_price);
+
+      return updatedData;
+      
+  });
   };
 
   const handleAddSubmit = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(addUntraceableCoffee(formData, token));
-
+      dispatch(addUntraceableCoffee(formData, token));
+      
       // Clear the form fields if submission was successful
       if (!error) {
         setFormData({
           kilograms: "",
           unitprice: "",
+          floaters: "",
+          bad_price: "",
           cash_paid: "",
         });
         onSubmit(formData);
+        
       }
+      
     } catch (error) {
       console.error("Adding untraceable coffee failed", error);
     }
   };
-
+  const isDisabled = !formData.kilograms || !formData.unitprice;
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
@@ -66,7 +81,7 @@ function AddUntraceableCoffee({ onSubmit }) {
                     type="number"
                     className="w-full rounded-md"
                     name="kilograms"
-                    placeholder="Enter kilograms"
+                    placeholder="Enter Good cherry kgs"
                     value={formData.kilograms}
                     onChange={handleInputChange}
                   />
@@ -76,6 +91,22 @@ function AddUntraceableCoffee({ onSubmit }) {
                     name="unitprice"
                     placeholder="Enter unit price"
                     value={formData.unitprice}
+                    onChange={handleInputChange}
+                  />
+                   <input
+                    type="number"
+                    className="w-full rounded-md"
+                    name="floaters"
+                    placeholder="Enter floaters"
+                    value={formData.floaters}
+                    onChange={handleInputChange}
+                  />
+                  <input
+                    type="number"
+                    className="w-full rounded-md"
+                    name="bad_price"
+                    placeholder="Enter unit price"
+                    value={formData.bad_price}
                     onChange={handleInputChange}
                   />
                   <input
@@ -88,9 +119,8 @@ function AddUntraceableCoffee({ onSubmit }) {
                   />
                   <div className="flex justify-center">
                     <button
-                      className="bg-green-500 text-white rounded-md w-48 p-2"
-                      type="submit"
-                    >
+                      className={`bg-green-500 text-white rounded-md w-48 p-2 ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
+                      type="submit" disabled ={isDisabled}>
                       {isloading ? "Loading..." : "Save Coffee"}
                     </button>
                   </div>
