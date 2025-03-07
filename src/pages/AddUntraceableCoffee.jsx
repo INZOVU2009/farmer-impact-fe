@@ -12,6 +12,7 @@ function AddUntraceableCoffee({ onSubmit }) {
   const token = localStorage.getItem("token");
   const { isloading, error, success } = useSelector((state) => state.addUntraceableCoffee);
   const [formData, setFormData] = useState({
+    transaction_date:"",
     kilograms: "",
     unitprice: "",
     floaters: "",
@@ -44,6 +45,7 @@ function AddUntraceableCoffee({ onSubmit }) {
       // Clear the form fields if submission was successful
       if (!error) {
         setFormData({
+          transaction_date:"",
           kilograms: "",
           unitprice: "",
           floaters: "",
@@ -77,6 +79,14 @@ function AddUntraceableCoffee({ onSubmit }) {
               </div>
               <div className="p-4">
                 <form className="space-y-4" onSubmit={handleAddSubmit}>
+                  <input
+                    type="date"
+                    className="w-full rounded-md"
+                    name="transaction_date"
+                    placeholder=""
+                    value={formData.transaction_date}
+                    onChange={handleInputChange}
+                  />
                   <input
                     type="number"
                     className="w-full rounded-md"
@@ -114,6 +124,7 @@ function AddUntraceableCoffee({ onSubmit }) {
                     className="w-full rounded-md"
                     placeholder="Enter the amount paid"
                     name="cash_paid"
+                    disabled="disabled"
                     value={formData.cash_paid}
                     onChange={handleInputChange}
                   />
