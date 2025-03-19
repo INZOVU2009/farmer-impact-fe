@@ -3,7 +3,6 @@ import { constants } from "../constants/constants";
 
 const url = constants.SERVER_URL;
 
-
 export const assignNewParchment = (data) => {
   return new Promise((resolve, reject) => {
     axios
@@ -35,11 +34,13 @@ export const ParchmentGrade = (data, token) => {
 };
 
 //get all assigned parchments
-export const allAssignedParchments = async () => {
+export const allAssignedParchments = async (token) => {
   try {
     const response = await axios.get(
       `${url}/parchments/allAssignedParchments`,
-      {}
+      {
+        headers: { auth_token: ` ${token}` },
+      }
     );
     return response.data;
   } catch (error) {
@@ -84,9 +85,11 @@ export const deliverParchment = (data, token) => {
 };
 
 //get all delivery reports
-export const deliveryReports = async () => {
+export const deliveryReports = async (token) => {
   try {
-    const response = await axios.get(`${url}/parchmentTransport/reports`, {});
+    const response = await axios.get(`${url}/parchmentTransport/reports`, {
+      headers: { auth_token: ` ${token}` },
+    });
     return response.data;
   } catch (error) {
     if (error.response.data !== undefined) {

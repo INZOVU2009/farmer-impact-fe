@@ -7,7 +7,6 @@ import DigitalLoadingFormTable from "../partials/dashboard/DigitalLoadingFormTab
 import { fetchAllAssignedParchments } from "../redux/actions/parchnment/allAssignedParchment.action";
 import { fetchAllTransactions } from "../redux/actions/transactions/allTransactions.action";
 import { fetchAllStation } from "../redux/actions/station/allStations.action";
-import { handleToken } from "../redux/actions/auth/fetchToken.action";
 import { submitDeliveryReport } from "../redux/actions/parchnment/submitDeliveryReport.action";
 import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -17,11 +16,9 @@ import { Toaster } from "react-hot-toast";
 function DigitalLoadingFormPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [allTransactions, setAllTransactions] = useState([]);
-  const [selectedParchment, setSelectedParchment] = useState(null);
   const [selectedOption, setSelectedOption] = useState([]);
   const [parchmentToDeliver, setParchmentToDeliver] = useState([]);
   const [allDeliveryReports, setAllDeliveryReports] = useState([]);
-  const { deliveryReports } = useSelector((state) => state.allDeliveryReports);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const { transactions, loading } = useSelector(
@@ -34,14 +31,12 @@ function DigitalLoadingFormPage() {
   const { stations } = useSelector((state) => state.fetchAllStations);
   const [allStation, setAllStation] = useState([]);
   const { decodedToken } = useSelector((state) => state.fetchToken);
-  const [stockbal, setStockbal] = useState(0);
   const [selectedParchments, setSelectedParchments] = useState([]);
   const { singleReport } = useSelector((state) => state.fetchSingleReport);
   const [parchments, setParchments] = useState([]);
   const parchmentid = selectedParchments[0];
 
   const wantedGrade = parchmentid?.charAt(parchmentid?.length - 1);
-  console.log("hellll000000", parchmentToDeliver);
 
   const parchWeight = parchmentToDeliver?.parch_weight;
 
@@ -59,13 +54,16 @@ function DigitalLoadingFormPage() {
     bags_of_parchment_left: "",
     final_bags_of_parchment_left: "",
     parch_lot_ID: "",
+    loading_date: new Date().toISOString().split("T")[0],
+    expected_delivery_date: new Date().toISOString().split("T")[0],
   });
-  console.log("parchWeight:", parchWeight, "formData.weight:", formData?.weight);
+
   const finaleWeightLeft = parchWeight - formData?.weight;
-  console.log("finaleW", finaleWeightLeft,formData)
 
   useEffect(() => {
-    dispatch(fetchAllAssignedParchments());
+    const token = localStorage.getItem("token");
+
+    if (token) dispatch(fetchAllAssignedParchments(token));
   }, [dispatch]);
 
   useEffect(() => {
@@ -143,6 +141,7 @@ function DigitalLoadingFormPage() {
 
   const handleFormDataChange = (e) => {
     const { name, value } = e.target;
+
     setFormData((prevData) => ({
       ...prevData,
       grade: wantedGrade,
@@ -178,7 +177,7 @@ function DigitalLoadingFormPage() {
       return latestReport?.final_weight_left;
     } else {
       // If not delivered, return the original parchment weight
-      return parch_weight ;
+      return parch_weight;
     }
   };
 
@@ -193,7 +192,9 @@ function DigitalLoadingFormPage() {
         if (!parchment) return null; // Handle case where parchment is not found
 
         // Calculate final weight left
-        const finalWeightLeft = getWeightLeft(parchment.id, parchment.weight) - formData[`weight_${parchmentId}`];
+        const finalWeightLeft =
+          getWeightLeft(parchment.id, parchment.weight) -
+          formData[`weight_${parchmentId}`];
 
         // Calculate grade based on parchment ID
         const grade = parchmentId?.charAt(parchmentId?.length - 1);
@@ -225,17 +226,21 @@ function DigitalLoadingFormPage() {
       driver_name: formData.driver_name,
       driver_licence_or_national_id: formData.driver_licence_or_national_id,
       reportsLots: reportsLots,
+      loading_date: formData.loading_date,
+      expected_delivery_date: formData.expected_delivery_date,
     };
-    console.log("delivery", deliveryFormData);
+
+    console.log(deliveryFormData);
+
     // Dispatch the action to submit the delivery report with the formatted data
     dispatch(submitDeliveryReport(deliveryFormData, token));
 
     // Clear the form data after submission
     setFormData({});
 
-  setTimeout(() => {
-    navigate("/user_inventory_management/parchment_transport");
-  }, 4000); // 2 seconds delay
+    setTimeout(() => {
+      navigate("/user_inventory_management/parchment_transport");
+    }, 4000); // 2 seconds delay
   };
 
   useEffect(() => {
@@ -260,11 +265,11 @@ function DigitalLoadingFormPage() {
         bags_of_parchment_left: "",
         final_bags_of_parchment_left: "",
         parch_lot_ID: "",
+        loading_date: new Date().toISOString().split("T")[0],
+        expected_delivery_date: new Date().toISOString().split("T")[0],
       });
     }
   }, [delivery]);
-
-
 
   const handleClick = (parchment) => {
     const newParchment = {
@@ -279,8 +284,6 @@ function DigitalLoadingFormPage() {
       // Add the new parchment only if it's not already added
       setParchments((prevParchments) => [...prevParchments, newParchment]);
     }
-
-    console.log("I am parchhccc", parchments); // Check the updated array
   };
 
   return (

@@ -1133,7 +1133,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   className="block text-black hover:text-slate-400 transition duration-150 truncate"
                                 >
                                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                    Parchement Transport
+                                    Parchment Transport
                                   </span>
                                 </NavLink>
                               </li>
@@ -1155,7 +1155,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   className="block text-black hover:text-slate-400 transition duration-150 truncate"
                                 >
                                   <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                    Parchement Reception
+                                    Parchment Reception
                                   </span>
                                 </NavLink>
                               </li>
