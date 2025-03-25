@@ -8,11 +8,7 @@ import { fetchAllTransactions } from "../redux/actions/transactions/allTransacti
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { assigParchment } from "../redux/actions/parchnment/assignNewParchment.action.action";
-import AssignNewParchmentModel from "../components/AssignNewParchmentModel";
-import {
-  setCertification,
-  clearCertification,
-} from "../redux/actions/parchnment/setCertification.action";
+import { setCertification } from "../redux/actions/parchnment/setCertification.action";
 import { Toaster } from "react-hot-toast";
 import { assigParchmentGrade } from "../redux/actions/parchnment/assignParchmentGrade.action";
 
@@ -34,7 +30,6 @@ function AssignNewParchment() {
   const { parchmentGrade, isloading } = useSelector(
     (state) => state.newParchmentGrade
   );
-  const [newParchmentGrade, setNewParchmentGrade] = useState();
 
   const [selectedCertification, setSelectedCertification] =
     useState("Certified");
@@ -113,6 +108,7 @@ function AssignNewParchment() {
       (drying) => drying.day_lot_number === transaction.cherry_lot_id
     )
   );
+
   const filteredByCertification =
     selectedCertification === "Certified"
       ? filteredByCherryLotID.filter(
@@ -122,7 +118,7 @@ function AssignNewParchment() {
           (transaction) => transaction.certified === 0
         );
 
-  const totalPages = Math.ceil(filteredTransaction?.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredByCertification?.length / itemsPerPage);
 
   const paginatedTransactions = filteredByCertification?.slice(
     (currentPage - 1) * itemsPerPage,

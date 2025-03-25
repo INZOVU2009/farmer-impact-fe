@@ -13,13 +13,25 @@ function ParchmentTransportPage() {
   const [allDeliveryReports, setAllDeliveryReports] = useState();
   const dispatch = useDispatch();
   const { deliveryReports } = useSelector((state) => state.allDeliveryReports);
+  const [stationDetails, setStationDetails] = useState({
+    id: "N/A",
+    name: "N/A",
+  });
 
   useEffect(() => {
-    dispatch(fetchAllDeliveryReports());
+    const token = localStorage.getItem("token");
+
+    if (token) dispatch(fetchAllDeliveryReports(token));
   }, [dispatch]);
 
   useEffect(() => {
     if (deliveryReports) {
+      if (deliveryReports.stationData) {
+        setStationDetails({
+          id: deliveryReports.stationData.id,
+          name: deliveryReports.stationData.name,
+        });
+      }
       // Create a copy of the deliveryReports array before sorting
       const reportsCopy = [...deliveryReports.data];
       // Sort the copied array in descending order based on entry date
@@ -29,19 +41,6 @@ function ParchmentTransportPage() {
       setAllDeliveryReports(sortedReports);
     }
   }, [deliveryReports]);
-
-  const formatDate = (dateString) => {
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      // hour: "numeric",
-    };
-
-    return new Intl.DateTimeFormat("en-US", options).format(
-      new Date(dateString)
-    );
-  };
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -79,7 +78,7 @@ function ParchmentTransportPage() {
                           CWS Name
                         </th>
                         <td className="p-1 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
-                          Nyungwe High Coffee
+                          {stationDetails.name}
                         </td>
                       </tr>
                       <tr className="border-b">
@@ -90,7 +89,7 @@ function ParchmentTransportPage() {
                           CWS ID
                         </th>
                         <td className="p-1 text-base font-medium text-gray-500 whitespace-nowrap dark:text-white border-r">
-                          WS053
+                          {stationDetails.id}
                         </td>
                       </tr>
                     </thead>
