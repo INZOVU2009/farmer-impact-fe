@@ -230,8 +230,6 @@ function DigitalLoadingFormPage() {
       expected_delivery_date: formData.expected_delivery_date,
     };
 
-    console.log(deliveryFormData);
-
     // Dispatch the action to submit the delivery report with the formatted data
     dispatch(submitDeliveryReport(deliveryFormData, token));
 
