@@ -29,16 +29,17 @@ const SupplyInventoryDetailsTable = () => {
     }
   }, [Suppliers]);
 
+
   useEffect(() => {
     if (transactionData && transactionData.data) {
       setTransactions(transactionData.data);
     }
   }, [transactionData]);
 
+
   useEffect(() => {
     if (seasons && seasons.data) {
       setSeasons(seasons.data);
-      console.log("Seasons:", seasons.data); // Log the seasons data
     }
   }, [seasons]);
 
@@ -48,16 +49,19 @@ const SupplyInventoryDetailsTable = () => {
     setCurrentPage(1);
   };
 
-  const filteredSuppliers = allSuppliers.filter(supplier => {
-    return season.some(season => season.__kp_Season === supplier._kf_Season) &&
-           supplier.Name.toLowerCase().includes(searchItem.toLowerCase());
-  });
+  const searchQuery = searchItem.toLowerCase();
+
+  const filteredSuppliers = allSuppliers.filter(supplier =>
+    transactions.some(transaction => transaction._kf_Supplier === supplier.__kp_Supplier) &&
+    supplier.Name?.toLowerCase().includes(searchQuery)
+  );
 
   const totalPages = Math.ceil(filteredSuppliers.length / itemsPerPage);
   const paginatedSuppliers = filteredSuppliers.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+  const TotalSupplier = filteredSuppliers.length;
 
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
@@ -71,7 +75,11 @@ const SupplyInventoryDetailsTable = () => {
   if (errorSuppliers) return <div>Error fetching suppliers: {errorSuppliers}</div>;
   if (errorTransactions) return <div>Error fetching transactions: {errorTransactions}</div>;
 
-  const transactionSummary = transactions.reduce((acc, transaction) => {
+  const transactionSummary = transactions.filter(transaction =>
+    transaction.fm_approval === 1 &&
+    transaction.status === 0 &&
+    transaction.approved === 1
+  ).reduce((acc, transaction) => {
     const supplierId = transaction._kf_Supplier;
     const kilograms = transaction.kilograms || 0;
     const badKilograms = transaction.bad_kilograms || 0;
@@ -80,6 +88,7 @@ const SupplyInventoryDetailsTable = () => {
     const state = transaction.state;
 
     const supplier = allSuppliers.find(s => s.__kp_Supplier === supplierId);
+
 
     if (!acc[supplierId]) {
       acc[supplierId] = {
@@ -186,6 +195,11 @@ const SupplyInventoryDetailsTable = () => {
 
       {/* Pagination Controls */}
       <div className="flex justify-end items-center mt-4">
+        <button
+          className="px-3 py-1 text-white rounded-md bg-primary-600"
+        >
+          Total Suppliers: {TotalSupplier}
+        </button>
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}
