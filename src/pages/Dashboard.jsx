@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Sidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
@@ -9,9 +9,42 @@ import ProjectedParchmentCard from "../partials/dashboard/ProjectedParchmentCard
 import AvgPriceCard from "../partials/dashboard/AvgPriceCard";
 import ApprovedPriceCard from "../partials/dashboard/ApprovedPriceCard";
 import FarmerPriceCard from "../partials/dashboard/FarmerPriceCard";
+import { assignedModules } from "../redux/actions/accessModules/getAssignedModules.action";
+import { getModules } from "../redux/actions/accessModules/getAllModules.action";
+import { useDispatch, useSelector } from "react-redux";
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const token = localStorage.getItem("token");
+  const [allAssignedModules, setAllAssignedModules] = useState();
+  const [retrievedModules, setRetrievedModules] = useState();
+
+  const { modulesAssigned } = useSelector((state) => state.fetchAssignedModules);
+
+  const { modules } = useSelector((state) => state.fetchAllModules);
+  const dispatch = useDispatch();
+  // close on click outside
+
+  useEffect(() => {
+    dispatch(getModules());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (modules) {
+      setRetrievedModules(modules.data);
+    }
+  }, [modules]);
+  useEffect(() => {
+    dispatch(assignedModules(token));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (modulesAssigned) {
+      setAllAssignedModules(modulesAssigned.data);
+    }
+  }, [modulesAssigned]);
+  const assignedModuleIds = allAssignedModules?.map((mod) => mod.modeleid) || [];
+  const filteredModules = retrievedModules?.filter((module) => assignedModuleIds.includes(module.id));
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -30,7 +63,8 @@ function Dashboard() {
               {/* Right: Actions */}
               <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
                 <FilterButton />
-
+                
+                {filteredModules?.some((module) => module.module_name === "Supplier Inventory") && (
                 <NavLink end to="/user_supply_inventory_details">
                   <button className="btn bg-black hover:bg-black text-white">
                     <span className="hidden xs:block ml-2">
@@ -38,6 +72,7 @@ function Dashboard() {
                     </span>
                   </button>
                 </NavLink>
+                )}
               </div>
             </div>
 
