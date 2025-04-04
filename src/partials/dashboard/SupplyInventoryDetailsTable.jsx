@@ -119,7 +119,7 @@ const SupplyInventoryDetailsTable = () => {
 
     return acc;
   }, {});
-
+  const totalKilogramsPurchased = Object.values(transactionSummary).reduce((sum, supplier) => sum + supplier.totalKilograms, 0);
   return (
     <div className="flex flex-col col-span-full xl:col-span-12">
       <div className="p-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
@@ -186,6 +186,11 @@ const SupplyInventoryDetailsTable = () => {
                       <td colSpan="6" className="p-4 text-center text-gray-500">No suppliers found</td>
                     </tr>
                   )}
+                  <tr className="bg-gray-200 dark:bg-gray-700 font-semibold">
+                    <td colSpan="2" className="p-4 text-right">Total Kilograms Purchased:</td>
+                    <td className="bg-gray-800 text-green-200 rounded px-3 p-4">{totalKilogramsPurchased.toLocaleString()}</td>
+                    <td colSpan="3"></td>
+                  </tr>
                 </tbody>
               </table>
             </div>
